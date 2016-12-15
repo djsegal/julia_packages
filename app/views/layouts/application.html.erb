@@ -6,6 +6,16 @@
 
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+
+    <script>
+      var customInit = function() {
+        $.material.init();
+      };
+
+      $(document).ready(customInit);
+      $(document).on('turbolinks:load', customInit);
+    </script>
+
   </head>
 
   <body>
