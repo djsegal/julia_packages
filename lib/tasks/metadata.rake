@@ -43,7 +43,16 @@ namespace :metadata do
       user_name, repo_name = parsed_url.split '/'
 
       github = Github.new oauth_token: ENV['GITHUB_TOKEN']
-      github.repos.get user_name, repo_name
+      information = github.repos.get user_name, repo_name
+
+      package_directory = "#{Rails.root}/#{github_directory}/#{package.name}"
+
+      FileUtils.mkdir_p(package_directory) \
+        unless File.directory? package_directory
+
+      File.open("#{github_directory}/#{package.name}/data.yml",'w') do |h|
+         h.write information.to_yaml
+      end
     end
 
     puts non_github_packages.map &:url
