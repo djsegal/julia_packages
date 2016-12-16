@@ -37,7 +37,7 @@ namespace :metadata do
 
       user_name, repo_name = parsed_url.split '/'
 
-      github = Github.new
+      github = Github.new oauth_token: ENV['GITHUB_TOKEN']
       github.repos.get user_name, repo_name
     end
   end

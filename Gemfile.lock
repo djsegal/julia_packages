@@ -58,6 +58,10 @@ GEM
     descendants_tracker (0.0.4)
       thread_safe (~> 0.3, >= 0.3.1)
     diff-lcs (1.2.5)
+    dotenv (2.1.1)
+    dotenv-rails (2.1.1)
+      dotenv (= 2.1.1)
+      railties (>= 4.0, < 5.1)
     erubis (2.7.0)
     execjs (2.7.0)
     factory_girl (4.7.0)
@@ -214,6 +218,7 @@ DEPENDENCIES
   annotate
   byebug
   coffee-rails (~> 4.2)
+  dotenv-rails
   factory_girl_rails
   github_api
   jbuilder (~> 2.5)
