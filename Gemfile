@@ -11,6 +11,7 @@ gem 'annotate'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
+  gem 'factory_girl_rails'
 end
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
