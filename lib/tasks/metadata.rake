@@ -30,16 +30,23 @@ namespace :metadata do
 
   desc "expand package information with github"
   task github: :environment do
+    non_github_packages = []
+
     Package.all.each do |package|
       parsed_url = package.url[/(?<=github.com\/).*(?=.git)/]
-      raise "Non-github repository url detected:
-        #{package.url}" unless parsed_url.present?
+
+      unless parsed_url.present?
+        non_github_packages << package
+        next
+      end
 
       user_name, repo_name = parsed_url.split '/'
 
       github = Github.new oauth_token: ENV['GITHUB_TOKEN']
       github.repos.get user_name, repo_name
     end
+
+    puts non_github_packages.map &:url
   end
 
 end
