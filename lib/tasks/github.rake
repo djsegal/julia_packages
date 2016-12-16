@@ -46,6 +46,8 @@ namespace :github do
 
       information = YAML.load_file("#{package_directory}/data.yml")
 
+      package.update description: information['description']
+
       make_counter package, information
     end
 

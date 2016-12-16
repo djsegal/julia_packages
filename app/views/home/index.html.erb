@@ -34,7 +34,9 @@
                   <%= package.name %>
                 </h4>
 
-                <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus</p>
+                <p class="list-group-item-text">
+                  <%= truncate package.description, length: 50 %>
+                </p>
 
               </div>
 
