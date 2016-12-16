@@ -9,6 +9,8 @@ gem 'rails-assets-bootstrap-material-design', source: 'https://rails-assets.org'
 
 gem 'annotate'
 
+gem 'github_api'
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'factory_girl_rails'
