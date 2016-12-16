@@ -1,0 +1,97 @@
+<div class="col-sm-8 cs-main-area">
+
+  <div class="panel panel-default">
+
+    <div class="panel-heading">
+      <h4 class="cs-no-margin">Top Packages</h4>
+    </div>
+
+    <div class="panel-body">
+
+      <div class="list-group cs-no-margin">
+
+        <% @packages.each_with_index do |package, index| %>
+
+          <% unless index.zero? %>
+
+            <div class="list-group-separator"></div>
+
+          <% end %>
+
+            <div class="list-group-item">
+
+              <div class="row-picture">
+
+                <i class="circle" alt="icon">
+                  <%= index + 1 %>
+                </i>
+
+              </div>
+
+              <div class="row-content">
+
+                <h4 class="list-group-item-heading">
+                  <%= package.name %>
+                </h4>
+
+                <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus</p>
+
+              </div>
+
+            </div>
+
+        <% end %>
+
+      </div>
+
+    </div>
+
+    <div class="panel-footer">
+      View all top packages
+    </div>
+
+  </div>
+
+</div>
+
+<div class="cs-sidebar col-sm-4 hidden-xs cs-no-padding">
+
+  <div class="panel panel-primary">
+
+    <div class="panel-heading cs-center">
+      <h4 class="cs-no-margin">Categories</h4>
+    </div>
+
+    <div class="panel-body cs-no-padding">
+
+      <div class="list-group">
+
+        <% @categories.each_with_index do |category, index| %>
+
+          <% unless index.zero? %>
+
+            <div class="list-group-separator cs-full-width cs-no-margin"></div>
+
+          <% end %>
+
+          <div class="list-group-item cs-no-padding">
+
+            <div class="row-content cs-full-width cs-category-row">
+
+              <a href="javascript:void(0)" class="btn btn-default cs-full-width cs-left-align cs-no-margin">
+                <%= category %>
+              </a>
+
+            </div>
+
+          </div>
+
+        <% end %>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

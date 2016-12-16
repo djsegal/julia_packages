@@ -17,5 +17,80 @@
  */
 
 body {
-  padding-top: 60px;
+  padding-top: 50px;
+}
+
+.cs-center {
+  text-align: center;
+}
+
+.cs-left-align {
+  text-align: left;
+}
+
+.cs-no-margin {
+  margin: 0 !important;
+}
+
+.cs-no-padding {
+  padding: 0 !important;
+}
+
+.cs-full-width {
+  width: 100% !important;
+}
+
+.cs-full-width:before {
+  width: 100% !important;
+}
+
+.cs-sidebar .panel-heading {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.cs-sidebar .panel {
+  margin-bottom: 0;
+}
+
+.cs-sidebar .panel .list-group {
+  margin-bottom: 0;
+}
+
+.cs-sidebar .panel-heading {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+.cs-category-row {
+  min-height: 0 !important;
+}
+
+.cs-category-row a {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  font-weight: initial;
+  text-transform: initial;
+}
+
+.cs-main-area {
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.cs-main-area .panel-heading {
+  padding-top: 15px;
+  padding-bottom: 15px;
+}
+
+.cs-main-area .panel:first-child {
+  margin-top: 20px;
+}
+
+.cs-main-area .row-picture {
+  vertical-align: top;
+}
+
+.cs-main-area .row-picture i {
+  font-style: initial;
 }
