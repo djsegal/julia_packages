@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :counters
   resources :versions
   resources :repositories
   resources :packages

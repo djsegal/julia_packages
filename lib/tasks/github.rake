@@ -34,6 +34,33 @@ namespace :github do
 
   desc "TODO"
   task unpack: :environment do
+    skipped_packages = []
+
+    Package.all.each do |package|
+      package_directory = "#{github_directory}/#{package.name}"
+
+      unless File.directory? package_directory
+        skipped_packages << package
+        next
+      end
+
+      information = YAML.load_file("#{package_directory}/data.yml")
+
+      make_counter package, information
+    end
+
+    puts skipped_packages.map &:name
+  end
+
+  def make_counter package, information
+    columns = clean_field_list Counter.column_names
+
+    counter_hash = { package: package }
+    columns.each do |column|
+      counter_hash[column.to_sym] = information["#{column.pluralize}_count"]
+    end
+
+    Counter.create! counter_hash
   end
 
 end

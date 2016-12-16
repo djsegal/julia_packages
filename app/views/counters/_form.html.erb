@@ -1,0 +1,47 @@
+<%= form_for(counter) do |f| %>
+  <% if counter.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(counter.errors.count, "error") %> prohibited this counter from being saved:</h2>
+
+      <ul>
+      <% counter.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :fork %>
+    <%= f.number_field :fork %>
+  </div>
+
+  <div class="field">
+    <%= f.label :stargazer %>
+    <%= f.number_field :stargazer %>
+  </div>
+
+  <div class="field">
+    <%= f.label :watcher %>
+    <%= f.number_field :watcher %>
+  </div>
+
+  <div class="field">
+    <%= f.label :subscriber %>
+    <%= f.number_field :subscriber %>
+  </div>
+
+  <div class="field">
+    <%= f.label :open_issue %>
+    <%= f.number_field :open_issue %>
+  </div>
+
+  <div class="field">
+    <%= f.label :package_id %>
+    <%= f.text_field :package_id %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

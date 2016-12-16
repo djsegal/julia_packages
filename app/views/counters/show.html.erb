@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Fork:</strong>
+  <%= @counter.fork %>
+</p>
+
+<p>
+  <strong>Stargazer:</strong>
+  <%= @counter.stargazer %>
+</p>
+
+<p>
+  <strong>Watcher:</strong>
+  <%= @counter.watcher %>
+</p>
+
+<p>
+  <strong>Subscriber:</strong>
+  <%= @counter.subscriber %>
+</p>
+
+<p>
+  <strong>Open issue:</strong>
+  <%= @counter.open_issue %>
+</p>
+
+<p>
+  <strong>Package:</strong>
+  <%= @counter.package %>
+</p>
+
+<%= link_to 'Edit', edit_counter_path(@counter) %> |
+<%= link_to 'Back', counters_path %>

@@ -13,4 +13,7 @@ class Package < ApplicationRecord
   delegate :url, to: :repository, allow_nil: true
 
   has_many :versions
+
+  has_one :counter
+  include Countable
 end
