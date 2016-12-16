@@ -10,6 +10,7 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
+ *= require font-awesome
  *= require bootstrap
  *= require bootstrap-material-design
  *= require_tree .
@@ -99,4 +100,11 @@ body {
 
 .cs-main-area .row-picture i {
   font-style: initial;
+}
+
+.cs-github-link {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  font-weight: initial;
+  text-transform: initial;
 }
