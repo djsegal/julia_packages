@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Package:</strong>
+  <%= @repository.package %>
+</p>
+
+<p>
+  <strong>Url:</strong>
+  <%= @repository.url %>
+</p>
+
+<%= link_to 'Edit', edit_repository_path(@repository) %> |
+<%= link_to 'Back', repositories_path %>

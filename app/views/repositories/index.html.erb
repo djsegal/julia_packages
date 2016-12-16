@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Repositories</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Package</th>
+      <th>Url</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @repositories.each do |repository| %>
+      <tr>
+        <td><%= repository.package %></td>
+        <td><%= repository.url %></td>
+        <td><%= link_to 'Show', repository %></td>
+        <td><%= link_to 'Edit', edit_repository_path(repository) %></td>
+        <td><%= link_to 'Destroy', repository, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Repository', new_repository_path %>

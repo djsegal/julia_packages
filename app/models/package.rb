@@ -9,4 +9,5 @@
 #
 
 class Package < ApplicationRecord
+  has_one :repository
 end
