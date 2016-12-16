@@ -19,7 +19,12 @@ namespace :metadata do
       next if File.file? \
         "#{metadata_directory}/#{directory}"
 
-      Package.create! name: directory
+      package = Package.create! name: directory
+
+      url_file = "#{metadata_directory}/#{directory}/url"
+      url = File.open(url_file).read.strip
+
+      repository = Repository.create! url: url, package: package
     end
   end
 
