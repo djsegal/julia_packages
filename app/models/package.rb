@@ -11,4 +11,6 @@
 class Package < ApplicationRecord
   has_one :repository
   delegate :url, to: :repository, allow_nil: true
+
+  has_many :versions
 end

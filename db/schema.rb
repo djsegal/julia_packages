@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161216064946) do
+ActiveRecord::Schema.define(version: 20161216192028) do
 
   create_table "packages", force: :cascade do |t|
     t.string   "name"
@@ -24,6 +24,18 @@ ActiveRecord::Schema.define(version: 20161216064946) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["package_id"], name: "index_repositories_on_package_id"
+  end
+
+  create_table "versions", force: :cascade do |t|
+    t.integer  "package_id"
+    t.integer  "major"
+    t.integer  "minor"
+    t.integer  "patch"
+    t.string   "sha1"
+    t.string   "number"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["package_id"], name: "index_versions_on_package_id"
   end
 
 end

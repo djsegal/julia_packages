@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Versions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Package</th>
+      <th>Major</th>
+      <th>Minor</th>
+      <th>Patch</th>
+      <th>Sha1</th>
+      <th>Number</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @versions.each do |version| %>
+      <tr>
+        <td><%= version.package %></td>
+        <td><%= version.major %></td>
+        <td><%= version.minor %></td>
+        <td><%= version.patch %></td>
+        <td><%= version.sha1 %></td>
+        <td><%= version.number %></td>
+        <td><%= link_to 'Show', version %></td>
+        <td><%= link_to 'Edit', edit_version_path(version) %></td>
+        <td><%= link_to 'Destroy', version, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Version', new_version_path %>

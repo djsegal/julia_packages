@@ -1,0 +1,47 @@
+<%= form_for(version) do |f| %>
+  <% if version.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(version.errors.count, "error") %> prohibited this version from being saved:</h2>
+
+      <ul>
+      <% version.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :package_id %>
+    <%= f.text_field :package_id %>
+  </div>
+
+  <div class="field">
+    <%= f.label :major %>
+    <%= f.number_field :major %>
+  </div>
+
+  <div class="field">
+    <%= f.label :minor %>
+    <%= f.number_field :minor %>
+  </div>
+
+  <div class="field">
+    <%= f.label :patch %>
+    <%= f.number_field :patch %>
+  </div>
+
+  <div class="field">
+    <%= f.label :sha1 %>
+    <%= f.text_field :sha1 %>
+  </div>
+
+  <div class="field">
+    <%= f.label :number %>
+    <%= f.text_field :number %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
