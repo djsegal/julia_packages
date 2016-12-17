@@ -1,7 +1,6 @@
 class HomeController < ApplicationController
 
   def index
-
     @sort = params[:sort] || 'top'
 
     case @sort
@@ -20,14 +19,14 @@ class HomeController < ApplicationController
     @packages = Package
       .includes(:counter)
       .order("counters.stargazer desc")
-      .limit(10)
+      .paginate(page: params[:page])
   end
 
   def set_new_packages
     @packages = Package
       .includes(:dater)
       .order("daters.created desc")
-      .limit(10)
+      .paginate(page: params[:page])
   end
 
 end

@@ -15,6 +15,8 @@ gem 'font-awesome-rails'
 
 gem 'httparty'
 
+gem 'will_paginate', '~> 3.1.0'
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'factory_girl_rails'
