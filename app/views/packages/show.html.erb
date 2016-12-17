@@ -1,14 +1,46 @@
-<p id="notice"><%= notice %></p>
+<div class="col-sm-8 cs-main-area">
 
-<p>
-  <strong>Name:</strong>
-  <%= @package.name %>
-</p>
+  <div class="panel panel-default">
 
-<p>
-  <strong>URL:</strong>
-  <%= @package.url || "nil" %>
-</p>
+    <div class="panel-body">
 
-<%= link_to 'Edit', edit_package_path(@package) %> |
-<%= link_to 'Back', packages_path %>
+      <h1>
+        <%= @package.name %>
+      </h1>
+
+      <h4>
+        <%= @package.description %>
+      </h4>
+
+    </div>
+
+  </div>
+
+  <%= render "dater" %>
+
+  <%= render "counter" %>
+
+</div>
+
+<div class="cs-sidebar col-sm-4 hidden-xs cs-no-padding">
+
+  <div class="panel panel-primary">
+
+    <div class="panel-heading cs-center">
+      <h4 class="cs-no-margin">Pkg.add("<%= @package.name %>")</h4>
+    </div>
+
+    <div class="panel-body cs-no-padding">
+
+    </div>
+
+    <div class="panel-footer cs-center cs-no-padding">
+      <a href="https://github.com/djsegal/julia_observer" target="_blank" class="btn btn-default cs-github-link cs-full-width cs-no-margin">
+        <%= fa_icon "github lg" %>
+        &nbsp; fork us on github
+      </a>
+    </div>
+
+  </div>
+
+</div>

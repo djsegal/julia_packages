@@ -43,7 +43,7 @@ body {
   padding: 0 !important;
 }
 
-.cs-right-side {
+.cs-pull-right {
   float: right;
 }
 
@@ -121,4 +121,24 @@ body {
   padding-bottom: 10px;
   font-weight: initial;
   text-transform: initial;
+}
+
+@media (min-width: 768px) {
+  .cs-condensed-list .list-group-item {
+    display: inline-block;
+    width: 49%;
+  }
+}
+
+.cs-dater-panels .col-sm-4:first-child {
+  padding-left: 0;
+}
+
+.cs-dater-panels .col-sm-4:not(:first-child):not(:last-child) {
+  padding-left: 7.5px;
+  padding-right: 7.5px;
+}
+
+.cs-dater-panels .col-sm-4:last-child {
+  padding-right: 0;
 }

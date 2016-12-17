@@ -1,0 +1,53 @@
+<div class="cs-counter-panels">
+
+  <div class="panel panel-default">
+
+    <div class="panel-heading">
+
+      <h4 class="cs-no-margin">
+        Counts
+      </h4>
+
+    </div>
+
+    <div class="panel-body">
+
+      <div class="list-group cs-no-margin cs-condensed-list">
+
+        <% Package.get_count_types.sort.each_with_index do |count_type, index| %>
+
+          <% unless index.zero? %>
+
+            <div class="list-group-separator cs-full-width visible-xs"></div>
+
+          <% end %>
+
+          <div class="list-group-item">
+
+            <div class="row-picture">
+
+              <i class="circle" alt="icon">
+                <%= @package.counter[count_type] %>
+              </i>
+
+            </div>
+
+            <div class="row-content">
+
+              <h3 class="list-group-item-heading">
+                <%= count_type.pluralize %>
+              </h3>
+
+            </div>
+
+          </div>
+
+        <% end %>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
