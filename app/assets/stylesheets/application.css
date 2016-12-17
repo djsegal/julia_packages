@@ -142,3 +142,7 @@ body {
 .cs-dater-panels .col-sm-4:last-child {
   padding-right: 0;
 }
+
+.cs-package-stars {
+  opacity: 0.4;
+}
