@@ -23,7 +23,7 @@ namespace :github do
 
       if is_moved_repository
         non_github_packages << package
-        information = HTTParty.get(information.url)
+        new_url = information.url
       end
 
       package_directory = "#{Rails.root}/#{github_directory}/#{package.name}"
@@ -54,6 +54,7 @@ namespace :github do
       information = YAML.load_file("#{package_directory}/data.yml")
 
       package.update description: information['description']
+      package.repository.update url: information['html_url']
 
       make_counter package, information
       has_dates = make_dater package, information
