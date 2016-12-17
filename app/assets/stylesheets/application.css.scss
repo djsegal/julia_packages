@@ -154,3 +154,7 @@ body {
   @extend .well;
   @extend .cs-no-padding;
 }
+
+.cs-dummy-link {
+  font-size: 0;
+}

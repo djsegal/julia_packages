@@ -31,10 +31,21 @@
             <%= link_to controller_name.titleize, send("#{controller_name}_path") %>
           </li>
 
-          <% if action_name == 'show' %>
+          <% unless action_name == 'index' %>
+
             <li class="active">
-              <%= link_to truncate(params[:id], length: 25), send("#{controller_name.singularize}_path"), @model %>
+              <% case action_name %>
+              <% when 'show' %>
+                <%= link_to truncate(params[:id], length: 25), send("#{controller_name.singularize}_path"), @model %>
+              <% when 'edit' %>
+                <%= link_to truncate(params[:id], length: 25), send("edit_#{controller_name.singularize}_path"), @model %>
+              <% when 'new' %>
+                <%= link_to 'New', send("new_#{controller_name.singularize}_path") %>
+              <% else %>
+                <a>ruh roh</a>
+              <% end %>
             </li>
+
           <% end %>
 
         <% end %>

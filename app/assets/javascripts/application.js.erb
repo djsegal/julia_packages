@@ -18,3 +18,19 @@
 //= require bootstrap-material-design
 //= require turbolinks
 //= require_tree .
+
+$(document).on( 'click', '.ui-autocomplete .ui-menu-item', function(event) {
+  var dummyLink = $('.js-dummy-link')[0];
+
+  var queryId = event.target.textContent,
+      queryType = 'packages';
+
+  var replaceId = "dummy_id",
+      replaceType = "dummies";
+
+  var oldUrl = dummyLink.href,
+      newUrl = oldUrl.replace(replaceId, queryId).replace(replaceType, queryType);
+
+  dummyLink.href = newUrl;
+  dummyLink.click();
+});
