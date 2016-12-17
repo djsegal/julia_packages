@@ -11,7 +11,5 @@ Rails.application.routes.draw do
     get 'autocomplete_package_name', on: :collection
   end
 
-  get 'home/index'
-
-  root 'home#index'
+  root 'packages#index'
 end

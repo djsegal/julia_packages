@@ -1,0 +1,10 @@
+$('.cs-main-area .list-group').append("<%= escape_javascript render partial: 'package_list', locals: { packages: @packages, page: params[:page] } %>");
+
+var newPagination;
+<% if @packages.count > WillPaginate.per_page * ( params[:page] || '1' ).to_i %>
+  newPagination = "<%= escape_javascript will_paginate @packages, class: 'pagination cs-full-width cs-no-margin cs-center' %>"
+<% else %>
+  newPagination = "<%= escape_javascript link_to 'View all Packages', root_path(sort: params[:sort]) %>"
+<% end %>
+
+$('.pagination').replaceWith(newPagination);

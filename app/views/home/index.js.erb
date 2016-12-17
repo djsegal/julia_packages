@@ -1,2 +1,0 @@
-$('.cs-main-area .list-group').append("<%= escape_javascript render partial: 'package_list', locals: { packages: @packages, page: params[:page] } %>");
-$('.pagination').replaceWith("<%= escape_javascript will_paginate @packages, class: 'pagination cs-full-width cs-no-margin cs-center' %>");

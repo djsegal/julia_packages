@@ -5,7 +5,20 @@ class PackagesController < ApplicationController
   # GET /packages
   # GET /packages.json
   def index
-    @packages = Package.all
+    @sort = params[:sort] || 'top'
+
+    case @sort
+    when 'top'
+      set_top_packages
+    when 'new'
+      set_new_packages
+    when 'pop'
+      set_pop_packages
+    else
+      raise "Invalid sorting method."
+    end
+
+    @categories = Category.all
   end
 
   # GET /packages/1
@@ -72,4 +85,37 @@ class PackagesController < ApplicationController
     def package_params
       params.require(:package).permit(:name)
     end
+
+    def set_top_packages
+      @packages = Package
+        .includes(:counter)
+        .order("counters.stargazer desc")
+        .paginate(page: params[:page])
+
+      @packages = @packages.where("name like ?", "%#{params[:search]}%") \
+        if params[:search].present?
+    end
+
+    def set_new_packages
+      @packages = Package
+        .includes(:dater)
+        .order("daters.created desc")
+        .paginate(page: params[:page])
+
+      @packages = @packages.where("name like ?", "%#{params[:search]}%") \
+        if params[:search].present?
+    end
+
+    def set_pop_packages
+      core_query = Package.includes(:dater)
+
+      core_query = core_query.where("name like ?", "%#{params[:search]}%") \
+        if params[:search].present?
+
+      live_packages = core_query.where("daters.pushed > ?", 4.months.ago)
+      dead_packages = core_query.where.not("daters.pushed > ?", 4.months.ago)
+
+      @packages = live_packages.or(dead_packages).order("daters.pushed desc").paginate(page: params[:page])
+    end
+
 end
