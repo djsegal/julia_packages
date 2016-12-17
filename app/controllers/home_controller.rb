@@ -13,26 +13,7 @@ class HomeController < ApplicationController
       raise "Invalid sorting method."
     end
 
-    @categories = %w[
-      Stats
-      Optimization
-      Parallel
-      Database
-      GPU
-      Biology
-      Quantum
-      Astro
-      Sparse
-      Web
-      Graphs
-      Math
-      DiffEq
-      IO
-      Interop
-      Time
-      Graphics
-      Plots
-    ]
+    @categories = Category.all
   end
 
   def set_top_packages

@@ -73,6 +73,10 @@ body {
   border-top-right-radius: 0;
 }
 
+.cs-sidebar .panel-heading a {
+  color: inherit;
+}
+
 .cs-category-row {
   min-height: 0 !important;
 }
