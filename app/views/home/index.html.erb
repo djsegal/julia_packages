@@ -3,7 +3,19 @@
   <div class="panel panel-default">
 
     <div class="panel-heading">
-      <h4 class="cs-no-margin">Top Packages</h4>
+
+      <h4 class="cs-no-margin">
+        <%= @sort.titleize %>
+        Packages
+      </h4>
+
+      <div class="btn-group cs-right-side">
+
+        <%= link_to 'Top', root_path, class: "btn #{ ( params[:sort].present? ) ? '' : ' btn-raised btn-primary' }" %>
+        <%= link_to 'New', root_path(sort: 'new'), class: "btn #{ ( params[:sort] == 'new' ) ? ' btn-raised btn-primary' : '' }" %>
+
+      </div>
+
     </div>
 
     <div class="panel-body">
@@ -49,7 +61,7 @@
     </div>
 
     <div class="panel-footer">
-      View all top packages
+      View all <%= @sort %> packages
     </div>
 
   </div>

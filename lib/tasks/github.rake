@@ -39,7 +39,7 @@ namespace :github do
     puts non_github_packages.map &:url
   end
 
-  desc "TODO"
+  desc "unpack downloaded github information"
   task unpack: :environment do
     skipped_packages = []
 
@@ -56,6 +56,9 @@ namespace :github do
       package.update description: information['description']
 
       make_counter package, information
+      has_dates = make_dater package, information
+
+      skipped_packages << package unless has_dates
     end
 
     puts skipped_packages.map &:name
@@ -70,6 +73,21 @@ namespace :github do
     end
 
     Counter.create! counter_hash
+  end
+
+  def make_dater package, information
+    dater_hash = { package: package }
+
+    Dater::DATE_TYPES.each do |date_type|
+      date_str = information["#{date_type}_at"]
+      return false unless date_str.present?
+
+      date_time = DateTime.parse date_str
+      dater_hash[date_type.to_sym] = date_time
+    end
+
+    Dater.create! dater_hash
+    true
   end
 
 end

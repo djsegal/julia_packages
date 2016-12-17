@@ -1,9 +1,17 @@
 class HomeController < ApplicationController
+
   def index
-    @packages = Package
-      .includes(:counter)
-      .order("counters.stargazer desc")
-      .limit(10)
+
+    @sort = params[:sort] || 'top'
+
+    case @sort
+    when 'top'
+      set_top_packages
+    when 'new'
+      set_new_packages
+    else
+      raise "Invalid sorting method."
+    end
 
     @categories = %w[
       Stats
@@ -26,4 +34,19 @@ class HomeController < ApplicationController
       Plots
     ]
   end
+
+  def set_top_packages
+    @packages = Package
+      .includes(:counter)
+      .order("counters.stargazer desc")
+      .limit(10)
+  end
+
+  def set_new_packages
+    @packages = Package
+      .includes(:dater)
+      .order("daters.created desc")
+      .limit(10)
+  end
+
 end

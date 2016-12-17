@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Daters</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Created</th>
+      <th>Updated</th>
+      <th>Pushed</th>
+      <th>Package</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @daters.each do |dater| %>
+      <tr>
+        <td><%= dater.created %></td>
+        <td><%= dater.updated %></td>
+        <td><%= dater.pushed %></td>
+        <td><%= dater.package %></td>
+        <td><%= link_to 'Show', dater %></td>
+        <td><%= link_to 'Edit', edit_dater_path(dater) %></td>
+        <td><%= link_to 'Destroy', dater, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Dater', new_dater_path %>

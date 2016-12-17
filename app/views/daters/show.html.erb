@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Created:</strong>
+  <%= @dater.created %>
+</p>
+
+<p>
+  <strong>Updated:</strong>
+  <%= @dater.updated %>
+</p>
+
+<p>
+  <strong>Pushed:</strong>
+  <%= @dater.pushed %>
+</p>
+
+<p>
+  <strong>Package:</strong>
+  <%= @dater.package %>
+</p>
+
+<%= link_to 'Edit', edit_dater_path(@dater) %> |
+<%= link_to 'Back', daters_path %>

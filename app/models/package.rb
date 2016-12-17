@@ -17,4 +17,6 @@ class Package < ApplicationRecord
 
   has_one :counter
   include Countable
+
+  has_one :dater
 end

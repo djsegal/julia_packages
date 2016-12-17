@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161216230023) do
+ActiveRecord::Schema.define(version: 20161217013003) do
 
   create_table "counters", force: :cascade do |t|
     t.integer  "fork"
@@ -22,6 +22,16 @@ ActiveRecord::Schema.define(version: 20161216230023) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["package_id"], name: "index_counters_on_package_id"
+  end
+
+  create_table "daters", force: :cascade do |t|
+    t.datetime "created"
+    t.datetime "updated"
+    t.datetime "pushed"
+    t.integer  "package_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["package_id"], name: "index_daters_on_package_id"
   end
 
   create_table "packages", force: :cascade do |t|
