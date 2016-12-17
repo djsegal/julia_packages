@@ -21,15 +21,24 @@
 
       <ul class="nav navbar-nav navbar-right">
 
-        <li class="<%= (controller_name == 'home') ? 'active' : '' %>">
+        <%
+          is_package_path = controller_name == 'packages'
+          is_root_path = is_package_path && action_name == 'index'
+        %>
+
+        <li class="<%= is_root_path ? 'active' : '' %>">
           <%= link_to 'Home', root_path %>
         </li>
 
-        <% unless controller_name == 'home' %>
+        <% unless is_root_path %>
 
-          <li class="<%= (action_name == 'index') ? 'active' : '' %>">
-            <%= link_to controller_name.titleize, send("#{controller_name}_path") %>
-          </li>
+          <% unless is_package_path %>
+
+            <li class="<%= (action_name == 'index') ? 'active' : '' %>">
+              <%= link_to controller_name.titleize, send("#{controller_name}_path") %>
+            </li>
+
+          <% end %>
 
           <% unless action_name == 'index' %>
 
