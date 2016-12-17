@@ -21,23 +21,22 @@
 
       <ul class="nav navbar-nav navbar-right">
 
-        <% if controller_name == 'home' %>
-          <li class="active">
-            <%= link_to 'Home', root_path %>
-          </li>
-        <% else %>
-          <li>
-            <%= link_to 'Home', root_path %>
+        <li class="<%= (controller_name == 'home') ? 'active' : '' %>">
+          <%= link_to 'Home', root_path %>
+        </li>
+
+        <% unless controller_name == 'home' %>
+
+          <li class="<%= (action_name == 'index') ? 'active' : '' %>">
+            <%= link_to controller_name.titleize, send("#{controller_name}_path") %>
           </li>
 
-          <li class="active">
-            <% case action_name %>
-            <% when 'show' %>
-              <%= link_to controller_name.singularize.titleize, send("#{controller_name.singularize}_path"), @model %>
-            <% else %>
-              <%= link_to controller_name.titleize, send("#{controller_name}_path") %>
-            <% end %>
-          </li>
+          <% if action_name == 'show' %>
+            <li class="active">
+              <%= link_to truncate(params[:id], length: 25), send("#{controller_name.singularize}_path"), @model %>
+            </li>
+          <% end %>
+
         <% end %>
 
         <li class="dropdown">
