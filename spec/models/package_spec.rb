@@ -8,6 +8,10 @@
 #  updated_at  :datetime         not null
 #  description :string
 #
+# Indexes
+#
+#  index_packages_on_name  (name)
+#
 
 require 'rails_helper'
 

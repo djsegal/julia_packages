@@ -74,6 +74,8 @@ GEM
     ffi (1.9.14)
     font-awesome-rails (4.6.3.1)
       railties (>= 3.2, < 5.1)
+    friendly_id (5.2.0)
+      activerecord (>= 4.0.0)
     github_api (0.14.5)
       addressable (~> 2.4.0)
       descendants_tracker (~> 0.0.4)
@@ -226,6 +228,7 @@ DEPENDENCIES
   dotenv-rails
   factory_girl_rails
   font-awesome-rails
+  friendly_id
   github_api
   httparty
   jbuilder (~> 2.5)

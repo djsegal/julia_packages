@@ -8,6 +8,10 @@
 #  updated_at  :datetime         not null
 #  description :string
 #
+# Indexes
+#
+#  index_packages_on_name  (name)
+#
 
 FactoryGirl.define do
   factory :package do
