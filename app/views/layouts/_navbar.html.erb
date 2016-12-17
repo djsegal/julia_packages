@@ -20,8 +20,26 @@
       </form>
 
       <ul class="nav navbar-nav navbar-right">
-        <li class="active"><a href="javascript:void(0)">Active</a></li>
-        <li><a href="javascript:void(0)">Link</a></li>
+
+        <% if controller_name == 'home' %>
+          <li class="active">
+            <%= link_to 'Home', root_path %>
+          </li>
+        <% else %>
+          <li>
+            <%= link_to 'Home', root_path %>
+          </li>
+
+          <li class="active">
+            <% case action_name %>
+            <% when 'show' %>
+              <%= link_to controller_name.singularize.titleize, send("#{controller_name.singularize}_path"), @model %>
+            <% else %>
+              <%= link_to controller_name.titleize, send("#{controller_name}_path") %>
+            <% end %>
+          </li>
+        <% end %>
+
         <li class="dropdown">
           <a href="index.html" data-target="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown
             <b class="caret"></b></a>
