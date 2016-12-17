@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Dummies</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @dummies.each do |dummy| %>
+      <tr>
+        <td><%= link_to 'Show', dummy %></td>
+        <td><%= link_to 'Edit', edit_dummy_path(dummy) %></td>
+        <td><%= link_to 'Destroy', dummy, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Dummy', new_dummy_path %>

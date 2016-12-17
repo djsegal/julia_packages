@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :dummies
   resources :categories
   resources :daters
   resources :counters
