@@ -8,6 +8,8 @@ class HomeController < ApplicationController
       set_top_packages
     when 'new'
       set_new_packages
+    when 'pop'
+      set_pop_packages
     else
       raise "Invalid sorting method."
     end
@@ -27,6 +29,22 @@ class HomeController < ApplicationController
       .includes(:dater)
       .order("daters.created desc")
       .paginate(page: params[:page])
+  end
+
+  def set_pop_packages
+    live_packages = Package
+      .includes(:dater)
+      .where("daters.pushed > ?", 4.months.ago)
+      .order("daters.pushed desc")
+      .paginate(page: params[:page])
+
+    dead_packages = Package
+      .includes(:dater)
+      .where.not("daters.pushed > ?", 4.months.ago)
+      .order("daters.pushed desc")
+      .paginate(page: params[:page])
+
+    @packages = live_packages.or(dead_packages)
   end
 
 end

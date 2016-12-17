@@ -13,6 +13,7 @@
 
         <%= link_to 'Top', root_path, class: "btn #{ ( params[:sort].present? ) ? '' : ' btn-raised btn-primary' }" %>
         <%= link_to 'New', root_path(sort: 'new'), class: "btn #{ ( params[:sort] == 'new' ) ? ' btn-raised btn-primary' : '' }" %>
+        <%= link_to 'Pop', root_path(sort: 'pop'), class: "btn #{ ( params[:sort] == 'pop' ) ? ' btn-raised btn-primary' : '' }" %>
 
       </div>
 
