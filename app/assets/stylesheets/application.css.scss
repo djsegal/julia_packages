@@ -132,17 +132,33 @@ body {
   }
 }
 
-.cs-dater-panels .col-sm-4:first-child {
-  padding-left: 0;
+@media (min-width: 768px) {
+  .cs-dater-panels .col-sm-4:first-child {
+    padding-left: 0;
+  }
+
+  .cs-dater-panels .col-sm-4:not(:first-child):not(:last-child) {
+    padding-left: 7.5px;
+    padding-right: 7.5px;
+  }
+
+  .cs-dater-panels .col-sm-4:last-child {
+    padding-right: 0;
+  }
 }
 
-.cs-dater-panels .col-sm-4:not(:first-child):not(:last-child) {
-  padding-left: 7.5px;
-  padding-right: 7.5px;
-}
+@media (max-width: 767px) {
+  .cs-dater-panels .col-sm-4 {
+    padding: 10px 0;
+  }
 
-.cs-dater-panels .col-sm-4:last-child {
-  padding-right: 0;
+  .cs-dater-panels .col-sm-4:first-child {
+    padding-top: 0;
+  }
+
+  .cs-dater-panels .col-sm-4:last-child {
+    padding-bottom: 0;
+  }
 }
 
 .cs-package-stars {
