@@ -108,10 +108,10 @@ class PackagesController < ApplicationController
     end
 
     def set_pop_packages
-      live_packages = @core_query.where("daters.pushed > ?", 4.months.ago)
-      dead_packages = @core_query.where.not("daters.pushed > ?", 4.months.ago)
+      live_packages = @core_query.where("daters.created > ?", 4.months.ago)
+      dead_packages = @core_query.where.not("daters.created > ?", 4.months.ago)
 
-      @packages = live_packages.or(dead_packages).order("daters.pushed desc")
+      @packages = live_packages.or(dead_packages).order("daters.touched desc")
     end
 
     def set_core_query

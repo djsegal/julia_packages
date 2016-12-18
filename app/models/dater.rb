@@ -9,6 +9,7 @@
 #  package_id :integer
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  touched    :datetime
 #
 # Indexes
 #
@@ -24,5 +25,14 @@ class Dater < ApplicationRecord
   ]
 
   belongs_to :package
+
+  before_save :update_touch_time
+
+  private
+
+    def update_touch_time
+      self.touched = \
+        DATE_TYPES.map { |date_type| self[date_type] }.max
+    end
 
 end
