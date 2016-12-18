@@ -6,9 +6,13 @@
 #  name       :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
+#  avatar     :string
 #
 
 class User < ApplicationRecord
+
+  extend FriendlyId
+  friendly_id :name
 
   has_many :ownerships, dependent: :destroy
   has_many :contributions, dependent: :destroy

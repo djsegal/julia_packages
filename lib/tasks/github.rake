@@ -70,6 +70,26 @@ namespace :github do
         description: information['description'], \
         homepage: information['homepage']
 
+      contributors = YAML.load_file("#{package_directory}/contributors.yml")
+
+      contributors.each do |contributor|
+
+        user_name = contributor['login']
+        is_existing_user = User.friendly.exists? user_name
+
+        user = is_existing_user ? User.friendly.find(user_name) : nil
+
+        user ||= User.create! \
+          name: user_name, \
+          avatar: contributor['avatar_url']
+
+        Contribution.create! \
+          user: user, \
+          package: package, \
+          score: contributor['contributions']
+
+      end
+
       make_counter package, information
       has_dates = make_dater package, information
 

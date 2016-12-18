@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161218032007) do
+ActiveRecord::Schema.define(version: 20161218040901) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 20161218032007) do
     t.integer  "package_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer  "score"
     t.index ["package_id"], name: "index_contributions_on_package_id"
     t.index ["user_id", "package_id"], name: "index_contributions_on_uniqueness", unique: true
     t.index ["user_id"], name: "index_contributions_on_user_id"
@@ -88,6 +89,7 @@ ActiveRecord::Schema.define(version: 20161218032007) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string   "avatar"
   end
 
   create_table "versions", force: :cascade do |t|
