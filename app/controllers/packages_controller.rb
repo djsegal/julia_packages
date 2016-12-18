@@ -6,6 +6,7 @@ class PackagesController < ApplicationController
   # GET /packages.json
   def index
     @sort = params[:sort] || 'top'
+    set_core_query
 
     case @sort
     when 'top'
@@ -87,35 +88,29 @@ class PackagesController < ApplicationController
     end
 
     def set_top_packages
-      @packages = Package
-        .includes(:counter)
-        .order("counters.stargazer desc")
-        .paginate(page: params[:page])
-
-      @packages = @packages.where("name like ?", "%#{params[:search]}%") \
-        if params[:search].present?
+      @packages = @core_query.order("counters.stargazer desc")
     end
 
     def set_new_packages
-      @packages = Package
-        .includes(:dater)
-        .order("daters.created desc")
-        .paginate(page: params[:page])
-
-      @packages = @packages.where("name like ?", "%#{params[:search]}%") \
-        if params[:search].present?
+      @packages = @core_query.order("daters.created desc")
     end
 
     def set_pop_packages
-      core_query = Package.includes(:dater)
+      live_packages = @core_query.where("daters.pushed > ?", 4.months.ago)
+      dead_packages = @core_query.where.not("daters.pushed > ?", 4.months.ago)
 
-      core_query = core_query.where("name like ?", "%#{params[:search]}%") \
-        if params[:search].present?
+      @packages = live_packages.or(dead_packages).order("daters.pushed desc")
+    end
 
-      live_packages = core_query.where("daters.pushed > ?", 4.months.ago)
-      dead_packages = core_query.where.not("daters.pushed > ?", 4.months.ago)
+    def set_core_query
+      @core_query = Package
+        .page(params[:page])
+        .includes(:counter)
+        .includes(:dater)
 
-      @packages = live_packages.or(dead_packages).order("daters.pushed desc").paginate(page: params[:page])
+      return unless params[:search].present?
+      @core_query = @core_query.where \
+        "name like ?", "%#{params[:search]}%"
     end
 
 end
