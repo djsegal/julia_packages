@@ -94,7 +94,7 @@
                 %>
 
                 <li>
-                  <%= link_to cur_class_name, send("#{cur_class_name.underscore}_path") %>
+                  <%= link_to cur_class_name.titleize, send("#{cur_class_name.underscore}_path") %>
                 </li>
 
               <% end %>
