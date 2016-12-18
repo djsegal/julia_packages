@@ -3,9 +3,12 @@ namespace :github do
   desc "download github package information"
   task download: :environment do
     bar = RakeProgressbar.new Dir["#{@metadata_directory}/*"].count
-    non_github_packages = []
+
+    nasty_packages = []
+    moved_packages = []
 
     Dir.foreach(@metadata_directory) do |directory|
+
       bar.inc
 
       next if directory.starts_with? '.'
@@ -20,7 +23,7 @@ namespace :github do
         url[/(?<=github.com\/).*/]
 
       unless parsed_url.present?
-        non_github_packages << directory
+        moved_packages << directory
         next
       end
 
@@ -28,16 +31,23 @@ namespace :github do
 
       github = Github.new oauth_token: ENV['GITHUB_TOKEN']
 
+      is_nasty_repo = false
       begin
         information = github.repos.get(user_name, repo_name).body
       rescue
-        non_github_packages << directory
-        fixed_repo_name = repo_name[/.*(?=\.jl)/]
-        information = github.repos.get(user_name, fixed_repo_name).body
+        begin
+          fixed_repo_name = repo_name[/.*(?=\.jl)/]
+          information = github.repos.get(user_name, fixed_repo_name).body
+          moved_packages << directory
+        rescue
+          nasty_packages << directory
+          is_nasty_repo = true
+        end
       end
+      next if is_nasty_repo
 
       if ( information.message == "Moved Permanently" )
-        non_github_packages << directory
+        moved_packages << directory
         new_url = information.url
 
         information = HTTParty.get information["url"], \
@@ -66,7 +76,12 @@ namespace :github do
       end
     end
 
-    puts non_github_packages
+    puts "\n-------\n nasty \n-------"
+    puts nasty_packages
+
+    puts "\n-------\n moved \n-------"
+    puts moved_packages
+
     bar.finished
   end
 
