@@ -1,3 +1,12 @@
+<%
+  Dir.glob(Rails.root.join('app/models/*')).each do |model_class|
+    is_directory = File.directory? model_class
+    next if is_directory
+
+    require model_class
+  end
+%>
+
 <div class="navbar navbar-inverse navbar-fixed-top">
 
   <div class="container-fluid">
@@ -74,17 +83,14 @@
 
             <li class="dropdown-header">Models</li>
 
-              <% ActiveRecord::Base.connection.tables.sort.each do |table| %>
+              <% ApplicationRecord.descendants
+.each do |model_class| %>
 
                 <%
-                  next if table.match(/\Aschema_migrations\Z/)
-                  next if table.match(/ar_internal_metadata/)
-                %>
+                  has_name = model_class.attribute_names.include? "name"
+                  next unless has_name
 
-                <%
-                  cur_class = table.singularize.camelize.constantize
-                  next unless cur_class.attribute_names.include? "name"
-                  cur_class_name = cur_class.name.pluralize
+                  cur_class_name = model_class.name.pluralize.underscore
                 %>
 
                 <li>
