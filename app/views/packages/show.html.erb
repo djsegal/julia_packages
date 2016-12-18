@@ -40,7 +40,7 @@
 
           <div class="row-content cs-full-width cs-category-row">
 
-            <a href="<%= @package.homepage || @package.url %>" target="_blank" class="btn btn-default cs-full-width cs-left-align cs-no-margin">
+            <a href="<%= @package.homepage.presence || @package.url %>" target="_blank" class="btn btn-default cs-full-width cs-left-align cs-no-margin">
 
               <h4>
                 homepage
