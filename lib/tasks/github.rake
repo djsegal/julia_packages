@@ -33,8 +33,17 @@ namespace :github do
       FileUtils.mkdir_p(package_directory) \
         unless File.directory? package_directory
 
-      File.open("#{github_directory}/#{package.name}/data.yml",'w') do |h|
+      File.open("#{github_directory}/#{package.name}/data.yml", 'w') do |h|
          h.write information.to_yaml
+      end
+
+      File.open("#{github_directory}/#{package.name}/contributors.yml", 'w') do |h|
+        github_request = HTTParty.get \
+          information["contributors_url"], \
+          query: { access_token: ENV['GITHUB_TOKEN'] }
+
+        parsed_json = JSON.parse github_request.body
+        h.write parsed_json.to_yaml
       end
     end
 
