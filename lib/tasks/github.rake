@@ -21,11 +21,12 @@ namespace :github do
       github = Github.new oauth_token: ENV['GITHUB_TOKEN']
       information = github.repos.get(user_name, repo_name).body
 
-      is_moved_repository = ( information.message == "Moved Permanently" )
-
-      if is_moved_repository
+      if ( information.message == "Moved Permanently" )
         non_github_packages << package
         new_url = information.url
+
+        information = HTTParty.get information["url"], \
+          query: { access_token: ENV['GITHUB_TOKEN'] }
       end
 
       package_directory = "#{Rails.root}/#{github_directory}/#{package.name}"
