@@ -18,5 +18,14 @@
 #
 
 class Counter < ApplicationRecord
+
+  COUNT_SUB_ROUTES = {
+    forks: 'network',
+    open_issues: 'issues',
+    stargazers: 'stargazers',
+    subscribers: 'watchers',
+  }
+
   belongs_to :package
+
 end
