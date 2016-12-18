@@ -1,35 +1,47 @@
 namespace :github do
 
-  github_directory = 'tmp/github'
-
   desc "download github package information"
   task download: :environment do
     non_github_packages = []
 
-    Package.all.each do |package|
+    Dir.foreach(@metadata_directory) do |directory|
+      next if directory.starts_with? '.'
+      next if File.file? \
+        "#{@metadata_directory}/#{directory}"
+
+      url_file = "#{@metadata_directory}/#{directory}/url"
+      url = File.open(url_file).read.strip
+
       parsed_url = \
-        package.url[/(?<=github.com\/).*(?=\.git)/] || \
-        package.url[/(?<=github.com\/).*/]
+        url[/(?<=github.com\/).*(?=\.git)/] || \
+        url[/(?<=github.com\/).*/]
 
       unless parsed_url.present?
-        non_github_packages << package
+        non_github_packages << directory
         next
       end
 
       user_name, repo_name = parsed_url.split '/'
 
       github = Github.new oauth_token: ENV['GITHUB_TOKEN']
-      information = github.repos.get(user_name, repo_name).body
+
+      begin
+        information = github.repos.get(user_name, repo_name).body
+      rescue
+        non_github_packages << directory
+        fixed_repo_name = repo_name[/.*(?=\.jl)/]
+        information = github.repos.get(user_name, fixed_repo_name).body
+      end
 
       if ( information.message == "Moved Permanently" )
-        non_github_packages << package
+        non_github_packages << directory
         new_url = information.url
 
         information = HTTParty.get information["url"], \
           query: { access_token: ENV['GITHUB_TOKEN'] }
       end
 
-      package_directory = "#{Rails.root}/#{github_directory}/#{package.name}"
+      package_directory = "#{Rails.root}/#{@github_directory}/#{directory}"
 
       contributors_request = HTTParty.get \
         information["contributors_url"], \
@@ -42,16 +54,16 @@ namespace :github do
       FileUtils.mkdir_p(package_directory) \
         unless File.directory? package_directory
 
-      File.open("#{github_directory}/#{package.name}/data.yml", 'w') do |h|
+      File.open("#{@github_directory}/#{directory}/data.yml", 'w') do |h|
          h.write information.to_yaml
       end
 
-      File.open("#{github_directory}/#{package.name}/contributors.yml", 'w') do |h|
+      File.open("#{@github_directory}/#{directory}/contributors.yml", 'w') do |h|
         h.write contributors.to_yaml
       end
     end
 
-    puts non_github_packages.map &:url
+    puts non_github_packages
   end
 
   desc "unpack downloaded github information"
@@ -59,7 +71,7 @@ namespace :github do
     skipped_packages = []
 
     Package.all.each do |package|
-      package_directory = "#{github_directory}/#{package.name}"
+      package_directory = "#{@github_directory}/#{package.name}"
 
       unless File.directory? package_directory
         skipped_packages << package

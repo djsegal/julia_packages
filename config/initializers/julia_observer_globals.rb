@@ -1,4 +1,5 @@
 @metadata_directory = 'tmp/METADATA.jl'
+@github_directory = 'tmp/github'
 
 def clean_field_list field_list
   cleaned_list = field_list.deep_dup
