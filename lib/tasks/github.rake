@@ -65,6 +65,20 @@ namespace :github do
 
       information['contributors_count'] = contributors.count
 
+      readme_response = HTTParty.get "#{information['url']}/readme", \
+        query: { access_token: ENV['GITHUB_TOKEN'] }
+
+      if readme_response['encoding'] == 'base64'
+        readme_work = Base64.decode64 readme_response['content']
+        readme = {
+          name: readme_response['name'],
+          content: readme_work.force_encoding("UTF-8")
+        }
+      else
+        nasty_packages << directory
+        readme = nil
+      end
+
       FileUtils.mkdir_p(package_directory) \
         unless File.directory? package_directory
 
@@ -75,6 +89,11 @@ namespace :github do
       File.open("#{@github_directory}/#{directory}/contributors.yml", 'w') do |h|
         h.write contributors.to_yaml
       end
+
+      File.open("#{@github_directory}/#{directory}/readme.yml", 'w') do |h|
+        h.write readme.to_yaml
+      end
+
     end
 
     puts "\n-------\n nasty \n-------"
