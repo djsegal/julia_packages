@@ -13,6 +13,10 @@ class PackagesController < ApplicationController
       set_top_packages
     when 'new'
       set_new_packages
+    when 'a_z'
+      set_a_z_packages
+    when 'z_a'
+      set_z_a_packages
     when 'pop'
       set_pop_packages
     else
@@ -93,6 +97,14 @@ class PackagesController < ApplicationController
 
     def set_new_packages
       @packages = @core_query.order("daters.created desc")
+    end
+
+    def set_a_z_packages
+      @packages = @core_query.order("LOWER(name) asc")
+    end
+
+    def set_z_a_packages
+      @packages = @core_query.order("LOWER(name) desc")
     end
 
     def set_pop_packages

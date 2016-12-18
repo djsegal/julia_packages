@@ -1,3 +1,5 @@
+<% sort_title = @sort.split('_').map(&:titleize).join('-') %>
+
 <div class="col-sm-8 cs-main-area">
 
   <div class="panel panel-default">
@@ -5,15 +7,28 @@
     <div class="panel-heading">
 
       <h4 class="cs-no-margin">
-        <%= @sort.titleize %>
+        <%= sort_title %>
         Packages
       </h4>
 
       <div class="btn-group cs-pull-right">
 
-        <%= link_to 'Top', root_path(search: params[:search]), class: "btn #{ ( params[:sort].present? ) ? '' : ' btn-raised btn-primary' }" %>
-        <%= link_to 'New', root_path(search: params[:search], sort: 'new'), class: "btn #{ ( params[:sort] == 'new' ) ? ' btn-raised btn-primary' : '' }" %>
-        <%= link_to 'Pop', root_path(search: params[:search], sort: 'pop'), class: "btn #{ ( params[:sort] == 'pop' ) ? ' btn-raised btn-primary' : '' }" %>
+        <%
+          query_params = {}
+          query_params[:search] = params[:search] \
+            if params[:search].present?
+        %>
+
+        <%= link_to 'Top', root_path(query_params), class: "btn #{ ( params[:sort].present? ) ? '' : ' btn-raised btn-primary' }" %>
+        <%= link_to 'New', root_path(query_params.merge(sort: 'new')), class: "btn #{ ( params[:sort] == 'new' ) ? ' btn-raised btn-primary' : '' }" %>
+
+        <% if %w[ a_z z_a ].include? params[:sort] %>
+          <%= link_to sort_title, root_path(query_params.merge(sort: params[:sort].reverse)), class: "btn btn-raised btn-primary" %>
+        <% else %>
+          <%= link_to 'A-Z', root_path(query_params.merge(sort: 'a_z')), class: "btn" %>
+        <% end %>
+
+        <%= link_to 'Pop', root_path(query_params.merge(sort: 'pop')), class: "btn #{ ( params[:sort] == 'pop' ) ? ' btn-raised btn-primary' : '' }" %>
 
       </div>
 
