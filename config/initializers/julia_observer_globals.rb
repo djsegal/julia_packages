@@ -1,3 +1,5 @@
+@metadata_directory = 'tmp/METADATA.jl'
+
 def clean_field_list field_list
   cleaned_list = field_list.deep_dup
   cleaned_list.reject! { |field| field == 'id' }

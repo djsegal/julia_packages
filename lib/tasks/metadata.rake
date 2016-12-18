@@ -1,7 +1,5 @@
 namespace :metadata do
 
-  @metadata_directory = 'tmp/METADATA.jl'
-
   desc "clone metadata project"
   task clone: :environment do
     `git clone https://github.com/JuliaLang/METADATA.jl.git ./#{@metadata_directory}`
