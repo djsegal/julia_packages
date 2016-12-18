@@ -33,7 +33,9 @@
       <% if @packages.count > WillPaginate.per_page %>
         <%= will_paginate @packages, class: 'pagination cs-full-width cs-no-margin cs-center' %>
       <% else %>
-        <%= link_to 'View all Packages', root_path(sort: params[:sort]) %>
+        <div class='pagination cs-full-width cs-no-margin cs-center'>
+          <%= link_to 'View all Packages', root_path(sort: params[:sort]) %>
+        </div>
       <% end %>
     </div>
 
