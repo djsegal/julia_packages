@@ -62,7 +62,7 @@ body {
   padding-bottom: 20px;
 }
 
-.cs-sidebar .panel {
+.cs-sidebar .panel:last-child {
   margin-bottom: 0;
 }
 
@@ -175,7 +175,7 @@ body {
   font-size: 0;
 }
 
-.cs-contributors-list .cs-grey-image {
+.cs-contributors-list .cs-grey-image a {
   padding: 30px 0;
   background-size: contain;
   background-repeat: no-repeat;
@@ -187,9 +187,13 @@ body {
   opacity: 0.75;
 }
 
-.cs-contributors-list .cs-grey-image:hover {
+.cs-contributors-list .cs-grey-image a:hover {
   filter: none;
   filter: grayscale(0.25); /* Microsoft Edge and Firefox 35+ */
   -webkit-filter: grayscale(0.25); /* Google Chrome, Safari 6+ & Opera 15+ */
   opacity: 0.9
+}
+
+.cs-contributors-list .cs-grey-image:not(:first-child) {
+  border-left: 1px solid rgba(0, 0, 0, 0.1);
 }
