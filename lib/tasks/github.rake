@@ -2,7 +2,8 @@ namespace :github do
 
   desc "download github package information"
   task download: :environment do
-    bar = RakeProgressbar.new Dir["#{@metadata_directory}/*"].count
+    bar = RakeProgressbar.new \
+      Dir.foreach(@metadata_directory).count
 
     nasty_packages = []
     moved_packages = []
