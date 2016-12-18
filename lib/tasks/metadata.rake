@@ -2,12 +2,16 @@ namespace :metadata do
 
   desc "clone metadata project"
   task clone: :environment do
-    `git clone https://github.com/JuliaLang/METADATA.jl.git ./#{@metadata_directory}`
+    system_command = "git clone https://github.com/JuliaLang/METADATA.jl.git ./#{@metadata_directory}"
+    did_clone = system system_command
+    throw 'Clone metadata task failed.' unless did_clone
   end
 
   desc "update local metadata project"
   task pull: :environment do
-    `git -C #{@metadata_directory} pull`
+    system_command = "git -C #{@metadata_directory} pull"
+    did_pull = system system_command
+    throw 'Pull metadata task failed.' unless did_pull
   end
 
   desc "digest metadata into database"
