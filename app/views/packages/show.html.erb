@@ -63,6 +63,49 @@
 
           </div>
 
+          <div class="list-group-separator cs-full-width cs-no-margin"></div>
+
+          <div class="list-group-item cs-no-padding">
+
+            <div class="row-content cs-full-width cs-category-row">
+
+              <%= link_to users_path, class: "btn btn-default cs-full-width cs-left-align cs-no-margin" do %>
+                <h3 class="cs-center">
+                  contributors
+                </h3>
+              <% end %>
+
+
+              </a>
+
+            </div>
+
+          </div>
+
+          <% @package.contributors.each_slice(4) do | batch | %>
+
+            <div class="list-group-separator cs-full-width cs-no-margin"></div>
+
+            <div class="list-group-item cs-no-padding">
+
+              <div class="row cs-contributors-list cs-no-margin">
+
+                <% batch.each do | contributor | %>
+
+                  <div class="col-xs-3 cs-category-row cs-no-padding">
+
+                    <%= link_to '', user_path(contributor), class: "btn btn-default cs-full-width cs-left-align cs-no-margin cs-grey-image", style: "background-image: url('#{ contributor.avatar}');" %>
+
+                    </a>
+
+                  </div>
+
+                <% end %>
+
+            </div>
+
+          <% end %>
+
       </div>
 
     </div>
