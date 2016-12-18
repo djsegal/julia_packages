@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161218040901) do
+ActiveRecord::Schema.define(version: 20161218045011) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -36,8 +36,9 @@ ActiveRecord::Schema.define(version: 20161218040901) do
     t.integer  "subscriber"
     t.integer  "open_issue"
     t.integer  "package_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.integer  "contributor"
     t.index ["package_id"], name: "index_counters_on_package_id"
   end
 

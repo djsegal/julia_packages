@@ -30,6 +30,14 @@ namespace :github do
 
       package_directory = "#{Rails.root}/#{github_directory}/#{package.name}"
 
+      contributors_request = HTTParty.get \
+        information["contributors_url"], \
+        query: { access_token: ENV['GITHUB_TOKEN'] }
+
+      contributors = JSON.parse contributors_request.body
+
+      information['contributors_count'] = contributors.count
+
       FileUtils.mkdir_p(package_directory) \
         unless File.directory? package_directory
 
@@ -38,12 +46,7 @@ namespace :github do
       end
 
       File.open("#{github_directory}/#{package.name}/contributors.yml", 'w') do |h|
-        github_request = HTTParty.get \
-          information["contributors_url"], \
-          query: { access_token: ENV['GITHUB_TOKEN'] }
-
-        parsed_json = JSON.parse github_request.body
-        h.write parsed_json.to_yaml
+        h.write contributors.to_yaml
       end
     end
 
