@@ -26,6 +26,8 @@ gem 'jquery-ui-rails'
 
 gem "bullet", :group => "development"
 
+gem "rake-progressbar"
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'factory_girl_rails'

@@ -14,9 +14,12 @@ namespace :metadata do
 
   desc "digest metadata into database"
   task digest: :environment do
+    bar = RakeProgressbar.new Dir["#{@metadata_directory}/*"].count
     non_versioned_packages = []
 
     Dir.foreach(@metadata_directory) do |directory|
+      bar.inc
+
       next if directory.starts_with? '.'
       next if File.file? \
         "#{@metadata_directory}/#{directory}"
@@ -30,6 +33,7 @@ namespace :metadata do
     end
 
     puts non_versioned_packages.map &:url
+    bar.finished
   end
 
   def make_repository package
