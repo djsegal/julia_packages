@@ -34,6 +34,37 @@
 
     <div class="panel-body cs-no-padding">
 
+      <div class="list-group">
+
+          <div class="list-group-item cs-no-padding">
+
+            <div class="row-content cs-full-width cs-category-row">
+
+              <a href="<%= @package.homepage || @package.url %>" target="_blank" class="btn btn-default cs-full-width cs-left-align cs-no-margin">
+
+                <h4>
+                  homepage
+                </h4>
+
+                <br>
+
+                <%
+                  homepage_link_text = @package.homepage.present? ? \
+                    @package.homepage : "no homepage"
+                %>
+
+                <span class="cs-pull-right">
+                  <%= homepage_link_text %>
+                </span>
+
+              </a>
+
+            </div>
+
+          </div>
+
+      </div>
+
     </div>
 
     <div class="panel-footer cs-center cs-no-padding">

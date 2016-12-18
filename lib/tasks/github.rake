@@ -53,8 +53,11 @@ namespace :github do
 
       information = YAML.load_file("#{package_directory}/data.yml")
 
-      package.update description: information['description']
       package.repository.update url: information['html_url']
+
+      package.update \
+        description: information['description'], \
+        homepage: information['homepage']
 
       make_counter package, information
       has_dates = make_dater package, information
