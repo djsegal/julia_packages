@@ -78,14 +78,7 @@ namespace :github do
 
       contributors.each do |contributor|
 
-        user_name = contributor['login']
-        is_existing_user = User.friendly.exists? user_name
-
-        user = is_existing_user ? User.friendly.find(user_name) : nil
-
-        user ||= User.create! \
-          name: user_name, \
-          avatar: contributor['avatar_url']
+        user = make_or_find_entity contributor
 
         Contribution.create! \
           user: user, \
@@ -127,6 +120,20 @@ namespace :github do
 
     Dater.create! dater_hash
     true
+  end
+
+  def make_or_find_entity entity
+    entity_class = entity['type'].constantize
+    entity_name = entity['login']
+
+    return entity_class.friendly.find(entity_name) \
+      if entity_class.friendly.exists? entity_name
+
+    entity_object = entity_class.create! \
+      name: entity_name, \
+      avatar: entity['avatar_url']
+
+    entity_object
   end
 
 end
