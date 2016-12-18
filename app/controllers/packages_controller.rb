@@ -117,8 +117,9 @@ class PackagesController < ApplicationController
     def set_core_query
       @core_query = Package
         .page(params[:page])
-        .includes(:counter)
         .includes(:dater)
+        .includes(:counter)
+        .joins(:counter)
 
       return unless params[:search].present?
       @core_query = @core_query.where \
