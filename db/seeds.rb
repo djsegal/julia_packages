@@ -6,26 +6,14 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-categories = %w[
-  Stats
-  Optimization
-  Parallel
-  Database
-  GPU
-  Biology
-  Quantum
-  Astro
-  Sparse
-  Web
-  Graphs
-  Math
-  DiffEq
-  IO
-  Interop
-  Time
-  Graphics
-  Plots
-]
+categories = []
+
+Organization.all.each do |organization|
+  next unless organization.name.include? 'Julia'
+  next if organization.owned_packages.count < 3
+
+  categories << organization.name.gsub('Julia', '')
+end
 
 categories.each do |category|
   Category.create! name: category

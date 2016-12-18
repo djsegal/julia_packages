@@ -1,16 +1,16 @@
 # == Schema Information
 #
-# Table name: categories
+# Table name: organizations
 #
 #  id         :integer          not null, primary key
 #  name       :string
+#  avatar     :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 
-class Category < ApplicationRecord
+require 'rails_helper'
 
-  extend FriendlyId
-  friendly_id :name
-
+RSpec.describe Organization, type: :model do
+  pending "add some examples to (or delete) #{__FILE__}"
 end

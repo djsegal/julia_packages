@@ -8,10 +8,13 @@
 #  updated_at  :datetime         not null
 #  description :string
 #  homepage    :string
+#  owner_type  :string
+#  owner_id    :integer
 #
 # Indexes
 #
-#  index_packages_on_name  (name)
+#  index_packages_on_name                     (name)
+#  index_packages_on_owner_type_and_owner_id  (owner_type,owner_id)
 #
 
 class Package < ApplicationRecord
@@ -29,10 +32,9 @@ class Package < ApplicationRecord
 
   has_one :dater
 
-  has_one :ownership, dependent: :destroy
-  has_many :contributions, dependent: :destroy
+  belongs_to :owner, polymorphic: true
 
-  has_one :owner, through: :ownership, source: :user
+  has_many :contributions, dependent: :destroy
   has_many :contributors, through: :contributions, source: :user
 
 end

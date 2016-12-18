@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :ownerships
+  resources :organizations
   resources :contributions
   resources :users
   resources :dummies

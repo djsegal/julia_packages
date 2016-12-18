@@ -8,10 +8,13 @@
 #  updated_at  :datetime         not null
 #  description :string
 #  homepage    :string
+#  owner_type  :string
+#  owner_id    :integer
 #
 # Indexes
 #
-#  index_packages_on_name  (name)
+#  index_packages_on_name                     (name)
+#  index_packages_on_owner_type_and_owner_id  (owner_type,owner_id)
 #
 
 require 'rails_helper'

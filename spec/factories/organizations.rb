@@ -1,16 +1,17 @@
 # == Schema Information
 #
-# Table name: categories
+# Table name: organizations
 #
 #  id         :integer          not null, primary key
 #  name       :string
+#  avatar     :string
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #
 
-class Category < ApplicationRecord
-
-  extend FriendlyId
-  friendly_id :name
-
+FactoryGirl.define do
+  factory :organization do
+    name "MyString"
+    avatar "MyString"
+  end
 end

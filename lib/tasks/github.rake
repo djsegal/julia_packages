@@ -70,9 +70,12 @@ namespace :github do
 
       package.repository.update url: information['html_url']
 
+      owner = make_or_find_entity information['owner']
+
       package.update \
-        description: information['description'], \
-        homepage: information['homepage']
+        owner: owner, \
+        homepage: information['homepage'], \
+        description: information['description']
 
       contributors = YAML.load_file("#{package_directory}/contributors.yml")
 

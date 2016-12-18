@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161218045011) do
+ActiveRecord::Schema.define(version: 20161218070009) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -58,15 +58,11 @@ ActiveRecord::Schema.define(version: 20161218045011) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "ownerships", force: :cascade do |t|
-    t.integer  "user_id"
-    t.integer  "package_id"
+  create_table "organizations", force: :cascade do |t|
+    t.string   "name"
+    t.string   "avatar"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["package_id"], name: "index_ownerships_on_package_id"
-    t.index ["package_id"], name: "index_ownerships_on_package_uniqueness", unique: true
-    t.index ["user_id", "package_id"], name: "index_ownerships_on_uniqueness", unique: true
-    t.index ["user_id"], name: "index_ownerships_on_user_id"
   end
 
   create_table "packages", force: :cascade do |t|
@@ -75,7 +71,10 @@ ActiveRecord::Schema.define(version: 20161218045011) do
     t.datetime "updated_at",  null: false
     t.string   "description"
     t.string   "homepage"
+    t.string   "owner_type"
+    t.integer  "owner_id"
     t.index ["name"], name: "index_packages_on_name"
+    t.index ["owner_type", "owner_id"], name: "index_packages_on_owner_type_and_owner_id"
   end
 
   create_table "repositories", force: :cascade do |t|
