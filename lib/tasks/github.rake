@@ -7,7 +7,9 @@ namespace :github do
     non_github_packages = []
 
     Package.all.each do |package|
-      parsed_url = package.url[/(?<=github.com\/).*(?=.git)/]
+      parsed_url = \
+        package.url[/(?<=github.com\/).*(?=\.git)/] || \
+        package.url[/(?<=github.com\/).*/]
 
       unless parsed_url.present?
         non_github_packages << package
