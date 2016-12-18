@@ -2,9 +2,12 @@ namespace :github do
 
   desc "download github package information"
   task download: :environment do
+    bar = RakeProgressbar.new Dir["#{@metadata_directory}/*"].count
     non_github_packages = []
 
     Dir.foreach(@metadata_directory) do |directory|
+      bar.inc
+
       next if directory.starts_with? '.'
       next if File.file? \
         "#{@metadata_directory}/#{directory}"
@@ -64,13 +67,16 @@ namespace :github do
     end
 
     puts non_github_packages
+    bar.finished
   end
 
   desc "unpack downloaded github information"
   task unpack: :environment do
+    bar = RakeProgressbar.new Package.count
     skipped_packages = []
 
     Package.all.each do |package|
+      bar.inc
       package_directory = "#{@github_directory}/#{package.name}"
 
       unless File.directory? package_directory
@@ -109,6 +115,7 @@ namespace :github do
     end
 
     puts skipped_packages.map &:name
+    bar.finished
   end
 
   def make_counter package, information
