@@ -67,9 +67,27 @@
             <li><a href="javascript:void(0)">Another action</a></li>
             <li><a href="javascript:void(0)">Something else here</a></li>
             <li class="divider"></li>
-            <li class="dropdown-header">Dropdown header</li>
-            <li><a href="javascript:void(0)">Separated link</a></li>
-            <li><a href="javascript:void(0)">One more separated link</a></li>
+
+            <li class="dropdown-header">Models</li>
+
+              <% ActiveRecord::Base.connection.tables.sort.each do |table| %>
+
+                <%
+                  next if table.match(/\Aschema_migrations\Z/)
+                  next if table.match(/ar_internal_metadata/)
+                %>
+
+                <%
+                  cur_class = table.singularize.camelize.constantize
+                  next unless cur_class.attribute_names.include? "name"
+                  cur_class_name = cur_class.name.pluralize
+                %>
+
+                <li>
+                  <%= link_to cur_class_name, send("#{cur_class_name.underscore}_path") %>
+                </li>
+
+              <% end %>
           </ul>
         </li>
       </ul>
