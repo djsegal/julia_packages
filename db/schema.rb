@@ -10,12 +10,22 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161218025016) do
+ActiveRecord::Schema.define(version: 20161218032007) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "contributions", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "package_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["package_id"], name: "index_contributions_on_package_id"
+    t.index ["user_id", "package_id"], name: "index_contributions_on_uniqueness", unique: true
+    t.index ["user_id"], name: "index_contributions_on_user_id"
   end
 
   create_table "counters", force: :cascade do |t|
@@ -46,6 +56,17 @@ ActiveRecord::Schema.define(version: 20161218025016) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "ownerships", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "package_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["package_id"], name: "index_ownerships_on_package_id"
+    t.index ["package_id"], name: "index_ownerships_on_package_uniqueness", unique: true
+    t.index ["user_id", "package_id"], name: "index_ownerships_on_uniqueness", unique: true
+    t.index ["user_id"], name: "index_ownerships_on_user_id"
+  end
+
   create_table "packages", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at",  null: false
@@ -61,6 +82,12 @@ ActiveRecord::Schema.define(version: 20161218025016) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["package_id"], name: "index_repositories_on_package_id"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "versions", force: :cascade do |t|

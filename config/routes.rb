@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+  resources :ownerships
+  resources :contributions
+  resources :users
   resources :dummies
   resources :categories
   resources :daters

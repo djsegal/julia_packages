@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Ownerships</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Package</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @ownerships.each do |ownership| %>
+      <tr>
+        <td><%= ownership.user %></td>
+        <td><%= ownership.package %></td>
+        <td><%= link_to 'Show', ownership %></td>
+        <td><%= link_to 'Edit', edit_ownership_path(ownership) %></td>
+        <td><%= link_to 'Destroy', ownership, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Ownership', new_ownership_path %>

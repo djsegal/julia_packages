@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Contributions</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Package</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @contributions.each do |contribution| %>
+      <tr>
+        <td><%= contribution.user %></td>
+        <td><%= contribution.package %></td>
+        <td><%= link_to 'Show', contribution %></td>
+        <td><%= link_to 'Edit', edit_contribution_path(contribution) %></td>
+        <td><%= link_to 'Destroy', contribution, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Contribution', new_contribution_path %>

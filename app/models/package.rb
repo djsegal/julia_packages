@@ -15,6 +15,7 @@
 #
 
 class Package < ApplicationRecord
+
   extend FriendlyId
   friendly_id :name
 
@@ -27,4 +28,11 @@ class Package < ApplicationRecord
   include Countable
 
   has_one :dater
+
+  has_one :ownership, dependent: :destroy
+  has_many :contributions, dependent: :destroy
+
+  has_one :owner, through: :ownership, source: :user
+  has_many :contributors, through: :contributions, source: :user
+
 end
