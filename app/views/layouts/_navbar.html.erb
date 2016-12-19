@@ -24,7 +24,7 @@
 
       <form class="navbar-form navbar-left">
         <div class="form-group">
-          <%= text_field_tag :search, params[:search], data: { autocomplete: autocomplete_package_name_packages_path }, class: "form-control col-sm-8", placeholder: "Search" %>
+          <%= autocomplete_field_tag :search, params[:search], autocomplete_package_name_packages_path, class: "form-control col-sm-8", placeholder: "Search" %>
         </div>
       </form>
 
