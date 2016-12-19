@@ -106,8 +106,10 @@ body {
   display: inline-block;
 }
 
-.cs-main-area .panel:first-child {
-  margin-top: 20px;
+@media (min-width: 768px) {
+  .cs-main-area .panel:first-child {
+    margin-top: 20px;
+  }
 }
 
 .cs-main-area .row-picture {
