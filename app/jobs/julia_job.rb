@@ -3,15 +3,17 @@ class JuliaJob < ApplicationJob
 
   def perform(*args)
 
-    system "rake metadata:pull" or \
-      system "rake metadata:clone"
+    sys_run = "RAILS_ENV=#{Rails.env} rake"
+
+    system "#{sys_run} metadata:pull" or \
+      system "#{sys_run} metadata:clone"
 
     FileUtils.rm_rf "tmp/github"
-    system "rake github:download"
+    system "#{sys_run} github:download"
 
-    system "rake db:drop db:create db:migrate"
-    system "rake metadata:digest github:unpack"
-    system "rake db:seed"
+    system "#{sys_run} db:drop db:create db:migrate"
+    system "#{sys_run} metadata:digest github:unpack"
+    system "#{sys_run} process:categories"
 
   end
 end
