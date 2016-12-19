@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   remote: https://rails-assets.org/
   specs:
+    RbST (0.5.1)
     actioncable (5.0.1.rc2)
       actionpack (= 5.0.1.rc2)
       nio4r (~> 1.2)
@@ -177,6 +178,7 @@ GEM
     rb-fsevent (0.9.8)
     rb-inotify (0.9.7)
       ffi (>= 0.5.0)
+    redcarpet (3.3.3)
     rspec-core (3.5.4)
       rspec-support (~> 3.5.0)
     rspec-expectations (3.5.0)
@@ -240,6 +242,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  RbST
   annotate
   bullet
   coffee-rails (~> 4.2)
@@ -259,6 +262,7 @@ DEPENDENCIES
   rails-assets-bootstrap-material-design!
   rails-jquery-autocomplete
   rake-progressbar
+  redcarpet
   rspec-rails (~> 3.5)
   sass-rails (~> 5.0)
   spring
