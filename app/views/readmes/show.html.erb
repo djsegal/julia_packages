@@ -1,0 +1,19 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>File name:</strong>
+  <%= @readme.file_name %>
+</p>
+
+<p>
+  <strong>Cargo:</strong>
+  <%= @readme.cargo %>
+</p>
+
+<p>
+  <strong>Package:</strong>
+  <%= @readme.package %>
+</p>
+
+<%= link_to 'Edit', edit_readme_path(@readme) %> |
+<%= link_to 'Back', readmes_path %>

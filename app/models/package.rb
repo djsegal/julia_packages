@@ -37,4 +37,6 @@ class Package < ApplicationRecord
   has_many :contributions, dependent: :destroy
   has_many :contributors, through: :contributions, source: :user
 
+  has_one :readme
+
 end

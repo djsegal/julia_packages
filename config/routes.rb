@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :readmes
   resources :organizations
   resources :contributions
   resources :users

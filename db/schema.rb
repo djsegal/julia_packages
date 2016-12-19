@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161218070009) do
+ActiveRecord::Schema.define(version: 20161219001906) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -75,6 +75,15 @@ ActiveRecord::Schema.define(version: 20161218070009) do
     t.integer  "owner_id"
     t.index ["name"], name: "index_packages_on_name"
     t.index ["owner_type", "owner_id"], name: "index_packages_on_owner_type_and_owner_id"
+  end
+
+  create_table "readmes", force: :cascade do |t|
+    t.string   "file_name"
+    t.text     "cargo"
+    t.integer  "package_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["package_id"], name: "index_readmes_on_package_id"
   end
 
   create_table "repositories", force: :cascade do |t|

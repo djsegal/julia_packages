@@ -71,8 +71,8 @@ namespace :github do
       if readme_response['encoding'] == 'base64'
         readme_work = Base64.decode64 readme_response['content']
         readme = {
-          name: readme_response['name'],
-          content: readme_work.force_encoding("UTF-8")
+          'name' => readme_response['name'],
+          'content' => readme_work.force_encoding("UTF-8")
         }
       else
         nasty_packages << directory
@@ -108,14 +108,14 @@ namespace :github do
   desc "unpack downloaded github information"
   task unpack: :environment do
     bar = RakeProgressbar.new Package.count
-    skipped_packages = []
+    bad_packages = []
 
     Package.all.each do |package|
       bar.inc
       package_directory = "#{@github_directory}/#{package.name}"
 
       unless File.directory? package_directory
-        skipped_packages << package
+        bad_packages << package
         next
       end
 
@@ -130,27 +130,51 @@ namespace :github do
         homepage: information['homepage'], \
         description: information['description']
 
-      contributors = YAML.load_file("#{package_directory}/contributors.yml")
-
-      contributors.each do |contributor|
-
-        user = make_or_find_entity contributor
-
-        Contribution.create! \
-          user: user, \
-          package: package, \
-          score: contributor['contributions']
-
-      end
+      has_good_data = make_readme package, package_directory
+      has_good_data &&= make_contributors package, package_directory
 
       make_counter package, information
-      has_dates = make_dater package, information
+      has_good_data &&= make_dater package, information
 
-      skipped_packages << package unless has_dates
+      bad_packages << package unless has_good_data
     end
 
-    puts skipped_packages.map &:name
+    puts bad_packages.map &:name
     bar.finished
+  end
+
+  def make_readme package, package_directory
+    file_name = "#{package_directory}/readme.yml"
+    return false unless File.exist? file_name
+
+    readme = YAML.load_file file_name
+
+    return false unless readme.present?
+
+    Readme.create! \
+      package: package,
+      cargo: readme['content'],
+      file_name: readme['name']
+
+    true
+  end
+
+  def make_contributors package, package_directory
+    file_name = "#{package_directory}/contributors.yml"
+    return false unless File.exist? file_name
+
+    contributors = YAML.load_file file_name
+
+    contributors.each do |contributor|
+      user = make_or_find_entity contributor
+
+      Contribution.create! \
+        user: user, \
+        package: package, \
+        score: contributor['contributions']
+    end
+
+    true
   end
 
   def make_counter package, information
