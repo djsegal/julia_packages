@@ -123,8 +123,11 @@ class PackagesController < ApplicationController
         .joins(:counter)
 
       return unless params[:search].present?
+
+      like_word = Rails.env.production? ? 'ILIKE' : 'LIKE'
+
       @core_query = @core_query.where \
-        "name like ?", "%#{params[:search]}%"
+        "name #{like_word} ?", "%#{params[:search]}%"
     end
 
 end
