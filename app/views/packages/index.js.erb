@@ -5,8 +5,17 @@ var newPagination;
   newPagination = "<%= escape_javascript will_paginate @packages, class: 'pagination cs-full-width cs-no-margin cs-center' %>";
 <% else %>
   newPagination = "<div class='pagination cs-full-width cs-no-margin cs-center'>";
-  newPagination += "<%= escape_javascript link_to 'View all Packages', root_path(sort: params[:sort]) %>";
+  <% if params[:search].present? %>
+    newPagination += "<%= escape_javascript link_to 'View all Packages', root_path(sort: params[:sort]) %>";
+  <% else %>
+    newPagination += "<a href='#top'>Scroll to Top</a>";
+  <% end %>
   newPagination += "</div>";
 <% end %>
 
 $('.pagination').replaceWith(newPagination);
+
+$("a[href='#top']").click(function() {
+  $("html, body").animate({ scrollTop: 0 }, "slow");
+  return false;
+});
