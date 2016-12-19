@@ -24,9 +24,9 @@ gem 'rails-jquery-autocomplete'
 gem 'jquery-rails'
 gem 'jquery-ui-rails'
 
-gem "bullet", :group => "development"
+gem 'bullet', :group => 'development'
 
-gem "rake-progressbar"
+gem 'rake-progressbar'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
