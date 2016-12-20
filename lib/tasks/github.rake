@@ -5,6 +5,7 @@ namespace :github do
     bar = RakeProgressbar.new \
       Dir.foreach(@metadata_directory).count
 
+    nasty_count = 0
     nasty_packages = []
     moved_packages = []
 
@@ -35,12 +36,14 @@ namespace :github do
       is_nasty_repo = false
       begin
         information = github.repos.get(user_name, repo_name).body
-      rescue
+      rescue => error
+        Rails.logger.info error.message if nasty_count > 10
         begin
           fixed_repo_name = repo_name[/.*(?=\.jl)/]
           information = github.repos.get(user_name, fixed_repo_name).body
           moved_packages << directory
         rescue
+          nasty_count += 1
           nasty_packages << directory
           is_nasty_repo = true
         end
