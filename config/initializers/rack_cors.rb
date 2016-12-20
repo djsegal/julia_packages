@@ -9,7 +9,8 @@ if defined? Rack::Cors
         https://d7edrf0ezfn0g.cloudfront.net
          http://d7edrf0ezfn0g.cloudfront.net
       ]
-      resource '/assets/*'
+
+      resource '/assets/*', :headers => :any, :methods => [:get, :head, :options]
     end
   end
 end
