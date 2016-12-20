@@ -32,6 +32,8 @@ gem 'redcarpet'
 
 gem 'RbST'
 
+gem 'rack-cors', :require => 'rack/cors'
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'factory_girl_rails'

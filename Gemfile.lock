@@ -139,6 +139,7 @@ GEM
       pry (~> 0.10)
     puma (3.6.2)
     rack (2.0.1)
+    rack-cors (0.4.0)
     rack-test (0.6.3)
       rack (>= 1.0)
     rails (5.0.1.rc2)
@@ -265,6 +266,7 @@ DEPENDENCIES
   pg
   pry-byebug
   puma (~> 3.0)
+  rack-cors
   rails (>= 5.0.1.rc2, < 5.1)
   rails-assets-bootstrap-material-design!
   rails-jquery-autocomplete
@@ -283,4 +285,4 @@ DEPENDENCIES
   will_paginate (~> 3.1.0)
 
 BUNDLED WITH
-   1.13.2
+   1.13.6
