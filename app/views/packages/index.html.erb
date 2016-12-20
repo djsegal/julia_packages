@@ -28,7 +28,7 @@
           <%= link_to 'A-Z', root_path(query_params.merge(sort: 'a_z')), class: "btn btn-sm" %>
         <% end %>
 
-        <%= link_to 'Pop', root_path(query_params.merge(sort: 'pop')), class: "btn btn-sm #{ ( params[:sort] == 'pop' ) ? ' btn-raised btn-primary hidden-xs' : '' }" %>
+        <%= link_to 'Hot', root_path(query_params.merge(sort: 'hot')), class: "btn btn-sm #{ ( params[:sort] == 'hot' ) ? ' btn-raised btn-primary hidden-xs' : '' }" %>
 
       </div>
 

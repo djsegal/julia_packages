@@ -17,8 +17,8 @@ class PackagesController < ApplicationController
       set_a_z_packages
     when 'z_a'
       set_z_a_packages
-    when 'pop'
-      set_pop_packages
+    when 'hot'
+      set_hot_packages
     else
       raise "Invalid sorting method."
     end
@@ -108,7 +108,7 @@ class PackagesController < ApplicationController
       @packages = @core_query.order("LOWER(name) desc")
     end
 
-    def set_pop_packages
+    def set_hot_packages
       live_packages = @core_query.where("daters.created > ?", 1.months.ago)
       dead_packages = @core_query.where.not("daters.created > ?", 1.months.ago)
 
