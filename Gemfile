@@ -9,8 +9,6 @@ gem 'rails-assets-bootstrap-material-design', source: 'https://rails-assets.org'
 
 gem 'annotate'
 
-gem 'github_api'
-
 gem 'font-awesome-rails'
 
 gem 'httparty'

@@ -1,5 +1,12 @@
 namespace :github do
 
+  @github_api_url = "https://api.github.com"
+
+  @client_info = {
+    client_id: ENV['CLIENT_ID'],
+    client_secret: ENV['CLIENT_SECRET']
+  }
+
   desc "download github package information"
   task download: :environment do
     bar = RakeProgressbar.new \
@@ -31,45 +38,40 @@ namespace :github do
 
       user_name, repo_name = parsed_url.split '/'
 
-      github = Github.new oauth_token: ENV['GITHUB_TOKEN']
-
       is_nasty_repo = false
-      begin
-        information = github.repos.get(user_name, repo_name).body
-      rescue => error
+      information = hit_url get_repo_url(user_name, repo_name)
+
+      if ( information["message"] == "Not Found" )
         Rails.logger.info error.message if nasty_count > 10
-        begin
-          fixed_repo_name = repo_name[/.*(?=\.jl)/]
-          information = github.repos.get(user_name, fixed_repo_name).body
-          moved_packages << directory
-        rescue
-          nasty_count += 1
+
+        fixed_repo_name = repo_name[/.*(?=\.jl)/]
+        information = hit_url get_repo_url(user_name, fixed_repo_name)
+
+        if information["message"] == "Not Found"
           nasty_packages << directory
-          is_nasty_repo = true
+          nasty_count += 1
+          next
         end
+
+        moved_packages << directory
       end
-      next if is_nasty_repo
 
       if ( information.message == "Moved Permanently" )
         moved_packages << directory
         new_url = information.url
 
-        information = HTTParty.get information["url"], \
-          query: { access_token: ENV['GITHUB_TOKEN'] }
+        information = hit_url information["url"]
       end
 
       package_directory = "#{Rails.root}/#{@github_directory}/#{directory}"
 
-      contributors_request = HTTParty.get \
-        information["contributors_url"], \
-        query: { access_token: ENV['GITHUB_TOKEN'] }
+      contributors_request = hit_url information["contributors_url"]
 
       contributors = JSON.parse contributors_request.body
 
       information['contributors_count'] = contributors.count
 
-      readme_response = HTTParty.get "#{information['url']}/readme", \
-        query: { access_token: ENV['GITHUB_TOKEN'] }
+      readme_response = hit_url "#{information['url']}/readme"
 
       if readme_response['encoding'] == 'base64'
         readme_work = Base64.decode64 readme_response['content']
@@ -144,6 +146,19 @@ namespace :github do
 
     puts bad_packages.map &:name
     bar.finished
+  end
+
+  def hit_url url
+    HTTParty.get url, query: @client_info
+  end
+
+  def get_repo_url user_name, repo_name
+    url_parts = [
+      @github_api_url, 'repos',
+      user_name, repo_name
+    ]
+
+    url_parts.join '/'
   end
 
   def make_readme package, package_directory
