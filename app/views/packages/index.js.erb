@@ -1,4 +1,10 @@
-$('.cs-main-area .list-group').append("<%= escape_javascript render partial: 'package_list', locals: { packages: @packages, page: params[:page] } %>");
+var appendedSelector = '.cs-main-area > .panel:first-child .list-group',
+    appendedList = `<%=
+      escape_javascript render partial: 'package_list', \
+        locals: { packages: @packages, page: params[:page] }
+    %>`;
+
+$(appendedSelector).append(appendedList);
 
 var newPagination;
 <% if @packages.count > WillPaginate.per_page * ( params[:page] || '1' ).to_i %>
