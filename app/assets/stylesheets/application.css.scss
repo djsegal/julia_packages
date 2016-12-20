@@ -19,6 +19,11 @@
 @import "bootstrap";
 @import "bootstrap-material-design";
 
+h1, h2, h3,
+h4, h5, h6 {
+  @extend %headings !optional;
+}
+
 body {
   padding-top: 50px;
 }
@@ -100,9 +105,9 @@ body {
   padding-bottom: 0;
 }
 
-.cs-main-area .panel-heading h4 {
-  padding-top: 17.5px;
-  padding-bottom: 17.5px;
+.cs-main-area .panel-heading %headings {
+  padding-top: 15px;
+  padding-bottom: 15px;
   display: inline-block;
 }
 

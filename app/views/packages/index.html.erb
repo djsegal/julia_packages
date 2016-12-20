@@ -19,16 +19,16 @@
             if params[:search].present?
         %>
 
-        <%= link_to 'Top', root_path(query_params), class: "btn #{ ( params[:sort].present? ) ? '' : ' btn-raised btn-primary' }" %>
-        <%= link_to 'New', root_path(query_params.merge(sort: 'new')), class: "btn #{ ( params[:sort] == 'new' ) ? ' btn-raised btn-primary' : '' }" %>
+        <%= link_to 'Top', root_path(query_params), class: "btn btn-sm #{ ( params[:sort].present? ) ? '' : ' btn-raised btn-primary hidden-xs' }" %>
+        <%= link_to 'New', root_path(query_params.merge(sort: 'new')), class: "btn btn-sm #{ ( params[:sort] == 'new' ) ? ' btn-raised btn-primary hidden-xs' : '' }" %>
 
         <% if %w[ a_z z_a ].include? params[:sort] %>
-          <%= link_to sort_title, root_path(query_params.merge(sort: params[:sort].reverse)), class: "btn btn-raised btn-primary" %>
+          <%= link_to sort_title, root_path(query_params.merge(sort: params[:sort].reverse)), class: "btn btn-sm btn-raised btn-primary hidden-xs" %>
         <% else %>
-          <%= link_to 'A-Z', root_path(query_params.merge(sort: 'a_z')), class: "btn" %>
+          <%= link_to 'A-Z', root_path(query_params.merge(sort: 'a_z')), class: "btn btn-sm" %>
         <% end %>
 
-        <%= link_to 'Pop', root_path(query_params.merge(sort: 'pop')), class: "btn #{ ( params[:sort] == 'pop' ) ? ' btn-raised btn-primary' : '' }" %>
+        <%= link_to 'Pop', root_path(query_params.merge(sort: 'pop')), class: "btn btn-sm #{ ( params[:sort] == 'pop' ) ? ' btn-raised btn-primary hidden-xs' : '' }" %>
 
       </div>
 
