@@ -128,12 +128,8 @@ namespace :github do
 
       package.repository.update url: information['html_url']
 
-      owner = make_or_find_entity information['owner']
-
-      package.update \
-        owner: owner, \
-        homepage: information['homepage'], \
-        description: information['description']
+      owner = make_owner package, information
+      make_category package, owner
 
       has_good_data = make_readme package, package_directory
       has_good_data &&= make_contributors package, package_directory
@@ -159,6 +155,37 @@ namespace :github do
     ]
 
     url_parts.join '/'
+  end
+
+  def make_owner package, information
+    owner = make_or_find_entity information['owner']
+
+    package.update \
+      owner: owner, \
+      homepage: information['homepage'], \
+      description: information['description']
+
+    owner
+  end
+
+  def make_category package, owner
+    is_organization = \
+      owner.class.name.underscore == 'organization'
+
+    return unless is_organization
+    return unless owner.name.include? 'Julia'
+
+    category_name = owner.name.gsub 'Julia', ''
+
+    if Category.friendly.exists? category_name
+      category = Category.friendly.find(category_name)
+    else
+      category = Category.create! name: category_name
+    end
+
+    Label.create! \
+      category: category,
+      package: package
   end
 
   def make_readme package, package_directory

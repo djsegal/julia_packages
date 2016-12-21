@@ -1,0 +1,23 @@
+<% page = ( params[:page] || '1' ).to_i %>
+
+<% if packages.count > WillPaginate.per_page * page %>
+  <%=
+      will_paginate packages,
+      class: 'pagination cs-full-width cs-no-margin cs-center',
+      params: { :controller => controller_name, :action => action_name }
+  %>
+<% else %>
+  <div class='pagination cs-full-width cs-no-margin cs-center js-blank-pagination'>
+    <%
+        is_restricted = params[:search].present?
+        is_restricted ||= \
+          ( page == 1 && controller_name != 'packages' )
+    %>
+
+    <% if is_restricted %>
+      <%= link_to 'View all Packages', root_path(sort: params[:sort]) %>
+    <% else %>
+      <a href='#top'>Scroll to Top</a>
+    <% end %>
+  </div>
+<% end %>

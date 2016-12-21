@@ -10,6 +10,10 @@ class CategoriesController < ApplicationController
   # GET /categories/1
   # GET /categories/1.json
   def show
+    raw_params = params.with_indifferent_access
+    raw_params[:category_id] = raw_params.delete :id
+
+    @sort, @packages = PackageSorterJob.perform_now raw_params
   end
 
   # GET /categories/new
