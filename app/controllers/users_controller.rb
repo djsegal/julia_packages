@@ -4,7 +4,9 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    @users = User.includes(:supported_packages).joins(:contributions)
+      .select('users.*, count(user_id) as "user_count"')
+      .group(:user_id).order('user_count desc').limit(100)
   end
 
   # GET /users/1
