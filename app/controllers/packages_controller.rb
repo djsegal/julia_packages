@@ -5,25 +5,9 @@ class PackagesController < ApplicationController
   # GET /packages
   # GET /packages.json
   def index
-    @sort = params[:sort] || 'top'
-    set_core_query
-
-    case @sort
-    when 'top'
-      set_top_packages
-    when 'new'
-      set_new_packages
-    when 'a_z'
-      set_a_z_packages
-    when 'z_a'
-      set_z_a_packages
-    when 'hot'
-      set_hot_packages
-    else
-      raise "Invalid sorting method."
-    end
-
     @categories = Category.all
+
+    @sort, @packages = PackageSorterJob.perform_now params.with_indifferent_access
   end
 
   # GET /packages/1
@@ -82,6 +66,7 @@ class PackagesController < ApplicationController
   end
 
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_package
       @package = Package.friendly.find(params[:id])
@@ -90,44 +75,6 @@ class PackagesController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def package_params
       params.require(:package).permit(:name)
-    end
-
-    def set_top_packages
-      @packages = @core_query.order("counters.stargazer desc")
-    end
-
-    def set_new_packages
-      @packages = @core_query.order("daters.created desc")
-    end
-
-    def set_a_z_packages
-      @packages = @core_query.order("LOWER(name) asc")
-    end
-
-    def set_z_a_packages
-      @packages = @core_query.order("LOWER(name) desc")
-    end
-
-    def set_hot_packages
-      live_packages = @core_query.where("daters.created > ?", 1.months.ago)
-      dead_packages = @core_query.where.not("daters.created > ?", 1.months.ago)
-
-      @packages = live_packages.or(dead_packages).order("daters.touched desc")
-    end
-
-    def set_core_query
-      @core_query = Package
-        .page(params[:page])
-        .includes(:dater)
-        .includes(:counter)
-        .joins(:counter)
-
-      return unless params[:search].present?
-
-      like_word = Rails.env.production? ? 'ILIKE' : 'LIKE'
-
-      @core_query = @core_query.where \
-        "name #{like_word} ?", "%#{params[:search]}%"
     end
 
 end
