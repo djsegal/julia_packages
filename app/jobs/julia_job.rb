@@ -13,7 +13,6 @@ class JuliaJob < ApplicationJob
 
     system "#{sys_run} db:drop db:create db:migrate"
     system "#{sys_run} metadata:digest github:unpack"
-    system "#{sys_run} process:categories"
 
   end
 end
