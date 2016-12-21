@@ -62,25 +62,25 @@ body {
   width: 100% !important;
 }
 
-.cs-sidebar .panel-heading {
+.cs-side-bar .panel-heading {
   padding-top: 20px;
   padding-bottom: 20px;
 }
 
-.cs-sidebar .panel:last-child {
+.cs-side-bar .panel:last-child {
   margin-bottom: 0;
 }
 
-.cs-sidebar .panel .list-group, .cs-love-panel .list-group {
+.cs-side-bar .panel .list-group, .cs-love-panel .list-group {
   margin-bottom: 0;
 }
 
-.cs-sidebar .panel-heading {
+.cs-side-bar .panel-heading {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
 
-.cs-sidebar .panel-heading a {
+.cs-side-bar .panel-heading a {
   color: inherit;
 }
 
@@ -125,7 +125,7 @@ body {
   font-style: initial;
 }
 
-.cs-sidebar-footer-link {
+.cs-side-bar-footer-link {
   padding-top: 10px;
   padding-bottom: 10px;
   font-weight: initial;
