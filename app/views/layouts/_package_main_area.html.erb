@@ -1,0 +1,63 @@
+<% sort_title = @sort.split('_').map(&:titleize).join('-') %>
+
+<div class="col-sm-8 cs-main-area">
+
+  <div class="panel panel-default">
+
+    <div class="panel-heading">
+
+      <h4 class="cs-no-margin">
+        <%= sort_title %>
+        Packages
+      </h4>
+
+      <div class="btn-group cs-pull-right">
+
+        <%
+          query_params = {}
+          query_params[:search] = params[:search] \
+            if params[:search].present?
+        %>
+
+        <%= link_to 'Top', root_path(query_params), class: "btn btn-sm #{ ( params[:sort].present? ) ? '' : ' btn-raised btn-primary hidden-xs' }" %>
+        <%= link_to 'New', root_path(query_params.merge(sort: 'new')), class: "btn btn-sm #{ ( params[:sort] == 'new' ) ? ' btn-raised btn-primary hidden-xs' : '' }" %>
+
+        <% if %w[ a_z z_a ].include? params[:sort] %>
+          <%= link_to sort_title, root_path(query_params.merge(sort: params[:sort].reverse)), class: "btn btn-sm btn-raised btn-primary hidden-xs" %>
+        <% else %>
+          <%= link_to 'A-Z', root_path(query_params.merge(sort: 'a_z')), class: "btn btn-sm" %>
+        <% end %>
+
+        <%= link_to 'Hot', root_path(query_params.merge(sort: 'hot')), class: "btn btn-sm #{ ( params[:sort] == 'hot' ) ? ' btn-raised btn-primary hidden-xs' : '' }" %>
+
+      </div>
+
+    </div>
+
+    <div class="panel-body">
+
+      <div class="list-group cs-no-margin row">
+
+        <%= render partial: 'package_list', locals: { packages: @packages } %>
+
+      </div>
+
+    </div>
+
+    <div class="panel-footer">
+      <% if @packages.count > WillPaginate.per_page %>
+        <%= will_paginate @packages, class: 'pagination cs-full-width cs-no-margin cs-center' %>
+      <% else %>
+        <div class='pagination cs-full-width cs-no-margin cs-center'>
+          <%= link_to 'View all Packages', root_path(sort: params[:sort]) %>
+        </div>
+      <% end %>
+    </div>
+
+  </div>
+
+  <div class="visible-xs">
+    <%= render 'layouts/made_with_love_panel' %>
+  </div>
+
+</div>
