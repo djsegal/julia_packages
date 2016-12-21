@@ -8,8 +8,7 @@ A package browsing tool for:
 
 To get julia observer up and running locally, type these commands into the terminal:
 
-+ `export CLIENT_ID=__your_github_api_id__`
-+ `export CLIENT_SECRET=__your_github_api_secret__`
++ `export ACCESS_TOKEN=__your_github_api_token__`
 + `git clone https://github.com/djsegal/julia_observer.git`
 + `cd julia_observer`
 + `bundle install`
@@ -18,3 +17,9 @@ To get julia observer up and running locally, type these commands into the termi
 + `rails server`
 
 If everything went ok, you can now visit [localhost:3000](http://localhost:3000/) in the browser
+
+-----
+
+#### notes:
+
++ `__your_github_api_token__` can be generated at [github.com](https://github.com/settings/tokens)

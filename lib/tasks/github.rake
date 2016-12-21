@@ -3,9 +3,12 @@ namespace :github do
   @github_api_url = "https://api.github.com"
 
   @client_info = {
+    access_token: ENV['ACCESS_TOKEN'],
     client_id: ENV['CLIENT_ID'],
     client_secret: ENV['CLIENT_SECRET']
   }
+
+  @client_info.delete_if { |k, v| v.nil? }
 
   desc "download github package information"
   task download: :environment do
