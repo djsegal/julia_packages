@@ -13,10 +13,8 @@ To get julia observer up and running locally, type these commands into the termi
 + `git clone https://github.com/djsegal/julia_observer.git`
 + `cd julia_observer`
 + `bundle install`
-+ `rails console`
-+ `JuliaJob.perform_now`
++ `rake job:julia`
 + `// grab a coffee...`
-+ `exit`
 + `rails server`
 
 If everything went ok, you can now visit [localhost:3000](http://localhost:3000/) in the browser
