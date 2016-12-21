@@ -1,27 +1,91 @@
-<p id="notice"><%= notice %></p>
+<div class="cs-main-area cs-full-width">
 
-<h1>Categories</h1>
+  <div class="panel panel-default">
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+    <div class="panel-heading">
 
-  <tbody>
-    <% @categories.each do |category| %>
-      <tr>
-        <td><%= category.name %></td>
-        <td><%= link_to 'Show', category %></td>
-        <td><%= link_to 'Edit', edit_category_path(category) %></td>
-        <td><%= link_to 'Destroy', category, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+      <h3 class="cs-no-margin cs-full-width cs-center">
+        Categories
+      </h3>
 
-<br>
+    </div>
 
-<%= link_to 'New Category', new_category_path %>
+    <div class="panel-body">
+
+      <table class="table table-striped table-hover cs-no-margin">
+
+        <thead>
+
+          <tr>
+
+            <th>#</th>
+            <th>Category</th>
+            <th class='hidden-xs'>Top Packages</th>
+            <th class='hidden-xs hidden-sm'></th>
+            <th class='hidden-xs hidden-sm hidden-md'></th>
+            <th>Pkg<span class="hidden visible-xs" style="display: inline-block !important;">s</span><span class="hidden-xs"> Count</span></th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <% @categories.each_with_index do |category, index| %>
+
+            <tr>
+
+              <td><%= index + 1 %></td>
+              <td><%= link_to category.name, category_path(category) %></td>
+
+              <%
+                  limit_count = 3
+
+                  package_query = category.packages.includes(:counter)
+                  package_query = package_query.order("counters.stargazer desc")
+                  package_query = package_query.first(limit_count)
+
+                  padding_vars = [ {} ] * ( limit_count - package_query.count )
+
+                  category_packages = package_query + padding_vars
+              %>
+
+              <% category_packages.each_with_index do |package, sub_index| %>
+
+                <%
+                    data_class = 'hidden-xs'
+                    data_class += ' hidden-sm' if sub_index > 0
+                    data_class += ' hidden-md' if sub_index > 1
+                %>
+
+                <td class='<%= data_class %>'>
+
+                  <% package_name = package.try(:name) %>
+
+                  <% if package_name.present? %>
+                    <%= link_to truncate( package_name, length: 20), package_path(package) %>
+                  <% else %>
+                    -
+                  <% end %>
+
+                </td>
+
+              <% end %>
+
+              <td><%= category.packages.count %></td>
+
+            </tr>
+
+          <% end %>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <%= render 'layouts/fork_footer' %>
+
+  </div>
+
+</div>
