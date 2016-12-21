@@ -12,6 +12,12 @@
 
       <div class="list-group">
 
+        <%
+          query_params = {}
+          query_params[:sort] = params[:sort] \
+            if params[:sort].present?
+        %>
+
         <% Category.all.each_with_index do |category, index| %>
 
           <% unless index.zero? %>
@@ -24,7 +30,11 @@
 
             <div class="row-content cs-full-width cs-category-row">
 
-              <%= link_to category.name, category_path(category), class: "btn btn-default cs-full-width cs-left-align cs-no-margin" %>
+              <%=
+                link_to category.name,
+                  category_path(category, query_params),
+                  class: "btn btn-default cs-full-width cs-left-align cs-no-margin #{ 'active' if current_page?(category_path(category)) }"
+              %>
 
             </div>
 
