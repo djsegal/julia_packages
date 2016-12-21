@@ -24,6 +24,11 @@ h4, h5, h6 {
   @extend %headings !optional;
 }
 
+.cs-main-area,
+.cs-side-bar {
+  @extend %cs-big-box !optional;
+}
+
 body {
   padding-top: 50px;
 }
@@ -204,4 +209,24 @@ body {
 
 .cs-contributors-list .cs-grey-image:not(:first-child) {
   border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+@media (min-width: 768px) {
+  %cs-big-box {
+    position: absolute;
+    overflow-y: scroll;
+    top: 50px;
+    height: calc(100% - 50px);
+  }
+
+  @media (min-width: 1200px) {
+    %cs-big-box {
+      top: 60px;
+      height: calc(100% - 60px);
+    }
+  }
+
+  .cs-side-bar {
+    right: 0;
+  }
 }

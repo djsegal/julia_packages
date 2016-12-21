@@ -30,6 +30,8 @@ gem 'redcarpet'
 
 gem 'RbST'
 
+gem 'underscore-rails'
+
 gem 'rack-cors', :require => 'rack/cors'
 
 group :development, :test do
