@@ -4,7 +4,9 @@ class OrganizationsController < ApplicationController
   # GET /organizations
   # GET /organizations.json
   def index
-    @organizations = Organization.all
+    @organizations = Organization.joins(:owned_packages)
+      .where( packages: { owner_type: 'Organization' } )
+      .group("organizations.id").order("count(organizations.id) DESC").limit(100)
   end
 
   # GET /organizations/1
