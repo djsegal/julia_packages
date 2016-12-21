@@ -82,9 +82,7 @@
             <li class="divider"></li>
 
             <li class="dropdown-header">Models</li>
-
-              <% ApplicationRecord.descendants
-.each do |model_class| %>
+              <% ApplicationRecord.descendants.each do |model_class| %>
 
                 <%
                   has_name = model_class.attribute_names.include? "name"
