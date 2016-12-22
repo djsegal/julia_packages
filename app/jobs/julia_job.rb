@@ -3,7 +3,13 @@ class JuliaJob < ApplicationJob
 
   def perform(*args)
 
-    sys_run = "RAILS_ENV=#{Rails.env} rake"
+    sys_run_parts = [
+      "RAILS_ENV=#{Rails.env}",
+      "DISABLE_DATABASE_ENVIRONMENT_CHECK=1"
+      "rake"
+    ]
+
+    sys_run = sys_run_parts.join ' '
 
     system "#{sys_run} metadata:pull" or \
       system "#{sys_run} metadata:clone"
