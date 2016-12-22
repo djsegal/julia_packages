@@ -4,9 +4,18 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.includes(:supported_packages).joins(:contributions)
-      .select('users.*, count(user_id) as "user_count"')
-      .group(:user_id).order('user_count desc').limit(100)
+    has_package = params[:package_id].present?
+    has_package &&= Package.friendly.exists? params[:package_id]
+
+    if has_package
+      @package = Package.friendly.find params[:package_id]
+      @users = @package.contributions.order(score: :desc).includes(:user).map(&:user)
+    else
+      @users = User.includes(:supported_packages).joins(:contributions)
+        .select('users.*, count(user_id) as "user_count"')
+        .group(:user_id).order('user_count desc').limit(100)
+    end
+
   end
 
   # GET /users/1

@@ -23,7 +23,13 @@
             <th class='hidden-xs'>Top Packages</th>
             <th class='hidden-xs hidden-sm'></th>
             <th class='hidden-xs hidden-sm hidden-md'></th>
-            <th>Pkg<span class="hidden visible-xs" style="display: inline-block !important;">s</span><span class="hidden-xs"> Count</span></th>
+            <th>
+              <% if @package.present? %>
+                Commits
+              <% else %>
+                Pkg<span class="hidden visible-xs" style="display: inline-block !important;">s</span><span class="hidden-xs"> Count</span>
+              <% end %>
+            </th>
 
           </tr>
 
@@ -72,7 +78,13 @@
 
               <% end %>
 
-              <td><%= user.supported_packages.count %></td>
+              <td>
+                <% if @package.present? %>
+                  <%= Contribution.find_by(user: user, package: @package).score %>
+                <% else %>
+                  <%= user.supported_packages.count %>
+                <% end %>
+              </td>
 
             </tr>
 
