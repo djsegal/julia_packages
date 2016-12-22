@@ -5,7 +5,8 @@ class JuliaJob < ApplicationJob
 
     sys_run_parts = [
       "RAILS_ENV=#{Rails.env}",
-      "DISABLE_DATABASE_ENVIRONMENT_CHECK=1"
+      "DISABLE_DATABASE_ENVIRONMENT_CHECK=1",
+      "bundle exec",
       "rake"
     ]
 

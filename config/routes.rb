@@ -16,5 +16,15 @@ Rails.application.routes.draw do
     get 'autocomplete_package_name', on: :collection
   end
 
+  require 'crono/web'
+  if Rails.env.production?
+    Crono::Web.use Rack::Auth::Basic do |username, password|
+      username == ENV["CRONO_USERNAME"] && \
+        password == ENV["CRONO_PASSWORD"]
+    end
+  end
+  mount Crono::Web, at: '/crono'
+
   root 'packages#index'
+
 end
