@@ -18,7 +18,10 @@
           isPaginating = ( $('.pagination').text() === waitText );
       if ( isPaginating ) { return ; }
 
-      var url = $('.pagination .next_page').attr('href');
+      var nextPage = $('.pagination .next_page')
+      if ( nextPage.length === 0 ) { return; }
+
+      var url = nextPage.attr('href');
       $('.pagination').text(waitText);
       $.getScript(url);
     }
