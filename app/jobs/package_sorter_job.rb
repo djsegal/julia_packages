@@ -49,12 +49,13 @@ class PackageSorterJob < ApplicationJob
     end
 
     def set_core_query params
-      has_category = params[:category_id].present?
-      has_category &&= Category.friendly.exists? params[:category_id]
+      category = get_category params
+      organization = get_organization params
 
-      if has_category
-        category = Category.friendly.find params[:category_id]
+      if category.present?
         @core_query = category.packages
+      elsif organization.present?
+        @core_query = organization.owned_packages
       else
         @core_query = Package
       end
@@ -71,6 +72,20 @@ class PackageSorterJob < ApplicationJob
 
       @core_query = @core_query.where \
         "name #{like_word} ?", "%#{params[:search]}%"
+    end
+
+    def get_category params
+      return unless params[:category_id].present?
+      return unless Category.friendly.exists? params[:category_id]
+
+      Category.friendly.find params[:category_id]
+    end
+
+    def get_organization params
+      return unless params[:organization_id].present?
+      return unless Organization.friendly.exists? params[:organization_id]
+
+      Organization.friendly.find params[:organization_id]
     end
 
 end

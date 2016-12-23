@@ -14,6 +14,10 @@ class OrganizationsController < ApplicationController
   # GET /organizations/1
   # GET /organizations/1.json
   def show
+    raw_params = params.with_indifferent_access
+    raw_params[:organization_id] = raw_params.delete :id
+
+    @sort, @packages = PackageSorterJob.perform_now raw_params
   end
 
   # GET /organizations/new

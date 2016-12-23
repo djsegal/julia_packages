@@ -1,0 +1,22 @@
+var appendedSelector = '.cs-main-area > .panel:first-child .list-group',
+    appendedList = `<%=
+      escape_javascript render partial: \
+        'layouts/package_list', \
+        locals: { packages: @packages }
+    %>`;
+
+$(appendedSelector).append(appendedList);
+
+var paginationSelector = '.pagination',
+    newPagination = `<%=
+      escape_javascript render partial: \
+        'layouts/package_pagination', \
+        locals: { packages: @packages }
+    %>`;
+
+$(paginationSelector).replaceWith(newPagination);
+
+$("a[href='#top']").click(function() {
+  $("html, body, .cs-main-area").animate({ scrollTop: 0 }, "slow");
+  return false;
+});
