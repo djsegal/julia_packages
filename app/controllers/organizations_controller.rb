@@ -6,8 +6,10 @@ class OrganizationsController < ApplicationController
   def index
     @organizations = Organization.joins(:owned_packages)
       .where( packages: { owner_type: 'Organization' } )
+      .includes(owned_packages: :counter)
       .group("organizations.id")
       .order("count(organizations.id) DESC")
+      .order("counters.stargazer desc")
       .limit(100)
   end
 
