@@ -22,11 +22,11 @@
 
     <div class="navbar-collapse collapse navbar-inverse-collapse">
 
-      <form class="navbar-form navbar-left">
+      <%= form_tag root_path, class: "navbar-form navbar-left", method: :get do %>
         <div class="form-group">
           <%= autocomplete_field_tag :search, params[:search], autocomplete_package_name_packages_path, class: "form-control col-sm-8", placeholder: "Search" %>
         </div>
-      </form>
+      <% end %>
 
       <ul class="nav navbar-nav navbar-right">
 
