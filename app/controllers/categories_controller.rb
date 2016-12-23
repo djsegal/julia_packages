@@ -4,9 +4,11 @@ class CategoriesController < ApplicationController
   # GET /categories
   # GET /categories.json
   def index
-    @categories = Category.includes(:packages).joins(:labels)
-      .select('categories.*, count(category_id) as "category_count"')
-      .group(:category_id).order('category_count desc').limit(100)
+    @categories = Category
+      .joins(:packages)
+      .group("categories.id")
+      .order("count(categories.id) desc")
+      .limit(100)
   end
 
   # GET /categories/1

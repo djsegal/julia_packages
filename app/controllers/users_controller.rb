@@ -11,9 +11,11 @@ class UsersController < ApplicationController
       @package = Package.friendly.find params[:package_id]
       @users = @package.contributions.order(score: :desc).includes(:user).map(&:user)
     else
-      @users = User.includes(:supported_packages).joins(:contributions)
-        .select('users.*, count(user_id) as "user_count"')
-        .group(:user_id).order('user_count desc').limit(100)
+      @users = User
+        .joins(:supported_packages).includes(:contributions)
+        .group("users.id")
+        .order("sum(contributions.score) desc")
+        .limit(100)
     end
 
   end
