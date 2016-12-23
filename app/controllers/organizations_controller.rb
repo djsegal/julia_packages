@@ -6,7 +6,9 @@ class OrganizationsController < ApplicationController
   def index
     @organizations = Organization.joins(:owned_packages)
       .where( packages: { owner_type: 'Organization' } )
-      .group("organizations.id").order("count(organizations.id) DESC").limit(100)
+      .group("organizations.id")
+      .order("count(organizations.id) DESC")
+      .limit(100)
   end
 
   # GET /organizations/1
