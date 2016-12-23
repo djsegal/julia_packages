@@ -24,11 +24,7 @@
             <th class='hidden-xs hidden-sm'></th>
             <th class='hidden-xs hidden-sm hidden-md'></th>
             <th>
-              <% if @package.present? %>
-                Commits
-              <% else %>
-                Pkg<span class="hidden visible-xs" style="display: inline-block !important;">s</span><span class="hidden-xs"> Count</span>
-              <% end %>
+              Commits
             </th>
 
           </tr>
@@ -82,7 +78,7 @@
                 <% if @package.present? %>
                   <%= Contribution.find_by(user: user, package: @package).score %>
                 <% else %>
-                  <%= user.supported_packages.count %>
+                  <%= user.supported_packages.sum(:score) %>
                 <% end %>
               </td>
 
