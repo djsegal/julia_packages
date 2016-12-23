@@ -9,6 +9,11 @@ class PackagesController < ApplicationController
     raw_params = params.with_indifferent_access
 
     @sort, @packages = PackageSorterJob.perform_now raw_params
+
+    if @packages.length == 1
+      redirect_to @packages.first
+      return
+    end
   end
 
   # GET /packages/1
