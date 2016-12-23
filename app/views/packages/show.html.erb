@@ -69,6 +69,28 @@
 
         </div>
 
+        <div class="list-group-item cs-no-padding">
+
+          <div class="row-content cs-full-width cs-category-row">
+
+            <%= link_to @package.owner, class: "btn btn-default cs-full-width cs-left-align cs-no-margin" do %>
+
+              <h4>
+                owner
+              </h4>
+
+              <br>
+
+              <span class="cs-pull-right">
+                <%= @package.owner.name %>
+              </span>
+
+            <% end %>
+
+          </div>
+
+        </div>
+
       </div>
 
     </div>
