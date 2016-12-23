@@ -17,6 +17,6 @@ var paginationSelector = '.pagination',
 $(paginationSelector).replaceWith(newPagination);
 
 $("a[href='#top']").click(function() {
-  $("html, body").animate({ scrollTop: 0 }, "slow");
+  $("html, body, .cs-main-area").animate({ scrollTop: 0 }, "slow");
   return false;
 });
