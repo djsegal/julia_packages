@@ -18,7 +18,13 @@
             if params[:sort].present?
         %>
 
-        <% Category.all.each_with_index do |category, index| %>
+        <%
+          categories = Category.joins(:packages)
+            .group("categories.id")
+            .order("count(categories.id) desc")
+        %>
+
+        <% categories.each_with_index do |category, index| %>
 
           <% unless index.zero? %>
 
