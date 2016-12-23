@@ -1,5 +1,10 @@
 renderer = Redcarpet::Render::HTML.new
-extensions = {}
+
+extensions = {
+  fenced_code_blocks: true,
+  no_intra_emphasis: true,
+  tables: true
+}
 
 ::Markdowner = Redcarpet::Markdown.new \
   renderer, extensions = extensions
