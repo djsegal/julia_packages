@@ -19,6 +19,9 @@ namespace :github do
     nasty_packages = []
     moved_packages = []
 
+    repos_directory = "#{@github_directory}/repos"
+    users_directory = "#{@github_directory}/users"
+
     Dir.foreach(@metadata_directory) do |directory|
 
       bar.inc
@@ -66,7 +69,7 @@ namespace :github do
         information = hit_url information["url"]
       end
 
-      package_directory = "#{Rails.root}/#{@github_directory}/#{directory}"
+      package_directory = "#{Rails.root}/#{repos_directory}/#{directory}"
 
       contributors_request = hit_url information["contributors_url"]
 
@@ -90,19 +93,48 @@ namespace :github do
       FileUtils.mkdir_p(package_directory) \
         unless File.directory? package_directory
 
-      File.open("#{@github_directory}/#{directory}/data.yml", 'w') do |h|
+      File.open("#{repos_directory}/#{directory}/data.yml", 'w') do |h|
          h.write information.to_yaml
       end
 
-      File.open("#{@github_directory}/#{directory}/contributors.yml", 'w') do |h|
+      File.open("#{repos_directory}/#{directory}/contributors.yml", 'w') do |h|
         h.write contributors.to_yaml
       end
 
-      File.open("#{@github_directory}/#{directory}/readme.yml", 'w') do |h|
+      File.open("#{repos_directory}/#{directory}/readme.yml", 'w') do |h|
         h.write readme.to_yaml
       end
 
     end
+
+    bar.finished
+
+    users_list = Set.new
+    Dir.foreach("#{repos_directory}") do |directory|
+      next if directory.starts_with? '.'
+      owner_login = YAML.load_file("#{repos_directory}/#{directory}/data.yml")['owner']['login']
+      users_list.add owner_login
+
+      contributors = YAML.load_file("#{repos_directory}/#{directory}/contributors.yml")
+      users_list.merge contributors.map { |c| c['login'] }
+    end
+
+    bar = RakeProgressbar.new users_list.count
+
+    users_list.sort.each do |user_name|
+      bar.inc
+
+      user_directory = "#{Rails.root}/#{users_directory}/#{user_name}"
+      FileUtils.mkdir_p(user_directory) \
+        unless File.directory? user_directory
+
+      information = hit_url get_user_url(user_name)
+      File.open("#{users_directory}/#{user_name}/data.yml", 'w') do |h|
+        h.write information.to_yaml
+      end
+    end
+
+    bar.finished
 
     puts "\n-------\n nasty \n-------"
     puts nasty_packages
@@ -110,17 +142,52 @@ namespace :github do
     puts "\n-------\n moved \n-------"
     puts moved_packages
 
-    bar.finished
   end
 
   desc "unpack downloaded github information"
   task unpack: :environment do
-    bar = RakeProgressbar.new Package.count
     bad_packages = []
+
+    users_directory = "#{@github_directory}/users"
+
+    bar = RakeProgressbar.new Dir.foreach("#{users_directory}").count
+
+    Dir.foreach("#{users_directory}") do |user_name|
+      bar.inc
+      next if user_name.starts_with? '.'
+
+      information = YAML.load_file("#{users_directory}/#{user_name}/data.yml")
+
+      user_class = information['type'].constantize
+
+      user = user_class.create! \
+        name: user_name, \
+        avatar: information['avatar_url']
+
+      Profile.create! \
+        owner: user,
+        bio: information['bio'],
+        blog: information['blog'],
+        company: information['company'],
+        nickname: information['name'],
+        location: information['location'],
+        created: information['created_at']
+
+      Info.create! \
+        owner: user,
+        repos: information['public_repos'],
+        gists: information['public_gists'],
+        followers: information['followers'],
+        following: information['following']
+    end
+
+    bar.finished
+
+    bar = RakeProgressbar.new Package.count
 
     Package.all.each do |package|
       bar.inc
-      package_directory = "#{@github_directory}/#{package.name}"
+      package_directory = "#{@github_directory}/repos/#{package.name}"
 
       unless File.directory? package_directory
         bad_packages << package
@@ -160,8 +227,17 @@ namespace :github do
     url_parts.join '/'
   end
 
+  def get_user_url user_name
+    url_parts = [
+      @github_api_url, 'users',
+      user_name
+    ]
+
+    url_parts.join '/'
+  end
+
   def make_owner package, information
-    owner = make_or_find_entity information['owner']
+    owner = find_entity information['owner']
 
     package.update \
       owner: owner, \
@@ -214,7 +290,7 @@ namespace :github do
     contributors = YAML.load_file file_name
 
     contributors.each do |contributor|
-      user = make_or_find_entity contributor
+      user = find_entity contributor
 
       Contribution.create! \
         user: user, \
@@ -251,18 +327,11 @@ namespace :github do
     true
   end
 
-  def make_or_find_entity entity
+  def find_entity entity
     entity_class = entity['type'].constantize
     entity_name = entity['login']
 
-    return entity_class.friendly.find(entity_name) \
-      if entity_class.friendly.exists? entity_name
-
-    entity_object = entity_class.create! \
-      name: entity_name, \
-      avatar: entity['avatar_url']
-
-    entity_object
+    entity_class.friendly.find(entity_name)
   end
 
 end

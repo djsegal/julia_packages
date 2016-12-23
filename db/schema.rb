@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161222054629) do
+ActiveRecord::Schema.define(version: 20161223050757) do
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"
@@ -68,6 +68,18 @@ ActiveRecord::Schema.define(version: 20161222054629) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "infos", force: :cascade do |t|
+    t.integer  "repos"
+    t.integer  "followers"
+    t.integer  "following"
+    t.string   "owner_type"
+    t.integer  "owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer  "gists"
+    t.index ["owner_type", "owner_id"], name: "index_infos_on_owner_type_and_owner_id"
+  end
+
   create_table "labels", force: :cascade do |t|
     t.integer  "category_id"
     t.integer  "package_id"
@@ -95,6 +107,20 @@ ActiveRecord::Schema.define(version: 20161222054629) do
     t.integer  "owner_id"
     t.index ["name"], name: "index_packages_on_name"
     t.index ["owner_type", "owner_id"], name: "index_packages_on_owner_type_and_owner_id"
+  end
+
+  create_table "profiles", force: :cascade do |t|
+    t.string   "nickname"
+    t.string   "company"
+    t.string   "blog"
+    t.string   "location"
+    t.string   "bio"
+    t.string   "owner_type"
+    t.integer  "owner_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "created"
+    t.index ["owner_type", "owner_id"], name: "index_profiles_on_owner_type_and_owner_id"
   end
 
   create_table "readmes", force: :cascade do |t|

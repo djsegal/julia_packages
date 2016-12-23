@@ -11,10 +11,7 @@
 
 class User < ApplicationRecord
 
-  extend FriendlyId
-  friendly_id :name
-
-  has_many :owned_packages, as: :owner, class_name: "Package"
+  include Ownable
 
   has_many :contributions, dependent: :destroy
   has_many :supported_packages, through: :contributions, source: :package

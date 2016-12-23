@@ -11,9 +11,6 @@
 
 class Organization < ApplicationRecord
 
-  extend FriendlyId
-  friendly_id :name
-
-  has_many :owned_packages, as: :owner, class_name: "Package"
+  include Ownable
 
 end

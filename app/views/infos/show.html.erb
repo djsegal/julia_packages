@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Repos:</strong>
+  <%= @info.repos %>
+</p>
+
+<p>
+  <strong>Followers:</strong>
+  <%= @info.followers %>
+</p>
+
+<p>
+  <strong>Following:</strong>
+  <%= @info.following %>
+</p>
+
+<p>
+  <strong>Created:</strong>
+  <%= @info.created %>
+</p>
+
+<p>
+  <strong>Owner:</strong>
+  <%= @info.owner %>
+</p>
+
+<%= link_to 'Edit', edit_info_path(@info) %> |
+<%= link_to 'Back', infos_path %>

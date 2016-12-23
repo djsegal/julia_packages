@@ -6,5 +6,6 @@ def clean_field_list field_list
   cleaned_list.reject! { |field| field == 'id' }
   cleaned_list.reject! { |field| field.ends_with? '_id' }
   cleaned_list.reject! { |field| field.ends_with? '_at' }
+  cleaned_list.reject! { |field| field.ends_with? '_type' }
   cleaned_list
 end
