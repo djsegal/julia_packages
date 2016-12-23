@@ -188,11 +188,20 @@ body {
   font-size: 0;
 }
 
-.cs-contributors-list .cs-grey-image a {
-  padding: 30px 0;
+.cs-background-img {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+}
+
+.cs-profile-picture {
+  min-height: 20vh;
+  @extend .cs-background-img;
+}
+
+.cs-contributors-list .cs-grey-image a {
+  @extend .cs-background-img;
+  padding: 30px 0;
 
   filter: gray; /* IE6-9 */
   filter: grayscale(0.95); /* Microsoft Edge and Firefox 35+ */

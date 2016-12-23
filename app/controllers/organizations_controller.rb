@@ -14,6 +14,9 @@ class OrganizationsController < ApplicationController
   # GET /organizations/1
   # GET /organizations/1.json
   def show
+    @owned_packages = @organization.owned_packages
+      .includes(:counter).order("counters.stargazer desc")
+
     raw_params = params.with_indifferent_access
     raw_params[:organization_id] = raw_params.delete :id
 

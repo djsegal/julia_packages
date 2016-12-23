@@ -1,5 +1,97 @@
 <%= render 'layouts/package_main_area' %>
 
-<%= render 'layouts/category_side_bar' %>
-
 <%= render 'layouts/pagination_js' %>
+
+<div class="cs-side-bar col-sm-4 hidden-xs cs-no-padding">
+
+  <div class="panel panel-primary">
+
+    <div class="panel-heading cs-center">
+      <h4 class="cs-no-margin">Circles.add("<%= @organization.name %>")</h4>
+    </div>
+
+    <div class="panel-body cs-no-padding">
+
+      <div class="list-group">
+
+        <div class="list-group-item cs-no-padding">
+
+          <div class="row-content cs-full-width cs-category-row">
+
+            <a href="<%= @organization.profile.blog.presence || @organization.url %>" target="_blank" class="btn btn-default cs-full-width cs-left-align cs-no-margin">
+
+              <h4>
+                blog
+              </h4>
+
+              <br>
+
+              <%
+                blog_link_text = @organization.profile.blog.present? ? \
+                  @organization.profile.blog : "no blog"
+              %>
+
+              <span class="cs-pull-right">
+                <%= blog_link_text %>
+              </span>
+
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-footer cs-center cs-no-padding">
+
+    </div>
+
+  </div>
+
+  <div class="panel panel-primary">
+
+    <div class="panel-heading cs-center">
+      <h4 class="cs-no-margin"><%= @organization.profile.nickname || @organization.name %></h4>
+    </div>
+
+    <div class="panel-body cs-no-padding">
+
+      <div class="list-group">
+
+        <div class="list-group-item cs-no-padding">
+
+          <div class="row-content cs-full-width cs-category-row">
+
+            <a href="<%= @organization.url %>?language=julia" target="_blank" class="btn btn-default cs-full-width cs-left-align cs-no-margin cs-profile-picture" style="background-image: url('<%= @organization.avatar %>');">
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-footer cs-center cs-no-padding">
+
+      <% if @organization.profile.bio.present? %>
+
+        <a href="<%= @organization.url %>?language=julia" target="_blank" class="btn btn-default cs-side-bar-footer-link cs-full-width cs-no-margin">
+
+          <h5><%= @organization.profile.bio %></h5>
+
+        </a>
+
+      <% end %>
+
+    </div>
+
+  </div>
+
+  <%= render 'layouts/made_with_love_panel' %>
+
+</div>
