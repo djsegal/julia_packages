@@ -1,0 +1,69 @@
+<div class="row cs-dater-panels cs-no-margin">
+
+  <div class="col-sm-4">
+    <div class="panel panel-default cs-no-margin">
+
+      <div class="panel-heading">
+
+        <h4 class="cs-no-margin">
+          Joined Github
+        </h4>
+
+      </div>
+
+      <div class="panel-body">
+
+        <p class="cs-no-margin cs-pull-right">
+          <%= profile.created.strftime('%B %Y') %>
+        </p>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-sm-4">
+    <div class="panel panel-default cs-no-margin">
+
+      <div class="panel-heading">
+
+        <h4 class="cs-no-margin">
+          Lives in
+        </h4>
+
+      </div>
+
+      <div class="panel-body">
+
+        <p class="cs-no-margin cs-pull-right">
+          <%= truncate( profile.location, length: 17 ) || 'Milky Way Galaxy' %>
+        </p>
+
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-sm-4">
+    <div class="panel panel-default cs-no-margin">
+
+      <div class="panel-heading">
+
+        <h4 class="cs-no-margin">
+          Works at
+        </h4>
+
+      </div>
+
+      <div class="panel-body">
+
+        <p class="cs-no-margin cs-pull-right">
+          <%= truncate( profile.company, length: 17 ) || 'Coding' %>
+        </p>
+
+      </div>
+
+    </div>
+  </div>
+
+</div>

@@ -1,9 +1,140 @@
-<p id="notice"><%= notice %></p>
+<div class="col-sm-8 cs-main-area">
 
-<p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-</p>
+  <div class="panel panel-default">
 
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+    <div class="panel-body">
+
+      <h1>
+        <a href="<%= @user.url %>" target="_blank">
+          <%= @user.name %>
+        </a>
+      </h1>
+
+      <h4>
+        <%= @user.profile.nickname %>
+      </h4>
+
+      <% if @user.profile.bio.present? %>
+
+        <hr>
+
+        <p class="cs-pull-right">
+          <%= @user.profile.bio %>
+        </p>
+
+      <% end %>
+
+    </div>
+
+  </div>
+
+  <%= render partial: "layouts/profile", locals: { profile: @user.profile } %>
+
+  <%= render "layouts/info" %>
+
+  <%#= render "readme" %>
+
+  <div class="visible-xs">
+    <%= render 'layouts/made_with_love_panel' %>
+  </div>
+
+</div>
+
+<div class="cs-side-bar col-sm-4 hidden-xs cs-no-padding">
+
+  <div class="panel panel-primary">
+
+    <div class="panel-heading cs-center">
+      <h4 class="cs-no-margin">Friend.add("<%= @user.name %>")</h4>
+    </div>
+
+    <div class="panel-body cs-no-padding">
+
+      <div class="list-group">
+
+        <div class="list-group-item cs-no-padding">
+
+          <div class="row-content cs-full-width cs-category-row">
+
+            <a href="<%= @user.profile.blog.presence || @user.url %>" target="_blank" class="btn btn-default cs-full-width cs-left-align cs-no-margin">
+
+              <h4>
+                blog
+              </h4>
+
+              <br>
+
+              <%
+                blog_link_text = @user.profile.blog.present? ? \
+                  @user.profile.blog : "no blog"
+              %>
+
+              <span class="cs-pull-right">
+                <%= blog_link_text %>
+              </span>
+
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-footer cs-center cs-no-padding">
+
+    </div>
+
+  </div>
+
+  <div class="panel panel-primary">
+
+    <div class="panel-heading cs-center">
+      <h4 class="cs-no-margin">Owned Packages</h4>
+    </div>
+
+    <div class="panel-body cs-no-padding">
+
+      <div class="list-group">
+
+        <% @owned_packages.each_with_index do |package, index| %>
+
+          <% unless index.zero? %>
+
+            <div class="list-group-separator cs-full-width cs-no-margin"></div>
+
+          <% end %>
+
+          <div class="list-group-item cs-no-padding">
+
+            <div class="row-content cs-full-width cs-category-row">
+
+              <%=
+                link_to package.name,
+                  package_path(package),
+                  class: "btn btn-default cs-full-width cs-left-align cs-no-margin #{ 'active' if current_page?(package_path(package)) }"
+              %>
+
+            </div>
+
+          </div>
+
+        <% end %>
+
+      </div>
+
+    </div>
+
+    <div class="panel-footer cs-center cs-no-padding">
+      <%= link_to root_path, class: "btn btn-default cs-side-bar-footer-link cs-full-width cs-no-margin" do %>
+        View all Packages
+      <% end %>
+    </div>
+
+  </div>
+
+  <%= render 'layouts/made_with_love_panel' %>
+
+</div>

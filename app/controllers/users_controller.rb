@@ -23,6 +23,8 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    @owned_packages = @user.owned_packages
+      .includes(:counter).order("counters.stargazer desc")
   end
 
   # GET /users/new
