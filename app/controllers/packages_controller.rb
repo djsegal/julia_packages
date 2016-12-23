@@ -6,8 +6,9 @@ class PackagesController < ApplicationController
   # GET /packages.json
   def index
     @categories = Category.all
+    raw_params = params.with_indifferent_access
 
-    @sort, @packages = PackageSorterJob.perform_now params.with_indifferent_access
+    @sort, @packages = PackageSorterJob.perform_now raw_params
   end
 
   # GET /packages/1
