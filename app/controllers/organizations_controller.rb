@@ -4,9 +4,8 @@ class OrganizationsController < ApplicationController
   # GET /organizations
   # GET /organizations.json
   def index
-    @organizations = Organization.joins(:owned_packages)
-      .where( packages: { owner_type: 'Organization' } )
-      .includes(owned_packages: :counter)
+    @organizations = Organization
+      .joins(owned_packages: :counter)
       .references(:owned_packages)
       .group("organizations.id")
       .order("count(organizations.id) DESC")
