@@ -21,6 +21,18 @@
 
 set :output, "~rails/julia_observer/log/cron.log"
 
+every :day, at: '12:34 am' do
+  rake "job:boot"
+end
+
+every :day, at: '1:11 am' do
+  rake "job:download"
+end
+
+every :day, at: '3:00 am' do
+  rake "job:expand"
+end
+
 every :day, at: '4:04 am' do
-  rake "job:julia"
+  rake "job:update"
 end

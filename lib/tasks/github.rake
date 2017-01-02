@@ -20,7 +20,6 @@ namespace :github do
     moved_packages = []
 
     repos_directory = "#{@github_directory}/repos"
-    users_directory = "#{@github_directory}/users"
 
     Dir.foreach(@metadata_directory) do |directory|
 
@@ -109,15 +108,35 @@ namespace :github do
 
     bar.finished
 
+    puts "\n-------\n nasty \n-------"
+    puts nasty_packages
+
+    puts "\n-------\n moved \n-------"
+    puts moved_packages
+
+  end
+
+  desc "expand github user information"
+  task expand: :environment do
+    repos_directory = "#{@github_directory}/repos"
+
+    bar = RakeProgressbar.new Dir.foreach("#{repos_directory}").count
+
     users_list = Set.new
     Dir.foreach("#{repos_directory}") do |directory|
+      bar.inc
       next if directory.starts_with? '.'
+
       owner_login = YAML.load_file("#{repos_directory}/#{directory}/data.yml")['owner']['login']
       users_list.add owner_login
 
       contributors = YAML.load_file("#{repos_directory}/#{directory}/contributors.yml")
       users_list.merge contributors.map { |c| c['login'] }
     end
+
+    bar.finished
+
+    users_directory = "#{@github_directory}/users"
 
     bar = RakeProgressbar.new users_list.count
 
@@ -135,13 +154,6 @@ namespace :github do
     end
 
     bar.finished
-
-    puts "\n-------\n nasty \n-------"
-    puts nasty_packages
-
-    puts "\n-------\n moved \n-------"
-    puts moved_packages
-
   end
 
   desc "unpack downloaded github information"
