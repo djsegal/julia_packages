@@ -32,15 +32,9 @@ gem 'RbST'
 
 gem 'underscore-rails'
 
-gem 'crono'
-
-gem 'haml'
-
-gem 'sinatra', '2.0.0.beta2', require: nil
-
-gem 'daemons'
-
 gem 'rack-cors', :require => 'rack/cors'
+
+gem 'whenever', :require => false
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
