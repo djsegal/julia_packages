@@ -1,7 +1,7 @@
 class PackageSorterJob < ApplicationJob
   queue_as :default
 
-  def perform(params)
+  def perform(params={})
     @sort = params[:sort] || 'top'
     set_core_query params
 
