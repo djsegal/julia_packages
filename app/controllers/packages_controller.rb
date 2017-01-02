@@ -19,7 +19,7 @@ class PackagesController < ApplicationController
   # GET /packages/1
   # GET /packages/1.json
   def show
-    @contributors = @package.contributions.order(:score).limit(20).includes(:user).map(&:user)
+    @contributors = @package.contributions.order(score: :desc).limit(20).includes(:user).map(&:user)
   end
 
   # GET /packages/new
