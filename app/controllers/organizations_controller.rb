@@ -10,7 +10,7 @@ class OrganizationsController < ApplicationController
       .references(:owned_packages)
       .group("organizations.id")
       .order("count(organizations.id) DESC")
-      .order("counters.stargazer desc")
+      .order("sum(counters.stargazer) desc")
       .limit(100)
   end
 
