@@ -21,3 +21,5 @@
 .byebug_history
 
 .env
+
+/public/sitemap*

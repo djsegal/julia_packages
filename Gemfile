@@ -36,6 +36,8 @@ gem 'rack-cors', :require => 'rack/cors'
 
 gem 'whenever', :require => false
 
+gem 'sitemap_generator'
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'factory_girl_rails'

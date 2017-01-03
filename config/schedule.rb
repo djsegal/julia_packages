@@ -36,3 +36,7 @@ end
 every :day, at: '4:04 am' do
   rake "job:update"
 end
+
+every :day, at: '6:00 am' do
+  rake "sitemap:refresh"
+end
