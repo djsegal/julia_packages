@@ -20,4 +20,9 @@ namespace :job do
     UpdateJob.perform_now
   end
 
+  desc "run log job"
+  task log: :environment do
+    LogJob.perform_now
+  end
+
 end
