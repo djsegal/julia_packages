@@ -194,8 +194,13 @@ body {
   background-position: center;
 }
 
-.cs-profile-picture {
+.cs-profile-picture__org {
   min-height: 20vh;
+  @extend .cs-background-img;
+}
+
+.cs-profile-picture__user {
+  min-height: 100px;
   @extend .cs-background-img;
 }
 
@@ -248,4 +253,10 @@ body {
 
 img {
   max-width: 100%;
+}
+
+a.panel-heading:hover,
+a.panel-heading:active,
+a.panel-heading:focus {
+  background-color: #3f51b5 !important;
 }

@@ -4,19 +4,38 @@
 
     <div class="panel-body">
 
-      <h1>
-        <a href="<%= @user.url %>" target="_blank">
-          <%= @user.name %>
-        </a>
-      </h1>
+      <div class="row cs-no-margin">
 
-      <h4>
-        <%= @user.profile.nickname %>
-      </h4>
+        <div class="col-sm-10 cs-no-padding">
+
+          <h1>
+            <a href="<%= @user.url %>" target="_blank">
+              <%= @user.name %>
+            </a>
+          </h1>
+
+          <h4 style="margin-bottom: 0;">
+            <%= @user.profile.nickname %>
+          </h4>
+
+        </div>
+
+        <div class="col-sm-2 hidden-xs cs-no-padding">
+
+          <div class="panel panel-primary cs-no-margin">
+
+            <a href="<%= @user.url %>" target="_blank" class="panel-heading btn btn-default cs-full-width cs-left-align cs-no-margin cs-profile-picture__user" style="background-image: url('<%= @user.avatar %>');">
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
 
       <% if @user.profile.bio.present? %>
 
-        <hr>
+        <hr style="margin-top: 15px;">
 
         <p class="cs-pull-right">
           <%= @user.profile.bio %>
