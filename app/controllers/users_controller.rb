@@ -15,7 +15,7 @@ class UsersController < ApplicationController
         .joins(:supported_packages).includes(:contributions)
         .group("users.id")
         .order("sum(contributions.score) desc")
-        .limit(100)
+        .limit(150)
     end
 
   end
