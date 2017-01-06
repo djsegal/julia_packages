@@ -51,11 +51,14 @@ class PackageSorterJob < ApplicationJob
     def set_core_query params
       category = get_category params
       organization = get_organization params
+      user = get_user params
 
       if category.present?
         @core_query = category.packages
       elsif organization.present?
         @core_query = organization.owned_packages
+      elsif user.present?
+        @core_query = user.supported_packages
       else
         @core_query = Package
       end
@@ -86,6 +89,13 @@ class PackageSorterJob < ApplicationJob
       return unless Organization.friendly.exists? params[:organization_id]
 
       Organization.friendly.find params[:organization_id]
+    end
+
+    def get_user params
+      return unless params[:user_id].present?
+      return unless User.friendly.exists? params[:user_id]
+
+      User.friendly.find params[:user_id]
     end
 
 end

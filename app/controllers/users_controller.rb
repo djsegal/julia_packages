@@ -26,8 +26,14 @@ class UsersController < ApplicationController
     @owned_packages = @user.owned_packages
       .includes(:counter).order("counters.stargazer desc")
 
+    max_supported_packages = 20
+
     @supported_packages = @user.supported_packages
       .includes(:contributions).order("contributions.score desc")
+      .limit(max_supported_packages)
+
+    @has_many_supported = \
+      ( @user.supported_packages.count > max_supported_packages )
   end
 
   # GET /users/new
