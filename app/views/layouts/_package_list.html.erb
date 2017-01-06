@@ -29,7 +29,10 @@
       </h4>
 
       <p class='list-group-item-text'>
-        <%= truncate package.description, length: 50 %>
+        <% if package.description.present? %>
+          <% cleaned_description = package.description.gsub('`', '"') %>
+          <%= truncate cleaned_description, length: 50 %>
+        <% end %>
       </p>
 
     </div>
