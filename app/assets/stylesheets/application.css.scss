@@ -260,3 +260,13 @@ a.panel-heading:active,
 a.panel-heading:focus {
   background-color: #3f51b5 !important;
 }
+
+.cs-profile-picture__user {
+  -webkit-transition: filter 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  -o-transition: filter 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: filter 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cs-profile-picture__user:hover {
+  filter: brightness(105%);
+}
