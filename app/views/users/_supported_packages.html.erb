@@ -1,0 +1,37 @@
+<div class="panel panel-default">
+
+  <div class="panel-heading">
+
+    <h4 class="cs-no-margin">
+      Supported Packages
+    </h4>
+
+  </div>
+
+  <div class="panel-body">
+
+    <% @supported_packages.each_slice(2) do |batch| %>
+
+      <div class="row cs-no-margin">
+
+        <% batch.each do |package| %>
+
+          <div class="col-sm-6 cs-category-row cs-no-padding">
+
+            <%=
+              link_to package.name,
+                package_path(package),
+                class: "btn btn-default cs-full-width cs-left-align cs-no-margin #{ 'active' if current_page?(package_path(package)) }"
+            %>
+
+          </div>
+
+        <% end %>
+
+      </div>
+
+    <% end %>
+
+  </div>
+
+</div>

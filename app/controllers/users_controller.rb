@@ -25,6 +25,9 @@ class UsersController < ApplicationController
   def show
     @owned_packages = @user.owned_packages
       .includes(:counter).order("counters.stargazer desc")
+
+    @supported_packages = @user.supported_packages
+      .includes(:contributions).order("contributions.score desc")
   end
 
   # GET /users/new
