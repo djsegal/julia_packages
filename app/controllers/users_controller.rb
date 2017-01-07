@@ -5,10 +5,10 @@ class UsersController < ApplicationController
   # GET /users.json
   def index
     has_package = params[:package_id].present?
-    has_package &&= Package.friendly.exists? params[:package_id]
+    has_package &&= Package.custom_exists? params[:package_id]
 
     if has_package
-      @package = Package.friendly.find params[:package_id]
+      @package = Package.custom_find params[:package_id]
       @users = @package.contributions.order(score: :desc).includes(:user).map(&:user)
     else
       @users = User
@@ -88,7 +88,7 @@ class UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      @user = User.friendly.find(params[:id])
+      @user = User.custom_find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
