@@ -17,6 +17,11 @@
           query_params = {}
           query_params[:search] = params[:search] \
             if params[:search].present?
+
+          query_params.merge! \
+            params.select { |k, v| k.ends_with? "_id" }
+
+          query_params.deep_symbolize_keys!
         %>
 
         <%= link_to 'Top', {
