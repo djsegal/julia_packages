@@ -44,3 +44,7 @@ end
 every :day, at: '7am' do
   rake "sitemap:refresh"
 end
+
+every :day, at: '7pm' do
+  rake "job:clean"
+end

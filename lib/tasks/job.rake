@@ -25,4 +25,9 @@ namespace :job do
     LogJob.perform_now
   end
 
+  desc "run clean job"
+  task clean: :environment do
+    CleanJob.perform_now
+  end
+
 end
