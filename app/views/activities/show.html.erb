@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Commits:</strong>
+  <%= @activity.commits %>
+</p>
+
+<p>
+  <strong>Package:</strong>
+  <%= @activity.package %>
+</p>
+
+<%= link_to 'Edit', edit_activity_path(@activity) %> |
+<%= link_to 'Back', activities_path %>

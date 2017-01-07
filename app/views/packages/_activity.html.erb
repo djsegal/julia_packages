@@ -1,0 +1,20 @@
+<div class="panel panel-primary">
+
+  <div class="panel-heading cs-center">
+
+    <h4 class="cs-no-margin">
+      Activity
+    </h4>
+
+  </div>
+
+  <div class="panel-body">
+    <%
+      commit_list = @package.activity.commits
+      commit_hash = Hash[(1...commit_list.size+1).zip commit_list]
+    %>
+
+    <%= area_chart commit_hash, xtitle: "Week", ytitle: "Commits", height: "20vh" %>
+  </div>
+
+</div>

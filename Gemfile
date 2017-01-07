@@ -38,6 +38,8 @@ gem 'whenever', :require => false
 
 gem 'sitemap_generator'
 
+gem 'chartkick'
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'factory_girl_rails'

@@ -154,6 +154,25 @@ namespace :github do
     end
 
     bar.finished
+
+    bar = RakeProgressbar.new Dir.foreach("#{repos_directory}").count
+
+    Dir.foreach("#{repos_directory}") do |directory|
+      bar.inc
+
+      next if directory.starts_with? '.'
+
+      base_url = YAML.load_file("#{repos_directory}/#{directory}/data.yml")['url']
+      commits_url = "#{base_url}/stats/participation"
+      commits_info = hit_url commits_url
+
+      File.open("#{repos_directory}/#{directory}/commits.yml", 'w') do |h|
+        h.write commits_info.to_yaml
+      end
+    end
+
+    bar.finished
+
   end
 
   desc "unpack downloaded github information"
@@ -214,6 +233,7 @@ namespace :github do
       make_category package, owner
 
       has_good_data = make_readme package, package_directory
+      has_good_data &&= make_activity package, package_directory
       has_good_data &&= make_contributors package, package_directory
 
       make_counter package, information
@@ -291,6 +311,21 @@ namespace :github do
       package: package,
       cargo: readme['content'],
       file_name: readme['name']
+
+    true
+  end
+
+  def make_activity package, package_directory
+    file_name = "#{package_directory}/commits.yml"
+    return false unless File.exist? file_name
+
+    commits = YAML.load_file file_name
+
+    return false unless commits.present?
+
+    Activity.create! \
+      package: package,
+      commits: commits['all']
 
     true
   end

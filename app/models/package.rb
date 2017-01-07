@@ -43,5 +43,6 @@ class Package < ApplicationRecord
   has_many :categories, through: :labels
 
   has_one :readme, dependent: :destroy
+  has_one :activity, dependent: :destroy
 
 end

@@ -1,0 +1,27 @@
+<%= form_for(activity) do |f| %>
+  <% if activity.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(activity.errors.count, "error") %> prohibited this activity from being saved:</h2>
+
+      <ul>
+      <% activity.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :commits %>
+    <%= f.text_area :commits %>
+  </div>
+
+  <div class="field">
+    <%= f.label :package_id %>
+    <%= f.text_field :package_id %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

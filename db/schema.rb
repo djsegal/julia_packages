@@ -12,6 +12,14 @@
 
 ActiveRecord::Schema.define(version: 20170107033607) do
 
+  create_table "activities", force: :cascade do |t|
+    t.text     "commits"
+    t.integer  "package_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["package_id"], name: "index_activities_on_package_id"
+  end
+
   create_table "batches", force: :cascade do |t|
     t.integer  "marker"
     t.string   "item_type"
