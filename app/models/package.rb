@@ -22,15 +22,15 @@ class Package < ApplicationRecord
   extend FriendlyId
   friendly_id :name
 
-  has_one :repository
+  has_one :repository, dependent: :destroy
   delegate :url, to: :repository, allow_nil: true
 
-  has_many :versions
+  has_many :versions, dependent: :destroy
 
-  has_one :counter
+  has_one :counter, dependent: :destroy
   include Countable
 
-  has_one :dater
+  has_one :dater, dependent: :destroy
 
   belongs_to :owner, polymorphic: true
 
@@ -40,6 +40,6 @@ class Package < ApplicationRecord
   has_many :labels, dependent: :destroy
   has_many :categories, through: :labels
 
-  has_one :readme
+  has_one :readme, dependent: :destroy
 
 end

@@ -8,8 +8,8 @@ module Ownable
 
     has_many :owned_packages, as: :owner, class_name: "Package"
 
-    has_one :profile, as: :owner
-    has_one :info, as: :owner
+    has_one :profile, as: :owner, dependent: :destroy
+    has_one :info, as: :owner, dependent: :destroy
 
     def url
       "https://github.com/#{name}"
