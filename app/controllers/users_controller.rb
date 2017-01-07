@@ -12,6 +12,7 @@ class UsersController < ApplicationController
       @users = @package.contributions.order(score: :desc).includes(:user).map(&:user)
     else
       @users = User
+        .active_batch_scope
         .joins(:supported_packages).includes(:contributions)
         .group("users.id")
         .order("sum(contributions.score) desc")

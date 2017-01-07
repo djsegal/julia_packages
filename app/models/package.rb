@@ -19,6 +19,8 @@
 
 class Package < ApplicationRecord
 
+  include Batchable
+
   extend FriendlyId
   friendly_id :name
 

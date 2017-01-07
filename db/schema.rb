@@ -10,7 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20161224040936) do
+ActiveRecord::Schema.define(version: 20170107033607) do
+
+  create_table "batches", force: :cascade do |t|
+    t.integer  "marker"
+    t.string   "item_type"
+    t.integer  "item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["item_type", "item_id"], name: "index_batches_on_item_type_and_item_id"
+    t.index ["marker"], name: "index_batches_on_marker"
+  end
 
   create_table "categories", force: :cascade do |t|
     t.string   "name"

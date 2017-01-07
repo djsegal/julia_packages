@@ -11,6 +11,8 @@
 
 class User < ApplicationRecord
 
+  include Batchable
+
   include Ownable
 
   has_many :contributions, dependent: :destroy

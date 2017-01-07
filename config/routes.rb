@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :batches
   resources :infos
   resources :profiles
   resources :labels

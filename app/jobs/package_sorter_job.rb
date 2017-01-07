@@ -64,6 +64,7 @@ class PackageSorterJob < ApplicationJob
       end
 
       @core_query = @core_query
+        .active_batch_scope
         .page(params[:page])
         .includes(:dater)
         .includes(:counter)

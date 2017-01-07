@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Marker:</strong>
+  <%= @batch.marker %>
+</p>
+
+<p>
+  <strong>Item:</strong>
+  <%= @batch.item %>
+</p>
+
+<%= link_to 'Edit', edit_batch_path(@batch) %> |
+<%= link_to 'Back', batches_path %>

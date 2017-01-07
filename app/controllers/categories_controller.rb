@@ -5,6 +5,7 @@ class CategoriesController < ApplicationController
   # GET /categories.json
   def index
     @categories = Category
+      .active_batch_scope
       .joins(:packages)
       .group("categories.id")
       .order("count(categories.id) desc")

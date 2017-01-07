@@ -19,7 +19,9 @@
         %>
 
         <%
-          categories = Category.joins(:packages)
+          categories = Category
+            .active_batch_scope
+            .joins(:packages)
             .group("categories.id")
             .order("count(categories.id) desc")
         %>

@@ -11,6 +11,8 @@
 
 class Organization < ApplicationRecord
 
+  include Batchable
+
   include Ownable
 
 end

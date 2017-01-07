@@ -10,6 +10,8 @@
 
 class Category < ApplicationRecord
 
+  include Batchable
+
   extend FriendlyId
   friendly_id :name
 

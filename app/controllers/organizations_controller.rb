@@ -5,6 +5,7 @@ class OrganizationsController < ApplicationController
   # GET /organizations.json
   def index
     @organizations = Organization
+      .active_batch_scope
       .joins(owned_packages: :counter)
       .references(:owned_packages)
       .group("organizations.id")

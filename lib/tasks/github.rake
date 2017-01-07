@@ -195,9 +195,9 @@ namespace :github do
 
     bar.finished
 
-    bar = RakeProgressbar.new Package.count
+    bar = RakeProgressbar.new Package.current_batch_scope.count
 
-    Package.all.each do |package|
+    Package.current_batch_scope.all.each do |package|
       bar.inc
       package_directory = "#{@github_directory}/repos/#{package.name}"
 
@@ -268,8 +268,8 @@ namespace :github do
 
     category_name = owner.name.gsub 'Julia', ''
 
-    if Category.friendly.exists? category_name
-      category = Category.friendly.find(category_name)
+    if Category.current_batch_scope.friendly.exists? category_name
+      category = Category.current_batch_scope.friendly.find(category_name)
     else
       category = Category.create! name: category_name
     end
@@ -343,7 +343,7 @@ namespace :github do
     entity_class = entity['type'].constantize
     entity_name = entity['login']
 
-    entity_class.friendly.find(entity_name)
+    entity_class.current_batch_scope.friendly.find(entity_name)
   end
 
 end
