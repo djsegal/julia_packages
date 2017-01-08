@@ -95,10 +95,6 @@
 
     </div>
 
-    <div class="panel-footer cs-center cs-no-padding">
-
-    </div>
-
   </div>
 
   <%= render "activity" %>
@@ -147,6 +143,46 @@
       <%= link_to users_path(package_id: @package), class: "btn btn-default cs-side-bar-footer-link cs-full-width cs-no-margin" do %>
         View all Contributors
       <% end %>
+    </div>
+
+  </div>
+
+  <div class="panel panel-primary">
+
+    <div class="panel-heading cs-center">
+      <h4 class="cs-no-margin">Versions</h4>
+    </div>
+
+    <div class="panel-body cs-no-padding">
+
+      <div class="list-group">
+
+        <% @package.versions.reverse.first(10).each_slice(2) do |batch| %>
+
+          <div class="list-group-item row cs-no-padding cs-no-margin">
+
+            <% batch.each do |version| %>
+
+              <% version_url = "#{@package.url}/tree/#{version.sha1}" %>
+
+              <div class="cs-category-row col-sm-6 cs-no-padding">
+
+                <a href="<%= version_url %>" target="_blank" class="btn btn-default cs-full-width cs-center cs-no-margin">
+
+                  <%= version.number %>
+
+                </a>
+
+              </div>
+
+            <% end %>
+
+          </div>
+
+        <% end %>
+
+      </div>
+
     </div>
 
   </div>
