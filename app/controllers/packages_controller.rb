@@ -1,6 +1,7 @@
 class PackagesController < ApplicationController
   before_action :set_package, only: [:show, :edit, :update, :destroy]
-  autocomplete :package, :name, limit: Package.count, full: true
+  autocomplete :package, :name, \
+    limit: Package.count, full: true, scopes: [:active_batch_scope]
 
   # GET /packages
   # GET /packages.json
