@@ -32,4 +32,18 @@ class Batch < ApplicationRecord
       self.marker = @@current_marker
     end
 
+    def self.reload_batch_markers
+      batch_directory = 'tmp/batch'
+      marker_types = %w[ current active ]
+
+      marker_types.each do |marker_type|
+        file_name = "#{marker_type}.yml"
+        file_path = "#{batch_directory}/#{file_name}"
+
+        new_value = YAML.load_file(file_path)
+        class_var = "@@#{marker_type}_marker"
+        self.class_variable_set class_var, new_value
+      end
+    end
+
 end

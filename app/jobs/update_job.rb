@@ -1,6 +1,8 @@
 class UpdateJob < JuliaJob
   queue_as :default
 
+  include Rails.application.routes.url_helpers
+
   def perform(*args)
 
     Batch.current_marker += 1
@@ -25,6 +27,9 @@ class UpdateJob < JuliaJob
     Batch.active_marker = Batch.current_marker
     set_batch_marker :active, Batch.active_marker
 
+    reset_batch_markers_on_server \
+      if Rails.env.production?
+
   end
 
   private
@@ -47,6 +52,12 @@ class UpdateJob < JuliaJob
       batch_difference *= 100.0
       batch_difference /= batch_counts.values.max
       batch_difference.abs
+    end
+
+    def reset_batch_markers_on_server
+      default_url_options[:host] = 'https://juliaobserver.com'
+
+      HTTParty.get batches_url
     end
 
 end
