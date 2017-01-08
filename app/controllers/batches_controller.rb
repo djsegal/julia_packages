@@ -4,10 +4,7 @@ class BatchesController < ApplicationController
   # GET /batches
   # GET /batches.json
   def index
-    Batch.reload_batch_markers
-
-    @batches = Rails.env.production? ? \
-      [] : Batch.includes(:item).all
+    @batches = Batch.all
   end
 
   # GET /batches/1
