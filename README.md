@@ -12,7 +12,9 @@ To get julia observer up and running locally, type these commands into the termi
 + `git clone https://github.com/djsegal/julia_observer.git`
 + `cd julia_observer`
 + `bundle install`
-+ `rake job:julia`
++ `rake job:boot job:download`
++ `// wait an hour for github-api rate-limit to reset`
++ `rake job:expand job:update`
 + `// grab a coffee...`
 + `rails server`
 
