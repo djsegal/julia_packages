@@ -29,4 +29,10 @@ class Version < ApplicationRecord
       self.major, self.minor, self.patch = number.split '.'
     end
 
+    def self.default_scope
+      order(major: :asc)
+        .order(minor: :asc)
+        .order(patch: :asc)
+    end
+
 end
