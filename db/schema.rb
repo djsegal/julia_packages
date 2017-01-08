@@ -10,14 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170107033607) do
+ActiveRecord::Schema.define(version: 20170108022708) do
 
   create_table "activities", force: :cascade do |t|
     t.text     "commits"
     t.integer  "package_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.integer  "recent_commit_count"
     t.index ["package_id"], name: "index_activities_on_package_id"
+    t.index ["recent_commit_count"], name: "index_activities_on_recent_commit_count"
   end
 
   create_table "batches", force: :cascade do |t|

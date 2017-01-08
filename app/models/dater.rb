@@ -31,8 +31,9 @@ class Dater < ApplicationRecord
   private
 
     def update_touch_time
-      self.touched = \
-        DATE_TYPES.map { |date_type| self[date_type] }.max
+      most_recent_date = DATE_TYPES.map { |date_type| self[date_type] }.max
+
+      self.touched = most_recent_date.beginning_of_day
     end
 
 end

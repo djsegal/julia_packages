@@ -45,7 +45,10 @@ class PackageSorterJob < ApplicationJob
       live_packages = @core_query.where("daters.created > ?", 1.months.ago)
       dead_packages = @core_query.where.not("daters.created > ?", 1.months.ago)
 
-      @packages = live_packages.or(dead_packages).order("daters.touched desc")
+      @packages = \
+        live_packages.or(dead_packages)
+          .order("daters.touched desc")
+          .order("activities.recent_commit_count desc")
     end
 
     def set_core_query params
@@ -66,6 +69,7 @@ class PackageSorterJob < ApplicationJob
       @core_query = @core_query
         .active_batch_scope
         .page(params[:page])
+        .includes(:activity)
         .includes(:dater)
         .includes(:counter)
         .joins(:counter)
