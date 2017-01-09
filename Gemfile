@@ -40,6 +40,8 @@ gem 'sitemap_generator'
 
 gem 'chartkick'
 
+gem 'skylight'
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'factory_girl_rails'
