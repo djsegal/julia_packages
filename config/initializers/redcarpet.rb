@@ -3,7 +3,8 @@ renderer = Redcarpet::Render::HTML.new
 extensions = {
   fenced_code_blocks: true,
   no_intra_emphasis: true,
-  tables: true
+  tables: true,
+  lax_spacing: true
 }
 
 ::Markdowner = Redcarpet::Markdown.new \
