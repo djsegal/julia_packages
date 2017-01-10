@@ -12,7 +12,7 @@ namespace :github do
 
   desc "download github package information"
   task download: :environment do
-    bar = RakeProgressbar.new \
+    bar = make_progress_bar \
       Dir.foreach(@metadata_directory).count
 
     nasty_count = 0
@@ -120,7 +120,7 @@ namespace :github do
   task expand: :environment do
     repos_directory = "#{@github_directory}/repos"
 
-    bar = RakeProgressbar.new Dir.foreach("#{repos_directory}").count
+    bar = make_progress_bar Dir.foreach("#{repos_directory}").count
 
     users_list = Set.new
     Dir.foreach("#{repos_directory}") do |directory|
@@ -138,7 +138,7 @@ namespace :github do
 
     users_directory = "#{@github_directory}/users"
 
-    bar = RakeProgressbar.new users_list.count
+    bar = make_progress_bar users_list.count
 
     users_list.sort.each do |user_name|
       bar.inc
@@ -155,7 +155,7 @@ namespace :github do
 
     bar.finished
 
-    bar = RakeProgressbar.new Dir.foreach("#{repos_directory}").count
+    bar = make_progress_bar Dir.foreach("#{repos_directory}").count
 
     Dir.foreach("#{repos_directory}") do |directory|
       bar.inc
@@ -181,7 +181,7 @@ namespace :github do
 
     users_directory = "#{@github_directory}/users"
 
-    bar = RakeProgressbar.new Dir.foreach("#{users_directory}").count
+    bar = make_progress_bar Dir.foreach("#{users_directory}").count
 
     Dir.foreach("#{users_directory}") do |user_name|
       bar.inc
@@ -214,7 +214,7 @@ namespace :github do
 
     bar.finished
 
-    bar = RakeProgressbar.new Package.current_batch_scope.count
+    bar = make_progress_bar Package.current_batch_scope.count
 
     Package.current_batch_scope.all.each do |package|
       bar.inc

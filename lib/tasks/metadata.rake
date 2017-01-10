@@ -16,7 +16,7 @@ namespace :metadata do
 
   desc "digest metadata into database"
   task digest: :environment do
-    bar = RakeProgressbar.new Dir["#{@metadata_directory}/*"].count
+    bar = make_progress_bar Dir["#{@metadata_directory}/*"].count
     non_versioned_packages = []
 
     Dir.foreach(@metadata_directory) do |directory|

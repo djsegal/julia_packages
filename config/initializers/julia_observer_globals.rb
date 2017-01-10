@@ -27,3 +27,31 @@ def get_initial_batch_marker marker_type, default_value
 
   default_value
 end
+
+class StubbedBar
+  attr_accessor :bar
+
+  def initialize
+    bar_object = super
+    self.bar = RakeProgressbar.new(2)
+    self.bar.inc
+
+    bar_object
+  end
+
+  def inc
+    return
+  end
+
+  def finished
+    self.bar.inc
+    self.bar.finished
+  end
+end
+
+def make_progress_bar bar_count
+  return StubbedBar.new \
+    if Rails.env.production?
+
+  RakeProgressbar.new bar_count
+end
