@@ -35,6 +35,7 @@ class StubbedBar
     bar_object = super
     self.bar = RakeProgressbar.new(2)
     self.bar.inc
+    puts ""
 
     bar_object
   end
@@ -44,8 +45,8 @@ class StubbedBar
   end
 
   def finished
-    self.bar.inc
     self.bar.finished
+    puts ""
   end
 end
 
