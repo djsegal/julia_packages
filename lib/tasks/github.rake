@@ -177,7 +177,8 @@ namespace :github do
 
   desc "unpack downloaded github information"
   task unpack: :environment do
-    bad_packages = []
+    invalid_packages = []
+    absent_packages = []
 
     users_directory = "#{@github_directory}/users"
 
@@ -221,7 +222,7 @@ namespace :github do
       package_directory = "#{@github_directory}/repos/#{package.name}"
 
       unless File.directory? package_directory
-        bad_packages << package
+        absent_packages << package
         next
       end
 
@@ -239,10 +240,15 @@ namespace :github do
       make_counter package, information
       has_good_data &&= make_dater package, information
 
-      bad_packages << package unless has_good_data
+      invalid_packages << package unless has_good_data
     end
 
-    puts bad_packages.map &:name
+    puts "\n-------\n absent \n-------"
+    puts absent_packages.map &:name
+
+    puts "\n-------\n invalid \n-------"
+    puts invalid_packages.map &:name
+
     bar.finished
   end
 
