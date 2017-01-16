@@ -157,6 +157,8 @@ namespace :github do
 
     bar = make_progress_bar Dir.foreach("#{repos_directory}").count
 
+    rotten_packages = []
+
     Dir.foreach("#{repos_directory}") do |directory|
       bar.inc
 
@@ -166,12 +168,27 @@ namespace :github do
       commits_url = "#{base_url}/stats/participation"
       commits_info = hit_url commits_url
 
+      commits_info = hit_url commits_url \
+        if commits_info.empty?
+
+      if commits_info.empty?
+        rotten_packages << directory
+
+        commits_info = {
+          'all' => Array.new(52, 0),
+          'owner' => Array.new(52, 0)
+        }
+      end
+
       File.open("#{repos_directory}/#{directory}/commits.yml", 'w') do |h|
         h.write commits_info.to_yaml
       end
     end
 
     bar.finished
+
+    puts "\n-------\n rotten \n-------"
+    puts rotten_packages
 
   end
 
