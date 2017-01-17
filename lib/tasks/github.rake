@@ -86,7 +86,10 @@ namespace :github do
         }
       else
         nasty_packages << directory
-        readme = nil
+        readme = {
+          'name' => 'README.md',
+          'content' => ''
+        }
       end
 
       FileUtils.mkdir_p(package_directory) \
