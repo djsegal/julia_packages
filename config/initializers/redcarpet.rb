@@ -4,7 +4,8 @@ extensions = {
   fenced_code_blocks: true,
   no_intra_emphasis: true,
   tables: true,
-  lax_spacing: true
+  lax_spacing: true,
+  autolink: true
 }
 
 ::Markdowner = Redcarpet::Markdown.new \
