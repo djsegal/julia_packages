@@ -166,10 +166,12 @@ namespace :github do
 
       base_url = YAML.load_file("#{repos_directory}/#{directory}/data.yml")['url']
       commits_url = "#{base_url}/stats/participation"
-      commits_info = hit_url commits_url
 
-      commits_info = hit_url commits_url \
-        if commits_info.empty?
+      commits_info = nil
+      5.times do
+        commits_info = hit_url commits_url
+        break unless commits_info.empty?
+      end
 
       if commits_info.empty?
         rotten_packages << directory
