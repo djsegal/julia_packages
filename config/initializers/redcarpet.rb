@@ -19,8 +19,16 @@ def render_markup markup, file_name
   is_markdown_file = ( file_name.count('.') != 1 )
   is_markdown_file ||= ( file_name.split('.').last != 'rst' )
 
-  return Markdowner.render markup \
-    if is_markdown_file
+  return RbST.new(markup).to_html \
+    unless is_markdown_file
 
-  RbST.new(markup).to_html
+  readme_markdown = Markdowner.render markup
+
+  github_image_host = "#{@package.url}/master/"
+  github_image_host.sub! 'github', 'raw.githubusercontent'
+
+  readme_markdown.gsub! \
+    /(?<=\<img src=")(?!http)/, github_image_host
+
+  readme_markdown
 end
