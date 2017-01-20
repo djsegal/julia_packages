@@ -275,3 +275,22 @@ a.panel-heading:focus {
 .cs-log-line {
   word-wrap: break-word;
 }
+
+.cs-error-panel {
+  height: calc( 100vh - 90px );
+}
+
+@media (min-width: 1200px) {
+  .cs-error-panel {
+    height: calc( 100vh - 100px );
+  }
+}
+
+.cs-error-panel, .cs-error-panel .panel-body {
+  display: flex;
+  flex-direction: column;
+}
+
+.cs-error-panel .panel-body, .cs-error-panel .cs-flex-buffer {
+  flex: 1 1 auto;
+}

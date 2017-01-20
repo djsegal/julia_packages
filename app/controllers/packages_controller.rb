@@ -19,6 +19,9 @@ class PackagesController < ApplicationController
   # GET /packages/1
   # GET /packages/1.json
   def show
+    render 'layouts/error_page' \
+      and return unless @package.present?
+
     @contributors = @package.contributions.order(score: :desc).limit(20).includes(:user).map(&:user)
   end
 
@@ -75,6 +78,7 @@ class PackagesController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_package
+      return unless Package.custom_exists? params[:id]
       @package = Package.custom_find(params[:id])
     end
 
