@@ -7,7 +7,7 @@
   end
 %>
 
-<div class="navbar navbar-inverse navbar-fixed-top">
+<div class="navbar navbar-<%= navbar_class %> navbar-fixed-top">
 
   <div class="container-fluid">
 
@@ -52,11 +52,18 @@
           <% unless action_name == 'index' %>
 
             <li class="active">
+              <% params_id = params[:id] %>
+
+              <%
+                params_id = params_id.titleize \
+                  if controller_name == 'logs'
+              %>
+
               <% case action_name %>
               <% when 'show' %>
-                <%= link_to truncate(params[:id], length: 25), send("#{controller_name.singularize}_path"), @model %>
+                <%= link_to truncate(params_id, length: 25), send("#{controller_name.singularize}_path"), @model %>
               <% when 'edit' %>
-                <%= link_to truncate(params[:id], length: 25), send("edit_#{controller_name.singularize}_path"), @model %>
+                <%= link_to truncate(params_id, length: 25), send("edit_#{controller_name.singularize}_path"), @model %>
               <% when 'new' %>
                 <%= link_to 'New', send("new_#{controller_name.singularize}_path") %>
               <% else %>

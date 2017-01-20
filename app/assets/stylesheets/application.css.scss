@@ -271,3 +271,7 @@ a.panel-heading:focus {
 .cs-profile-picture__user:hover {
   filter: brightness(105%);
 }
+
+.cs-log-line {
+  word-wrap: break-word;
+}

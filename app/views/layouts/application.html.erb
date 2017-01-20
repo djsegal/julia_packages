@@ -44,7 +44,9 @@
 
     <%= link_to 'dummy-link', dummy_path('dummy_id'), class: "cs-dummy-link js-dummy-link" %>
 
-    <%= render 'layouts/navbar' %>
+    <% is_log_page = request.path.starts_with? '/log' %>
+
+    <%= render 'layouts/navbar', navbar_class: is_log_page ? 'primary' : 'inverse' %>
 
     <%= yield %>
 

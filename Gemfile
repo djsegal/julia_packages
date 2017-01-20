@@ -42,6 +42,8 @@ gem 'chartkick'
 
 gem 'skylight'
 
+gem 'lograge'
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'factory_girl_rails'

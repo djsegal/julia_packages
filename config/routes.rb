@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :logs
   resources :activities
   resources :batches
   resources :infos

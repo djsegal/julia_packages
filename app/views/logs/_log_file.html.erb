@@ -1,0 +1,52 @@
+<div class="col-sm-8 cs-main-area">
+
+  <div class="panel panel-default">
+
+    <div class="panel-heading">
+
+      <h4 class="cs-no-margin">
+        <%= @log.titleize %> Logs
+      </h4>
+
+    </div>
+
+    <div class="panel-body">
+
+      <% @log_file.each_with_index do |line, index| %>
+
+        <div class="row">
+
+          <div class="col-xs-1">
+            <%= index + 1 %> 
+          </div>
+
+          <div class="col-xs-11 cs-log-line">
+            <%= line %>
+          </div>
+
+        </div>
+
+      <% end %>
+
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+  var logFile;
+  
+  if ( $(window).width() >= 768 ) {
+    logFile = $('.cs-main-area');
+  } else {
+    logFile = $('body, html');
+  }
+
+  logFile.animate(
+    {scrollTop: logFile[0].scrollHeight}, 
+    'fast'
+  );
+
+</script>

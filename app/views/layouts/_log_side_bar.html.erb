@@ -1,0 +1,58 @@
+<div class="cs-side-bar col-sm-4 hidden-xs cs-no-padding">
+
+  <div class="panel panel-inverse">
+
+    <div class="panel-heading cs-center">
+      <h4 class="cs-no-margin">
+        <%= link_to 'Logs', logs_path %>
+      </h4>
+    </div>
+
+    <div class="panel-body cs-no-padding">
+
+      <div class="list-group">
+
+        <% @logs.each_with_index do |log, index| %>
+
+          <% unless index.zero? %>
+
+            <div class="list-group-separator cs-full-width cs-no-margin"></div>
+
+          <% end %>
+
+          <div class="list-group-item cs-no-padding">
+
+            <div class="row-content cs-full-width cs-category-row">
+
+              <% 
+                  is_active = current_page? log_path(log)
+                  if current_page? logs_path
+                    is_active ||= ( log == Rails.env )
+                  end
+              %>
+
+              <%=
+                link_to log, log_path(log),
+                  class: "btn btn-default cs-full-width cs-left-align cs-no-margin #{ 'active' if is_active }"
+              %>
+
+            </div>
+
+          </div>
+
+        <% end %>
+
+      </div>
+
+    </div>
+
+    <div class="panel-footer cs-center cs-no-padding">
+      <a href="https://github.com/djsegal/julia_observer" target="_blank" class="btn btn-default cs-side-bar-footer-link cs-full-width cs-no-margin">
+        <%= fa_icon "github lg" %>
+        &nbsp; fork us on github
+      </a>
+    </div>
+
+  </div>
+
+</div>
