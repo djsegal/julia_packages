@@ -18,7 +18,14 @@
 
           <div class="row-content cs-full-width cs-category-row">
 
-            <a href="<%= @organization.profile.blog.presence || @organization.url %>" target="_blank" class="btn btn-default cs-full-width cs-left-align cs-no-margin">
+            <% 
+              organization_website = format_website_link \
+                @organization.profile.blog 
+
+              organization_website ||= @organization.url 
+            %>
+
+            <a href="<%= organization_website %>" target="_blank" class="btn btn-default cs-full-width cs-left-align cs-no-margin">
 
               <h4>
                 blog
