@@ -17,6 +17,9 @@ class OrganizationsController < ApplicationController
   # GET /organizations/1
   # GET /organizations/1.json
   def show
+    render 'layouts/error_page' \
+      and return unless @organization.present?
+
     @owned_packages = @organization.owned_packages
       .includes(:counter).order("counters.stargazer desc")
 
@@ -78,6 +81,7 @@ class OrganizationsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_organization
+      return unless Organization.custom_exists? params[:id]
       @organization = Organization.custom_find(params[:id])
     end
 
