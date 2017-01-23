@@ -24,7 +24,15 @@
 
       <p>
 
-        The <%= controller_name.singularize %> you're looking for isn't working.
+        <% if params[:id].present? %>
+
+          The <%= controller_name.singularize %> you're looking for isn't working.
+
+        <% else %>
+
+          <%= controller_name.titleize %> don't seem to be working.
+
+        <% end %>
 
       </p>
 

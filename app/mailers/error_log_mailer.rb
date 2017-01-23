@@ -6,10 +6,15 @@ class ErrorLogMailer < ApplicationMailer
   	}
 
     subject = "[Error] Bad "
-    subject += "#{ @bad_object[:type] }: "
-    subject += "#{ @bad_object[:slug] }"
 
-		@log_file = tail "./log/#{Rails.env}.log", 200
+    if bad_slug.present?
+      subject += "#{ @bad_object[:type] }: "
+      subject += "#{ @bad_object[:slug] }"
+    else
+      subject += @bad_object[:type].pluralize
+    end
+
+  	@log_file = tail "./log/#{Rails.env}.log", 200
 
     mail(to: 'dan@seg.al', subject: subject)
   end
