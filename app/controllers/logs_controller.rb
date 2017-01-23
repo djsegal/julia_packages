@@ -66,10 +66,10 @@ class LogsController < ApplicationController
   private
     def set_all_logs
       @logs = Dir.entries('log')
-      
+
       @logs.delete_if { |l| l.starts_with? '.' }
       @logs.delete_if { |l| not l.ends_with? 'log' }
-      
+
       @logs.map! { |l| File.basename(l, File.extname(l)) }
       @logs.delete_if { |l| is_wrong_environment? l }
     end
