@@ -36,10 +36,3 @@ $(document).on( 'click', '.ui-autocomplete .ui-menu-item', function(event) {
   dummyLink.href = newUrl;
   dummyLink.click();
 });
-
-document.addEventListener("turbolinks:load", function(event) {
-  if (typeof ga === "function") {
-    ga("set", "location", event.data.url);
-    ga("send", "pageview");
-  }
-});
