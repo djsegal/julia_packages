@@ -3,7 +3,6 @@ class ApplicationController < ActionController::Base
 
   if Rails.env.production?
     caught_errors = [
-      ActionView::Template::Error,
       StandardError
     ]
 
