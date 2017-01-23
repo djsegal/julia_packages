@@ -16,6 +16,6 @@ class ErrorLogMailer < ApplicationMailer
 
     @log_file = tail "./log/#{Rails.env}.log", 200
 
-    mail(to: 'dan@seg.al', subject: subject)
+    mail(to: ENV['ADMIN_EMAIL'], subject: subject)
   end
 end
