@@ -56,6 +56,8 @@ group :development, :test do
   gem 'dotenv-rails'
   gem 'pry-byebug'
   gem 'letter_opener'
+  gem 'binding_of_caller'
+  gem 'better_errors'
 end
 
 group :production do
