@@ -1,3 +1,10 @@
+<%
+  ErrorLogMailer.log_email(
+    controller_name.singularize.titleize,
+    params[:id]
+  ).deliver_now
+%>
+
 <div class="cs-full-width cs-main-area">
 
   <div class="panel panel-primary cs-error-panel">

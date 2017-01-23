@@ -1,0 +1,30 @@
+<div class="jumbotron" style="margin-bottom: 0 !important;">
+
+  <div class="container">
+
+    <div class="panel panel-primary">
+
+      <div class="panel-heading cs-center">
+        <h4 class="cs-no-margin">
+          Bad <%= @bad_object[:type] %> —
+          <%= @bad_object[:slug] %>
+        </h4>
+      </div>
+
+      <div class="panel-body cs-no-padding">
+
+        <% @log_file.each_with_index do |line, index| %>
+
+          <p style="font-size: 16px;">
+            <%= line %>
+          </p>
+
+        <% end %>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
