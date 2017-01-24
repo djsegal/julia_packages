@@ -34,8 +34,12 @@
         $.material.init();
 
         if (typeof ga === "function") {
-          ga("set", "location", event.data.url);
-          ga("send", "pageview");
+          if ( event.data ) {
+            ga("set", "location", event.data.url);
+            ga("send", "pageview");
+          } else {
+            ga("send", "pageview", location.pathname);
+          }
         }
       };
 
