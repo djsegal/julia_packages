@@ -1,5 +1,5 @@
 class DummiesController < ApplicationController
-  before_action :set_dummy, only: [:show, :edit, :update, :destroy]
+  # before_action :set_dummy, only: [:show, :edit, :update, :destroy]
 
   # GET /dummies
   # GET /dummies.json
@@ -10,6 +10,7 @@ class DummiesController < ApplicationController
   # GET /dummies/1
   # GET /dummies/1.json
   def show
+    redirect_to root_path
   end
 
   # GET /dummies/new
