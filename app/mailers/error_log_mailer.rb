@@ -7,13 +7,15 @@ class ErrorLogMailer < ApplicationMailer
       params: bad_params
     }
 
-    subject = "[Error] Bad "
-
-    if bad_slug.present?
-      subject += "#{ @bad_object[:type] }: "
-      subject += "#{ @bad_object[:slug] }"
+    @subject = "Bad "
+    if bad_class.underscore == 'error'
+      @subject += "Route: "
+      @subject += @bad_object[:params]['bad_route']
+    elsif bad_slug.present?
+      @subject += "#{ @bad_object[:type] }: "
+      @subject += "#{ @bad_object[:slug] }"
     else
-      subject += @bad_object[:type].pluralize
+      @subject += @bad_object[:type].pluralize
     end
 
     @log_file = tail "./log/#{Rails.env}.log", 200
@@ -21,6 +23,6 @@ class ErrorLogMailer < ApplicationMailer
     mail_to = ENV['ADMIN_EMAIL']
     mail_to ||= 'test@example.com' unless Rails.env.production?
 
-    mail(to: mail_to, subject: subject)
+    mail(to: mail_to, subject: "[Error] #{@subject}")
   end
 end

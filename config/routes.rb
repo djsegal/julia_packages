@@ -23,4 +23,6 @@ Rails.application.routes.draw do
 
   root 'packages#index'
 
+  get '/*bad_route', to: 'errors#index', as: 'errors'
+
 end

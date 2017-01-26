@@ -30,6 +30,10 @@
 
           The <%= controller_name.singularize %> you're looking for isn't working.
 
+        <% elsif controller_name.include? 'error' %>
+
+          This route doesn't seem to be working
+
         <% else %>
 
           <%= controller_name.titleize %> don't seem to be working.

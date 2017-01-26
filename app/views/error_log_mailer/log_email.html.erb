@@ -7,16 +7,7 @@
       <div class="panel-heading cs-center">
         <h4 class="cs-no-margin">
 
-          <% if @bad_object[:slug].present? %>
-
-            Bad <%= @bad_object[:type] %> —
-            <%= @bad_object[:slug] %>
-
-          <% else %>
-
-            Bad <%= @bad_object[:type].pluralize %>
-
-          <% end %>
+          <%= @subject %>
 
         </h4>
       </div>

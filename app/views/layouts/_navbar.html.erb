@@ -32,6 +32,7 @@
 
         <%
           is_package_path = controller_name == 'packages'
+          is_error_path = controller_name == 'errors'
           is_root_path = is_package_path && action_name == 'index'
         %>
 
@@ -41,7 +42,7 @@
 
         <% unless is_root_path %>
 
-          <% unless is_package_path %>
+          <% unless is_package_path or is_error_path %>
 
             <li class="<%= (action_name == 'index') ? 'active' : '' %>">
               <%= link_to controller_name.titleize, send("#{controller_name}_path") %>
