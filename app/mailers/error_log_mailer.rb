@@ -18,7 +18,7 @@ class ErrorLogMailer < ApplicationMailer
       @subject += @bad_object[:type].pluralize
     end
 
-    @log_file = tail "./log/#{Rails.env}.log", 200
+    @log_file = tail "./log/#{Rails.env}.log", 500
 
     mail_to = ENV['ADMIN_EMAIL']
     mail_to ||= 'test@example.com' unless Rails.env.production?
