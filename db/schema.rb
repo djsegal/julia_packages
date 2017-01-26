@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170108022708) do
+ActiveRecord::Schema.define(version: 20170126033333) do
 
   create_table "activities", force: :cascade do |t|
     t.text     "commits"
@@ -115,6 +115,8 @@ ActiveRecord::Schema.define(version: 20170108022708) do
     t.string   "homepage"
     t.string   "owner_type"
     t.integer  "owner_id"
+    t.boolean  "is_scoured"
+    t.index ["is_scoured"], name: "index_packages_on_is_scoured"
     t.index ["name"], name: "index_packages_on_name"
     t.index ["owner_type", "owner_id"], name: "index_packages_on_owner_type_and_owner_id"
   end

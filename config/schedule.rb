@@ -41,6 +41,10 @@ every :day, at: '1am' do
   rake "job:log"
 end
 
+every :day, at: '1pm' do
+  rake "job:scour"
+end
+
 every :day, at: '7am' do
   rake "sitemap:refresh"
 end

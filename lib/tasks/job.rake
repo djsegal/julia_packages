@@ -30,6 +30,12 @@ namespace :job do
     LogJob.perform_now
   end
 
+  desc "run scour job"
+  task scour: :environment do
+    puts "\nrunning scour job @ #{DateTime.now.localtime}\n"
+    ScourJob.perform_now
+  end
+
   desc "run clean job"
   task clean: :environment do
     puts "\nrunning clean job @ #{DateTime.now.localtime}\n"
