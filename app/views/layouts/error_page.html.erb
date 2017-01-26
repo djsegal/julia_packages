@@ -1,7 +1,9 @@
 <%
   ErrorLogMailer.log_email(
     controller_name.singularize.titleize,
-    params[:id]
+    params[:id],
+    request,
+    params
   ).deliver_now
 %>
 

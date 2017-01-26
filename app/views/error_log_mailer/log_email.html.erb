@@ -23,6 +23,14 @@
 
       <div class="panel-body cs-no-padding">
 
+        <%= @bad_object[:request].referrer %>
+
+        <hr>
+
+        <%= @bad_object[:params].inspect %>
+
+        <hr>
+
         <% @log_file.each_with_index do |line, index| %>
 
           <p style="font-size: 16px;">
