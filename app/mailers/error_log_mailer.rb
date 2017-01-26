@@ -16,6 +16,9 @@ class ErrorLogMailer < ApplicationMailer
 
     @log_file = tail "./log/#{Rails.env}.log", 200
 
-    mail(to: ENV['ADMIN_EMAIL'], subject: subject)
+    mail_to = ENV['ADMIN_EMAIL']
+    mail_to ||= 'test@example.com' unless Rails.env.production?
+
+    mail(to: mail_to, subject: subject)
   end
 end
