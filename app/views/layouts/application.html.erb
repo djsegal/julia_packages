@@ -62,7 +62,7 @@
 
   <body>
 
-    <%= link_to 'dummy-link', dummy_path('dummy_id'), class: "cs-dummy-link js-dummy-link" %>
+    <%= link_to 'dummy-link', dummy_path('dummy_id'), class: "cs-dummy-link js-dummy-link", rel: "nofollow" %>
 
     <% is_log_page = request.path.starts_with? '/log' %>
 
