@@ -14,11 +14,23 @@
 
       <div class="panel-body cs-no-padding">
 
-        <%= @bad_object[:request].referrer %>
+        <% if @bad_object[:referrer].present? %>
 
-        <hr>
+          <p style="font-size: 16px;">
 
-        <%= @bad_object[:params].inspect %>
+            <%= @bad_object[:referrer] %>
+
+          </p>
+
+          <hr>
+
+        <% end %>
+
+        <p style="font-size: 16px;">
+
+          <%= @bad_object[:params].inspect %>
+
+        </p>
 
         <hr>
 

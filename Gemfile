@@ -50,6 +50,10 @@ gem 'premailer-rails'
 
 gem 'bootstrap-sass', '~> 3.3.6'
 
+gem 'delayed_job_active_record'
+
+gem 'daemons'
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'factory_girl_rails'

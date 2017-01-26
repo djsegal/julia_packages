@@ -2,9 +2,9 @@
   ErrorLogMailer.log_email(
     controller_name.singularize.titleize,
     params[:id],
-    request,
-    params
-  ).deliver_now
+    request.referrer,
+    params.to_unsafe_h
+  ).deliver_later
 %>
 
 <div class="cs-full-width cs-main-area">

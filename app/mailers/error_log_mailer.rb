@@ -1,9 +1,9 @@
 class ErrorLogMailer < ApplicationMailer
-  def log_email bad_class, bad_slug, bad_request, bad_params
+  def log_email bad_class, bad_slug, bad_referrer, bad_params
     @bad_object = {
       type: bad_class,
       slug: bad_slug,
-      request: bad_request,
+      referrer: bad_referrer,
       params: bad_params
     }
 

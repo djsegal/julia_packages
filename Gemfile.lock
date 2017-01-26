@@ -75,7 +75,13 @@ GEM
     concurrent-ruby (1.0.2)
     css_parser (1.4.7)
       addressable
+    daemons (1.2.4)
     debug_inspector (0.0.2)
+    delayed_job (4.1.2)
+      activesupport (>= 3.0, < 5.1)
+    delayed_job_active_record (4.1.1)
+      activerecord (>= 3.0, < 5.1)
+      delayed_job (>= 3.0, < 5)
     diff-lcs (1.2.5)
     dotenv (2.1.1)
     dotenv-rails (2.1.1)
@@ -277,6 +283,8 @@ DEPENDENCIES
   bullet
   chartkick
   coffee-rails (~> 4.2)
+  daemons
+  delayed_job_active_record
   dotenv-rails
   factory_girl_rails
   font-awesome-rails
