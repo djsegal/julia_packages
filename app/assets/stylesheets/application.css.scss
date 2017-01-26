@@ -294,3 +294,9 @@ a.panel-heading:focus {
 .cs-error-panel .panel-body, .cs-error-panel .cs-flex-buffer {
   flex: 1 1 auto;
 }
+
+.cs-truncated-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

@@ -28,10 +28,11 @@
         <%= link_to package.name, package_path(package.name) %>
       </h4>
 
-      <p class='list-group-item-text'>
+      <p class='list-group-item-text cs-truncated-text'>
         <% if package.description.present? %>
-          <% cleaned_description = package.description.gsub('`', '"') %>
-          <%= truncate cleaned_description, length: 50 %>
+
+          <%= package.description.gsub('`', '"') %>
+
         <% end %>
       </p>
 
