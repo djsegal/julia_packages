@@ -37,7 +37,7 @@
 
             <tr>
 
-              <td><%= index + 1 %></td>
+              <td><%= index + 1 + @per_page * ( @page - 1 ) %></td>
               <td><%= link_to user.name, user_path(user) %></td>
 
               <%
@@ -89,6 +89,14 @@
         </tbody>
 
       </table>
+
+      <%=
+        will_paginate @users,
+          class: "cs-user-pagination",
+          inner_window: 1,
+          outer_window: 0,
+          previous_label: "← Prev"
+      %>
 
     </div>
 
