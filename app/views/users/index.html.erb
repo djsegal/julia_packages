@@ -90,14 +90,16 @@
 
       </table>
 
-      <%=
-        will_paginate @users,
-          class: "cs-user-pagination",
-          inner_window: 1,
-          outer_window: 0,
-          previous_label: "←",
-          next_label: "→"
-      %>
+      <% unless @has_package %>
+        <%=
+          will_paginate @users,
+            class: "cs-user-pagination",
+            inner_window: 1,
+            outer_window: 0,
+            previous_label: "←",
+            next_label: "→"
+        %>
+      <% end %>
 
     </div>
 

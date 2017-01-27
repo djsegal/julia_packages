@@ -4,16 +4,16 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    has_package = params[:package_id].present?
-    has_package &&= Package.custom_exists? params[:package_id]
+    @has_package = params[:package_id].present?
+    @has_package &&= Package.custom_exists? params[:package_id]
 
-    if has_package
+    @page = ( params[:page] || 1 ).to_i
+    @per_page = 100
+
+    if @has_package
       @package = Package.custom_find params[:package_id]
       @users = @package.contributions.order(score: :desc).includes(:user).map(&:user)
     else
-      @page = ( params[:page] || 1 ).to_i
-      @per_page = 100
-
       @users = User
         .active_batch_scope
         .joins(:supported_packages).includes(:contributions)
