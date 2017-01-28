@@ -32,8 +32,11 @@ def render_markup markup, file_name
 
   github_link_host = "#{@package.url}/blob/master/"
 
+  link_sub_string = 'target="_blank" href="'
+  link_sub_string += github_link_host
+
   readme_markdown.gsub! \
-    /(?<=\<a href=")(?!http)/, github_link_host
+    /(?<=\<a )href="(?!http)/, link_sub_string
 
   readme_markdown
 end
