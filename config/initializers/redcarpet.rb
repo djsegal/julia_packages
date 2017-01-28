@@ -30,5 +30,10 @@ def render_markup markup, file_name
   readme_markdown.gsub! \
     /(?<=\<img src=")(?!http)/, github_image_host
 
+  github_link_host = "#{@package.url}/blob/master/"
+
+  readme_markdown.gsub! \
+    /(?<=\<a href=")(?!http)/, github_link_host
+
   readme_markdown
 end
