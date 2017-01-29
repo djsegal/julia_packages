@@ -14,6 +14,16 @@ namespace :metadata do
     throw 'Pull metadata task failed.' unless did_pull
   end
 
+  desc "reset local metadata project"
+  task reset: :environment do
+    system_command = "git -C #{@metadata_directory} fetch --all"
+    did_reset = system system_command
+    system_command = "git -C #{@metadata_directory} reset origin --hard"
+    did_reset = system system_command
+
+    throw 'Reset metadata task failed.' unless did_reset
+  end
+
   desc "digest metadata into database"
   task digest: :environment do
     bar = make_progress_bar Dir["#{@metadata_directory}/*"].count
