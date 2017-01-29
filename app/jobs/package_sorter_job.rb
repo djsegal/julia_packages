@@ -42,13 +42,13 @@ class PackageSorterJob < ApplicationJob
     end
 
     def set_hot_packages
-      live_packages = @core_query.where("daters.created > ?", 1.months.ago)
-      dead_packages = @core_query.where.not("daters.created > ?", 1.months.ago)
+      binary_created_ordering = "daters.created > "
+      binary_created_ordering += ActiveRecord::Base.sanitize(1.months.ago)
 
-      @packages = \
-        live_packages.or(dead_packages)
-          .order("daters.touched desc")
-          .order("activities.recent_commit_count desc")
+      @packages = @core_query
+        .order(binary_created_ordering)
+        .order("daters.touched desc")
+        .order("activities.recent_commit_count desc")
     end
 
     def set_core_query params
