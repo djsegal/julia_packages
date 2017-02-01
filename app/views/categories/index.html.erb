@@ -63,7 +63,7 @@
                   <% package_name = package.try(:name) %>
 
                   <% if package_name.present? %>
-                    <%= link_to truncate( package_name, length: 20), package_path(package) %>
+                    <%= link_to truncate(package_name, length: 20), package_path(package) %>
                   <% else %>
                     -
                   <% end %>

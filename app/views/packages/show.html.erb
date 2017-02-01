@@ -46,11 +46,11 @@
 
           <div class="row-content cs-full-width cs-category-row">
 
-            <% 
+            <%
               package_website = format_website_link \
-                @package.homepage 
+                @package.homepage
 
-              package_website ||= @package.url 
+              package_website ||= @package.url
             %>
 
             <a href="<%= package_website %>" target="_blank" class="btn btn-default cs-full-width cs-left-align cs-no-margin">
