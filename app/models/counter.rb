@@ -20,7 +20,7 @@
 
 class Counter < ApplicationRecord
 
-  COUNT_SUB_ROUTES = {
+  COUNT_SUB_ROUTES ||= {
     forks: 'network',
     open_issues: 'issues',
     stargazers: 'stargazers',

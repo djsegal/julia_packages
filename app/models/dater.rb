@@ -18,7 +18,7 @@
 
 class Dater < ApplicationRecord
 
-  DATE_TYPES = %w[
+  DATE_TYPES ||= %w[
     created
     updated
     pushed
