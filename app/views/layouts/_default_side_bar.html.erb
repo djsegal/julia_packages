@@ -2,53 +2,33 @@
 
   <div class="panel panel-primary">
 
-    <div class="panel-heading cs-center">
-      <h4 class="cs-no-margin">
-        <%= link_to 'Categories', categories_path %>
-      </h4>
+    <% cookies.permanent[:sidebar_select] ||= 'categories' %>
+
+    <div class="panel-heading cs-center row cs-no-padding cs-no-margin">
+      <a class="col-xs-6 cs-no-margin cs-sidebar-toggle js-sidebar-toggle btn <%= "btn-default cs-inactive-toggle" unless cookies[:sidebar_select] == 'categories' %>" id="js-categories-toggle">
+        <h4 class="cs-no-margin">
+          Categories
+        </h4>
+      </a>
+
+      <a class="col-xs-6 cs-no-margin cs-sidebar-toggle js-sidebar-toggle btn <%= "btn-default cs-inactive-toggle" unless cookies[:sidebar_select] == 'news' %>" id="js-news-toggle">
+        <h4 class="cs-no-margin">
+          News
+        </h4>
+      </a>
     </div>
 
     <div class="panel-body cs-no-padding">
 
-      <div class="list-group">
+      <div class="list-group js-sidebar-body <%= "hidden" unless cookies[:sidebar_select] == 'categories' %>" id="js-categories-sidebar">
 
-        <%
-          query_params = {}
-          query_params[:sort] = params[:sort] \
-            if params[:sort].present?
-        %>
+        <%= render 'layouts/categories_side_bar' %>
 
-        <%
-          categories = Category
-            .active_batch_scope
-            .joins(:packages)
-            .group("categories.id")
-            .order("count(categories.id) desc")
-        %>
+      </div>
 
-        <% categories.each_with_index do |category, index| %>
+      <div class="list-group js-sidebar-body <%= "hidden" unless cookies[:sidebar_select] == 'news' %>" id="js-news-sidebar">
 
-          <% unless index.zero? %>
-
-            <div class="list-group-separator cs-full-width cs-no-margin"></div>
-
-          <% end %>
-
-          <div class="list-group-item cs-no-padding">
-
-            <div class="row-content cs-full-width cs-category-row">
-
-              <%=
-                link_to category.name,
-                  category_path(category, query_params),
-                  class: "btn btn-default cs-full-width cs-left-align cs-no-margin #{ 'active' if current_page?(category_path(category)) }"
-              %>
-
-            </div>
-
-          </div>
-
-        <% end %>
+        <%= render 'layouts/news_side_bar' %>
 
       </div>
 

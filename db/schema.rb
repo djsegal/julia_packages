@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170126064242) do
+ActiveRecord::Schema.define(version: 20170130164317) do
 
   create_table "activities", force: :cascade do |t|
     t.text     "commits"
@@ -30,6 +30,12 @@ ActiveRecord::Schema.define(version: 20170126064242) do
     t.datetime "updated_at", null: false
     t.index ["item_type", "item_id"], name: "index_batches_on_item_type_and_item_id"
     t.index ["marker"], name: "index_batches_on_marker"
+  end
+
+  create_table "blurbs", force: :cascade do |t|
+    t.text     "cargo"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "categories", force: :cascade do |t|
@@ -115,6 +121,19 @@ ActiveRecord::Schema.define(version: 20170126064242) do
     t.index ["package_id"], name: "index_labels_on_package_id"
   end
 
+  create_table "news_items", force: :cascade do |t|
+    t.string   "name"
+    t.string   "target_type"
+    t.integer  "target_id"
+    t.string   "link"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.string   "type"
+    t.integer  "position"
+    t.index ["position"], name: "index_news_items_on_position"
+    t.index ["target_type", "target_id"], name: "index_news_items_on_target_type_and_target_id"
+  end
+
   create_table "organizations", force: :cascade do |t|
     t.string   "name"
     t.string   "avatar"
@@ -155,6 +174,12 @@ ActiveRecord::Schema.define(version: 20170126064242) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["package_id"], name: "index_readmes_on_package_id"
+  end
+
+  create_table "references", force: :cascade do |t|
+    t.string   "link"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "repositories", force: :cascade do |t|

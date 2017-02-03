@@ -1,0 +1,37 @@
+<%
+  query_params = {}
+  query_params[:sort] = params[:sort] \
+    if params[:sort].present?
+%>
+
+<%
+  categories = Category
+    .active_batch_scope
+    .joins(:packages)
+    .group("categories.id")
+    .order("count(categories.id) desc")
+%>
+
+<% categories.each_with_index do |category, index| %>
+
+  <% unless index.zero? %>
+
+    <div class="list-group-separator cs-full-width cs-no-margin"></div>
+
+  <% end %>
+
+  <div class="list-group-item cs-no-padding">
+
+    <div class="row-content cs-full-width cs-category-row">
+
+      <%=
+        link_to category.name,
+          category_path(category, query_params),
+          class: "btn btn-default cs-full-width cs-left-align cs-no-margin #{ 'active' if current_page?(category_path(category)) }"
+      %>
+
+    </div>
+
+  </div>
+
+<% end %>

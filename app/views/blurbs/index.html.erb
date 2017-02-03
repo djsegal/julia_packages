@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Blurbs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Cargo</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @blurbs.each do |blurb| %>
+      <tr>
+        <td><%= blurb.cargo %></td>
+        <td><%= link_to 'Show', blurb %></td>
+        <td><%= link_to 'Edit', edit_blurb_path(blurb) %></td>
+        <td><%= link_to 'Destroy', blurb, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Blurb', new_blurb_path %>

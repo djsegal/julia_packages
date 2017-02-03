@@ -1,0 +1,1 @@
+json.array! @discourse_news_items, partial: 'discourse_news_items/discourse_news_item', as: :discourse_news_item

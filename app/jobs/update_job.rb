@@ -9,6 +9,7 @@ class UpdateJob < JuliaJob
     system "#{@sys_run} db:migrate"
     system "#{@sys_run} metadata:digest"
     system "#{@sys_run} github:unpack"
+    system "#{@sys_run} news:make"
 
     marker_list = [Batch.current_marker, Batch.active_marker]
     batch_counts = \

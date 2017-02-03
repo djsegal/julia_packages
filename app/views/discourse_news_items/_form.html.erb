@@ -1,0 +1,17 @@
+<%= form_for(discourse_news_item) do |f| %>
+  <% if discourse_news_item.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(discourse_news_item.errors.count, "error") %> prohibited this discourse_news_item from being saved:</h2>
+
+      <ul>
+      <% discourse_news_item.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

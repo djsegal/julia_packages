@@ -1,0 +1,1 @@
+json.partial! "reddit_news_items/reddit_news_item", reddit_news_item: @reddit_news_item

@@ -54,6 +54,14 @@ gem 'delayed_job_active_record'
 
 gem 'daemons'
 
+gem 'redd', '~> 0.7'
+
+gem 'acts_as_list'
+
+gem 'js_cookie_rails'
+
+gem 'discourse_api'
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'factory_girl_rails'

@@ -1,0 +1,22 @@
+<%= form_for(blurb) do |f| %>
+  <% if blurb.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(blurb.errors.count, "error") %> prohibited this blurb from being saved:</h2>
+
+      <ul>
+      <% blurb.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :cargo %>
+    <%= f.text_area :cargo %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

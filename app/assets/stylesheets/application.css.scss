@@ -93,7 +93,7 @@ body {
   min-height: 0 !important;
 }
 
-.cs-category-row a {
+.cs-category-row a, .cs-category-row > div {
   padding-top: 15px;
   padding-bottom: 15px;
   font-weight: initial;
@@ -242,7 +242,7 @@ body {
   }
 
   .cs-side-bar {
-    right: 0;
+    right: -0.5px;
   }
 }
 
@@ -346,8 +346,64 @@ a.panel-heading:focus {
     text-decoration: none;
     color: black;
     &:hover, &:focus {
-        text-decoration: underline;
+      text-decoration: underline;
     }
   }
 
+}
+
+.cs-sidebar-toggle {
+  padding: 20px 0;
+  font-weight: initial;
+  text-transform: initial;
+}
+
+.cs-sidebar-toggle.active:hover {
+  color: inherit;
+}
+
+.cs-inactive-toggle {
+  @extend .active;
+}
+
+.cs-category-row .cs-link-icon {
+  padding-top: 25px;
+  padding-bottom: 25px;
+  opacity: 0.3;
+  -webkit-transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  -o-transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.cs-category-row .cs-link-icon:hover {
+  opacity: 0.8;
+}
+
+.cs-show-more-toggle.js-show-more-toggle__toggled {
+  .cs-blurb-text {
+    white-space: initial;
+  }
+}
+
+.cs-show-more-toggle:not(.js-show-more-toggle__toggled) {
+  .cs-blurb-text * {
+    @extend .cs-truncated-text;
+  }
+
+  .cs-blurb-text p:first-of-type {
+    display: inherit;
+    margin-bottom: 0;
+  }
+
+  .cs-blurb-text *:not(.md) {
+    display: none;
+  }
+}
+
+.cs-link {
+  text-decoration: underline;
+}
+
+.cs-link-hover:hover .cs-link {
+  color: #009688;
 }

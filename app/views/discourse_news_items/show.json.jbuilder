@@ -1,0 +1,1 @@
+json.partial! "discourse_news_items/discourse_news_item", discourse_news_item: @discourse_news_item

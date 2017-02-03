@@ -1,0 +1,1 @@
+json.array! @github_news_items, partial: 'github_news_items/github_news_item', as: :github_news_item

@@ -1,0 +1,1 @@
+json.partial! "github_news_items/github_news_item", github_news_item: @github_news_item

@@ -1,0 +1,103 @@
+<%
+  discourse_even_news_items, discourse_odd_news_items = \
+    DiscourseNewsItem.includes(:target).limit(50)
+    .all.partition.with_index { |x, i| i.even? }
+
+  reddit_news_items = RedditNewsItem.includes(:target).all
+  github_news_items = GithubNewsItem.includes(:target).all
+
+  news_items = reddit_news_items.zip(
+    discourse_even_news_items,
+    github_news_items,
+    discourse_odd_news_items
+  ).flatten
+
+  news_css_classes = 'btn btn-default cs-left-align cs-no-margin col-xs-10'
+%>
+
+<% news_items.first(60).each_with_index do |news_item, index| %>
+
+  <% unless index.zero? %>
+
+    <div class="list-group-separator cs-full-width cs-no-margin"></div>
+
+  <% end %>
+
+  <div class="list-group-item cs-no-padding">
+
+    <div class="cs-full-width cs-category-row row cs-no-margin">
+
+        <% case news_item.target_type %>
+        <% when 'Reference' %>
+
+          <a href="<%= news_item.target.link %>" class="<%= news_css_classes %> cs-link-hover" target="_blank">
+
+            <p class="cs-truncated-text">
+              <%= news_item.name %>
+            </p>
+
+            <p class="cs-truncated-text cs-no-margin">
+              <i>link: <span class='cs-link'><%= news_item.target.link %></span></i>
+            </p>
+
+          </a>
+
+        <% when 'Blurb' %>
+
+          <div class="<%= news_css_classes %> cs-show-more-toggle js-show-more-toggle">
+
+            <p class="cs-truncated-text">
+              <%= news_item.name %>
+            </p>
+
+            <div class="cs-blurb-text">
+              <%= CGI.unescapeHTML( news_item.target.cargo ).html_safe %>
+            </div>
+
+          </div>
+
+        <% when 'Package' %>
+
+          <%= link_to news_item_path(news_item), class: "#{news_css_classes} cs-link-hover" do %>
+
+            <p class="cs-truncated-text">
+              New Package: <%= news_item.name %>
+            </p>
+
+            <p class="cs-no-margin">
+              <span class='cs-link'>view summary</span>
+            </p>
+
+          <% end %>
+
+        <% else %>
+
+          <div class="<%= news_css_classes %>">
+
+            <p>
+              shoot...
+            </p>
+
+            <p class="cs-no-margin">
+              :(
+            </p>
+
+          </div>
+
+        <% end %>
+
+      <a class="btn btn-default cs-no-margin col-xs-2 cs-link-icon" href="<%= news_item.link %>" style='padding-left: 0; padding-right: 0;' target="_blank">
+
+        <% icon_type = news_item.class.name[/.*(?=NewsItem)/].downcase %>
+
+        <% icon_type = 'comment' if icon_type == 'discourse' %>
+
+        <%= fa_icon "#{ icon_type } 2x" %>
+
+      </a>
+
+    </div>
+
+  </div>
+
+<% end %>

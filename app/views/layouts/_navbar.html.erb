@@ -48,7 +48,9 @@
           <% unless is_package_path or is_error_path %>
 
             <li class="<%= (action_name == 'index') ? 'active' : '' %>">
-              <%= link_to controller_name.titleize, send("#{controller_name}_path") %>
+              <% class_index_name = controller_name.titleize %>
+              <% class_index_name.sub! ' Items', '' %>
+              <%= link_to class_index_name, send("#{controller_name}_path") %>
             </li>
 
           <% end %>
@@ -98,6 +100,13 @@
                 <%
                   has_name = model_class.attribute_names.include? "name"
                   next unless has_name
+
+                  model_name = model_class.name.pluralize.underscore
+                  sti_classes = %w[ news_items ]
+
+                  if sti_classes.any? { |c| model_name.include? c }
+                    next unless sti_classes.include? model_name
+                  end
 
                   cur_class_name = model_class.name.pluralize.underscore
                 %>

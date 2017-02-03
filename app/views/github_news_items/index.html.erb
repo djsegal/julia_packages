@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Github News Items</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @github_news_items.each do |github_news_item| %>
+      <tr>
+        <td><%= link_to 'Show', github_news_item %></td>
+        <td><%= link_to 'Edit', edit_github_news_item_path(github_news_item) %></td>
+        <td><%= link_to 'Destroy', github_news_item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Github News Item', new_github_news_item_path %>

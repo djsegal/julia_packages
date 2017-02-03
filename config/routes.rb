@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
 
+  resources :discourse_news_items
+  resources :github_news_items
+  resources :blurbs
+  resources :references
+  resources :reddit_news_items
   resources :logs
   resources :activities
   resources :batches
@@ -16,6 +21,8 @@ Rails.application.routes.draw do
   resources :counters
   resources :versions
   resources :repositories
+
+  resources :news, as: :news_items, controller: :news_items
 
   resources :packages do
     get 'autocomplete_package_name', on: :collection
