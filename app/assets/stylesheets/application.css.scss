@@ -398,6 +398,14 @@ a.panel-heading:focus {
   .cs-blurb-text *:not(.md) {
     display: none;
   }
+
+  .cs-blurb-text {
+    visibility: collapse;
+  }
+
+  .cs-blurb-text * {
+    visibility: visible;
+  }
 }
 
 .cs-link {
