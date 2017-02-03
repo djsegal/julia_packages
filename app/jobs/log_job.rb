@@ -2,9 +2,14 @@ class LogJob < ApplicationJob
   queue_as :default
 
   def perform(*args)
-    initial_location = "log/cron.log"
-    final_location = "log/old_cron.log"
-    FileUtils.mv initial_location, final_location
+    log_files = %w[ cron delayed_job ]
+    log_files << "#{ Rails.env }"
+
+    log_files.each do |log_file|
+      initial_location = "log/#{log_file}.log"
+      final_location = "log/old_#{log_file}.log"
+      FileUtils.mv initial_location, final_location
+    end
   end
 
 end
