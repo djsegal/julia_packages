@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
 
-  resources :discourse_news_items
-  resources :github_news_items
   resources :blurbs
   resources :references
+  resources :discourse_news_items
+  resources :github_news_items
   resources :reddit_news_items
   resources :logs
   resources :activities
