@@ -62,6 +62,7 @@ group :development, :test do
   gem 'letter_opener'
   gem 'binding_of_caller'
   gem 'better_errors'
+  gem 'dotenv-rails'
 end
 
 group :production do
