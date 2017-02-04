@@ -38,26 +38,6 @@ $(document).on('click', '.ui-autocomplete .ui-menu-item', function(event) {
   dummyLink.click();
 });
 
-$(document).on('click', '.js-sidebar-toggle', function(event) {
-  var sidebarType = event.currentTarget.id.match('-.*-')[0].replace(/-/g, '');
-
-  Cookies.set('sidebar_select', sidebarType, { expires: 20 * 365 });
-
-  var inactiveClasses = 'btn-default cs-inactive-toggle',
-      allSidebarToggles = $('.js-sidebar-toggle'),
-      activeToggle = $('#' + event.currentTarget.id);
-
-  allSidebarToggles.addClass(inactiveClasses);
-  activeToggle.removeClass(inactiveClasses);
-
-  var allSidebarBodies = $('.js-sidebar-body'),
-      activeSidebarClass = event.currentTarget.id.replace('toggle', 'sidebar'),
-      activeSidebar = $('#' + activeSidebarClass);
-
-  allSidebarBodies.addClass('hidden');
-  activeSidebar.removeClass('hidden');
-});
-
 $(document).on('click', '.js-show-more-toggle', function(event) {
   var toggledDiv = event.currentTarget,
       sisterNode = toggledDiv.parentElement.getElementsByClassName('cs-link-icon')[0],

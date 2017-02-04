@@ -5,32 +5,31 @@
     <% cookies.permanent[:sidebar_select] ||= 'categories' %>
 
     <div class="panel-heading cs-center row cs-no-padding cs-no-margin">
-      <a class="col-xs-6 cs-no-margin cs-sidebar-toggle js-sidebar-toggle btn <%= "btn-default cs-inactive-toggle" unless cookies[:sidebar_select] == 'categories' %>" id="js-categories-toggle">
+      <%= link_to settings_path(sidebar_select: 'categories'), class: "col-xs-6 cs-no-margin cs-sidebar-toggle btn #{ 'btn-default cs-inactive-toggle' unless cookies[:sidebar_select] == 'categories' }" do %>
         <h4 class="cs-no-margin">
           Categories
         </h4>
-      </a>
+      <% end %>
 
-      <a class="col-xs-6 cs-no-margin cs-sidebar-toggle js-sidebar-toggle btn <%= "btn-default cs-inactive-toggle" unless cookies[:sidebar_select] == 'news' %>" id="js-news-toggle">
+      <%= link_to settings_path(sidebar_select: 'news'), class: "col-xs-6 cs-no-margin cs-sidebar-toggle btn #{ 'btn-default cs-inactive-toggle' unless cookies[:sidebar_select] == 'news' }" do %>
         <h4 class="cs-no-margin">
           News
         </h4>
-      </a>
+      <% end %>
     </div>
 
     <div class="panel-body cs-no-padding">
 
-      <div class="list-group js-sidebar-body <%= "hidden" unless cookies[:sidebar_select] == 'categories' %>" id="js-categories-sidebar">
+      <div class="list-group js-sidebar-body">
 
-        <%= render 'layouts/categories_side_bar' %>
-
-      </div>
-
-      <div class="list-group js-sidebar-body <%= "hidden" unless cookies[:sidebar_select] == 'news' %>" id="js-news-sidebar">
-
-        <%= render 'layouts/news_side_bar' %>
-
-      </div>
+        <% case cookies[:sidebar_select] %>
+        <% when 'categories' %>
+          <%= render 'layouts/categories_side_bar' %>
+        <% when 'news' %>
+          <%= render 'layouts/news_side_bar' %>
+        <% else %>
+          shucks :/
+        <% end %>
 
     </div>
 

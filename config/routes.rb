@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :settings
   resources :blurbs
   resources :references
   resources :discourse_news_items
