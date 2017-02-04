@@ -8,7 +8,10 @@ class LogJob < ApplicationJob
     log_files.each do |log_file|
       initial_location = "log/#{log_file}.log"
       final_location = "log/old_#{log_file}.log"
+
       FileUtils.mv initial_location, final_location
+      FileUtils.touch initial_location
+      FileUtils.chmod 755, initial_location
     end
   end
 
