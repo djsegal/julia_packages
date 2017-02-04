@@ -30,6 +30,8 @@
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
 
     <script>
+      var domainHasWWW = !!document.domain.match('www');
+
       var customInit = function() {
         $.material.init();
 
@@ -41,7 +43,24 @@
             ga("send", "pageview", location.pathname);
           }
         }
+
+        if ( domainHasWWW ) {
+          addQueryToSettingsLinks();
+        }
       };
+
+      var addQueryToSettingsLinks = function() {
+        var settingsLinks = $('a[href^="/settings"]'),
+            arrayLength = settingsLinks.length;
+
+        for (i = 0; i < arrayLength; i++) {
+          hasQueryAdded = settingsLinks[i].href.match('has_www');
+          if ( hasQueryAdded ) { continue; }
+
+          settingsLinks[i].href += '&has_www=';
+          settingsLinks[i].href += domainHasWWW ? 'true' : 'false';
+        }
+      }
 
       $(document).ready(customInit);
       $(document).on('turbolinks:load', customInit);

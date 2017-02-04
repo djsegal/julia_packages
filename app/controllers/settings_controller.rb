@@ -21,8 +21,14 @@ class SettingsController < ApplicationController
       cookies.permanent[k] = v
     end
 
-    redirect_back \
-      fallback_location: root_path
+    prev_url = request.env['HTTP_REFERER']
+    prev_url ||= request.base_url
+
+    has_www = params['has_www']
+    replace_subdomain = has_www ? 'www.' : ''
+    prev_url.sub! 'cdn.', replace_subdomain
+
+    redirect_to prev_url
   end
 
   # GET /settings/1
