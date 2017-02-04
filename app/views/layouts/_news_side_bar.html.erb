@@ -1,10 +1,10 @@
 <%
   discourse_even_news_items, discourse_odd_news_items = \
-    DiscourseNewsItem.includes(:target).limit(50)
-    .all.partition.with_index { |x, i| i.even? }
+    DiscourseNewsItem.active_batch_scope.includes(:target)
+    .limit(50).all.partition.with_index { |x, i| i.even? }
 
-  reddit_news_items = RedditNewsItem.includes(:target).all
-  github_news_items = GithubNewsItem.includes(:target).all
+  reddit_news_items = RedditNewsItem.active_batch_scope.includes(:target).all
+  github_news_items = GithubNewsItem.active_batch_scope.includes(:target).all
 
   news_items = reddit_news_items.zip(
     discourse_even_news_items,
