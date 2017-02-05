@@ -424,3 +424,21 @@ a.panel-heading:focus {
 .cs-news-selector:not(.btn-primary) {
   opacity: 0.3;
 }
+
+@media (min-width: 376px) {
+  .cs-packages-short-word {
+    display: none;
+  }
+}
+
+@media (max-width: 375px) {
+  .cs-packages-word {
+    display: none;
+  }
+}
+
+@media (max-width: 336px) {
+  .cs-packages-word, .cs-packages-short-word {
+    display: none;
+  }
+}
