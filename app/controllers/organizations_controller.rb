@@ -26,7 +26,8 @@ class OrganizationsController < ApplicationController
     raw_params = params.with_indifferent_access
     raw_params[:organization_id] = raw_params.delete :id
 
-    @sort, @packages = PackageSorterJob.perform_now raw_params
+    @sort, @packages = \
+      PackageSorterJob.perform_now raw_params, cookies
   end
 
   # GET /organizations/new

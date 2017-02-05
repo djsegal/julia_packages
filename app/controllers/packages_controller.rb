@@ -8,7 +8,8 @@ class PackagesController < ApplicationController
   def index
     raw_params = params.with_indifferent_access
 
-    @sort, @packages = PackageSorterJob.perform_now raw_params
+    @sort, @packages = \
+      PackageSorterJob.perform_now raw_params, cookies
 
     if @packages.length == 1
       redirect_to @packages.first

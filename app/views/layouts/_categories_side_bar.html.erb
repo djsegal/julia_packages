@@ -1,10 +1,4 @@
 <%
-  query_params = {}
-  query_params[:sort] = params[:sort] \
-    if params[:sort].present?
-%>
-
-<%
   categories = Category
     .active_batch_scope
     .joins(:packages)
@@ -26,7 +20,7 @@
 
       <%=
         link_to category.name,
-          category_path(category, query_params),
+          category_path(category),
           class: "btn btn-default cs-full-width cs-left-align cs-no-margin #{ 'active' if current_page?(category_path(category)) }"
       %>
 

@@ -1,8 +1,8 @@
 class PackageSorterJob < ApplicationJob
   queue_as :default
 
-  def perform(params={})
-    @sort = params[:sort] || 'top'
+  def perform(params={}, cookies={})
+    @sort = cookies[:sort] || 'top'
     set_core_query params
 
     case @sort

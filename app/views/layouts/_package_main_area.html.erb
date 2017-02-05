@@ -24,41 +24,20 @@
           query_params.deep_symbolize_keys!
         %>
 
-        <%= link_to 'Top', {
-            controller: controller_name,
-            action: action_name,
-            **query_params,
-          },
-          class: "btn btn-sm #{ ( params[:sort].present? ) ? '' : ' btn-raised btn-primary hidden-xs' }" %>
-        <%= link_to 'New', {
-            controller: controller_name,
-            action: action_name,
-            **query_params.merge(sort: 'new'),
-          },
-          class: "btn btn-sm #{ ( params[:sort] == 'new' ) ? ' btn-raised btn-primary hidden-xs' : '' }" %>
+        <%= link_to 'Top', settings_path(sort: 'top'),
+          class: "btn btn-sm #{ ( cookies[:sort] == 'top' ) ? ' btn-raised btn-primary hidden-xs' : '' }" %>
+        <%= link_to 'New', settings_path(sort: 'new'),
+          class: "btn btn-sm #{ ( cookies[:sort] == 'new' ) ? ' btn-raised btn-primary hidden-xs' : '' }" %>
 
         <% if %w[ a_z z_a ].include? params[:sort] %>
-          <%= link_to sort_title, {
-              controller: controller_name,
-              action: action_name,
-              **query_params.merge(sort: params[:sort].reverse),
-            },
+          <%= link_to sort_title, settings_path(sort: params[:sort].reverse),
             class: "btn btn-sm btn-raised btn-primary hidden-xs" %>
         <% else %>
-          <%= link_to 'A-Z', {
-              controller: controller_name,
-              action: action_name,
-              **query_params.merge(sort: 'a_z'),
-            },
-            class: "btn btn-sm" %>
+          <%= link_to 'A-Z', settings_path(sort: 'a_z'), class: "btn btn-sm" %>
         <% end %>
 
-        <%= link_to 'Hot', {
-            controller: controller_name,
-            action: action_name,
-            **query_params.merge(sort: 'hot'),
-          },
-          class: "btn btn-sm #{ ( params[:sort] == 'hot' ) ? ' btn-raised btn-primary hidden-xs' : '' }" %>
+        <%= link_to 'Hot', settings_path(sort: 'hot'),
+          class: "btn btn-sm #{ ( cookies[:sort] == 'hot' ) ? ' btn-raised btn-primary hidden-xs' : '' }" %>
 
       </div>
 

@@ -6,6 +6,7 @@ class SettingsController < ApplicationController
   def index
     settings_list = %w[
       sidebar_select
+      sort
     ]
 
     new_settings = params.select {
