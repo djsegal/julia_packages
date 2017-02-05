@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Feed:</strong>
+  <%= @subscription.feed %>
+</p>
+
+<p>
+  <strong>News item:</strong>
+  <%= @subscription.news_item %>
+</p>
+
+<%= link_to 'Edit', edit_subscription_path(@subscription) %> |
+<%= link_to 'Back', subscriptions_path %>

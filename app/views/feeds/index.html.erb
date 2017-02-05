@@ -1,0 +1,26 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Feeds</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th colspan="1"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr>
+      <td>packages</td>
+      <td><%= link_to 'Show', "#{ feed_path('packages') }.rss", target: "_blank" %></td>
+    </tr>
+
+    <% @feeds.each do |feed| %>
+      <tr>
+        <td><%= feed.name %></td>
+        <td><%= link_to 'Show', "#{ feed_path(feed) }.rss", target: "_blank" %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

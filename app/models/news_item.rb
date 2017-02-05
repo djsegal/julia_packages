@@ -36,4 +36,7 @@ class NewsItem < ApplicationRecord
   extend FriendlyId
   friendly_id :name
 
+  has_many :subscriptions, dependent: :destroy
+  has_many :feeds, through: :subscriptions
+
 end

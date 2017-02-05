@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170130164317) do
+ActiveRecord::Schema.define(version: 20170205194030) do
 
   create_table "activities", force: :cascade do |t|
     t.text     "commits"
@@ -95,6 +95,12 @@ ActiveRecord::Schema.define(version: 20170130164317) do
   end
 
   create_table "dummies", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "feeds", force: :cascade do |t|
+    t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -188,6 +194,15 @@ ActiveRecord::Schema.define(version: 20170130164317) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["package_id"], name: "index_repositories_on_package_id"
+  end
+
+  create_table "subscriptions", force: :cascade do |t|
+    t.integer  "feed_id"
+    t.integer  "news_item_id"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["feed_id"], name: "index_subscriptions_on_feed_id"
+    t.index ["news_item_id"], name: "index_subscriptions_on_news_item_id"
   end
 
   create_table "users", force: :cascade do |t|

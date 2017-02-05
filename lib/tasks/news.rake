@@ -8,8 +8,9 @@ namespace :news do
       news_item_class = "#{news_item_type}_news_item".classify.constantize
       news_items = YAML.load_file("#{@news_directory}/#{news_item_type}.yml")
 
+      news_feed = Feed.create! name: news_item_type
       news_items.each do |news_item|
-        news_item_class.create! news_item
+        news_feed.news_items << news_item_class.create!(news_item)
       end
     end
   end
