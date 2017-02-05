@@ -93,6 +93,14 @@
             </li>
 
             <li>
+              <%=
+                link_to 'Clear Cookies', \
+                  settings_path(clear_cookies: true), \
+                  data: { confirm: 'Are you sure?' }
+              %>
+            </li>
+
+            <li>
               <a href="#" data-toggle="modal" data-target=".modal">
                 Settings
               </a>

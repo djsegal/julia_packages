@@ -16,19 +16,10 @@ class SettingsController < ApplicationController
       sort
     ]
 
-    new_settings = params.select {
-      |p| settings_list.include? p
-    }.to_unsafe_hash
-
-    new_settings.each do |k, v|
-      new_settings[k] = nil \
-        unless v.present?
-    end
-
-    fix_filter_pairs new_settings
-
-    new_settings.each do |k, v|
-      cookies.permanent[k] = v
+    if params[:clear_cookies]
+      clear_all_cookies settings_list
+    else
+      update_all_cookies settings_list
     end
 
     prev_url = request.env['HTTP_REFERER']
@@ -127,6 +118,29 @@ class SettingsController < ApplicationController
       if needs_date_flip
         new_settings[:start_date], new_settings[:end_date] = \
           new_settings[:end_date], new_settings[:start_date]
+      end
+    end
+
+    def clear_all_cookies settings_list
+      settings_list.each do |cur_setting|
+        cookies.delete cur_setting
+      end
+    end
+
+    def update_all_cookies settings_list
+      new_settings = params.select {
+        |p| settings_list.include? p
+      }.to_unsafe_hash
+
+      new_settings.each do |k, v|
+        new_settings[k] = nil \
+          unless v.present?
+      end
+
+      fix_filter_pairs new_settings
+
+      new_settings.each do |k, v|
+        cookies.permanent[k] = v
       end
     end
 end
