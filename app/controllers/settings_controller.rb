@@ -5,6 +5,9 @@ class SettingsController < ApplicationController
   # GET /settings.json
   def index
     settings_list = %w[
+      has_discourse_news
+      has_reddit_news
+      has_github_news
       sidebar_select
       min_stars
       max_stars

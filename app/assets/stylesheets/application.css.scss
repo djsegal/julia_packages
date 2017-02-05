@@ -415,3 +415,12 @@ a.panel-heading:focus {
 .cs-link-hover:hover .cs-link {
   color: #009688;
 }
+
+.cs-news-selector {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.cs-news-selector:not(.btn-primary) {
+  opacity: 0.3;
+}

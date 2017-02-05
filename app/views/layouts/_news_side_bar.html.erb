@@ -1,15 +1,68 @@
 <%
-  discourse_even_news_items, discourse_odd_news_items = \
-    DiscourseNewsItem.active_batch_scope.includes(:target)
-    .limit(50).all.partition.with_index { |x, i| i.even? }
+  cookies.permanent[:has_discourse_news] ||= 'false'
+  cookies.permanent[:has_reddit_news] ||= 'false'
+  cookies.permanent[:has_github_news] ||= 'false'
 
-  reddit_news_items = RedditNewsItem.active_batch_scope.includes(:target).all
-  github_news_items = GithubNewsItem.active_batch_scope.includes(:target).all
+  has_discourse_news = ( cookies.permanent[:has_discourse_news] == 'true' )
+  has_reddit_news = ( cookies.permanent[:has_reddit_news] == 'true' )
+  has_github_news = ( cookies.permanent[:has_github_news] == 'true' )
+%>
 
-  news_items = reddit_news_items.zip(
-    discourse_even_news_items,
-    github_news_items,
-    discourse_odd_news_items
+<div class="list-group-item cs-center row cs-no-padding cs-no-margin">
+
+  <%= link_to settings_path(has_discourse_news: !has_discourse_news), class: "col-xs-4 cs-no-margin btn cs-news-selector #{ 'btn-primary' if has_discourse_news }" do %>
+    <h4 class="cs-no-margin">
+      <%= fa_icon "comment lg" %>
+    </h4>
+  <% end %>
+
+  <%= link_to settings_path(has_reddit_news: !has_reddit_news), class: "col-xs-4 cs-no-margin btn cs-news-selector #{ 'btn-primary' if has_reddit_news }" do %>
+    <h4 class="cs-no-margin">
+      <%= fa_icon "reddit lg" %>
+    </h4>
+  <% end %>
+
+  <%= link_to settings_path(has_github_news: !has_github_news), class: "col-xs-4 cs-no-margin btn cs-news-selector #{ 'btn-primary' if has_github_news }" do %>
+    <h4 class="cs-no-margin">
+      <%= fa_icon "github lg" %>
+    </h4>
+  <% end %>
+</div>
+
+<%
+
+  if !has_discourse_news and !has_reddit_news and !has_github_news
+    has_discourse_news, has_reddit_news, has_github_news = [true]*3
+  end
+
+  if has_discourse_news
+    discourse_even_news_items, discourse_odd_news_items = \
+      DiscourseNewsItem.active_batch_scope.includes(:target)
+      .limit(50).all.partition.with_index { |x, i| i.even? }
+  end
+
+  news_items_lists = []
+
+  if has_reddit_news
+    news_items_lists << RedditNewsItem.active_batch_scope.includes(:target).all
+  end
+
+  if has_discourse_news
+    news_items_lists << discourse_even_news_items
+  end
+
+  if has_github_news
+    news_items_lists << GithubNewsItem.active_batch_scope.includes(:target).all
+  end
+
+  if has_discourse_news
+    news_items_lists << discourse_odd_news_items
+  end
+
+  first_news_items = news_items_lists.shift
+
+  news_items = first_news_items.zip(
+    *news_items_lists
   ).flatten
 
   news_css_classes = 'btn btn-default cs-left-align cs-no-margin col-xs-10'
@@ -17,11 +70,7 @@
 
 <% news_items.first(60).each_with_index do |news_item, index| %>
 
-  <% unless index.zero? %>
-
-    <div class="list-group-separator cs-full-width cs-no-margin"></div>
-
-  <% end %>
+  <div class="list-group-separator cs-full-width cs-no-margin"></div>
 
   <div class="list-group-item cs-no-padding">
 
