@@ -6,6 +6,10 @@ class SettingsController < ApplicationController
   def index
     settings_list = %w[
       sidebar_select
+      min_stars
+      max_stars
+      start_date
+      end_date
       sort
     ]
 

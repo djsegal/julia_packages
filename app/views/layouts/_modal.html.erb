@@ -1,0 +1,73 @@
+<div class="modal fade">
+
+  <div class="modal-dialog">
+
+    <div class="modal-content">
+
+      <%= form_tag settings_path, method: :get do %>
+
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title">Settings</h4>
+        </div>
+
+        <div class="modal-body">
+
+            <div class="row">
+
+              <div class="col-sm-6">
+
+                <div class="form-group label-static is-empty">
+                  <%= label_tag "min_stars", "min stars", class: "control-label" %>
+                  <%= number_field_tag "min_stars", cookies[:min_stars], class: "form-control" %>
+                </div>
+
+              </div>
+
+              <div class="col-sm-6">
+
+                <div class="form-group label-static is-empty">
+                  <%= label_tag "max_stars", "max stars", class: "control-label" %>
+                  <%= number_field_tag "max_stars", cookies[:max_stars], class: "form-control" %>
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="row">
+
+              <div class="col-sm-6">
+
+                <div class="form-group label-static is-empty">
+                  <%= label_tag "start_date", "start date", class: "control-label" %>
+                  <%= date_field_tag "start_date", cookies[:start_date], class: "form-control" %>
+                </div>
+
+              </div>
+
+              <div class="col-sm-6">
+
+                <div class="form-group label-static is-empty">
+                  <%= label_tag "end_date", "end date", class: "control-label" %>
+                  <%= date_field_tag "end_date", cookies[:end_date], class: "form-control" %>
+                </div>
+
+              </div>
+
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <%= button_tag "Save Changes", class: "btn btn-primary" %>
+        </div>
+
+      <% end %>
+
+    </div>
+
+  </div>
+
+</div>

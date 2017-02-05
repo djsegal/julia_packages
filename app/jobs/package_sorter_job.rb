@@ -3,7 +3,7 @@ class PackageSorterJob < ApplicationJob
 
   def perform(params={}, cookies={})
     @sort = cookies[:sort] || 'top'
-    set_core_query params
+    set_core_query params, cookies
 
     case @sort
     when 'top'
@@ -51,7 +51,7 @@ class PackageSorterJob < ApplicationJob
         .order("activities.recent_commit_count desc")
     end
 
-    def set_core_query params
+    def set_core_query params, cookies
       category = get_category params
       organization = get_organization params
       user = get_user params
@@ -65,6 +65,8 @@ class PackageSorterJob < ApplicationJob
       else
         @core_query = Package
       end
+
+      set_cutoff_values cookies
 
       @core_query = @core_query
         .active_batch_scope
@@ -80,6 +82,24 @@ class PackageSorterJob < ApplicationJob
 
       @core_query = @core_query.where \
         "name #{like_word} ?", "%#{params[:search]}%"
+    end
+
+    def set_cutoff_values cookies
+      @core_query = @core_query.where(
+        'counters.stargazer >= ?', cookies[:min_stars]
+      ) if cookies[:min_stars].present?
+
+      @core_query = @core_query.where(
+        'counters.stargazer <= ?', cookies[:max_stars]
+      ) if cookies[:max_stars].present?
+
+      @core_query = @core_query.where(
+        'daters.touched >= ?', cookies[:start_date]
+      ) if cookies[:start_date].present?
+
+      @core_query = @core_query.where(
+        'daters.touched <= ?', cookies[:end_date]
+      ) if cookies[:end_date].present?
     end
 
     def get_category params
