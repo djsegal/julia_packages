@@ -123,10 +123,14 @@
                   end
 
                   cur_class_name = model_class.name.pluralize.underscore
+
+                  cur_class_title = cur_class_name.titleize
+                  cur_class_title = "RSS #{cur_class_title}" \
+                    if cur_class_name == 'feeds'
                 %>
 
                 <li>
-                  <%= link_to cur_class_name.titleize, send("#{cur_class_name.underscore}_path") %>
+                  <%= link_to cur_class_title, send("#{cur_class_name.underscore}_path") %>
                 </li>
 
               <% end %>
