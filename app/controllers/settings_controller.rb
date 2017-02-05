@@ -22,6 +22,8 @@ class SettingsController < ApplicationController
         unless v.present?
     end
 
+    fix_filter_pairs new_settings
+
     new_settings.each do |k, v|
       cookies.permanent[k] = v
     end
@@ -99,5 +101,29 @@ class SettingsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def setting_params
       params.fetch(:setting, {})
+    end
+
+    def fix_filter_pairs new_settings
+      min_stars = new_settings[:min_stars] && new_settings[:min_stars].to_i
+      max_stars = new_settings[:max_stars] && new_settings[:max_stars].to_i
+
+      needs_stars_flip = min_stars.present? and max_stars.present?
+      needs_stars_flip &&= ( min_stars > max_stars )
+
+      if needs_stars_flip
+        new_settings[:min_stars], new_settings[:max_stars] = \
+          new_settings[:max_stars], new_settings[:min_stars]
+      end
+
+      start_date = new_settings[:start_date] && new_settings[:start_date].to_date
+      end_date = new_settings[:end_date] && new_settings[:end_date].to_date
+
+      needs_date_flip = start_date.present? and end_date.present?
+      needs_date_flip &&= ( start_date > end_date )
+
+      if needs_date_flip
+        new_settings[:start_date], new_settings[:end_date] = \
+          new_settings[:end_date], new_settings[:start_date]
+      end
     end
 end
