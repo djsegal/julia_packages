@@ -24,6 +24,8 @@
           query_params.deep_symbolize_keys!
         %>
 
+        <% cookies.permanent[:sort] ||= 'top' %>
+
         <%= link_to 'Top', settings_path(sort: 'top'),
           class: "btn btn-sm #{ ( cookies[:sort] == 'top' ) ? ' btn-raised btn-primary hidden-xs' : '' }" %>
         <%= link_to 'New', settings_path(sort: 'new'),
