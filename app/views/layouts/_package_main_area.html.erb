@@ -31,8 +31,8 @@
         <%= link_to 'New', settings_path(sort: 'new'),
           class: "btn btn-sm #{ ( cookies[:sort] == 'new' ) ? ' btn-raised btn-primary hidden-xs' : '' }" %>
 
-        <% if %w[ a_z z_a ].include? params[:sort] %>
-          <%= link_to sort_title, settings_path(sort: params[:sort].reverse),
+        <% if %w[ a_z z_a ].include? cookies[:sort] %>
+          <%= link_to sort_title, settings_path(sort: cookies[:sort].reverse),
             class: "btn btn-sm btn-raised btn-primary hidden-xs" %>
         <% else %>
           <%= link_to 'A-Z', settings_path(sort: 'a_z'), class: "btn btn-sm" %>
