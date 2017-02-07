@@ -5,7 +5,7 @@ xml.rss :version => "2.0" do
   xml.channel do
     xml.title params[:id]
     xml.link "#{ feed_url(params[:id]) }.rss"
-    xml.description "most recent updates on #{params[:id]}"
+    xml.description "most recent updates for julia on #{params[:id]}"
 
     @feed.news_items.first(25).each do |news_item|
       xml.item do
