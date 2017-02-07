@@ -2,7 +2,7 @@
 
   <div class="panel panel-primary cs-no-margin">
 
-    <% cookies.permanent[:sidebar_select] ||= 'categories' %>
+    <% cookies.permanent[:sidebar_select] ||= 'news' %>
 
     <div class="panel-heading cs-center row cs-no-padding cs-no-margin">
       <%= link_to settings_path(sidebar_select: 'categories'), class: "col-xs-6 cs-no-margin cs-sidebar-toggle btn #{ 'btn-default cs-inactive-toggle' unless cookies[:sidebar_select] == 'categories' }" do %>
