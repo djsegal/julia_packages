@@ -30,6 +30,7 @@ namespace :news do
     r.authorize!
 
     hot = r.get_hot("julia")
+
     hot.each do |link|
       next if link.stickied and \
         Time.at(link.created_utc).to_datetime < 1.month.ago
@@ -60,6 +61,10 @@ namespace :news do
 
     FileUtils.mkdir_p(@news_directory) \
       unless File.directory? @news_directory
+
+    File.open("#{@news_directory}/raw_reddit.yml", 'w') do |h|
+       h.write hot.to_yaml
+    end
 
     File.open("#{@news_directory}/reddit.yml", 'w') do |h|
        h.write news_items.to_yaml
@@ -95,6 +100,10 @@ namespace :news do
 
     FileUtils.mkdir_p(@news_directory) \
       unless File.directory? @news_directory
+
+    File.open("#{@news_directory}/raw_github.yml", 'w') do |h|
+       h.write prs.to_yaml
+    end
 
     File.open("#{@news_directory}/github.yml", 'w') do |h|
        h.write news_items.to_yaml
@@ -139,6 +148,10 @@ namespace :news do
 
     FileUtils.mkdir_p(@news_directory) \
       unless File.directory? @news_directory
+
+    File.open("#{@news_directory}/raw_discourse.yml", 'w') do |h|
+       h.write posts.to_yaml
+    end
 
     File.open("#{@news_directory}/discourse.yml", 'w') do |h|
        h.write news_items.to_yaml
