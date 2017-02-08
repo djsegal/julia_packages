@@ -79,7 +79,6 @@ class PackagesController < ApplicationController
 
     # Use callbacks to share common setup or constraints between actions.
     def set_package
-      return unless Package.custom_exists? params[:id]
       @package = Package.custom_find(params[:id])
     end
 

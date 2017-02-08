@@ -96,7 +96,6 @@ class UsersController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
-      return unless User.custom_exists? params[:id]
       @user = User.custom_find(params[:id])
     end
 

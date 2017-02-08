@@ -7,9 +7,7 @@ class NewsItemsController < ApplicationController
     GithubNewsItem.all.each do |news_item|
       params_id = news_item.name
 
-      @package = Package.custom_find(params_id) \
-        if Package.custom_exists? params_id
-
+      @package = Package.custom_find(params_id)
       break if @package.present?
     end
 
@@ -22,8 +20,7 @@ class NewsItemsController < ApplicationController
   # GET /news_items/1
   # GET /news_items/1.json
   def show
-    @package = Package.custom_find(params[:id]) \
-      if Package.custom_exists? params[:id]
+    @package = Package.custom_find(params[:id])
 
     render 'layouts/error_page' \
       and return unless @package.present?

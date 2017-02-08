@@ -29,11 +29,35 @@ module Batchable
     end
 
     def custom_find *args
-      self.active_batch_scope.friendly.find *args
+      begin
+        found_item = self.active_batch_scope.friendly.find *args
+      rescue ActiveRecord::RecordNotFound
+        found_item = backup_find(*args)
+      end
+      found_item
     end
 
     def custom_exists? *args
-      self.active_batch_scope.friendly.exists? *args
+      does_exist = self.active_batch_scope.friendly.exists? *args
+      does_exist ||= backup_find(*args).present?
+      does_exist
+    end
+
+    def backup_find *args
+      matched_name = args.first.downcase
+
+      like_word = Rails.env.production? ? 'ILIKE' : 'LIKE'
+
+      possible_items = self.active_batch_scope.where \
+        "name #{like_word} ?", "%#{args.first}%"
+
+      possible_items.each do |possible_item|
+        cur_name = possible_item.name.downcase
+        is_item = ( cur_name == matched_name )
+        return possible_item if is_item
+      end
+
+      nil
     end
   end
 

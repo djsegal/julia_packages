@@ -104,22 +104,16 @@ class PackageSorterJob < ApplicationJob
 
     def get_category params
       return unless params[:category_id].present?
-      return unless Category.custom_exists? params[:category_id]
-
       Category.custom_find params[:category_id]
     end
 
     def get_organization params
       return unless params[:organization_id].present?
-      return unless Organization.custom_exists? params[:organization_id]
-
       Organization.custom_find params[:organization_id]
     end
 
     def get_user params
       return unless params[:user_id].present?
-      return unless User.custom_exists? params[:user_id]
-
       User.custom_find params[:user_id]
     end
 
