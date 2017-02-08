@@ -47,6 +47,11 @@
         if ( domainHasWWW ) {
           addQueryToSettingsLinks();
         }
+
+        <% if cookies[:needs_refresh] == 'true' %>
+          Turbolinks.clearCache();
+          <% cookies.delete :needs_refresh %>
+        <% end %>
       };
 
       var addQueryToSettingsLinks = function() {

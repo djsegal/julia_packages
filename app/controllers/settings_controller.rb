@@ -29,6 +29,8 @@ class SettingsController < ApplicationController
     replace_subdomain = has_www ? 'www.' : ''
     prev_url.sub! 'cdn.', replace_subdomain
 
+    cookies.permanent['needs_refresh'] = true
+
     redirect_to prev_url
   end
 
