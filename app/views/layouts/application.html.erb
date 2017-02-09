@@ -48,10 +48,6 @@
           addQueryToSettingsLinks();
         }
 
-        <% if cookies[:needs_refresh] == 'true' %>
-          Turbolinks.clearCache();
-          <% cookies.delete :needs_refresh %>
-        <% end %>
       };
 
       var addQueryToSettingsLinks = function() {
@@ -85,6 +81,13 @@
   </head>
 
   <body>
+
+    <script>
+      <% if cookies[:needs_refresh] == 'true' %>
+        Turbolinks.clearCache();
+        <% cookies.delete :needs_refresh %>
+      <% end %>
+    </script>
 
     <%= link_to 'dummy-link', dummy_path('dummy_id'), class: "cs-dummy-link js-dummy-link", rel: "nofollow" %>
 
