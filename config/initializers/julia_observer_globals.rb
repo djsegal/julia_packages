@@ -92,8 +92,11 @@ class StubbedBar
 end
 
 def make_progress_bar bar_count
+  use_stubbed_bar = Rails.env.production?
+  use_stubbed_bar &&= ( ENV['VERBOSE'] != 'true' )
+
   return StubbedBar.new \
-    if Rails.env.production?
+    if use_stubbed_bar
 
   RakeProgressbar.new bar_count
 end
