@@ -8,7 +8,7 @@ class DownloadJob < JuliaJob
     FileUtils.rm_rf "tmp/news"
     system "#{@sys_run} news:get_all"
 
-    FileUtils.rm_rf @github_directory
+    FileUtils.rm_rf "tmp/github"
     system "#{@sys_run} github:download"
   end
 
