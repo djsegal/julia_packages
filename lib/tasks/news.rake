@@ -4,7 +4,11 @@ namespace :news do
 
   desc "make news items"
   task make: :environment do
+    bar = make_progress_bar @news_item_types.count
+
     @news_item_types.each do |news_item_type|
+      bar.inc
+
       news_item_class = "#{news_item_type}_news_item".classify.constantize
       news_items = YAML.load_file("#{@news_directory}/#{news_item_type}.yml")
 
@@ -13,6 +17,8 @@ namespace :news do
         news_feed.news_items << news_item_class.create!(news_item)
       end
     end
+
+    bar.finished
   end
 
   desc "get all news items"
@@ -31,7 +37,11 @@ namespace :news do
 
     hot = r.get_hot("julia")
 
+    bar = make_progress_bar hot.count
+
     hot.each do |link|
+      bar.inc
+
       next if link.stickied and \
         Time.at(link.created_utc).to_datetime < 1.month.ago
 
@@ -69,6 +79,8 @@ namespace :news do
     File.open("#{@news_directory}/reddit.yml", 'w') do |h|
        h.write news_items.to_yaml
     end
+
+    bar.finished
   end
 
   desc "get github prs"
@@ -81,7 +93,11 @@ namespace :news do
 
     prs = hit_url(prs_url)['items']
 
+    bar = make_progress_bar prs.count
+
     prs.each do |pr|
+      bar.inc
+
       name = pr['title'][/(?<=\W)?\w*(?=.jl)/]
 
       unless name.present?
@@ -108,6 +124,8 @@ namespace :news do
     File.open("#{@news_directory}/github.yml", 'w') do |h|
        h.write news_items.to_yaml
     end
+
+    bar.finished
   end
 
   desc "get discourse prs"
@@ -130,7 +148,17 @@ namespace :news do
     posts.sort_by! { |t| t['bumped_at'] }
     posts.reverse!
 
-    posts.first(60).each do |post|
+    posts_count = posts.count
+    max_posts_count = 60
+
+    posts_count = max_posts_count \
+      if posts_count > max_posts_count
+
+    bar = make_progress_bar posts_count
+
+    posts.first(max_posts_count).each do |post|
+      bar.inc
+
       post_html = \
         client.topic(post['id'])['post_stream']['posts'].first['cooked']
 
@@ -156,6 +184,8 @@ namespace :news do
     File.open("#{@news_directory}/discourse.yml", 'w') do |h|
        h.write news_items.to_yaml
     end
+
+    bar.finished
   end
 
 end
