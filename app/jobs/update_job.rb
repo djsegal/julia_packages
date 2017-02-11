@@ -26,22 +26,15 @@ class UpdateJob < JuliaJob
     Batch.active_marker = Batch.current_marker
     set_batch_marker :active, Batch.active_marker
 
+    Batch.active_marker_date = Batch.current_marker_date
+    set_batch_marker_date :active_date, Batch.active_marker_date
+
     system "service unicorn restart" \
       if Rails.env.production?
 
   end
 
   private
-
-    def set_batch_marker marker_type, new_value
-      batch_directory = 'tmp/batch'
-      file_name = "#{marker_type}.yml"
-      file_path = "#{batch_directory}/#{file_name}"
-
-      File.open(file_path, 'w') do |h|
-        h.puts new_value.to_yaml
-      end
-    end
 
     def get_percent_change batch_counts
       return if ( batch_counts.length != 2 )

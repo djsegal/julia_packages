@@ -25,6 +25,16 @@ def get_initial_batch_marker marker_type, default_value
   default_value
 end
 
+def set_batch_marker marker_type, new_value
+  batch_directory = 'tmp/batch'
+  file_name = "#{marker_type}.yml"
+  file_path = "#{batch_directory}/#{file_name}"
+
+  File.open(file_path, 'w') do |h|
+    h.puts new_value.to_yaml
+  end
+end
+
 def tail(path, n)
   file = File.open(path, "r")
   buffer_s = 512

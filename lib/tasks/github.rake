@@ -34,13 +34,15 @@ namespace :github do
       user_name, repo_name = parsed_url.split '/'
 
       is_nasty_repo = false
-      information = hit_url get_repo_url(user_name, repo_name)
+      information, is_new_response = \
+        check_and_hit_url get_repo_url(user_name, repo_name)
 
       if ( information["message"] == "Not Found" )
         Rails.logger.info error.message if nasty_count > 10
 
         fixed_repo_name = repo_name[/.*(?=\.jl)/]
-        information = hit_url get_repo_url(user_name, fixed_repo_name)
+        information, is_new_response = \
+          check_and_hit_url get_repo_url(user_name, fixed_repo_name)
 
         if information["message"] == "Not Found"
           nasty_packages << directory
@@ -51,22 +53,27 @@ namespace :github do
         moved_packages << directory
       end
 
-      if ( information.message == "Moved Permanently" )
+      if ( information["message"] == "Moved Permanently" )
         moved_packages << directory
-        new_url = information.url
+        new_url = information["url"]
 
-        information = hit_url information["url"]
+        information, is_new_response = \
+          check_and_hit_url information["url"]
       end
 
       package_directory = "#{Rails.root}/#{repos_directory}/#{directory}"
 
-      contributors_request = hit_url information["contributors_url"]
+      contributors_request = hit_url information["contributors_url"], is_new_response
 
-      contributors = JSON.parse contributors_request.body
+      if contributors_request.is_a? Array
+        contributors = contributors_request
+      else
+        contributors = JSON.parse contributors_request.body
+      end
 
       information['contributors_count'] = contributors.count
 
-      readme_response = hit_url "#{information['url']}/readme"
+      readme_response = hit_url "#{information['url']}/readme", is_new_response
 
       if readme_response['encoding'] == 'base64'
         readme_work = Base64.decode64 readme_response['content']
@@ -140,7 +147,7 @@ namespace :github do
       FileUtils.mkdir_p(user_directory) \
         unless File.directory? user_directory
 
-      information = hit_url get_user_url(user_name)
+      information, _ = check_and_hit_url get_user_url(user_name)
       File.open("#{users_directory}/#{user_name}/data.yml", 'w') do |h|
         h.write information.to_yaml
       end
@@ -162,7 +169,7 @@ namespace :github do
 
       commits_info = nil
       5.times do
-        commits_info = hit_url commits_url
+        commits_info, _ = check_and_hit_url commits_url
         break unless commits_info.empty?
       end
 
