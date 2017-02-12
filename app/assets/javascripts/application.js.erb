@@ -57,7 +57,9 @@ $(document).on('click', '.js-show-more-toggle', function(event) {
 });
 
 $(document).on('click', 'a', function(event) {
-  if (event.detail > 2) {
+  var is_loading_settings = window.location.href.match('/settings\\?');
+
+  if (is_loading_settings) {
     event.preventDefault();
   }
 });

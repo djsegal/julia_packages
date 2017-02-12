@@ -4,18 +4,6 @@ class SettingsController < ApplicationController
   # GET /settings
   # GET /settings.json
   def index
-    prev_url = request.env['HTTP_REFERER']
-    prev_url ||= request.base_url
-
-    has_www = params['has_www']
-    replace_subdomain = has_www ? 'www.' : ''
-    prev_url.sub! 'cdn.', replace_subdomain
-
-    if prev_url.include? "/settings?"
-      head :ok, content_type: "text/html"
-      return
-    end
-
     settings_list = %w[
       has_discourse_news
       has_reddit_news
@@ -35,6 +23,14 @@ class SettingsController < ApplicationController
     end
 
     cookies.permanent['needs_refresh'] = true
+
+    prev_url = request.env['HTTP_REFERER']
+    prev_url = nil if prev_url.try(:include?, "/settings?")
+    prev_url ||= request.base_url
+
+    has_www = params['has_www']
+    replace_subdomain = has_www ? 'www.' : ''
+    prev_url.sub! 'cdn.', replace_subdomain
 
     redirect_to prev_url
   end
