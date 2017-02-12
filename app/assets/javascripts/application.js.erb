@@ -55,3 +55,9 @@ $(document).on('click', '.js-show-more-toggle', function(event) {
     toggledDiv.classList.add('cs-full-width');
   }
 });
+
+$(document).on('click', 'a', function(event) {
+  if (event.detail > 2) {
+    event.preventDefault();
+  }
+});
