@@ -32,6 +32,13 @@ namespace :github do
         information = \
           YAML.load_file("#{@scour_directory}/#{directory}/data.yml")
 
+        touched_date = information.select{
+          |i| ['updated_at','pushed_at'].include? i
+        }.values.map{ |v| v.to_date }.min
+
+        is_new_response = \
+          touched_date > Batch.active_marker_date
+
       else
 
         url_file = "#{@metadata_directory}/#{directory}/url"
