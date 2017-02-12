@@ -27,7 +27,7 @@ class UpdateJob < JuliaJob
     set_batch_marker :active, Batch.active_marker
 
     Batch.active_marker_date = Batch.current_marker_date
-    set_batch_marker_date :active_date, Batch.active_marker_date
+    set_batch_marker :active_date, Batch.active_marker_date
 
     system "service unicorn restart" \
       if Rails.env.production?
