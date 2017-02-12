@@ -35,8 +35,8 @@
 
       <div class="panel-body">
 
-        <p class="cs-no-margin cs-pull-right">
-          <%= truncate( profile.location, length: 17 ) || 'Milky Way Galaxy' %>
+        <p class="cs-no-margin cs-pull-right cs-truncated-text">
+          <%= profile.location || 'Milky Way Galaxy' %>
         </p>
 
       </div>
@@ -57,8 +57,8 @@
 
       <div class="panel-body">
 
-        <p class="cs-no-margin cs-pull-right">
-          <%= truncate( profile.company, length: 17 ) || 'Coding' %>
+        <p class="cs-no-margin cs-pull-right cs-truncated-text">
+          <%= profile.company || 'Coding' %>
         </p>
 
       </div>
