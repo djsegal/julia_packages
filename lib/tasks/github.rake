@@ -34,7 +34,7 @@ namespace :github do
 
         touched_date = information.select{
           |i| ['updated_at','pushed_at'].include? i
-        }.values.map{ |v| v.to_date }.min
+        }.values.map{ |v| v.to_date }.max
 
         is_new_response = \
           touched_date > Batch.active_marker_date
