@@ -77,7 +77,7 @@ namespace :scour do
 
     cur_page = safe_hit_url ( base_url + date_query )
     total_queries = cur_page['total_count'] / 30
-    total_queries *= 3/2
+    total_queries *= 2
 
     @bar = make_progress_bar total_queries
   end
