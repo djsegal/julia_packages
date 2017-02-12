@@ -1,5 +1,6 @@
 @metadata_directory = 'tmp/METADATA.jl'
 @github_directory = 'tmp/github'
+@scour_directory = 'tmp/scour'
 @news_directory = 'tmp/news'
 
 @github_api_url = "https://api.github.com"

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170205194030) do
+ActiveRecord::Schema.define(version: 20170211230527) do
 
   create_table "activities", force: :cascade do |t|
     t.text     "commits"
@@ -149,12 +149,14 @@ ActiveRecord::Schema.define(version: 20170205194030) do
 
   create_table "packages", force: :cascade do |t|
     t.string   "name"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.string   "description"
     t.string   "homepage"
     t.string   "owner_type"
     t.integer  "owner_id"
+    t.boolean  "is_registered"
+    t.index ["is_registered"], name: "index_packages_on_is_registered"
     t.index ["name"], name: "index_packages_on_name"
     t.index ["owner_type", "owner_id"], name: "index_packages_on_owner_type_and_owner_id"
   end

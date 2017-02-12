@@ -2,8 +2,13 @@ namespace :github do
 
   desc "download github package information"
   task download: :environment do
-    bar = make_progress_bar \
-      Dir.foreach(@metadata_directory).count
+    all_packages = Dir.foreach(@scour_directory).to_a
+    all_packages += Dir.foreach(@metadata_directory).to_a
+
+    all_packages.uniq!
+    all_packages.sort!
+
+    bar = make_progress_bar all_packages.count
 
     nasty_count = 0
     nasty_packages = []
@@ -11,7 +16,7 @@ namespace :github do
 
     repos_directory = "#{@github_directory}/repos"
 
-    Dir.foreach(@metadata_directory) do |directory|
+    all_packages.each do |directory|
 
       bar.inc
 
@@ -19,49 +24,63 @@ namespace :github do
       next if File.file? \
         "#{@metadata_directory}/#{directory}"
 
-      url_file = "#{@metadata_directory}/#{directory}/url"
-      url = File.open(url_file).read.strip
+      is_scoured_package = \
+        File.directory? "#{@scour_directory}/#{directory}"
 
-      parsed_url = \
-        url[/(?<=github.com\/).*(?=\.git)/] || \
-        url[/(?<=github.com\/).*/]
+      if is_scoured_package
 
-      unless parsed_url.present?
-        moved_packages << directory
-        next
-      end
+        information = \
+          YAML.load_file("#{@scour_directory}/#{directory}/data.yml")
 
-      user_name, repo_name = parsed_url.split '/'
+      else
 
-      is_nasty_repo = false
-      information, is_new_response = \
-        check_and_hit_url get_repo_url(user_name, repo_name)
+        url_file = "#{@metadata_directory}/#{directory}/url"
+        url = File.open(url_file).read.strip
 
-      if ( information["message"] == "Not Found" )
-        Rails.logger.info error.message if nasty_count > 10
+        parsed_url = \
+          url[/(?<=github.com\/).*(?=\.git)/] || \
+          url[/(?<=github.com\/).*/]
 
-        fixed_repo_name = repo_name[/.*(?=\.jl)/]
-        information, is_new_response = \
-          check_and_hit_url get_repo_url(user_name, fixed_repo_name)
-
-        if information["message"] == "Not Found"
-          nasty_packages << directory
-          nasty_count += 1
+        unless parsed_url.present?
+          moved_packages << directory
           next
         end
 
-        moved_packages << directory
-      end
+        user_name, repo_name = parsed_url.split '/'
 
-      if ( information["message"] == "Moved Permanently" )
-        moved_packages << directory
-        new_url = information["url"]
-
+        is_nasty_repo = false
         information, is_new_response = \
-          check_and_hit_url information["url"]
+          check_and_hit_url get_repo_url(user_name, repo_name)
+
+        if ( information["message"] == "Not Found" )
+          Rails.logger.info error.message if nasty_count > 10
+
+          fixed_repo_name = repo_name[/.*(?=\.jl)/]
+          information, is_new_response = \
+            check_and_hit_url get_repo_url(user_name, fixed_repo_name)
+
+          if information["message"] == "Not Found"
+            nasty_packages << directory
+            nasty_count += 1
+            next
+          end
+
+          moved_packages << directory
+        end
+
+        if ( information["message"] == "Moved Permanently" )
+          moved_packages << directory
+          new_url = information["url"]
+
+          information, is_new_response = \
+            check_and_hit_url information["url"]
+        end
+
       end
 
       package_directory = "#{Rails.root}/#{repos_directory}/#{directory}"
+
+      information['is_scoured_package'] = is_scoured_package
 
       contributors_request = hit_url information["contributors_url"], is_new_response
 
@@ -247,6 +266,7 @@ namespace :github do
 
       information = YAML.load_file("#{package_directory}/data.yml")
 
+      package.update is_registered: !information['is_scoured_package']
       package.repository.update url: information['html_url']
 
       owner = make_owner package, information

@@ -37,14 +37,18 @@ every :day, at: %w[ 5am 5pm 11am 11pm ] do
   rake "job:update"
 end
 
-every :day, at: '1am' do
+every :day, at: '12:30am' do
   rake "job:log"
 end
 
-every :day, at: '7am' do
+every :day, at: '12:30pm' do
+  rake "job:scour"
+end
+
+every :day, at: '6:30am' do
   rake "sitemap:refresh"
 end
 
-every :day, at: '7pm' do
+every :day, at: '6:30pm' do
   rake "job:clean"
 end
