@@ -37,12 +37,12 @@ SitemapGenerator::Sitemap.create do
   end
 
   users = User
-  .joins(:supported_packages)
-  .merge(Package.exclude_unregistered_packages)
-  .includes(:contributions)
-  .group("users.id")
-  .order("sum(contributions.score) desc")
-  .limit(model_count)
+    .joins(:supported_packages)
+    .merge(Package.exclude_unregistered_packages)
+    .includes(:contributions)
+    .group("users.id")
+    .order("sum(contributions.score) desc")
+    .limit(model_count)
 
   users.each do |user|
     add user_path(user)
