@@ -32,7 +32,7 @@ def is_new_response? url
   true
 end
 
-def hit_url url, skip_cache=false
+def hit_url url, skip_cache=false, expires_in=nil
   unless skip_cache
     cached_response = Rails.cache.read url
 
@@ -48,7 +48,8 @@ def hit_url url, skip_cache=false
     headers: @url_headers
 
   validate_response url, url_response
-  Rails.cache.write url, url_response.to_yaml
+  Rails.cache.write url, url_response.to_yaml, \
+    expires_in: expires_in
 
   url_response
 end

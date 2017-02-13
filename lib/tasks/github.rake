@@ -173,7 +173,7 @@ namespace :github do
       FileUtils.mkdir_p(user_directory) \
         unless File.directory? user_directory
 
-      information, _ = check_and_hit_url get_user_url(user_name)
+      information = hit_url get_user_url(user_name), false, get_expiry
       File.open("#{users_directory}/#{user_name}/data.yml", 'w') do |h|
         h.write information.to_yaml
       end
@@ -195,7 +195,7 @@ namespace :github do
 
       commits_info = nil
       5.times do
-        commits_info, _ = check_and_hit_url commits_url
+        commits_info = hit_url commits_url, false, get_expiry
         break unless commits_info.empty?
       end
 
@@ -427,6 +427,12 @@ namespace :github do
     entity_name = entity['login']
 
     entity_class.current_batch_scope.friendly.find(entity_name)
+  end
+
+  def get_expiry
+    tomorrow = 1.day.from_now
+    next_week = 1.week.from_now
+    rand tomorrow..next_week
   end
 
 end
