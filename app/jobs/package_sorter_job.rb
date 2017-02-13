@@ -34,10 +34,12 @@ class PackageSorterJob < ApplicationJob
     end
 
     def set_a_z_packages
+      @core_query = @core_query.order("(name +0) asc")
       @packages = @core_query.order("LOWER(name) asc")
     end
 
     def set_z_a_packages
+      @core_query = @core_query.order("(name +0) desc")
       @packages = @core_query.order("LOWER(name) desc")
     end
 
