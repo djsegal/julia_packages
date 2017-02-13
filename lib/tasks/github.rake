@@ -24,6 +24,9 @@ namespace :github do
       next if File.file? \
         "#{@metadata_directory}/#{directory}"
 
+      is_scoured_package = false \
+        if File.directory? "#{@metadata_directory}/#{directory}"
+
       is_scoured_package = \
         File.directory? "#{@scour_directory}/#{directory}"
 
