@@ -15,6 +15,38 @@
 
             <div class="row">
 
+              <div class="col-sm-12">
+
+                <div class="form-group is-empty">
+
+                  <div class="checkbox">
+
+                    <%
+                      cookie_symbol = :include_unregistered_packages
+                      cookies.permanent[cookie_symbol] ||= 'false'
+                      is_checked = ( cookies[cookie_symbol] == 'true' )
+                    %>
+
+                    <%= label_tag do %>
+
+                      <%= hidden_field_tag cookie_symbol, 'false' %>
+
+                      <%= check_box_tag cookie_symbol, 'true', is_checked %>
+
+                      &nbsp; Include Unregistered Packages
+
+                    <% end %>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="row">
+
               <div class="col-sm-6">
 
                 <div class="form-group label-static is-empty">

@@ -5,6 +5,7 @@ class SettingsController < ApplicationController
   # GET /settings.json
   def index
     settings_list = %w[
+      include_unregistered_packages
       has_discourse_news
       has_reddit_news
       has_github_news

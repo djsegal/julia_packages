@@ -1,7 +1,25 @@
 class PackagesController < ApplicationController
   before_action :set_package, only: [:show, :edit, :update, :destroy]
-  autocomplete :package, :name, \
-    limit: Package.count, full: true, scopes: [:active_batch_scope]
+
+  autocomplete :package, :name
+
+  def autocomplete_package_name
+    custom_params = params.to_unsafe_h
+
+    custom_params[:search] = params[:term]
+
+    _, packages = PackageSorterJob.perform_now custom_params, cookies
+
+    package_json = packages.map { |package|
+      {
+        id: package.id,
+        label: package.name,
+        value: package.name
+      }
+    }
+
+    render json: package_json.sort_by{ |p| p[:label] }
+  end
 
   # GET /packages
   # GET /packages.json

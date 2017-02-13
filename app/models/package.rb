@@ -47,4 +47,12 @@ class Package < ApplicationRecord
   has_one :readme, dependent: :destroy
   has_one :activity, dependent: :destroy
 
+  def self.exclude_unregistered_packages(cookies={})
+    if cookies[:include_unregistered_packages] == 'true'
+      all
+    else
+      where(is_registered: true)
+    end
+  end
+
 end

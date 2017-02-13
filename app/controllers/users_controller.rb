@@ -16,7 +16,9 @@ class UsersController < ApplicationController
     else
       @users = User
         .active_batch_scope
-        .joins(:supported_packages).includes(:contributions)
+        .joins(:supported_packages)
+        .merge(Package.exclude_unregistered_packages(cookies))
+        .includes(:contributions)
         .group("users.id")
         .having("sum(contributions.score) >= 10 or count(contributions.score) > 1")
         .order("sum(contributions.score) desc")

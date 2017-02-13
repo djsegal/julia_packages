@@ -66,6 +66,9 @@ class PackageSorterJob < ApplicationJob
         @core_query = Package
       end
 
+      @core_query = @core_query.exclude_unregistered_packages \
+        unless ( cookies[:include_unregistered_packages] == 'true' )
+
       set_cutoff_values cookies
 
       @core_query = @core_query

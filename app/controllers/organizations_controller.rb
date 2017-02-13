@@ -7,6 +7,7 @@ class OrganizationsController < ApplicationController
     @organizations = Organization
       .active_batch_scope
       .joins(owned_packages: :counter)
+      .merge(Package.exclude_unregistered_packages(cookies))
       .references(:owned_packages)
       .group("organizations.id")
       .order("count(organizations.id) DESC")
