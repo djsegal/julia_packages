@@ -18,4 +18,13 @@ class User < ApplicationRecord
   has_many :contributions, dependent: :destroy
   has_many :supported_packages, through: :contributions, source: :package
 
+  SPECIAL_USER_MAPPINGS = {
+    jeff: 'JeffBezanson',
+    tim: 'timholy',
+    mit: 'alanedelman',
+    viral: 'ViralBShah',
+    jameson: 'vtjnash',
+    spencerlyon2: 'sglyon'
+  }
+
 end

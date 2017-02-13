@@ -99,6 +99,13 @@ class UsersController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_user
       @user = User.custom_find(params[:id])
+      return if @user.present?
+
+      user_key = params[:id].downcase.to_sym
+      user_id = User::SPECIAL_USER_MAPPINGS[user_key]
+      return unless user_id.present?
+
+      redirect_to id: user_id
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
