@@ -38,7 +38,7 @@ namespace :metadata do
 
       package = Package.create! name: directory
 
-      make_repository package
+      make_metadata_repository package
       has_versions = make_versions package
 
       non_versioned_packages << package unless has_versions
@@ -48,7 +48,7 @@ namespace :metadata do
     bar.finished
   end
 
-  def make_repository package
+  def make_metadata_repository package
     url_file = "#{@metadata_directory}/#{package.name}/url"
     url = File.open(url_file).read.strip
 

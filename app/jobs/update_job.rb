@@ -8,6 +8,7 @@ class UpdateJob < JuliaJob
 
     system "#{@sys_run} db:migrate"
     system "#{@sys_run} metadata:digest"
+    system "#{@sys_run} scour:devour"
     system "#{@sys_run} github:unpack"
     system "#{@sys_run} news:make"
 
