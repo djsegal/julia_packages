@@ -34,12 +34,12 @@ class PackageSorterJob < ApplicationJob
     end
 
     def set_a_z_packages
-      @core_query = @core_query.order("(name +0) asc")
+      @core_query = @core_query.order("Case When name < 'A' Then -1 Else 1 End < 0")
       @packages = @core_query.order("LOWER(name) asc")
     end
 
     def set_z_a_packages
-      @core_query = @core_query.order("(name +0) desc")
+      @core_query = @core_query.order("Case When name < 'A' Then -1 Else 1 End > 0")
       @packages = @core_query.order("LOWER(name) desc")
     end
 
