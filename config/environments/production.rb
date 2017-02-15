@@ -1,8 +1,14 @@
+require 'memcached'
+require 'rack/throttle'
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 
   config.action_controller.default_url_options = \
     { host: 'juliaobserver.com' }
+
+  config.middleware.use Rack::Throttle::Interval, \
+    cache: Memcached.new, key_prefix: :throttle
 
   # Code is not reloaded between requests.
   config.cache_classes = true

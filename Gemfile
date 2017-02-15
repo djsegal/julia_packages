@@ -64,6 +64,10 @@ gem 'discourse_api'
 
 gem 'dalli'
 
+gem 'rack-throttle'
+
+gem 'memcached'
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'factory_girl_rails'
