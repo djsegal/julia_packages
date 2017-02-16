@@ -38,5 +38,9 @@ def render_markup markup, file_name
   readme_markdown.gsub! \
     /(?<=\<a )href="(?!http)/, link_sub_string
 
+  readme_markdown.gsub! \
+    (/(href=\\&quot;)([^\\]*)(\\&quot;)/) \
+    { "href=\"#{$2}\" target=\"_blank\"" }
+
   readme_markdown
 end
