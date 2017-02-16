@@ -37,7 +37,12 @@
   <div class="panel panel-primary">
 
     <div class="panel-heading cs-center">
-      <h4 class="cs-no-margin">Pkg.add("<%= @package.name %>")</h4>
+      <%
+        package_command = \
+          @package.is_registered ? 'add' : 'clone'
+      %>
+
+      <h4 class="cs-no-margin">Pkg.<%= package_command %>("<%= @package.name %>")</h4>
     </div>
 
     <div class="panel-body cs-no-padding">
