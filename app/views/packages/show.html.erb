@@ -30,7 +30,7 @@
               <%
                 package_share_url = request.original_url.gsub 'cdn.', ''
                 package_share_title = \
-                  url_encode "#{@package.name} — #{@package.description}"
+                  url_encode "#{@package.name} – #{@package.description}"
               %>
 
               <li><a target='_blank' href='https://twitter.com/intent/tweet?url=<%= package_share_url %>&text=<%= package_share_title %>'><%= fa_icon "twitter lg" %></a></li>
