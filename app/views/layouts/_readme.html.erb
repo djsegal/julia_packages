@@ -15,7 +15,7 @@
         @package.readme.file_name
     %>
 
-    <%= CGI.unescapeHTML( raw_html ).html_safe %>
+    <%= raw_html.html_safe %>
   </div>
 
 </div>
