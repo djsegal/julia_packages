@@ -31,6 +31,9 @@ Rails.application.routes.draw do
     get 'autocomplete_package_name', on: :collection
   end
 
+  resources :users, path: 'u'
+  resources :packages, path: 'p'
+
   root 'packages#index'
 
   get '/*bad_route', to: 'errors#index', as: 'errors'
