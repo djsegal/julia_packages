@@ -367,17 +367,21 @@ a.panel-heading:focus {
   @extend .active;
 }
 
-.cs-category-row .cs-link-icon {
-  padding-top: 25px;
-  padding-bottom: 25px;
+.cs-link-opacity {
   opacity: 0.3;
   -webkit-transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   -o-transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   transition: opacity 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover, &:focus {
+    opacity: 0.8;
+  }
 }
 
-.cs-category-row .cs-link-icon:hover {
-  opacity: 0.8;
+.cs-category-row .cs-link-icon {
+  padding-top: 25px;
+  padding-bottom: 25px;
+  @extend .cs-link-opacity;
 }
 
 .cs-show-more-toggle.js-show-more-toggle__toggled {
@@ -441,5 +445,11 @@ a.panel-heading:focus {
 @media (max-width: 336px) {
   .cs-packages-word, .cs-packages-short-word {
     display: none;
+  }
+}
+
+.cs-share-dropdown {
+  a {
+    @extend .cs-link-opacity;
   }
 }

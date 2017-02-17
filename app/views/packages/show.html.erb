@@ -4,17 +4,43 @@
 
     <div class="panel-body">
 
-      <h1 class="cs-truncated-text">
+      <div class="row cs-no-margin">
 
-        <a href="<%= @package.url %>" target="_blank">
-          <%= @package.name %>
-        </a>
+        <div class="col-sm-10 cs-no-padding">
 
-      </h1>
+          <h1 class="cs-truncated-text">
 
-      <h4>
-        <%= @package.description %>
-      </h4>
+            <a href="<%= @package.url %>" target="_blank">
+              <%= @package.name %>
+            </a>
+
+          </h1>
+
+          <h4>
+            <%= @package.description %>
+          </h4>
+
+        </div>
+
+        <div class="col-sm-2 hidden-xs cs-no-padding">
+
+          <div class="btn-group cs-pull-right cs-share-dropdown">
+            <a href="bootstrap-elements.html" data-target="#" class="btn btn-default btn dropdown-toggle" data-toggle="dropdown"><%= fa_icon "share-alt lg" %></span></a>
+            <ul class="dropdown-menu" style="right: 0; left: initial; min-width: initial;">
+              <%
+                package_share_url = request.original_url
+                package_share_title = \
+                  url_encode "#{@package.name} — #{@package.description}"
+              %>
+
+              <li><a target='_blank' href='https://twitter.com/intent/tweet?url=<%= package_share_url %>&text=<%= package_share_title %>'><%= fa_icon "twitter lg" %></a></li>
+              <li><a target='_blank' href='https://reddit.com/r/Julia/submit?url=<%= package_share_url %>&title=<%= package_share_title %>'><%= fa_icon "reddit lg" %></a></li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
 
     </div>
 
