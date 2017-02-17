@@ -77,11 +77,11 @@
 
           <div class="row-content cs-full-width cs-category-row">
 
-            <% 
+            <%
               user_website = format_website_link \
-                @user.profile.blog 
+                @user.profile.blog
 
-              user_website ||= @user.url 
+              user_website ||= @user.url
             %>
 
             <a href="<%= user_website %>" target="_blank" class="btn btn-default cs-full-width cs-left-align cs-no-margin">
