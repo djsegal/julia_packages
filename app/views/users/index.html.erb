@@ -43,7 +43,10 @@
               <%
                   limit_count = 3
 
-                  package_query = user.supported_packages.includes(:contributions)
+                  current_packages = user.supported_packages
+                    .merge(Package.exclude_unregistered_packages(cookies))
+
+                  package_query = current_packages.includes(:contributions)
                   package_query = package_query.order("contributions.score desc")
                   package_query = package_query.first(limit_count)
 
@@ -78,7 +81,7 @@
                 <% if @package.present? %>
                   <%= Contribution.find_by(user: user, package: @package).score %>
                 <% else %>
-                  <%= user.supported_packages.sum(:score) %>
+                  <%= current_packages.sum(:score) %>
                 <% end %>
               </td>
 

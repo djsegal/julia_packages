@@ -41,7 +41,10 @@
               <%
                   limit_count = 3
 
-                  package_query = organization.owned_packages.includes(:counter)
+                  current_packages = organization.owned_packages
+                    .merge(Package.exclude_unregistered_packages(cookies))
+
+                  package_query = current_packages.includes(:counter)
                   package_query = package_query.order("counters.stargazer desc")
                   package_query = package_query.first(limit_count)
 
@@ -72,7 +75,9 @@
 
               <% end %>
 
-              <td><%= organization.owned_packages.count %></td>
+              <td>
+                <%= current_packages.count %>
+              </td>
 
             </tr>
 
