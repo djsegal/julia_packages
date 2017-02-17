@@ -10,4 +10,8 @@ module ApplicationHelper
     content_for(:page_title) { title }
   end
 
+  def page_description description
+    content_for(:page_description) { description }
+  end
+
 end

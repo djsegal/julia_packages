@@ -26,7 +26,16 @@
 
     <meta name="keywords" content="julia observer package browser discovery">
     <meta name="author" content="ahab io">
-    <meta name="description" content="Julia Observer is a package browsing tool for the Julia programming language. It provides a visual interface for exploring Julia's open-source ecosystem.">
+
+    <% if content_for?(:page_description) %>
+
+      <meta name="description" content="<%= content_for(:page_description) %>">
+
+    <% else %>
+
+      <meta name="description" content="Julia Observer is a package browsing tool for the Julia programming language. It provides a visual interface for exploring Julia's open-source ecosystem.">
+
+    <% end %>
 
     <%= csrf_meta_tags %>
 
