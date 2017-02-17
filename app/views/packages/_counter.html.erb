@@ -14,7 +14,7 @@
 
       <div class="list-group cs-no-margin cs-condensed-list">
 
-        <% Package.get_count_types.sort.each_with_index do |count_type, index| %>
+        <% Package.get_count_types.sort.reverse.each_with_index do |count_type, index| %>
 
           <% unless index.zero? %>
 

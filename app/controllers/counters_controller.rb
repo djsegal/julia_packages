@@ -69,6 +69,6 @@ class CountersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def counter_params
-      params.require(:counter).permit(:fork, :stargazer, :watcher, :subscriber, :open_issue, :package_id)
+      params.require(:counter).permit(:fork, :stargazer, :open_issue, :package_id)
     end
 end

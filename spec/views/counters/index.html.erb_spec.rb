@@ -6,16 +6,12 @@ RSpec.describe "counters/index", type: :view do
       Counter.create!(
         :fork => 2,
         :stargazer => 3,
-        :watcher => 4,
-        :subscriber => 5,
         :open_issue => 6,
         :package => nil
       ),
       Counter.create!(
         :fork => 2,
         :stargazer => 3,
-        :watcher => 4,
-        :subscriber => 5,
         :open_issue => 6,
         :package => nil
       )

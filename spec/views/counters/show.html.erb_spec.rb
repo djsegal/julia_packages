@@ -5,8 +5,6 @@ RSpec.describe "counters/show", type: :view do
     @counter = assign(:counter, Counter.create!(
       :fork => 2,
       :stargazer => 3,
-      :watcher => 4,
-      :subscriber => 5,
       :open_issue => 6,
       :package => nil
     ))

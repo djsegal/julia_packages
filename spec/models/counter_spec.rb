@@ -5,8 +5,6 @@
 #  id          :integer          not null, primary key
 #  fork        :integer
 #  stargazer   :integer
-#  watcher     :integer
-#  subscriber  :integer
 #  open_issue  :integer
 #  package_id  :integer
 #  created_at  :datetime         not null

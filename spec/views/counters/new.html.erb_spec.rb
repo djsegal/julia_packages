@@ -5,8 +5,6 @@ RSpec.describe "counters/new", type: :view do
     assign(:counter, Counter.new(
       :fork => 1,
       :stargazer => 1,
-      :watcher => 1,
-      :subscriber => 1,
       :open_issue => 1,
       :package => nil
     ))
@@ -20,10 +18,6 @@ RSpec.describe "counters/new", type: :view do
       assert_select "input#counter_fork[name=?]", "counter[fork]"
 
       assert_select "input#counter_stargazer[name=?]", "counter[stargazer]"
-
-      assert_select "input#counter_watcher[name=?]", "counter[watcher]"
-
-      assert_select "input#counter_subscriber[name=?]", "counter[subscriber]"
 
       assert_select "input#counter_open_issue[name=?]", "counter[open_issue]"
 

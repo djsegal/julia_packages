@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170211230527) do
+ActiveRecord::Schema.define(version: 20170217033952) do
 
   create_table "activities", force: :cascade do |t|
     t.text     "commits"
@@ -58,8 +58,6 @@ ActiveRecord::Schema.define(version: 20170211230527) do
   create_table "counters", force: :cascade do |t|
     t.integer  "fork"
     t.integer  "stargazer"
-    t.integer  "watcher"
-    t.integer  "subscriber"
     t.integer  "open_issue"
     t.integer  "package_id"
     t.datetime "created_at",  null: false
