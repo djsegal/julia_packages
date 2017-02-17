@@ -4,7 +4,19 @@
 
   <head>
 
-    <title>Julia Observer</title>
+    <title>
+
+      <% if content_for?(:page_title) %>
+
+        <%= content_for(:page_title) %>
+
+        |
+
+      <% end %>
+
+      Julia Observer
+
+    </title>
 
     <meta name="google-site-verification" content="bv52cjhcijV21-uXOIIjeEasTB30O4TqbHwMu7W3fBc" />
 
