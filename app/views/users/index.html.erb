@@ -46,6 +46,10 @@
                   current_packages = user.supported_packages
                     .merge(Package.exclude_unregistered_packages(cookies))
 
+                  metadata_package = Package.custom_find('METADATA')
+                  current_packages = \
+                    current_packages.where.not(id: metadata_package.id)
+
                   package_query = current_packages.includes(:contributions)
                   package_query = package_query.order("contributions.score desc")
                   package_query = package_query.first(limit_count)
