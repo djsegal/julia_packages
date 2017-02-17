@@ -113,7 +113,7 @@ namespace :scour do
 
   def safe_hit_url cur_url
     @bar.inc if @bar.present?
-    cur_page = hit_url cur_url
+    cur_page = blind_hit_url cur_url
 
     @api_requests += 1
     sleep(1.minute) \

@@ -91,7 +91,7 @@ namespace :news do
     prs_url += "+in:title+repo:JuliaLang/METADATA.jl"
     prs_url += "+type:pr+is:merged&sort=updated"
 
-    prs = hit_url(prs_url)['items']
+    prs = blind_hit_url(prs_url)['items']
 
     bar = make_progress_bar prs.count
 
@@ -101,7 +101,7 @@ namespace :news do
       name = pr['title'][/(?<=\W)?\w*(?=.jl)/]
 
       unless name.present?
-        pr_diff = hit_url pr['pull_request']['diff_url']
+        pr_diff = blind_hit_url pr['pull_request']['diff_url']
         name = pr_diff[/(?<=\/)\w*(?=\/url)/]
       end
 

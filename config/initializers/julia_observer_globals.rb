@@ -32,6 +32,15 @@ def is_new_response? url
   true
 end
 
+def blind_hit_url url
+  url_response = HTTParty.get url, \
+    query: @client_info,
+    headers: @url_headers
+
+  validate_response url, url_response
+  url_response
+end
+
 def hit_url url, skip_cache=false, expires_in=nil
   unless skip_cache
     cached_response = Rails.cache.read url
@@ -43,11 +52,8 @@ def hit_url url, skip_cache=false, expires_in=nil
     end
   end
 
-  url_response = HTTParty.get url, \
-    query: @client_info,
-    headers: @url_headers
+  url_response = blind_hit_url url
 
-  validate_response url, url_response
   Rails.cache.write url, url_response.to_yaml, \
     expires_in: expires_in
 
