@@ -14,7 +14,6 @@ namespace :downloads do
       .exclude_unregistered_packages
       .active_batch_scope
       .order(:name)
-      .select(package_attributes)
 
     package_list.each_with_index do |package, index|
       categories = package.categories.map(&:name).inspect
