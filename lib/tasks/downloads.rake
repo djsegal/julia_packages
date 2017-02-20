@@ -16,8 +16,15 @@ namespace :downloads do
       .order(:name)
 
     package_list.each_with_index do |package, index|
-      categories = package.categories.map(&:name).inspect
-      categories = 'x' if categories == '[]'
+      categories_list = package.categories
+
+      if categories_list.empty?
+        categories = 'x'
+      elsif categories_list.length == 1
+        categories = categories_list.first.name
+      else
+        categories = categories_list.map(&:name).inspect
+      end
 
       sheet.update_row \
         (index+1), package.name, package.description, categories
