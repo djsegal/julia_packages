@@ -8,7 +8,7 @@ namespace :downloads do
 
     package_attributes = [:name, :description]
 
-    sheet.update_row 0, *package_attributes.map(&:to_s).map(&:titleize), 'Category'
+    sheet.update_row 0, *package_attributes.map(&:to_s).map(&:titleize), 'Categories'
 
     package_list = Package
       .exclude_unregistered_packages
@@ -17,8 +17,11 @@ namespace :downloads do
       .select(package_attributes)
 
     package_list.each_with_index do |package, index|
+      categories = package.categories.map(&:name).inspect
+      categories = 'x' if categories == '[]'
+
       sheet.update_row \
-        (index+1), package.name, package.description, 'x'
+        (index+1), package.name, package.description, categories
     end
 
     FileUtils.mkdir_p(@downloads_directory) \
