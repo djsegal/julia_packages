@@ -241,6 +241,8 @@ GEM
       rspec-mocks (~> 3.5.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
+    ruby-ole (1.2.12)
+    rubyzip (1.2.1)
     sass (3.4.22)
     sass-rails (5.0.6)
       railties (>= 4.0.0, < 6)
@@ -253,6 +255,8 @@ GEM
     skylight (1.0.1)
       activesupport (>= 3.0.0)
     slop (3.6.0)
+    spreadsheet (1.1.4)
+      ruby-ole (>= 1.0)
     spring (2.0.0)
       activesupport (>= 4.2)
     spring-watcher-listen (2.0.1)
@@ -335,9 +339,11 @@ DEPENDENCIES
   redcarpet
   redd (~> 0.7)
   rspec-rails (~> 3.5)
+  rubyzip
   sass-rails (~> 5.0)
   sitemap_generator
   skylight
+  spreadsheet
   spring
   spring-watcher-listen (~> 2.0.0)
   sqlite3

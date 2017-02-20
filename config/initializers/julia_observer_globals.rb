@@ -1,3 +1,4 @@
+@downloads_directory = 'tmp/downloads'
 @metadata_directory = 'tmp/METADATA.jl'
 @github_directory = 'tmp/github'
 @scour_directory = 'tmp/scour'

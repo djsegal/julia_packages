@@ -64,6 +64,10 @@ gem 'discourse_api'
 
 gem 'dalli'
 
+gem 'spreadsheet'
+
+gem 'rubyzip'
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'factory_girl_rails'

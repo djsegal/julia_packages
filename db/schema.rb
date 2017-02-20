@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170217033952) do
+ActiveRecord::Schema.define(version: 20170220050557) do
 
   create_table "activities", force: :cascade do |t|
     t.text     "commits"
@@ -90,6 +90,13 @@ ActiveRecord::Schema.define(version: 20170217033952) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
+  end
+
+  create_table "downloads", force: :cascade do |t|
+    t.string   "name"
+    t.string   "file"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "dummies", force: :cascade do |t|

@@ -33,6 +33,8 @@ class UpdateJob < JuliaJob
     system "service unicorn restart" \
       if Rails.env.production?
 
+    system "#{@sys_run} downloads:packages"
+
   end
 
   private
