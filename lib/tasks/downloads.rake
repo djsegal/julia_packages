@@ -11,8 +11,9 @@ namespace :downloads do
     sheet.update_row 0, *package_attributes.map(&:to_s).map(&:titleize), 'Category'
 
     package_list = Package
-      .active_batch_scope
       .exclude_unregistered_packages
+      .active_batch_scope
+      .order(:name)
       .select(package_attributes)
 
     package_list.each_with_index do |package, index|
