@@ -18,7 +18,7 @@ class OrganizationsController < ApplicationController
   # GET /organizations/1
   # GET /organizations/1.json
   def show
-    render 'layouts/error_page' \
+    render 'layouts/error_page', status: 404 \
       and return unless @organization.present?
 
     @owned_packages = @organization.owned_packages

@@ -38,7 +38,7 @@ class PackagesController < ApplicationController
   # GET /packages/1
   # GET /packages/1.json
   def show
-    render 'layouts/error_page' \
+    render 'layouts/error_page', status: 404 \
       and return unless @package.present?
 
     @contributors = @package.contributions.order(score: :desc).limit(20).includes(:user).map(&:user)

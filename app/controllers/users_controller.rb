@@ -30,7 +30,7 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    render 'layouts/error_page' \
+    render 'layouts/error_page', status: 404 \
       and return unless @user.present?
 
     @owned_packages = @user.owned_packages

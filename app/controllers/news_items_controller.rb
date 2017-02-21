@@ -11,7 +11,7 @@ class NewsItemsController < ApplicationController
       break if @package.present?
     end
 
-    render 'layouts/error_page' \
+    render 'layouts/error_page', status: 404 \
       and return unless @package.present?
 
     render :show
@@ -22,7 +22,7 @@ class NewsItemsController < ApplicationController
   def show
     @package = Package.custom_find(params[:id])
 
-    render 'layouts/error_page' \
+    render 'layouts/error_page', status: 404 \
       and return unless @package.present?
   end
 

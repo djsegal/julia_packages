@@ -13,6 +13,6 @@ class ApplicationController < ActionController::Base
   end
 
   def error_render_method
-    render 'layouts/error_page'
+    render 'layouts/error_page', status: 404
   end
 end
