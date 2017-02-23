@@ -7,15 +7,11 @@ namespace :scour do
     base_url = "https://api.github.com/search/repositories?q=.jl"
     base_url += "+in:name+language:julia+pushed:"
 
-    cutoff_date = nil
     julia_releases, _ = check_and_hit_url \
       'https://api.github.com/repos/JuliaLang/julia/releases'
 
-    julia_releases.each do |julia_release|
-      next unless julia_release['tag_name'].ends_with? '.0'
-      cutoff_date = julia_release['published_at'].to_date
-      break if cutoff_date < 6.months.ago
-    end
+    cutoff_date = \
+      julia_releases.last['published_at'].to_date
 
     cur_start_date = cutoff_date
     today_date = Date.today
