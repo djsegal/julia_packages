@@ -10,6 +10,14 @@ namespace :scour do
     julia_releases, _ = check_and_hit_url \
       'https://api.github.com/repos/JuliaLang/julia/releases'
 
+    julia_directory = "#{Rails.root}/tmp/julia"
+    FileUtils.mkdir_p(julia_directory) \
+      unless File.directory? julia_directory
+
+    File.open("#{julia_directory}/releases.yml", 'w') do |h|
+      h.write julia_releases.to_yaml
+    end
+
     cutoff_date = \
       julia_releases.last['published_at'].to_date
 
@@ -69,6 +77,20 @@ namespace :scour do
 
   desc "devour scoured data for database"
   task devour: :environment do
+    julia_releases_file = "tmp/julia/releases.yml"
+    julia_releases = YAML.load_file(julia_releases_file)
+
+    bar = make_progress_bar julia_releases.count
+
+    julia_releases.each do |julia_release|
+      bar.inc
+      Release.create! \
+        published_at: julia_release['published_at'],
+        tag_name: julia_release['tag_name']
+    end
+
+    bar.finished
+
     bar = make_progress_bar Dir["#{@scour_directory}/*"].count
 
     Dir.foreach(@scour_directory) do |directory|

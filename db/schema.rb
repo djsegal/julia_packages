@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170220050557) do
+ActiveRecord::Schema.define(version: 20170223051655) do
 
   create_table "activities", force: :cascade do |t|
     t.text     "commits"
@@ -193,6 +193,14 @@ ActiveRecord::Schema.define(version: 20170220050557) do
     t.string   "link"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "releases", force: :cascade do |t|
+    t.string   "tag_name"
+    t.datetime "published_at"
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
+    t.index ["published_at"], name: "index_releases_on_published_at"
   end
 
   create_table "repositories", force: :cascade do |t|

@@ -27,6 +27,22 @@
                       is_checked = ( cookies[cookie_symbol] == 'true' )
                     %>
 
+                    <%
+
+                      cookies.permanent[:end_date] ||= Date.today
+
+                      unless cookies[:start_date]
+                        cutoff_date = nil
+                        Release.order(:published_at).each do |julia_release|
+                          next unless julia_release['tag_name'].ends_with? '.0'
+                          cutoff_date = julia_release['published_at'].to_date
+                          break if cutoff_date < 6.months.ago
+                        end
+                        cookies.permanent[:start_date] = cutoff_date
+                      end
+
+                    %>
+
                     <%= label_tag do %>
 
                       <%= hidden_field_tag cookie_symbol, 'false' %>
