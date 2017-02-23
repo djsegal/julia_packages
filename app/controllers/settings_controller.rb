@@ -109,9 +109,14 @@ class SettingsController < ApplicationController
       needs_stars_flip &&= ( min_stars > max_stars )
 
       if needs_stars_flip
+        min_stars, max_stars = max_stars, min_stars
+
         new_settings[:min_stars], new_settings[:max_stars] = \
           new_settings[:max_stars], new_settings[:min_stars]
       end
+
+      new_settings[:min_stars] = '0' if min_stars.present? && min_stars < 0
+      new_settings[:max_stars] = '0' if max_stars.present? && max_stars < 0
 
       start_date = new_settings[:start_date] && new_settings[:start_date].to_date
       end_date = new_settings[:end_date] && new_settings[:end_date].to_date
