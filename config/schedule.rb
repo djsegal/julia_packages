@@ -42,11 +42,11 @@ every :day, at: '12:30am' do
 end
 
 every :day, at: '12:30pm' do
-  rake "job:scour"
+  rake "sitemap:refresh"
 end
 
 every :day, at: '6:30am' do
-  rake "sitemap:refresh"
+  rake "job:scour"
 end
 
 every :day, at: '6:30pm' do
