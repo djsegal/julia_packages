@@ -29,6 +29,12 @@
 
                     <%
 
+                      cookies.permanent[:min_stars] ||= 0
+
+                    %>
+
+                    <%
+
                       cookies.permanent[:end_date] ||= Date.today
 
                       unless cookies[:start_date]
