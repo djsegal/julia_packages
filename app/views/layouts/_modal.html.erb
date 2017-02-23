@@ -35,8 +35,6 @@
 
                     <%
 
-                      cookies.permanent[:end_date] ||= Date.today
-
                       unless cookies[:start_date]
                         cutoff_date = nil
                         Release.order(:published_at).each do |julia_release|
