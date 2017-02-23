@@ -35,6 +35,7 @@ Rails.application.routes.draw do
 
   resources :users, path: 'u'
   resources :packages, path: 'p'
+  resources :organizations, path: 'o'
 
   root 'packages#index'
 
