@@ -28,6 +28,7 @@ namespace :scour do
 
     while cur_start_date < today_date do
 
+      cur_start_date -= 1.day
       cur_end_date = today_date
 
       while cur_end_date > cur_start_date
