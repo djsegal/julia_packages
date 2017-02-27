@@ -51,8 +51,13 @@ namespace :scour do
         cur_url = base_url + date_query + "&page=#{ page_index }"
         cur_page = safe_hit_url cur_url
 
-        throw "Invalid scoured page: \n#{cur_page.inspect}\n" \
-          unless cur_page.present?
+        unless cur_page.present?
+          CronLogMailer.log_email(
+            "Scour", cur_url
+          ).deliver_later
+
+          throw "Invalid scoured page for: #{cur_url}"
+        end
 
         cur_page['items'].each do |item|
           package_directory = "#{Rails.root}/#{@scour_directory}/#{item['name'].sub '.jl', ''}"
