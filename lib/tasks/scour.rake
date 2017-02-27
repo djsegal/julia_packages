@@ -51,6 +51,9 @@ namespace :scour do
         cur_url = base_url + date_query + "&page=#{ page_index }"
         cur_page = safe_hit_url cur_url
 
+        throw "Invalid scoured page: \n#{cur_page.inspect}\n" \
+          unless cur_page.present?
+
         cur_page['items'].each do |item|
           package_directory = "#{Rails.root}/#{@scour_directory}/#{item['name'].sub '.jl', ''}"
           next if File.directory? package_directory
