@@ -44,15 +44,27 @@ module Batchable
     end
 
     def backup_find *args
-      matched_name = args.first.downcase
+      matched_name = args.first
 
       like_word = Rails.env.production? ? 'ILIKE' : 'LIKE'
 
       possible_items = self.active_batch_scope.where \
         "name #{like_word} ?", "%#{args.first}%"
 
+      matched_name.downcase!
+
       possible_items.each do |possible_item|
         cur_name = possible_item.name.downcase
+        is_item = ( cur_name == matched_name )
+        return possible_item if is_item
+      end
+
+      matched_name.gsub! /[-_]/, ''
+
+      possible_items.each do |possible_item|
+        cur_name = possible_item.name.downcase
+        cur_name = cur_name.gsub /[-_]/, ''
+
         is_item = ( cur_name == matched_name )
         return possible_item if is_item
       end
