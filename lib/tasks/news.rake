@@ -101,7 +101,15 @@ namespace :news do
       name = pr['title'][/(?<=\W)?\w*(?=.jl)/]
 
       unless name.present?
-        pr_diff = blind_hit_url pr['pull_request']['diff_url']
+        begin
+          pr_diff = blind_hit_url pr['pull_request']['diff_url']
+        rescue
+          CronLogMailer.log_email(
+            "News", pr
+          ).deliver_later
+
+          next
+        end
         name = pr_diff[/(?<=\/)\w*(?=\/url)/]
       end
 

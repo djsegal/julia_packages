@@ -14,13 +14,9 @@
 
       <div class="panel-body cs-no-padding">
 
-        <% @log_file.each_with_index do |line, index| %>
-
-          <p style="font-size: 16px;">
-            <%= line %>
-          </p>
-
-        <% end %>
+        <p style="font-size: 16px;">
+          <%= @log_file.inspect %>
+        </p>
 
       </div>
 
