@@ -51,9 +51,9 @@ namespace :scour do
         cur_url = base_url + date_query + "&page=#{ page_index }"
         cur_page = safe_hit_url cur_url
 
-        unless cur_page.present?
+        unless cur_page['items'].present?
           CronLogMailer.log_email(
-            "Scour", cur_url
+            "Scour", cur_page
           ).deliver_later
 
           throw "Invalid scoured page for: #{cur_url}"
