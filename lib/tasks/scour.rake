@@ -53,7 +53,7 @@ namespace :scour do
 
         unless cur_page['items'].present?
           CronLogMailer.log_email(
-            "Scour", cur_page
+            "Scour", cur_page.inspect
           ).deliver_later
 
           throw "Invalid scoured page for: #{cur_url}"
