@@ -51,7 +51,10 @@ namespace :scour do
         cur_url = base_url + date_query + "&page=#{ page_index }"
         cur_page = safe_hit_url cur_url
 
-        unless cur_page['items'].present?
+        is_bad_data = ( not cur_page['items'].present? )
+        is_bad_data &&= ( not cur_page['items'].try(:empty?) )
+
+        if is_bad_data
           CronLogMailer.log_email(
             "Scour", cur_page.inspect
           ).deliver_later
