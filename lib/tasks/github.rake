@@ -437,7 +437,12 @@ namespace :github do
   def get_expiry
     tomorrow = 1.day.from_now
     next_week = 1.week.from_now
-    rand tomorrow..next_week
+
+    today = Time.now
+    end_day = rand tomorrow..next_week
+
+    day_count = TimeDifference.between(today, end_day).in_days
+    day_count.days
   end
 
 end
