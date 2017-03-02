@@ -242,7 +242,7 @@ namespace :github do
 
       unless information['type'].present?
         CronLogMailer.log_email(
-          "Unpack", information.to_yaml
+          "Unpack I", information.to_yaml
         ).deliver_now
 
         next
@@ -290,9 +290,11 @@ namespace :github do
       package.repository.update url: information['html_url']
 
       owner = make_owner package, information
+      has_good_data = owner.present?
+
       make_category package, owner
 
-      has_good_data = make_readme package, package_directory
+      has_good_data &&= make_readme package, package_directory
       has_good_data &&= make_activity package, package_directory
       has_good_data &&= make_contributors package, package_directory
 
@@ -399,6 +401,7 @@ namespace :github do
 
     contributors.each do |contributor|
       user = find_entity contributor
+      next unless user.present?
 
       Contribution.create! \
         user: user, \
@@ -438,6 +441,14 @@ namespace :github do
   def find_entity entity
     entity_class = entity['type'].constantize
     entity_name = entity['login']
+
+    unless entity_class.current_batch_scope.friendly.exists?(entity_name)
+      CronLogMailer.log_email(
+        "Unpack II", entity.to_yaml
+      ).deliver_now
+
+      return
+    end
 
     entity_class.current_batch_scope.friendly.find(entity_name)
   end
