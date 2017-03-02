@@ -81,7 +81,11 @@ class LogsController < ApplicationController
     end
 
     def get_log_file
-      tail "./log/#{@log}.log", 200
+      line_count = params[:lines].to_i \
+        if params[:lines].present?
+
+      line_count ||= 200
+      tail "./log/#{@log}.log", line_count
     end
 
     def is_wrong_environment? environment
