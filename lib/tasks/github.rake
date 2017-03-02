@@ -240,6 +240,14 @@ namespace :github do
 
       information = YAML.load_file("#{users_directory}/#{user_name}/data.yml")
 
+      unless information['type'].present?
+        CronLogMailer.log_email(
+          "Unpack", information.inspect
+        ).deliver_now
+
+        next
+      end
+
       user_class = information['type'].constantize
 
       user = user_class.create! \
