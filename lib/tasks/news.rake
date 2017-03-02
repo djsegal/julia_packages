@@ -106,7 +106,7 @@ namespace :news do
         rescue
           CronLogMailer.log_email(
             "News", pr
-          ).deliver_later
+          ).deliver_now
 
           next
         end
