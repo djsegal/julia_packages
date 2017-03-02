@@ -56,7 +56,7 @@ namespace :scour do
 
         if is_bad_data
           CronLogMailer.log_email(
-            "Scour", cur_page.inspect
+            "Scour", cur_page.to_yaml
           ).deliver_now
 
           throw "Invalid scoured page for: #{cur_url}"

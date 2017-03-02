@@ -105,7 +105,7 @@ namespace :news do
           pr_diff = blind_hit_url pr['pull_request']['diff_url']
         rescue
           CronLogMailer.log_email(
-            "News", pr
+            "News", pr.to_yaml
           ).deliver_now
 
           next

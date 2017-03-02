@@ -242,7 +242,7 @@ namespace :github do
 
       unless information['type'].present?
         CronLogMailer.log_email(
-          "Unpack", information.inspect
+          "Unpack", information.to_yaml
         ).deliver_now
 
         next
