@@ -1,32 +1,23 @@
 namespace :cache do
 
-  desc "flush github expanded information"
-  task flush: :environment do
-    cache_deleted = 0
+  @cached_types = %w[ users repos ]
 
-    repos_directory = "#{@github_directory}/repos"
-
-    bar = make_progress_bar Dir.foreach("#{repos_directory}").count
-
-    users_list = Set.new
-    Dir.foreach("#{repos_directory}") do |directory|
-      bar.inc
-      next if directory.starts_with? '.'
-
-      owner_login = YAML.load_file("#{repos_directory}/#{directory}/data.yml")['owner']['login']
-      users_list.add owner_login
-
-      contributors = YAML.load_file("#{repos_directory}/#{directory}/contributors.yml")
-      users_list.merge contributors.map { |c| c['login'] }
+  desc "flush all github expanded information"
+  task flush_all: :environment do
+    @cached_types.each do |cached_type|
+      Rake::Task["cache:flush_#{cached_type}"].invoke
     end
+  end
 
-    bar.finished
+  desc "flush users info"
+  task flush_users: :environment do
+    cache_deleted = 0
 
     users_directory = "#{@github_directory}/users"
 
-    bar = make_progress_bar users_list.count
+    bar = make_progress_bar Dir.foreach("#{users_directory}").count
 
-    users_list.sort.each do |user_name|
+    Dir.foreach("#{users_directory}") do |user_name|
       bar.inc
 
       cache_deleted += 1 \
@@ -34,6 +25,15 @@ namespace :cache do
     end
 
     bar.finished
+
+    puts "\nUsers Cache deleted: #{ cache_deleted }\n"
+  end
+
+  desc "flush repo activity"
+  task flush_repos: :environment do
+    cache_deleted = 0
+
+    repos_directory = "#{@github_directory}/repos"
 
     bar = make_progress_bar Dir.foreach("#{repos_directory}").count
 
@@ -51,7 +51,7 @@ namespace :cache do
 
     bar.finished
 
-    puts "\nCache deleted: #{ cache_deleted }\n"
+    puts "\nRepos Cache deleted: #{ cache_deleted }\n"
   end
 
 end
