@@ -199,7 +199,13 @@ namespace :github do
       commits_url = "#{base_url}/stats/participation"
 
       commits_info = nil
-      5.times do
+
+      5.times do |i|
+        unless i.zero?
+          sleep 1
+          Rails.cache.delete(commits_url)
+        end
+
         commits_info = hit_url commits_url, false, get_expiry
         break unless commits_info.empty?
       end
