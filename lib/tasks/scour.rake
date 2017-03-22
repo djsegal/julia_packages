@@ -18,10 +18,7 @@ namespace :scour do
       h.write julia_releases.to_yaml
     end
 
-    cutoff_date = \
-      julia_releases.last['published_at'].to_date
-
-    cur_start_date = cutoff_date
+    cur_start_date = Date.parse '2012-04-04'
     today_date = Date.today
 
     make_query_bar base_url, cur_start_date, today_date
