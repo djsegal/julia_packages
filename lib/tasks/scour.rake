@@ -23,6 +23,8 @@ namespace :scour do
 
     make_query_bar base_url, cur_start_date, today_date
 
+    scoured_results = []
+
     while cur_start_date < today_date do
 
       cur_start_date -= 1.day
@@ -78,10 +80,17 @@ namespace :scour do
         FileUtils.rm_rf "#{@scour_directory}/#{directory}"
       end
 
+      scoured_results << [cur_start_date, cur_end_date, page_index]
+
       cur_start_date = cur_end_date
     end
 
     @bar.finished
+
+    scoured_results.each do |scoured_result|
+      puts "#{ scoured_result[0] } - #{ scoured_result[1] } : #{ scoured_result[2] }"
+    end
+
   end
 
   desc "devour scoured data for database"
