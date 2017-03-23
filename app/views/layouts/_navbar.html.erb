@@ -12,15 +12,21 @@
   <div class="container-fluid">
 
     <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-inverse-collapse">
+
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-inverse-collapse" style="float: left; margin-right: 0;">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
+
       <%= link_to root_path, class: "navbar-brand" do %>
-        <%= fa_icon "search lg", class: "cs-logo-icon" %>
         Julia Observer
       <% end %>
+
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-inverse-collapse" style="padding: 0; margin: 0;">
+        <%= fa_icon "search lg", class: "cs-logo-icon navbar-toggle" %>
+      </button>
+
     </div>
 
     <div class="navbar-collapse collapse navbar-inverse-collapse">
