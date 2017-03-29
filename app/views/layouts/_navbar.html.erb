@@ -115,31 +115,15 @@
             <li class="divider"></li>
 
             <li class="dropdown-header">Models</li>
-              <% ApplicationRecord.descendants.each do |model_class| %>
 
-                <%
-                  has_name = model_class.attribute_names.include? "name"
-                  next unless has_name
+            <li>
+              <%= link_to "Users", users_path %>
+            </li>
 
-                  model_name = model_class.name.pluralize.underscore
-                  sti_classes = %w[ news_items ]
+            <li>
+              <%= link_to "Collections", models_path %>
+            </li>
 
-                  if sti_classes.any? { |c| model_name.include? c }
-                    next unless sti_classes.include? model_name
-                  end
-
-                  cur_class_name = model_class.name.pluralize.underscore
-
-                  cur_class_title = cur_class_name.titleize
-                  cur_class_title = "RSS #{cur_class_title}" \
-                    if cur_class_name == 'feeds'
-                %>
-
-                <li>
-                  <%= link_to cur_class_title, send("#{cur_class_name.underscore}_path") %>
-                </li>
-
-              <% end %>
           </ul>
         </li>
       </ul>
