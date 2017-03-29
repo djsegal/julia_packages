@@ -5,7 +5,7 @@ namespace :scour do
   desc "scour for non-metadata packages"
   task packages: :environment do
     base_url = "https://api.github.com/search/repositories?q=.jl"
-    base_url += "+in:name+language:julia+pushed:"
+    base_url += "+in:name+language:julia+created:"
 
     julia_releases, _ = check_and_hit_url \
       'https://api.github.com/repos/JuliaLang/julia/releases'
