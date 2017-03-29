@@ -41,12 +41,15 @@ namespace :scour do
           0.5 * ( cur_end_date - cur_start_date )
       end
 
-      scoured_results << [ cur_page['total_count'] ]
+      total_count = cur_page['total_count']
+      scoured_results << [ total_count ]
 
       cur_page = nil
       page_index = 0
+      cur_count = 0
 
-      while cur_page.nil? or not cur_page['items'].empty?
+      while cur_count < total_count && \
+          ( cur_page.nil? or not cur_page['items'].empty? )
         page_index += 1
 
         cur_url = base_url + date_query + "&page=#{ page_index }"
@@ -62,6 +65,8 @@ namespace :scour do
 
           throw "Invalid scoured page for: #{cur_url}"
         end
+
+        cur_count += cur_page['items'].length
 
         cur_page['items'].each do |item|
           package_directory = "#{Rails.root}/#{@scour_directory}/#{item['name'].sub '.jl', ''}"
