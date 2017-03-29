@@ -41,6 +41,8 @@ namespace :scour do
           0.5 * ( cur_end_date - cur_start_date )
       end
 
+      scoured_results << [ cur_page['total_count'] ]
+
       cur_page = nil
       page_index = 0
 
@@ -80,7 +82,7 @@ namespace :scour do
         FileUtils.rm_rf "#{@scour_directory}/#{directory}"
       end
 
-      scoured_results << [cur_start_date, cur_end_date, page_index]
+      scoured_results[-1] += [page_index, cur_start_date, cur_end_date]
 
       cur_start_date = cur_end_date
     end
@@ -88,7 +90,10 @@ namespace :scour do
     @bar.finished
 
     scoured_results.each do |scoured_result|
-      puts "#{ scoured_result[0] } - #{ scoured_result[1] } : #{ scoured_result[2] }"
+      scoured_print_out = "#{ scoured_result[2] } - #{ scoured_result[3] }"
+      scoured_print_out += " : "
+      scoured_print_out += "#{ scoured_result[0] } / #{ scoured_result[1] }"
+      puts scoured_print_out
     end
 
   end
