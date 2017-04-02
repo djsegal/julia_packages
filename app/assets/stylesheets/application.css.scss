@@ -453,3 +453,9 @@ a.panel-heading:focus {
     @extend .cs-link-opacity;
   }
 }
+
+@media (max-width: 767px) {
+  .navbar .navbar-brand {
+    padding: 10px;
+  }
+}
