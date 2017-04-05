@@ -14,7 +14,9 @@
       <div class="panel-body">
 
         <p class="cs-no-margin cs-pull-right">
-          <%= time_ago_in_words @package.dater.created %>
+          <%=
+            @package.dater.created.strftime("%m/%d/%Y")
+          %>
         </p>
 
       </div>
@@ -36,7 +38,7 @@
       <div class="panel-body">
 
         <p class="cs-no-margin cs-pull-right">
-          <%= time_ago_in_words @package.dater.touched %>
+          <%= time_ago_in_words @package.dater.touched %> ago
         </p>
 
       </div>
