@@ -83,10 +83,22 @@ class PackageSorterJob < ApplicationJob
 
       return unless params[:search].present?
 
+      search_param = params[:search].strip
+
+      use_advanced_search = Rails.env.production?
+      use_advanced_search &&= search_param.length > 2
+
+      if use_advanced_search
+        @core_query = \
+          @core_query.search_like search_param
+
+        return
+      end
+
       like_word = Rails.env.production? ? 'ILIKE' : 'LIKE'
 
       @core_query = @core_query.where \
-        "name #{like_word} ?", "%#{params[:search]}%"
+        "name #{like_word} ?", "%#{search_param}%"
     end
 
     def set_cutoff_values cookies

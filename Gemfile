@@ -70,6 +70,8 @@ gem 'rubyzip'
 
 gem 'time_difference'
 
+gem 'pg_search'
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'factory_girl_rails'

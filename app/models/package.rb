@@ -21,6 +21,11 @@
 
 class Package < ApplicationRecord
 
+  include PgSearch
+  pg_search_scope :search_like, \
+    against: [:name, :description], \
+    using: [:tsearch, :trigram, :dmetaphone]
+
   include Batchable
 
   extend FriendlyId
