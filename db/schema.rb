@@ -12,14 +12,19 @@
 
 ActiveRecord::Schema.define(version: 20170405234312) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+  enable_extension "pg_trgm"
+  enable_extension "fuzzystrmatch"
+
   create_table "activities", force: :cascade do |t|
     t.text     "commits"
     t.integer  "package_id"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
     t.integer  "recent_commit_count"
-    t.index ["package_id"], name: "index_activities_on_package_id"
-    t.index ["recent_commit_count"], name: "index_activities_on_recent_commit_count"
+    t.index ["package_id"], name: "index_activities_on_package_id", using: :btree
+    t.index ["recent_commit_count"], name: "index_activities_on_recent_commit_count", using: :btree
   end
 
   create_table "batches", force: :cascade do |t|
@@ -28,8 +33,8 @@ ActiveRecord::Schema.define(version: 20170405234312) do
     t.integer  "item_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["item_type", "item_id"], name: "index_batches_on_item_type_and_item_id"
-    t.index ["marker"], name: "index_batches_on_marker"
+    t.index ["item_type", "item_id"], name: "index_batches_on_item_type_and_item_id", using: :btree
+    t.index ["marker"], name: "index_batches_on_marker", using: :btree
   end
 
   create_table "blurbs", force: :cascade do |t|
@@ -50,9 +55,9 @@ ActiveRecord::Schema.define(version: 20170405234312) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "score"
-    t.index ["package_id"], name: "index_contributions_on_package_id"
-    t.index ["user_id", "package_id"], name: "index_contributions_on_uniqueness", unique: true
-    t.index ["user_id"], name: "index_contributions_on_user_id"
+    t.index ["package_id"], name: "index_contributions_on_package_id", using: :btree
+    t.index ["user_id", "package_id"], name: "index_contributions_on_uniqueness", unique: true, using: :btree
+    t.index ["user_id"], name: "index_contributions_on_user_id", using: :btree
   end
 
   create_table "counters", force: :cascade do |t|
@@ -63,7 +68,7 @@ ActiveRecord::Schema.define(version: 20170405234312) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
     t.integer  "contributor"
-    t.index ["package_id"], name: "index_counters_on_package_id"
+    t.index ["package_id"], name: "index_counters_on_package_id", using: :btree
   end
 
   create_table "daters", force: :cascade do |t|
@@ -74,7 +79,7 @@ ActiveRecord::Schema.define(version: 20170405234312) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "touched"
-    t.index ["package_id"], name: "index_daters_on_package_id"
+    t.index ["package_id"], name: "index_daters_on_package_id", using: :btree
   end
 
   create_table "delayed_jobs", force: :cascade do |t|
@@ -89,7 +94,7 @@ ActiveRecord::Schema.define(version: 20170405234312) do
     t.string   "queue"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.index ["priority", "run_at"], name: "delayed_jobs_priority"
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
   end
 
   create_table "downloads", force: :cascade do |t|
@@ -119,7 +124,7 @@ ActiveRecord::Schema.define(version: 20170405234312) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "gists"
-    t.index ["owner_type", "owner_id"], name: "index_infos_on_owner_type_and_owner_id"
+    t.index ["owner_type", "owner_id"], name: "index_infos_on_owner_type_and_owner_id", using: :btree
   end
 
   create_table "labels", force: :cascade do |t|
@@ -127,9 +132,9 @@ ActiveRecord::Schema.define(version: 20170405234312) do
     t.integer  "package_id"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
-    t.index ["category_id", "package_id"], name: "index_labels_on_uniqueness", unique: true
-    t.index ["category_id"], name: "index_labels_on_category_id"
-    t.index ["package_id"], name: "index_labels_on_package_id"
+    t.index ["category_id", "package_id"], name: "index_labels_on_uniqueness", unique: true, using: :btree
+    t.index ["category_id"], name: "index_labels_on_category_id", using: :btree
+    t.index ["package_id"], name: "index_labels_on_package_id", using: :btree
   end
 
   create_table "news_items", force: :cascade do |t|
@@ -141,8 +146,8 @@ ActiveRecord::Schema.define(version: 20170405234312) do
     t.datetime "updated_at",  null: false
     t.string   "type"
     t.integer  "position"
-    t.index ["position"], name: "index_news_items_on_position"
-    t.index ["target_type", "target_id"], name: "index_news_items_on_target_type_and_target_id"
+    t.index ["position"], name: "index_news_items_on_position", using: :btree
+    t.index ["target_type", "target_id"], name: "index_news_items_on_target_type_and_target_id", using: :btree
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -161,9 +166,9 @@ ActiveRecord::Schema.define(version: 20170405234312) do
     t.string   "owner_type"
     t.integer  "owner_id"
     t.boolean  "is_registered"
-    t.index ["is_registered"], name: "index_packages_on_is_registered"
-    t.index ["name"], name: "index_packages_on_name"
-    t.index ["owner_type", "owner_id"], name: "index_packages_on_owner_type_and_owner_id"
+    t.index ["is_registered"], name: "index_packages_on_is_registered", using: :btree
+    t.index ["name"], name: "index_packages_on_name", using: :btree
+    t.index ["owner_type", "owner_id"], name: "index_packages_on_owner_type_and_owner_id", using: :btree
   end
 
   create_table "profiles", force: :cascade do |t|
@@ -177,7 +182,7 @@ ActiveRecord::Schema.define(version: 20170405234312) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "created"
-    t.index ["owner_type", "owner_id"], name: "index_profiles_on_owner_type_and_owner_id"
+    t.index ["owner_type", "owner_id"], name: "index_profiles_on_owner_type_and_owner_id", using: :btree
   end
 
   create_table "readmes", force: :cascade do |t|
@@ -186,7 +191,7 @@ ActiveRecord::Schema.define(version: 20170405234312) do
     t.integer  "package_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["package_id"], name: "index_readmes_on_package_id"
+    t.index ["package_id"], name: "index_readmes_on_package_id", using: :btree
   end
 
   create_table "references", force: :cascade do |t|
@@ -200,7 +205,7 @@ ActiveRecord::Schema.define(version: 20170405234312) do
     t.datetime "published_at"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.index ["published_at"], name: "index_releases_on_published_at"
+    t.index ["published_at"], name: "index_releases_on_published_at", using: :btree
   end
 
   create_table "repositories", force: :cascade do |t|
@@ -208,7 +213,7 @@ ActiveRecord::Schema.define(version: 20170405234312) do
     t.string   "url"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["package_id"], name: "index_repositories_on_package_id"
+    t.index ["package_id"], name: "index_repositories_on_package_id", using: :btree
   end
 
   create_table "subscriptions", force: :cascade do |t|
@@ -216,8 +221,8 @@ ActiveRecord::Schema.define(version: 20170405234312) do
     t.integer  "news_item_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-    t.index ["feed_id"], name: "index_subscriptions_on_feed_id"
-    t.index ["news_item_id"], name: "index_subscriptions_on_news_item_id"
+    t.index ["feed_id"], name: "index_subscriptions_on_feed_id", using: :btree
+    t.index ["news_item_id"], name: "index_subscriptions_on_news_item_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -236,7 +241,19 @@ ActiveRecord::Schema.define(version: 20170405234312) do
     t.string   "number"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["package_id"], name: "index_versions_on_package_id"
+    t.index ["package_id"], name: "index_versions_on_package_id", using: :btree
   end
 
+  add_foreign_key "activities", "packages"
+  add_foreign_key "contributions", "packages"
+  add_foreign_key "contributions", "users"
+  add_foreign_key "counters", "packages"
+  add_foreign_key "daters", "packages"
+  add_foreign_key "labels", "categories"
+  add_foreign_key "labels", "packages"
+  add_foreign_key "readmes", "packages"
+  add_foreign_key "repositories", "packages"
+  add_foreign_key "subscriptions", "feeds"
+  add_foreign_key "subscriptions", "news_items"
+  add_foreign_key "versions", "packages"
 end
