@@ -26,5 +26,6 @@ test:
   password:
 
 production:
+  <<: *default
   database: julia_observer_production
   password: <%= ENV['APP_DATABASE_PASSWORD'] %>
