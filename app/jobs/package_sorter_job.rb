@@ -88,6 +88,8 @@ class PackageSorterJob < ApplicationJob
       use_advanced_search = Rails.env.production?
       use_advanced_search &&= search_param.length > 2
 
+      use_advanced_search = false
+
       if use_advanced_search
         @core_query = \
           @core_query.search_like search_param
