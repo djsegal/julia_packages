@@ -24,7 +24,18 @@ class Package < ApplicationRecord
   include PgSearch
   pg_search_scope :search_like, \
     against: [:name, :description], \
-    using: [:tsearch, :trigram, :dmetaphone]
+    associated_against: {
+      readme: [:cargo]
+    },
+    using: {
+      tsearch: { dictionary: 'english' },
+      trigram: {
+        only: [:name, :description]
+      },
+      dmetaphone: {
+        only: [:name, :description]
+      }
+    }
 
   include Batchable
 
