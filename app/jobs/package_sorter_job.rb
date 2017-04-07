@@ -68,7 +68,7 @@ class PackageSorterJob < ApplicationJob
         @core_query = Package
       end
 
-      set_search_query params
+      @core_query = @core_query.active_batch_scope
 
       @core_query = @core_query.exclude_unregistered_packages \
         unless ( cookies[:include_unregistered_packages] == 'true' )
@@ -81,8 +81,9 @@ class PackageSorterJob < ApplicationJob
 
       set_cutoff_values cookies
 
+      set_search_query params
+
       @core_query = @core_query
-        .active_batch_scope
         .page(params[:page])
         .includes(:activity)
     end
