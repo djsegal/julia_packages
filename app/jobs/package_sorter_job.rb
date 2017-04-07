@@ -20,6 +20,13 @@ class PackageSorterJob < ApplicationJob
       raise "Invalid sorting method."
     end
 
+    if params[:search].present?
+      DebugLogMailer.log_email(
+        "Searched Package",
+        @packages.to_yaml
+      ).deliver_later
+    end
+
     [@sort, @packages]
   end
 
