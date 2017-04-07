@@ -9,4 +9,11 @@ RSpec.describe ErrorsController, type: :controller do
     end
   end
 
+  describe "GET #pardon" do
+    it "returns http success" do
+      get :pardon
+      expect(response).to have_http_status(:success)
+    end
+  end
+
 end

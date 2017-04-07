@@ -1,5 +1,10 @@
 Rails.application.routes.draw do
 
+  resources :logs
+
+  root 'errors#pardon'
+  get '/*any_route', to: 'errors#pardon', as: 'pardon'
+
   resources :models
   resources :releases
   resources :downloads
@@ -11,7 +16,6 @@ Rails.application.routes.draw do
   resources :discourse_news_items
   resources :github_news_items
   resources :reddit_news_items
-  resources :logs
   resources :activities
   resources :batches
   resources :infos
