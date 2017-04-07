@@ -20,13 +20,6 @@ class PackageSorterJob < ApplicationJob
       raise "Invalid sorting method."
     end
 
-    if params[:search].present?
-      DebugLogMailer.log_email(
-        "Searched Package",
-        @packages.to_yaml
-      ).deliver_later
-    end
-
     [@sort, @packages]
   end
 
@@ -75,8 +68,16 @@ class PackageSorterJob < ApplicationJob
         @core_query = Package
       end
 
+      set_search_query params
+
       @core_query = @core_query.exclude_unregistered_packages \
         unless ( cookies[:include_unregistered_packages] == 'true' )
+
+      @core_query = @core_query
+        .includes(:dater)
+        .includes(:counter)
+        .joins(:dater)
+        .joins(:counter)
 
       set_cutoff_values cookies
 
@@ -84,23 +85,22 @@ class PackageSorterJob < ApplicationJob
         .active_batch_scope
         .page(params[:page])
         .includes(:activity)
-        .includes(:dater)
-        .includes(:counter)
-        .joins(:counter)
+    end
 
+    def set_search_query params
       return unless params[:search].present?
 
       search_param = params[:search].strip
 
-      if search_param.length > 2
-        @core_query = \
-          @core_query.search_like search_param
+      if search_param.length < 3
+        @core_query = @core_query.where \
+          "name ILIKE ?", "%#{ search_param }%"
 
         return
       end
 
-      @core_query = @core_query.where \
-        "name ILIKE ?", "%#{search_param}%"
+      @core_query = \
+        @core_query.search_like search_param
     end
 
     def set_cutoff_values cookies
