@@ -26,6 +26,18 @@
 
         <% end %>
 
+        <% if @bad_object[:cookies].present? %>
+
+          <p style="font-size: 16px;">
+
+            <%= @bad_object[:cookies] %>
+
+          </p>
+
+          <hr>
+
+        <% end %>
+
         <p style="font-size: 16px;">
 
           <%= @bad_object[:params].inspect %>

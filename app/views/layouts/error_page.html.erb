@@ -3,7 +3,8 @@
     controller_name.singularize.titleize,
     params[:id],
     request.referrer,
-    params.to_unsafe_h
+    params.to_unsafe_h,
+    cookies.to_h
   ).deliver_later
 %>
 
