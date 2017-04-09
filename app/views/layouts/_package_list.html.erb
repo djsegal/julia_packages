@@ -1,5 +1,12 @@
-<% offset = ( params[:page] || '1' ).to_i - 1 %>
-<% offset *= WillPaginate.per_page %>
+<%
+  has_per_page = defined? per_page
+
+  per_page = WillPaginate.per_page \
+    unless has_per_page
+
+  offset = ( params[:page] || '1' ).to_i - 1
+  offset *= per_page
+%>
 
 <% packages.each_with_index do |package, index| %>
 

@@ -1,6 +1,13 @@
-<% page = ( params[:page] || '1' ).to_i %>
+<%
+  page = ( params[:page] || '1' ).to_i
 
-<% if packages.count > WillPaginate.per_page * page %>
+  has_per_page = defined? per_page
+
+  per_page = WillPaginate.per_page \
+    unless has_per_page
+%>
+
+<% if packages.count > per_page * page %>
   <%=
       will_paginate packages,
       class: 'pagination cs-full-width cs-no-margin cs-center',

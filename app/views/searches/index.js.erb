@@ -2,7 +2,7 @@ var appendedSelector = '.cs-main-area > .panel:first-child .list-group',
     appendedList = `<%=
       escape_javascript render partial: \
         'layouts/package_list', \
-        locals: { packages: @packages }
+        locals: { packages: @packages, per_page: @search_count }
     %>`;
 
 $(appendedSelector).append(appendedList);
@@ -11,7 +11,7 @@ var paginationSelector = '.pagination',
     newPagination = `<%=
       escape_javascript render partial: \
         'layouts/package_pagination', \
-        locals: { packages: @packages }
+        locals: { packages: @packages, per_page: @search_count }
     %>`;
 
 $(paginationSelector).replaceWith(newPagination);

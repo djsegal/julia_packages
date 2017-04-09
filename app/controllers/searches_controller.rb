@@ -30,9 +30,9 @@ class SearchesController < ApplicationController
   def index
     raw_params = params.with_indifferent_access
 
-    search_count = 100
+    @search_count = 100
 
-    raw_params[:per_page] = search_count
+    raw_params[:per_page] = @search_count
 
     _, @packages = \
       PackageSorterJob.perform_now raw_params, cookies
@@ -41,7 +41,7 @@ class SearchesController < ApplicationController
 
     is_first_page = ( not raw_params[:page].present? ) || raw_params[:page] == 1
 
-    if is_first_page && @packages.length < search_count
+    if is_first_page && @packages.length < @search_count
       @disable_paginate = true
 
       raw_params[:default_search] = true
