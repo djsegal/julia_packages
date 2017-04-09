@@ -32,19 +32,24 @@
         <% unless disable_sort %>
 
           <%= link_to 'Top', settings_path(sort: 'top'),
-            class: "btn btn-sm #{ ( cookies[:sort] == 'top' ) ? ' btn-raised btn-primary hidden-xs' : '' }" %>
+            class: "js-tooltip btn btn-sm #{ ( cookies[:sort] == 'top' ) ? ' btn-raised btn-primary hidden-xs' : '' }",
+            title: "", data: { toggle: "tooltip", placement: "bottom", original_title: "Sort by star count" } %>
           <%= link_to 'New', settings_path(sort: 'new'),
-            class: "btn btn-sm #{ ( cookies[:sort] == 'new' ) ? ' btn-raised btn-primary hidden-xs' : '' }" %>
+            class: "js-tooltip btn btn-sm #{ ( cookies[:sort] == 'new' ) ? ' btn-raised btn-primary hidden-xs' : '' }",
+            title: "", data: { toggle: "tooltip", placement: "bottom", original_title: "Sort by most recent" } %>
 
           <% if %w[ a_z z_a ].include? cookies[:sort] %>
             <%= link_to sort_title, settings_path(sort: cookies[:sort].reverse),
-              class: "btn btn-sm btn-raised btn-primary hidden-xs" %>
+              class: "js-tooltip btn btn-sm btn-raised btn-primary hidden-xs",
+            title: "", data: { toggle: "tooltip", placement: "bottom", original_title: "Sort alphabetically" } %>
           <% else %>
-            <%= link_to 'A-Z', settings_path(sort: 'a_z'), class: "btn btn-sm" %>
+            <%= link_to 'A-Z', settings_path(sort: 'a_z'), class: "js-tooltip btn btn-sm",
+            title: "", data: { toggle: "tooltip", placement: "bottom", original_title: "Sort alphabetically" } %>
           <% end %>
 
           <%= link_to 'Hot', settings_path(sort: 'hot'),
-            class: "btn btn-sm #{ ( cookies[:sort] == 'hot' ) ? ' btn-raised btn-primary hidden-xs' : '' }" %>
+            class: "js-tooltip btn btn-sm #{ ( cookies[:sort] == 'hot' ) ? ' btn-raised btn-primary hidden-xs' : '' }",
+            title: "", data: { toggle: "tooltip", placement: "bottom", original_title: "Sort by activity" } %>
 
         <% end %>
 
