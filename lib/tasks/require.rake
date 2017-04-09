@@ -19,7 +19,7 @@ namespace :require do
 
       package_directory = "#{@github_directory}/repos/#{package.name}"
 
-      file_name = "#{package_directory}/REQUIRE.yml"
+      file_name = "#{package_directory}/require.yml"
       next unless File.exist? file_name
 
       require_file = YAML.load_file file_name
