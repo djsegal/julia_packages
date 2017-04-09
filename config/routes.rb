@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :dependencies
   resources :logs
 
   # root 'errors#pardon'

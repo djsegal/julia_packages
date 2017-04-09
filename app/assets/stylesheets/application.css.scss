@@ -174,6 +174,41 @@ body {
   }
 }
 
+@media (min-width: 768px) {
+  .cs-require-panels .col-sm-6:first-child {
+    padding-left: 0;
+  }
+
+  .cs-require-panels .col-sm-6:last-child {
+    padding-right: 0;
+  }
+
+  .cs-require-panels {
+    padding-bottom: 20px;
+  }
+}
+
+@media (max-width: 767px) {
+  .cs-require-panels .col-sm-6 {
+    padding: 10px 0;
+  }
+
+  .cs-require-panels .col-sm-6:first-child {
+    padding-top: 0;
+  }
+
+  .cs-require-panels .col-sm-6:last-child {
+    padding-bottom: 0;
+    margin-bottom: 20px;
+  }
+}
+
+.cs-require-panels .list-group {
+  @extend .cs-no-margin;
+  max-height: 50vh;
+  overflow-y: scroll;
+}
+
 .cs-package-stars {
   opacity: 0.4;
 }

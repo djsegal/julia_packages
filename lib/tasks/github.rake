@@ -120,6 +120,20 @@ namespace :github do
         }
       end
 
+      require_response = hit_url "#{information['url']}/contents/REQUIRE", is_new_response
+
+      require_file = {
+        'name' => 'REQUIRE',
+        'content' => ''
+      }
+
+      if require_response['encoding'] == 'base64'
+        require_file['content'] = \
+          Base64.decode64 require_response['content']
+      else
+        nasty_packages << directory
+      end
+
       FileUtils.mkdir_p(package_directory) \
         unless File.directory? package_directory
 
@@ -133,6 +147,10 @@ namespace :github do
 
       File.open("#{repos_directory}/#{directory}/readme.yml", 'w') do |h|
         h.write readme.to_yaml
+      end
+
+      File.open("#{repos_directory}/#{directory}/require.yml", 'w') do |h|
+        h.write require_file.to_yaml
       end
 
     end

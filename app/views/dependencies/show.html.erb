@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Dependent:</strong>
+  <%= @dependency.dependent_id %>
+</p>
+
+<p>
+  <strong>Depended:</strong>
+  <%= @dependency.depended_id %>
+</p>
+
+<%= link_to 'Edit', edit_dependency_path(@dependency) %> |
+<%= link_to 'Back', dependencies_path %>

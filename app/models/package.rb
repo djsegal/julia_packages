@@ -68,6 +68,14 @@ class Package < ApplicationRecord
 
   has_one :activity, dependent: :destroy
 
+  has_many :active_dependencies, class_name: "Dependency",
+              foreign_key: "dependent_id", dependent: :destroy
+  has_many :passive_dependencies, class_name: "Dependency",
+              foreign_key: "depended_id", dependent: :destroy
+
+  has_many :depending, through: :active_dependencies, source: :depended
+  has_many :dependents, through: :passive_dependencies, source: :dependent
+
   def self.exclude_unregistered_packages(cookies={})
     if cookies[:include_unregistered_packages] == 'true'
       all
