@@ -40,7 +40,16 @@
 
             <% end %>
 
-            <% assocs.each_with_index do |package, index| %>
+            <%
+
+              assoc_list = assocs
+                .includes(:counter)
+                .order("counters.stargazer desc")
+                .first(100)
+
+            %>
+
+            <% assoc_list.each_with_index do |package, index| %>
 
               <% unless index.zero? %>
 
