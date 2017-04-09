@@ -29,7 +29,7 @@ def render_markup markup, file_name
   escaped_markup_blocks.each_with_index do |escaped_markup, index|
     markup.sub! \
       escaped_markup,
-      "`#{escaped_identifier}-#{index}`"
+      "`#{escaped_identifier}-#{index}__work`"
   end
 
   escaped_markup_blocks.map! { |m| CGI.escapeHTML m }
@@ -40,7 +40,7 @@ def render_markup markup, file_name
 
   escaped_markup_blocks.each_with_index do |escaped_markup, index|
     rendered_markdown.sub! \
-      "#{escaped_identifier}-#{index}", \
+      "#{escaped_identifier}-#{index}__work", \
       escaped_markup[1..-2]
   end
 
@@ -91,8 +91,8 @@ def render_markdown_with_html_code_blocks markup
   escaped_markup_blocks.map! { |m| CGI.escapeHTML m }
 
   escaped_filler = \
-    [*0..escaped_markup_blocks.length].map { |i|
-      "``` html\n#{escaped_identifier}-#{i}\n```"
+    [*0..escaped_markup_blocks.length].map { |index|
+      "``` html\n#{escaped_identifier}-#{index}__work\n```"
     }
 
   work_markdown = split_markup_blocks
@@ -102,7 +102,7 @@ def render_markdown_with_html_code_blocks markup
 
   escaped_markup_blocks.each_with_index do |escaped_markup, index|
     work_markdown.sub! \
-      "#{escaped_identifier}-#{index}", \
+      "#{escaped_identifier}-#{index}__work", \
       escaped_markup.strip
   end
 
