@@ -1,4 +1,6 @@
-<% sort_title = @sort.split('_').map(&:titleize).join('-') %>
+<% disable_sort = defined? sort_title %>
+
+<% sort_title ||= @sort.split('_').map(&:titleize).join('-') %>
 
 <div class="col-sm-8 cs-main-area">
 
@@ -27,20 +29,24 @@
 
         <% cookies.permanent[:sort] ||= 'top' %>
 
-        <%= link_to 'Top', settings_path(sort: 'top'),
-          class: "btn btn-sm #{ ( cookies[:sort] == 'top' ) ? ' btn-raised btn-primary hidden-xs' : '' }" %>
-        <%= link_to 'New', settings_path(sort: 'new'),
-          class: "btn btn-sm #{ ( cookies[:sort] == 'new' ) ? ' btn-raised btn-primary hidden-xs' : '' }" %>
+        <% unless disable_sort %>
 
-        <% if %w[ a_z z_a ].include? cookies[:sort] %>
-          <%= link_to sort_title, settings_path(sort: cookies[:sort].reverse),
-            class: "btn btn-sm btn-raised btn-primary hidden-xs" %>
-        <% else %>
-          <%= link_to 'A-Z', settings_path(sort: 'a_z'), class: "btn btn-sm" %>
+          <%= link_to 'Top', settings_path(sort: 'top'),
+            class: "btn btn-sm #{ ( cookies[:sort] == 'top' ) ? ' btn-raised btn-primary hidden-xs' : '' }" %>
+          <%= link_to 'New', settings_path(sort: 'new'),
+            class: "btn btn-sm #{ ( cookies[:sort] == 'new' ) ? ' btn-raised btn-primary hidden-xs' : '' }" %>
+
+          <% if %w[ a_z z_a ].include? cookies[:sort] %>
+            <%= link_to sort_title, settings_path(sort: cookies[:sort].reverse),
+              class: "btn btn-sm btn-raised btn-primary hidden-xs" %>
+          <% else %>
+            <%= link_to 'A-Z', settings_path(sort: 'a_z'), class: "btn btn-sm" %>
+          <% end %>
+
+          <%= link_to 'Hot', settings_path(sort: 'hot'),
+            class: "btn btn-sm #{ ( cookies[:sort] == 'hot' ) ? ' btn-raised btn-primary hidden-xs' : '' }" %>
+
         <% end %>
-
-        <%= link_to 'Hot', settings_path(sort: 'hot'),
-          class: "btn btn-sm #{ ( cookies[:sort] == 'hot' ) ? ' btn-raised btn-primary hidden-xs' : '' }" %>
 
       </div>
 

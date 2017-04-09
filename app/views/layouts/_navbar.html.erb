@@ -31,9 +31,9 @@
 
     <div class="navbar-collapse collapse navbar-inverse-collapse">
 
-      <%= form_tag root_path, class: "navbar-form navbar-left", method: :get do %>
+      <%= form_tag searches_path, class: "navbar-form navbar-left", method: :get do %>
         <div class="form-group">
-          <%= autocomplete_field_tag :search, params[:search], autocomplete_package_name_packages_path, class: "form-control col-sm-8", placeholder: "Search" %>
+          <%= autocomplete_field_tag :term, params[:term], autocomplete_searches_path, class: "form-control col-sm-8", placeholder: "Search" %>
         </div>
       <% end %>
 

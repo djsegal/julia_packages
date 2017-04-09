@@ -89,9 +89,9 @@ class PackageSorterJob < ApplicationJob
     end
 
     def set_search_query params
-      return unless params[:search].present?
+      return unless params[:term].present?
 
-      search_param = params[:search].strip
+      search_param = params[:term].strip
 
       if search_param.length < 6
         @core_query = @core_query.where \

@@ -5,7 +5,10 @@ Rails.application.routes.draw do
   # root 'errors#pardon'
   # get '/*any_route', to: 'errors#pardon', as: 'pardon'
 
+  resources :searches, path: 's'
+
   resources :models
+  resources :packages
   resources :releases
   resources :downloads
   resources :subscriptions
@@ -33,8 +36,8 @@ Rails.application.routes.draw do
 
   resources :news, as: :news_items, controller: :news_items
 
-  resources :packages do
-    get 'autocomplete_package_name', on: :collection
+  resources :searches do
+    get 'autocomplete', on: :collection
   end
 
   resources :users, path: 'u'
