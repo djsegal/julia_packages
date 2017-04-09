@@ -29,6 +29,9 @@ namespace :require do
       depended_packages = require_file.split("\n").reject &:blank?
 
       depended_packages.map! { |p| p.split.first }
+
+      depended_packages.map! { |p| p.scan(/[^\/]*(?=\.jl)/).reject(&:blank?).first || p }
+
       depended_packages.uniq!
 
       depended_packages.each do |depended_name|
