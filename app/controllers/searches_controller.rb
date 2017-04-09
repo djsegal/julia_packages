@@ -42,6 +42,8 @@ class SearchesController < ApplicationController
     is_first_page = ( not raw_params[:page].present? ) || raw_params[:page] == 1
 
     if is_first_page && @packages.length < search_count
+      @disable_paginate = true
+
       raw_params[:default_search] = true
 
       _, extra_packages = \

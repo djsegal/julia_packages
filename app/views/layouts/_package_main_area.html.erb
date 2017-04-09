@@ -62,11 +62,25 @@
 
     </div>
 
-    <div class="panel-footer">
+      <% if @disable_paginate %>
 
-      <%= render partial: 'layouts/package_pagination', locals: { packages: @packages } %>
+        <div class="panel-footer cs-center cs-no-padding">
 
-    </div>
+          <%= link_to root_path, class: "btn btn-default cs-side-bar-footer-link cs-full-width cs-no-margin" do %>
+            View all Packages
+          <% end %>
+
+        </div>
+
+      <% else %>
+
+        <div class="panel-footer">
+
+          <%= render partial: 'layouts/package_pagination', locals: { packages: @packages } %>
+
+        </div>
+
+      <% end %>
 
   </div>
 
