@@ -376,10 +376,9 @@ namespace :github do
 
     return false unless readme.present?
 
-    Readme.create! \
-      package: package,
-      cargo: readme['content'],
-      file_name: readme['name']
+    package.update \
+      readme: readme['content'],
+      readme_type: readme['name']
 
     true
   end

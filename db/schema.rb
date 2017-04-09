@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170405234312) do
+ActiveRecord::Schema.define(version: 20170409023732) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -166,6 +166,8 @@ ActiveRecord::Schema.define(version: 20170405234312) do
     t.string   "owner_type"
     t.integer  "owner_id"
     t.boolean  "is_registered"
+    t.text     "readme"
+    t.string   "readme_type"
     t.index ["is_registered"], name: "index_packages_on_is_registered", using: :btree
     t.index ["name"], name: "index_packages_on_name", using: :btree
     t.index ["owner_type", "owner_id"], name: "index_packages_on_owner_type_and_owner_id", using: :btree
@@ -183,15 +185,6 @@ ActiveRecord::Schema.define(version: 20170405234312) do
     t.datetime "updated_at", null: false
     t.datetime "created"
     t.index ["owner_type", "owner_id"], name: "index_profiles_on_owner_type_and_owner_id", using: :btree
-  end
-
-  create_table "readmes", force: :cascade do |t|
-    t.string   "file_name"
-    t.text     "cargo"
-    t.integer  "package_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["package_id"], name: "index_readmes_on_package_id", using: :btree
   end
 
   create_table "references", force: :cascade do |t|
@@ -251,7 +244,6 @@ ActiveRecord::Schema.define(version: 20170405234312) do
   add_foreign_key "daters", "packages"
   add_foreign_key "labels", "categories"
   add_foreign_key "labels", "packages"
-  add_foreign_key "readmes", "packages"
   add_foreign_key "repositories", "packages"
   add_foreign_key "subscriptions", "feeds"
   add_foreign_key "subscriptions", "news_items"

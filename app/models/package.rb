@@ -11,6 +11,8 @@
 #  owner_type    :string
 #  owner_id      :integer
 #  is_registered :boolean
+#  readme        :text
+#  readme_type   :string
 #
 # Indexes
 #
@@ -22,11 +24,9 @@
 class Package < ApplicationRecord
 
   include PgSearch
+
   pg_search_scope :search_like, \
-    against: [:name, :description], \
-    associated_against: {
-      readme: [:cargo]
-    },
+    against: [:name, :description, :readme], \
     using: {
       tsearch: { dictionary: 'english' },
       trigram: {
@@ -60,7 +60,6 @@ class Package < ApplicationRecord
   has_many :labels, dependent: :destroy
   has_many :categories, through: :labels
 
-  has_one :readme, dependent: :destroy
   has_one :activity, dependent: :destroy
 
   def self.exclude_unregistered_packages(cookies={})

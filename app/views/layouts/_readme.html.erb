@@ -11,8 +11,8 @@
   <div class="panel-body">
     <%
       raw_html = render_markup \
-        @package.readme.cargo, \
-        @package.readme.file_name
+        @package.readme, \
+        @package.readme_type
     %>
 
     <%= raw_html.html_safe %>

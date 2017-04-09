@@ -93,7 +93,7 @@ class PackageSorterJob < ApplicationJob
 
       search_param = params[:search].strip
 
-      if search_param.length < 3
+      if search_param.length < 6
         @core_query = @core_query.where \
           "name ILIKE ?", "%#{ search_param }%"
 

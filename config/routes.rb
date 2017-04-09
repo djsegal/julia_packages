@@ -21,7 +21,6 @@ Rails.application.routes.draw do
   resources :infos
   resources :profiles
   resources :labels
-  resources :readmes
   resources :organizations
   resources :contributions
   resources :users

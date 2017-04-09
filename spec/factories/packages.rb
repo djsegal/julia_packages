@@ -11,6 +11,8 @@
 #  owner_type    :string
 #  owner_id      :integer
 #  is_registered :boolean
+#  readme        :text
+#  readme_type   :string
 #
 # Indexes
 #
