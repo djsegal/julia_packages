@@ -1,95 +1,77 @@
 <div class="row cs-require-panels cs-no-margin">
 
-  <div class="col-sm-6">
-    <div class="panel panel-default cs-no-margin">
+  <%
+    dependency_relations = {
+      "Requires" => @package.depending,
+      "Used By" => @package.dependents
+    }
+  %>
 
-      <div class="panel-heading">
+  <% dependency_relations.each do |name, assocs| %>
 
-        <h4 class="cs-no-margin">
-          Requires:
-        </h4>
+    <div class="col-sm-6">
 
-      </div>
+      <div class="panel panel-default cs-no-margin">
 
-      <div class="panel-body cs-no-padding">
+        <div class="panel-heading">
 
-        <div class="list-group">
+          <h4 class="cs-no-margin">
+            <%= name %>:
+          </h4>
 
-          <% @package.depending.each_with_index do |package, index| %>
+        </div>
 
-            <% unless index.zero? %>
+        <div class="panel-body cs-no-padding">
 
-              <div class="list-group-separator cs-full-width cs-no-margin"></div>
+          <div class="list-group">
 
-            <% end %>
+            <% if assocs.empty? %>
 
-            <div class="list-group-item cs-no-padding">
+              <div class="list-group-item cs-no-padding">
 
-              <div class="row-content cs-full-width cs-category-row">
+                <div class="row-content cs-full-width cs-category-row">
 
-                <%=
-                  link_to package.name,
-                    package_path(package),
-                    class: "btn btn-default cs-full-width cs-left-align cs-no-margin #{ 'active' if current_page?(package_path(package)) }"
-                %>
+                  <a class="btn btn-default cs-full-width cs-left-align cs-no-margin">
+                    No Packages
+                  </a>
+                </div>
 
               </div>
 
-            </div>
+            <% end %>
 
-          <% end %>
+            <% assocs.each_with_index do |package, index| %>
+
+              <% unless index.zero? %>
+
+                <div class="list-group-separator cs-full-width cs-no-margin"></div>
+
+              <% end %>
+
+              <div class="list-group-item cs-no-padding">
+
+                <div class="row-content cs-full-width cs-category-row">
+
+                  <%=
+                    link_to package.name,
+                      package_path(package),
+                      class: "btn btn-default cs-full-width cs-left-align cs-no-margin #{ 'active' if current_page?(package_path(package)) }"
+                  %>
+
+                </div>
+
+              </div>
+
+            <% end %>
+
+          </div>
 
         </div>
 
       </div>
 
     </div>
-  </div>
 
-  <div class="col-sm-6">
-    <div class="panel panel-default cs-no-margin">
-
-      <div class="panel-heading">
-
-        <h4 class="cs-no-margin">
-          Used By:
-        </h4>
-
-      </div>
-
-      <div class="panel-body cs-no-padding">
-
-        <div class="list-group cs-no-margin">
-
-          <% @package.dependents.each_with_index do |package, index| %>
-
-            <% unless index.zero? %>
-
-              <div class="list-group-separator cs-full-width cs-no-margin"></div>
-
-            <% end %>
-
-            <div class="list-group-item cs-no-padding">
-
-              <div class="row-content cs-full-width cs-category-row">
-
-                <%=
-                  link_to package.name,
-                    package_path(package),
-                    class: "btn btn-default cs-full-width cs-left-align cs-no-margin #{ 'active' if current_page?(package_path(package)) }"
-                %>
-
-              </div>
-
-            </div>
-
-          <% end %>
-
-        </div>
-
-      </div>
-
-    </div>
-  </div>
+  <% end %>
 
 </div>
