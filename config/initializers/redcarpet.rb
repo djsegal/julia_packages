@@ -13,7 +13,7 @@ extensions = {
 
 require 'rbst'
 
-def render_markup markup, file_name
+def render_markup markup, file_name, package_name
   file_name.downcase!
 
   is_markdown_file = ( file_name.count('.') != 1 )
@@ -21,6 +21,8 @@ def render_markup markup, file_name
 
   return RbST.new(markup).to_html \
     unless is_markdown_file
+
+  markup = default_inline_quotes_to_html markup, package_name
 
   escaped_identifier = "julia-observer-quote-cut-paste"
 
@@ -107,4 +109,41 @@ def render_markdown_with_html_code_blocks markup
   end
 
   work_markdown
+end
+
+def default_inline_quotes_to_html markup, package_name
+  escaped_identifier = "julia-observer-html-cut-paste"
+
+  quote_count = markup.scan("```").length
+
+  quote_count.times do |i|
+    cur_quote_fragment = markup[/\n```.*\n/]
+    cur_quote_type = cur_quote_fragment[/(?<=```)[^\n]*/].strip
+
+    cur_quote_type = "" if cur_quote_type.starts_with? "-"
+
+    if i.odd?
+      markup.sub! cur_quote_fragment, "#{escaped_identifier}-0__tmp"
+
+      unless cur_quote_type.blank?
+        DebugLogMailer.log_email(
+          "Bad Readme", package_name
+        ).deliver_later
+      end
+
+      next
+    end
+
+    if cur_quote_type.present?
+      markup.sub! cur_quote_fragment, "#{escaped_identifier}-0__tmp"
+      next
+    end
+
+    markup.sub! cur_quote_fragment, "#{escaped_identifier}-1__tmp"
+  end
+
+  markup.gsub! "#{escaped_identifier}-0__tmp", "\n```\n"
+  markup.gsub! "#{escaped_identifier}-1__tmp", "\n``` html\n"
+
+  markup
 end

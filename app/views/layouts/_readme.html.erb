@@ -12,7 +12,8 @@
     <%
       raw_html = render_markup \
         @package.readme, \
-        @package.readme_type
+        @package.readme_type, \
+        @package.name
     %>
 
     <%= raw_html.html_safe %>
