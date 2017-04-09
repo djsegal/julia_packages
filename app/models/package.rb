@@ -25,7 +25,16 @@ class Package < ApplicationRecord
 
   include PgSearch
 
-  pg_search_scope :search_like, \
+  pg_search_scope :shallow_search, \
+    against: [:name, :description], \
+    using: {
+      tsearch: { dictionary: 'english' },
+      trigram: {
+        only: [:name, :description]
+      }
+    }
+
+  pg_search_scope :deep_search, \
     against: [:name, :description, :readme], \
     using: {
       tsearch: { dictionary: 'english' },

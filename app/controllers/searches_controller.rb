@@ -4,9 +4,15 @@ class SearchesController < ApplicationController
   def autocomplete
     custom_params = params.to_unsafe_h
 
-    custom_params[:search] = params[:term]
+    custom_params[:autocomplete] = true
 
-    _, packages = PackageSorterJob.perform_now custom_params, cookies
+    _, packages_search_1 = PackageSorterJob.perform_now custom_params, cookies
+
+    custom_params[:default_search] = true
+
+    _, packages_search_2 = PackageSorterJob.perform_now custom_params, cookies
+
+    packages = ( packages_search_1 + packages_search_2 ).uniq.sort
 
     package_json = packages.map { |package|
       {
@@ -24,8 +30,27 @@ class SearchesController < ApplicationController
   def index
     raw_params = params.with_indifferent_access
 
-    @sort, @packages = \
+    search_count = 100
+
+    raw_params[:per_page] = search_count
+
+    _, @packages = \
       PackageSorterJob.perform_now raw_params, cookies
+
+    @packages ||= []
+
+    is_first_page = ( not raw_params[:page].present? ) || raw_params[:page] == 1
+
+    if is_first_page && @packages.length < search_count
+      raw_params[:default_search] = true
+
+      _, extra_packages = \
+        PackageSorterJob.perform_now raw_params, cookies
+
+      @packages += extra_packages
+      @packages.uniq!
+      @packages.sort!
+    end
 
     if @packages.length == 1
       redirect_to @packages.first

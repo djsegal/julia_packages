@@ -83,9 +83,13 @@ class PackageSorterJob < ApplicationJob
 
       set_search_query params
 
+      @core_query = @core_query.includes(:activity)
+
       @core_query = @core_query
-        .page(params[:page])
-        .includes(:activity)
+        .paginate(
+          page: params[:page],
+          per_page: params[:per_page]
+        )
     end
 
     def set_search_query params
@@ -93,15 +97,21 @@ class PackageSorterJob < ApplicationJob
 
       search_param = params[:term].strip
 
-      if search_param.length < 6
-        @core_query = @core_query.where \
+      @core_query = if params[:default_search]
+
+        @core_query.where \
           "name ILIKE ?", "%#{ search_param }%"
 
-        return
+      elsif params[:autocomplete]
+
+        @core_query.shallow_search search_param
+
+      else
+
+        @core_query.deep_search search_param
+
       end
 
-      @core_query = \
-        @core_query.search_like search_param
     end
 
     def set_cutoff_values cookies
