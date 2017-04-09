@@ -28,9 +28,10 @@ namespace :require do
 
       depended_packages = require_file.split("\n").reject &:blank?
 
-      depended_packages.each do |depended_package_line|
-        depended_name = depended_package_line.split.first
+      depended_packages.map! { |p| p.split.first }
+      depended_packages.uniq!
 
+      depended_packages.each do |depended_name|
         next if depended_name.starts_with? '#'
         next if depended_name.starts_with? '@'
 
