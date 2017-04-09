@@ -51,7 +51,6 @@ class SearchesController < ApplicationController
 
       @packages += extra_packages
       @packages.uniq!
-      @packages.sort!
     end
 
     if @packages.length == 1
