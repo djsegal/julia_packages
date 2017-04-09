@@ -114,21 +114,30 @@ end
 def default_inline_quotes_to_html markup, package_name
   escaped_identifier = "julia-observer-html-cut-paste"
 
-  quote_count = markup.scan("```").length
+  has_sent_email = false
+
+  inline_quote_regex = /\n````?[^`\n]*\n/
+
+  quote_count = markup.scan(inline_quote_regex).length
 
   quote_count.times do |i|
-    cur_quote_fragment = markup[/\n```.*\n/]
-    cur_quote_type = cur_quote_fragment[/(?<=```)[^\n]*/].strip
+    cur_quote_fragment = markup[inline_quote_regex]
+
+    cur_quote_type = cur_quote_fragment[/(?<=````)[^`\n]*/].try(:strip)
+    cur_quote_type = cur_quote_fragment[/(?<=```)[^`\n]*/].strip \
+      if cur_quote_type.blank?
 
     cur_quote_type = "" if cur_quote_type.starts_with? "-"
 
     if i.odd?
       markup.sub! cur_quote_fragment, "#{escaped_identifier}-0__tmp"
 
-      unless cur_quote_type.blank?
+      unless has_sent_email || cur_quote_type.blank?
         DebugLogMailer.log_email(
-          "Bad Readme", package_name
+          "Bad Readme", "#{package_name} => #{cur_quote_type}"
         ).deliver_later
+
+        has_sent_email = true
       end
 
       next
