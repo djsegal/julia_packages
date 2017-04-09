@@ -31,9 +31,6 @@ class Package < ApplicationRecord
       tsearch: { dictionary: 'english' },
       trigram: {
         only: [:name, :description]
-      },
-      dmetaphone: {
-        only: [:name, :description]
       }
     }
 
