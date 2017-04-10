@@ -28,25 +28,25 @@ module Batchable
         .where(batches: { marker: Batch.current_marker })
     end
 
-    def custom_find *args
+    def custom_find *args, batch_scope: "active_batch_scope"
       begin
-        found_item = self.active_batch_scope.friendly.find *args
+        found_item = self.public_send(batch_scope).friendly.find *args
       rescue ActiveRecord::RecordNotFound
-        found_item = backup_find(*args)
+        found_item = backup_find(*args, batch_scope: batch_scope)
       end
       found_item
     end
 
-    def custom_exists? *args
-      does_exist = self.active_batch_scope.friendly.exists? *args
-      does_exist ||= backup_find(*args).present?
+    def custom_exists? *args, batch_scope: "active_batch_scope"
+      does_exist = self.public_send(batch_scope).friendly.exists? *args
+      does_exist ||= backup_find(*args, batch_scope: batch_scope).present?
       does_exist
     end
 
-    def backup_find *args
-      matched_name = args.first
+    def backup_find *args, batch_scope: "active_batch_scope"
+      matched_name = args.first.clone
 
-      possible_items = self.active_batch_scope.where \
+      possible_items = self.public_send(batch_scope).where \
         "name ILIKE ?", "%#{args.first}%"
 
       matched_name.downcase!

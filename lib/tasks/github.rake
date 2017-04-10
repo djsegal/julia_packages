@@ -375,8 +375,8 @@ namespace :github do
 
     category_name = owner.name.gsub 'Julia', ''
 
-    if Category.current_batch_scope.friendly.exists? category_name
-      category = Category.current_batch_scope.friendly.find(category_name)
+    if Category.custom_exists? category_name, batch_scope: "current_batch_scope"
+      category = Category.custom_find category_name, batch_scope: "current_batch_scope"
     else
       category = Category.create! name: category_name
     end
@@ -465,7 +465,7 @@ namespace :github do
     entity_class = entity['type'].constantize
     entity_name = entity['login']
 
-    unless entity_class.current_batch_scope.friendly.exists?(entity_name)
+    unless entity_class.custom_exists? entity_name, batch_scope: "current_batch_scope"
       CronLogMailer.log_email(
         "Unpack II", entity.to_yaml
       ).deliver_now
@@ -473,7 +473,7 @@ namespace :github do
       return
     end
 
-    entity_class.current_batch_scope.friendly.find(entity_name)
+    entity_class.custom_find entity_name, batch_scope: "current_batch_scope"
   end
 
   def get_expiry

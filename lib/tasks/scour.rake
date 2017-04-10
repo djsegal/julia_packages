@@ -128,20 +128,20 @@ namespace :scour do
       next if directory.starts_with? '.'
 
       package_exists = \
-        Package.current_batch_scope.friendly.exists? directory
+        Package.custom_exists? directory, batch_scope: "current_batch_scope"
 
       next if package_exists
 
       package = Package.create! name: directory
 
-      make_scoured_repository package
+      make_scoured_repository package, directory
     end
 
     bar.finished
   end
 
-  def make_scoured_repository package
-    package_data_file = "#{@scour_directory}/#{package.name}/data.yml"
+  def make_scoured_repository package, directory
+    package_data_file = "#{@scour_directory}/#{directory}/data.yml"
     url = YAML.load_file(package_data_file)['clone_url']
 
     repository = Repository.create! url: url, package: package

@@ -38,13 +38,13 @@ namespace :require do
         next if depended_name.starts_with? '#'
         next if depended_name.starts_with? '@'
 
-        unless Package.current_batch_scope.friendly.exists? depended_name
+        unless Package.custom_exists? depended_name, batch_scope: "current_batch_scope"
           ghost_packages.add depended_name
           next
         end
 
         depended_package = \
-          Package.current_batch_scope.friendly.find depended_name
+          Package.custom_find depended_name, batch_scope: "current_batch_scope"
 
         Dependency.create! \
           is_shallow: true,
