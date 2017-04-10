@@ -76,9 +76,8 @@ namespace :require do
               is_shallow: false,
               dependent: package,
               depended: deep_dependency
-
-            package.reload
           end
+          package.reload
         end
       end
     end
