@@ -46,10 +46,8 @@ module Batchable
     def backup_find *args
       matched_name = args.first
 
-      like_word = Rails.env.production? ? 'ILIKE' : 'LIKE'
-
       possible_items = self.active_batch_scope.where \
-        "name #{like_word} ?", "%#{args.first}%"
+        "name ILIKE ?", "%#{args.first}%"
 
       matched_name.downcase!
 
