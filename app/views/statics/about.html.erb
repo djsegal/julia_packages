@@ -1,0 +1,113 @@
+<%
+  page_title "About"
+%>
+
+<div class="col-sm-8 cs-main-area">
+
+  <div class="panel panel-default">
+
+    <div class="panel-body">
+
+      <div class="row cs-no-margin">
+
+        <div class="col-sm-10 cs-no-padding">
+
+          <h1 class="cs-truncated-text">
+
+            <%= link_to @package_name, root_path %>
+          </h1>
+
+          <h4>
+            <%= @package_description %>
+          </h4>
+
+        </div>
+
+        <div class="col-sm-2 hidden-xs cs-no-padding">
+
+          <div class="btn-group cs-pull-right cs-share-dropdown">
+            <a href="bootstrap-elements.html" data-target="#" class="btn btn-default btn dropdown-toggle" data-toggle="dropdown"><%= fa_icon "share-alt lg" %></span></a>
+            <ul class="dropdown-menu" style="right: 0; left: initial; min-width: initial;">
+              <%
+                package_share_url = request.original_url
+                package_share_url.sub! 'cdn.', ''
+                package_share_url.sub! '/packages/', '/p/'
+
+                package_share_title = \
+                  url_encode "#{@package_name} – #{@package_description}"
+              %>
+
+              <li><a target='_blank' href='https://twitter.com/intent/tweet?url=<%= package_share_url %>&text=<%= package_share_title %>'><%= fa_icon "twitter lg" %></a></li>
+              <li><a target='_blank' href='https://reddit.com/r/Julia/submit?url=<%= package_share_url %>&title=<%= package_share_title %>'><%= fa_icon "reddit lg" %></a></li>
+            </ul>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="panel panel-default">
+
+    <div class="panel-heading">
+
+      <h4 class="cs-no-margin">
+        About
+      </h4>
+
+    </div>
+
+    <div class="panel-body">
+
+      <p>
+
+        Julia Observer is a package browsing tool for the Julia programming language.
+
+      </p>
+
+      <p>
+
+        It provides a visual interface for exploring Julia's open-source ecosystem.
+
+      </p>
+
+      <p>
+
+        Its main goal is to mirror what the following websites did for their respective languages:
+
+      </p>
+
+      <ul>
+
+        <li>
+          <a target="_blank" href="https://emberobserver.com/about">Ember Observer (Ember.js)</a>
+        </li>
+
+        <li>
+          <a target="_blank" href="https://www.ruby-toolbox.com">The Ruby Toolbox (Ruby)</a>
+        </li>
+
+        <li>
+          <a target="_blank" href="http://genieframework.com/packages">Genie Packages (Julia)</a>
+        </li>
+
+      </ul>
+
+      <hr>
+
+      Fun Things to do:
+
+    </div>
+
+  </div>
+
+  <div class="visible-xs">
+    <%= render 'layouts/made_with_love_panel' %>
+  </div>
+
+</div>
+
+<%= render 'layouts/default_side_bar' %>

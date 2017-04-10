@@ -45,6 +45,12 @@ Rails.application.routes.draw do
   resources :packages, path: 'p'
   resources :organizations, path: 'o'
 
+  resources :statics, only: [], path: '' do
+    collection do
+      get 'about'
+    end
+  end
+
   root 'packages#index'
 
   get '/*bad_route', to: 'errors#index', as: 'errors'

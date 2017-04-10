@@ -42,6 +42,7 @@
         <%
           is_package_path = controller_name == 'packages'
           is_error_path = controller_name == 'errors'
+          is_static_path = controller_name == 'statics'
           is_root_path = is_package_path && action_name == 'index'
         %>
 
@@ -49,9 +50,15 @@
           <%= link_to 'Home', root_path %>
         </li>
 
+        <% if is_root_path %>
+          <li>
+            <%= link_to 'About', about_statics_path %>
+          </li>
+        <% end %>
+
         <% unless is_root_path %>
 
-          <% unless is_package_path or is_error_path %>
+          <% unless is_package_path or is_error_path or is_static_path %>
 
             <li class="<%= (action_name == 'index') ? 'active' : '' %>">
               <% class_index_name = controller_name.titleize %>
@@ -61,7 +68,13 @@
 
           <% end %>
 
-          <% unless action_name == 'index' %>
+          <% if is_static_path %>
+            <li class="active">
+              <%= link_to action_name.titleize, send("#{action_name}_statics_path"), @model %>
+            </li>
+          <% end %>
+
+          <% unless is_static_path or action_name == 'index' %>
 
             <li class="active">
               <% params_id = params[:id] %>
@@ -105,6 +118,14 @@
                   data: { confirm: 'Are you sure?' }
               %>
             </li>
+
+            <% unless is_root_path %>
+              <% if not is_static_path && action_name != 'About' %>
+                <li>
+                  <%= link_to 'About', about_statics_path %>
+                </li>
+              <% end %>
+            <% end %>
 
             <li>
               <a href="#" data-toggle="modal" data-target=".modal">
