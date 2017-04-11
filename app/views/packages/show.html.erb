@@ -58,7 +58,9 @@
 
   <%= render "counter" %>
 
-  <%= render "require" %>
+  <% unless @package.name == "Julia" %>
+    <%= render "require" %>
+  <% end %>
 
   <%= render "layouts/readme" %>
 

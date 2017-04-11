@@ -51,6 +51,8 @@
 
             <% assoc_list.each_with_index do |package, index| %>
 
+              <% next if package.name == "Julia" %>
+
               <% unless index.zero? %>
 
                 <div class="list-group-separator cs-full-width cs-no-margin"></div>
