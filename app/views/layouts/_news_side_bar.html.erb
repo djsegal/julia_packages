@@ -82,7 +82,7 @@
           <a href="<%= news_item.target.link %>" class="<%= news_css_classes %> cs-link-hover" target="_blank">
 
             <p class="cs-truncated-text">
-              <%= news_item.name %>
+              <%= CGI.unescapeHTML( news_item.name ).html_safe %>
             </p>
 
             <p class="cs-truncated-text cs-no-margin">
@@ -96,7 +96,7 @@
           <div class="<%= news_css_classes %> cs-show-more-toggle js-show-more-toggle">
 
             <p class="cs-truncated-text">
-              <%= news_item.name %>
+              <%= CGI.unescapeHTML( news_item.name ).html_safe %>
             </p>
 
             <div class="cs-blurb-text">
