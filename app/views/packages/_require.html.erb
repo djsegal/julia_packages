@@ -41,6 +41,8 @@
 
               assoc_tuples.delete_if { |p, _| p.name == "Julia" }
 
+              assoc_tuples.delete_if { |p, _| p.name == @package.name }
+
               assoc_tuples.delete_if { |p, _| not p.is_registered } \
                 unless cookies[:include_unregistered_packages] == 'true'
 
