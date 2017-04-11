@@ -81,6 +81,15 @@ namespace :require do
         end
       end
     end
+
+    dependencies = Dependency.arel_table
+
+    circular_dependencies = Dependency
+      .where(dependencies[:dependent_id]
+      .eq(dependencies[:depended_id]))
+      .map(&:dependent).map(&:name).uniq
+
+    puts circular_dependencies.to_a.inspect
   end
 
 end
