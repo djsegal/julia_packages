@@ -26,9 +26,12 @@
           <div class="list-group">
 
             <%
+              batch_total = 150
+              substract_batch = 50
+
               assoc_list = assocs
                 .order("counters.stargazer desc")
-                .first(100)
+                .first(batch_total)
 
               if name == "Requires"
                 assoc_tuples = assoc_list.map{ |a| [a.depended, a.is_shallow] }
@@ -36,7 +39,12 @@
                 assoc_tuples = assoc_list.map{ |a| [a.dependent, a.is_shallow] }
               end
 
-              assoc_tuples.reject! { |p, _| p.name == "Julia" }
+              assoc_tuples.delete_if { |p, _| p.name == "Julia" }
+
+              assoc_tuples.delete_if { |p, _| not p.is_registered } \
+                unless cookies[:include_unregistered_packages] == 'true'
+
+              assoc_tuples = assoc_tuples.first(batch_total - substract_batch)
             %>
 
             <% if assoc_list.empty? %>
