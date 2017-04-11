@@ -25,7 +25,21 @@
 
           <div class="list-group">
 
-            <% if assocs.empty? %>
+            <%
+              assoc_list = assocs
+                .order("counters.stargazer desc")
+                .first(100)
+
+              if name == "Requires"
+                assoc_tuples = assoc_list.map{ |a| [a.depended, a.is_shallow] }
+              else
+                assoc_tuples = assoc_list.map{ |a| [a.dependent, a.is_shallow] }
+              end
+
+              assoc_tuples.reject! { |p, _| p.name == "Julia" }
+            %>
+
+            <% if assoc_list.empty? %>
 
               <div class="list-group-item cs-no-padding">
 
@@ -40,21 +54,7 @@
 
             <% end %>
 
-            <%
-              assoc_list = assocs
-                .order("counters.stargazer desc")
-                .first(100)
-
-              if name == "Requires"
-                assoc_tuples = assoc_list.map{ |a| [a.depended, a.is_shallow] }
-              else
-                assoc_tuples = assoc_list.map{ |a| [a.dependent, a.is_shallow] }
-              end
-            %>
-
             <% assoc_tuples.each_with_index do |(package, is_shallow), index| %>
-
-              <% next if package.name == "Julia" %>
 
               <% unless index.zero? %>
 
