@@ -1,10 +1,10 @@
 <div class="row cs-require-panels cs-no-margin hidden-xs">
 
   <%
-    dependency_relations = {
-      "Requires" => @package.depending,
-      "Used By" => @package.dependents
-    }
+    dependency_relations = {}
+
+    dependency_relations["Requires"] = @package.active_dependencies.order(is_shallow: :desc).includes(depended: :counter)
+    dependency_relations["Used By"] = @package.passive_dependencies.order(is_shallow: :desc).includes(dependent: :counter)
   %>
 
   <% dependency_relations.each do |name, assocs| %>
@@ -41,15 +41,18 @@
             <% end %>
 
             <%
-
               assoc_list = assocs
-                .includes(:counter)
                 .order("counters.stargazer desc")
                 .first(100)
 
+              if name == "Requires"
+                assoc_tuples = assoc_list.map{ |a| [a.depended, a.is_shallow] }
+              else
+                assoc_tuples = assoc_list.map{ |a| [a.dependent, a.is_shallow] }
+              end
             %>
 
-            <% assoc_list.each_with_index do |package, index| %>
+            <% assoc_tuples.each_with_index do |(package, is_shallow), index| %>
 
               <% next if package.name == "Julia" %>
 
@@ -59,7 +62,7 @@
 
               <% end %>
 
-              <div class="list-group-item cs-no-padding">
+              <div class="list-group-item cs-no-padding <%= "cs-is-indirect-dependency" unless is_shallow %>">
 
                 <div class="row-content cs-full-width cs-category-row">
 
