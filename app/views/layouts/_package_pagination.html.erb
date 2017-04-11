@@ -16,7 +16,7 @@
 <% else %>
   <div class='pagination cs-full-width cs-no-margin cs-center js-blank-pagination'>
     <%
-        is_restricted = params[:search].present?
+        is_restricted = params[:term].present?
         is_restricted ||= \
           ( page == 1 && controller_name != 'packages' )
     %>
