@@ -8,6 +8,8 @@ class SearchesController < ApplicationController
 
     _, packages_search_1 = PackageSorterJob.perform_now custom_params, cookies
 
+    packages_search_1 ||= []
+
     custom_params[:default_search] = true
 
     _, packages_search_2 = PackageSorterJob.perform_now custom_params, cookies
