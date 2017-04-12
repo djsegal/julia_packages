@@ -134,7 +134,7 @@ def default_inline_quotes_to_html markup, package_name
 
       unless has_sent_email || cur_quote_type.blank?
         DebugLogMailer.log_email(
-          "Bad Readme", "#{package_name} => #{cur_quote_type}"
+          "Bad Readme", "#{package_name} => #{cur_quote_type}\n\n#{markup}".to_yaml
         ).deliver_later
 
         has_sent_email = true
