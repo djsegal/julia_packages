@@ -116,7 +116,7 @@ def default_inline_quotes_to_html markup, package_name
 
   has_sent_email = false
 
-  inline_quote_regex = /\n````?[^`\n]*\n/
+  inline_quote_regex = /\n\s*>?\s*````?[^`\n]*\n/
 
   quote_count = markup.scan(inline_quote_regex).length
 
