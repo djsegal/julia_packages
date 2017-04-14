@@ -409,9 +409,17 @@ namespace :github do
 
     return false unless commits.present?
 
-    Activity.create! \
-      package: package,
-      commits: commits['all']
+    begin
+      Activity.create! \
+        package: package,
+        commits: commits['all']
+    rescue
+      DebugLogMailer.log_email(
+        "Bad Activity", "#{package.name} => #{commits.inspect}".to_yaml
+      ).deliver_later
+
+      return false
+    end
 
     true
   end
