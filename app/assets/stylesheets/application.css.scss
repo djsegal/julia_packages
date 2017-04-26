@@ -499,3 +499,7 @@ a.panel-heading:focus {
   opacity: 0.7;
   font-style: italic;
 }
+
+.cs-include-checkbox .checkbox-material:last-child:not(:first-child) {
+  display: none;
+}
