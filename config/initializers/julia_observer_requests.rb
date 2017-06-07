@@ -22,7 +22,7 @@ def is_new_response? url
   url_response = HTTParty.get url, \
     query: @client_info, \
     headers: @url_headers.merge({
-      "If-Modified-Since" => Batch.active_marker_date.rfc822
+      "If-Modified-Since" => 5.days.ago.rfc822
     })
 
   validate_response url, url_response
