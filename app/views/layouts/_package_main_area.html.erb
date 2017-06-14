@@ -16,15 +16,6 @@
 
       <div class="btn-group cs-pull-right">
 
-        <%
-          query_params = {}
-
-          query_params.merge! \
-            params.select { |k, v| k.ends_with? "_id" }
-
-          query_params.deep_symbolize_keys!
-        %>
-
         <% cookies.permanent[:sort] ||= 'top' %>
 
         <% unless disable_sort %>
