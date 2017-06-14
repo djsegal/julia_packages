@@ -511,6 +511,6 @@ a.panel-heading:focus {
   font-style: italic;
 }
 
-.cs-include-checkbox .checkbox-material:last-child:not(:first-child) {
+.cs-include-checkbox .checkbox-material:not(:first-of-type) {
   display: none;
 }
