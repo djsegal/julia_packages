@@ -6,13 +6,23 @@ class TrendingsController < ApplicationController
   def index
     @since = params[:since] || 'weekly'
 
-    package_names = Feed.custom_find("trending_#{@since}").news_items.map(&:name)
+    trending_feed = Feed.custom_find("trending_#{@since}")
+
+    package_redirect_link = packages_url.sub('cdn.', '')
+
+    redirect_to package_redirect_link \
+      and return unless trending_feed.present?
+
+    package_names = trending_feed.news_items.map(&:name)
 
     @packages = package_names.map { |cur_name|
       Package.custom_find cur_name
     }
 
     @packages.compact!
+
+    redirect_to package_redirect_link \
+      and return if @packages.empty?
   end
 
   # GET /trendings/1
