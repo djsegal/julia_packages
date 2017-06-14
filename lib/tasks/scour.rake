@@ -53,14 +53,23 @@ namespace :scour do
 
     @bar = make_progress_bar Dir["#{@scour_directory}/*"].count
 
+    invalid_chars = %w[ _ - – — ]
+
     Dir.foreach(@scour_directory) do |directory|
       @bar.inc
 
       next if directory.starts_with? '.'
-      next unless File.directory? \
-        "#{@metadata_directory}/#{directory}"
 
-      FileUtils.rm_rf "#{@scour_directory}/#{directory}"
+      is_registered_package = \
+        File.directory? "#{@metadata_directory}/#{directory}"
+
+      is_invalid_name = invalid_chars.any? {
+        |cur_char| directory.include? cur_char
+      }
+
+      if is_invalid_name or is_registered_package
+        FileUtils.rm_rf "#{@scour_directory}/#{directory}"
+      end
     end
 
     @bar.finished
