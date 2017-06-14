@@ -24,13 +24,10 @@ namespace :job do
     UpdateJob.perform_now
   end
 
-  desc "run day job"
-  task day: :environment do
+  desc "run log job"
+  task log: :environment do
     puts "\nrunning log job @ #{DateTime.now.localtime}\n"
     LogJob.perform_now
-
-    puts "\nrunning crawl job @ #{DateTime.now.localtime}\n"
-    CrawlJob.perform_now
   end
 
   desc "run scour job"
