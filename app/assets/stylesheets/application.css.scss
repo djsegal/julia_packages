@@ -282,8 +282,19 @@ body {
 }
 
 .cs-star-rating {
-  width: 0;
-  padding: 0 50%;
+  width: 100%;
+  padding-left: 10px;
+
+  i.material-icons {
+    width: 100%;
+    padding-left: 50%;
+    margin-left: -12px;
+  }
+
+  div.cs-star-rating__number {
+    width: 100%;
+    text-align: center;
+  }
 }
 
 img {
