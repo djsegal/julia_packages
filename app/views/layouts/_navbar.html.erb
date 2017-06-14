@@ -54,9 +54,15 @@
         </li>
 
         <% if is_root_path %>
+
           <li>
             <%= link_to 'About', about_statics_path %>
           </li>
+
+          <li>
+            <%= link_to 'Pkgs', packages_path %>
+          </li>
+
         <% end %>
 
         <% unless is_root_path %>
@@ -120,14 +126,6 @@
               </a>
             </li>
 
-            <li>
-              <%=
-                link_to 'Clear Cookies', \
-                  settings_path(clear_cookies: true), \
-                  data: { confirm: 'Are you sure?' }
-              %>
-            </li>
-
             <% unless is_root_path %>
               <% if not is_static_path && action_name != 'About' %>
                 <li>
@@ -135,6 +133,14 @@
                 </li>
               <% end %>
             <% end %>
+
+            <li>
+              <%=
+                link_to 'Clear Cookies', \
+                  settings_path(clear_cookies: true), \
+                  data: { confirm: 'Are you sure?' }
+              %>
+            </li>
 
             <li>
               <a href="#" data-toggle="modal" data-target=".modal">
@@ -145,6 +151,16 @@
             <li class="divider"></li>
 
             <li class="dropdown-header">Models</li>
+
+            <li>
+
+              <% if is_package_path or is_root_path %>
+                <%= link_to "RSS Feeds", feeds_path %>
+              <% else %>
+                <%= link_to "Packages", packages_path %>
+              <% end %>
+
+            </li>
 
             <li>
               <%= link_to "Users", users_path %>
