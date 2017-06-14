@@ -4,7 +4,9 @@ class TrendingsController < ApplicationController
   # GET /trendings
   # GET /trendings.json
   def index
-    @since = params[:since] || 'weekly'
+    cookies.permanent[:since] ||= 'weekly'
+
+    @since = cookies[:since]
 
     trending_feed = Feed.custom_find("trending_#{@since}")
 

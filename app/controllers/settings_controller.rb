@@ -14,6 +14,7 @@ class SettingsController < ApplicationController
       max_stars
       start_date
       end_date
+      since
       sort
     ]
 

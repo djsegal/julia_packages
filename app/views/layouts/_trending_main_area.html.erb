@@ -16,13 +16,13 @@
 
       <div class="btn-group cs-pull-right cs-packages-word">
 
-        <%= link_to 'Day', root_path(since: 'daily'),
+        <%= link_to 'Day', settings_path(since: 'daily'),
           class: "js-tooltip btn btn-sm #{ ( @since == 'daily' ) ? ' btn-raised btn-primary' : '' }",
           title: "", data: { toggle: "tooltip", placement: "bottom", original_title: "View trending today" } %>
-        <%= link_to 'Week', root_path(since: 'weekly'),
+        <%= link_to 'Week', settings_path(since: 'weekly'),
           class: "js-tooltip btn btn-sm #{ ( @since == 'weekly' ) ? ' btn-raised btn-primary' : '' }",
           title: "", data: { toggle: "tooltip", placement: "bottom", original_title: "View trending this week" } %>
-        <%= link_to 'Month', root_path(since: 'monthly'),
+        <%= link_to 'Month', settings_path(since: 'monthly'),
           class: "js-tooltip btn btn-sm #{ ( @since == 'monthly' ) ? ' btn-raised btn-primary' : '' }",
           title: "", data: { toggle: "tooltip", placement: "bottom", original_title: "View trending this month" } %>
         <%= link_to 'All', packages_path,
