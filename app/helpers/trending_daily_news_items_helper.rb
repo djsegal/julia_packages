@@ -1,0 +1,2 @@
+module TrendingDailyNewsItemsHelper
+end

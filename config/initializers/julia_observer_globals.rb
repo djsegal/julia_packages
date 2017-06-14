@@ -1,5 +1,6 @@
 @downloads_directory = 'tmp/downloads'
 @metadata_directory = 'tmp/METADATA.jl'
+@trending_directory = 'tmp/trending'
 @github_directory = 'tmp/github'
 @scour_directory = 'tmp/scour'
 @news_directory = 'tmp/news'

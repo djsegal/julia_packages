@@ -1,0 +1,1 @@
+json.partial! "trending_monthly_news_items/trending_monthly_news_item", trending_monthly_news_item: @trending_monthly_news_item

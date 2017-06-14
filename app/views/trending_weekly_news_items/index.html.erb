@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Trending Weekly News Items</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @trending_weekly_news_items.each do |trending_weekly_news_item| %>
+      <tr>
+        <td><%= link_to 'Show', trending_weekly_news_item %></td>
+        <td><%= link_to 'Edit', edit_trending_weekly_news_item_path(trending_weekly_news_item) %></td>
+        <td><%= link_to 'Destroy', trending_weekly_news_item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Trending Weekly News Item', new_trending_weekly_news_item_path %>

@@ -40,10 +40,13 @@
       <ul class="nav navbar-nav navbar-right">
 
         <%
-          is_package_path = controller_name == 'packages'
-          is_error_path = controller_name == 'errors'
-          is_static_path = controller_name == 'statics'
-          is_root_path = is_package_path && action_name == 'index'
+          cur_controller_name = ( controller_name == "trendings" ) ? "trending" : controller_name
+
+          is_trending_path = cur_controller_name == 'trending'
+          is_error_path = cur_controller_name == 'errors'
+          is_static_path = cur_controller_name == 'statics'
+          is_package_path = cur_controller_name == 'packages'
+          is_root_path = is_trending_path && action_name == 'index'
         %>
 
         <li class="<%= is_root_path ? 'active' : '' %>">
@@ -58,12 +61,18 @@
 
         <% unless is_root_path %>
 
-          <% unless is_package_path or is_error_path or is_static_path %>
+          <% unless is_trending_path or is_error_path or is_static_path %>
 
             <li class="<%= (action_name == 'index') ? 'active' : '' %>">
-              <% class_index_name = controller_name.titleize %>
-              <% class_index_name.sub! ' Items', '' %>
-              <%= link_to class_index_name, send("#{controller_name}_path") %>
+
+              <%
+                class_index_name = cur_controller_name.titleize
+                class_index_name.sub! ' Items', ''
+                class_index_name = "Pkgs" if class_index_name == "Packages"
+              %>
+
+              <%= link_to class_index_name, send("#{cur_controller_name}_path") %>
+
             </li>
 
           <% end %>
@@ -81,16 +90,16 @@
 
               <%
                 params_id = params_id.titleize \
-                  if controller_name == 'logs'
+                  if cur_controller_name == 'logs'
               %>
 
               <% case action_name %>
               <% when 'show' %>
-                <%= link_to truncate(params_id, length: 25), send("#{controller_name.singularize}_path"), @model %>
+                <%= link_to truncate(params_id, length: 25), send("#{cur_controller_name.singularize}_path"), @model %>
               <% when 'edit' %>
-                <%= link_to truncate(params_id, length: 25), send("edit_#{controller_name.singularize}_path"), @model %>
+                <%= link_to truncate(params_id, length: 25), send("edit_#{cur_controller_name.singularize}_path"), @model %>
               <% when 'new' %>
-                <%= link_to 'New', send("new_#{controller_name.singularize}_path") %>
+                <%= link_to 'New', send("new_#{cur_controller_name.singularize}_path") %>
               <% else %>
                 <a>ruh roh</a>
               <% end %>

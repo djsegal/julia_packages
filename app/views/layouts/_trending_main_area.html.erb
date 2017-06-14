@@ -1,0 +1,60 @@
+<%# disable_since = defined? since_title %>
+
+<%# since_title ||= @since.split('_').map(&:titleize).join('-') %>
+
+<div class="col-sm-8 cs-main-area">
+
+  <div class="panel panel-default">
+
+    <div class="panel-heading">
+
+      <h4 class="cs-no-margin">
+        Trending
+        <span class='cs-packages-word'> Packages </span>
+        <span class='cs-packages-short-word'> Pkgs </span>
+      </h4>
+
+      <div class="btn-group cs-pull-right cs-packages-word">
+
+        <%= link_to 'Day', root_path(since: 'daily'),
+          class: "js-tooltip btn btn-sm #{ ( @since == 'daily' ) ? ' btn-raised btn-primary' : '' }",
+          title: "", data: { toggle: "tooltip", placement: "bottom", original_title: "View trending today" } %>
+        <%= link_to 'Week', root_path(since: 'weekly'),
+          class: "js-tooltip btn btn-sm #{ ( @since == 'weekly' ) ? ' btn-raised btn-primary' : '' }",
+          title: "", data: { toggle: "tooltip", placement: "bottom", original_title: "View trending this week" } %>
+        <%= link_to 'Month', root_path(since: 'monthly'),
+          class: "js-tooltip btn btn-sm #{ ( @since == 'monthly' ) ? ' btn-raised btn-primary' : '' }",
+          title: "", data: { toggle: "tooltip", placement: "bottom", original_title: "View trending this month" } %>
+        <%= link_to 'All', packages_path,
+          class: "js-tooltip btn btn-sm hidden-xs #{ ( @since == 'all' ) ? ' btn-raised btn-primary' : '' }",
+          title: "", data: { toggle: "tooltip", placement: "bottom", original_title: "View all packages" } %>
+
+      </div>
+
+    </div>
+
+    <div class="panel-body">
+
+      <div class="list-group cs-no-margin row">
+
+        <%= render partial: 'layouts/package_list', locals: { packages: @packages } %>
+
+      </div>
+
+    </div>
+
+    <div class="panel-footer cs-center cs-no-padding">
+
+      <%= link_to packages_path, class: "btn btn-default cs-side-bar-footer-link cs-full-width cs-no-margin" do %>
+        View all Packages
+      <% end %>
+
+    </div>
+
+  </div>
+
+  <div class="visible-xs">
+    <%= render 'layouts/made_with_love_panel' %>
+  </div>
+
+</div>

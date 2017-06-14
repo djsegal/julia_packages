@@ -38,7 +38,7 @@ every :day, at: %w[ 5am 5pm 11am 11pm ] do
 end
 
 every :day, at: '12:30am' do
-  rake "job:log"
+  rake "job:day"
 end
 
 every :day, at: '12:30pm' do

@@ -1,0 +1,1 @@
+json.array! @trending_weekly_news_items, partial: 'trending_weekly_news_items/trending_weekly_news_item', as: :trending_weekly_news_item

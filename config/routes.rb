@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resource :trending
   resources :dependencies
   resources :logs
 
@@ -17,6 +18,9 @@ Rails.application.routes.draw do
   resources :settings
   resources :blurbs
   resources :references
+  resources :trending_weekly_news_items
+  resources :trending_daily_news_items
+  resources :trending_monthly_news_items
   resources :discourse_news_items
   resources :github_news_items
   resources :reddit_news_items
@@ -41,6 +45,8 @@ Rails.application.routes.draw do
     get 'autocomplete', on: :collection
   end
 
+  resource :trending, path: 't'
+
   resources :users, path: 'u'
   resources :packages, path: 'p'
   resources :organizations, path: 'o'
@@ -51,7 +57,7 @@ Rails.application.routes.draw do
     end
   end
 
-  root 'packages#index'
+  root 'trendings#index'
 
   get '/*bad_route', to: 'errors#index', as: 'errors'
 
