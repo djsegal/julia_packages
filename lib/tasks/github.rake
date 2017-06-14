@@ -42,7 +42,7 @@ namespace :github do
         }.values.map{ |v| v.to_date }.max
 
         is_new_response = \
-          touched_date > Batch.active_marker_date
+          touched_date > Date.yesterday
 
       else
 
