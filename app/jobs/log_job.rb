@@ -9,7 +9,9 @@ class LogJob < ApplicationJob
       initial_location = "log/#{log_file}.log"
       final_location = "log/old_#{log_file}.log"
 
-      FileUtils.mv initial_location, final_location
+      FileUtils.mv(initial_location, final_location) \
+        if File.exist? initial_location
+
       FileUtils.touch initial_location
       FileUtils.chmod 755, initial_location
     end
