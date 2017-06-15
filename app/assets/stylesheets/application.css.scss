@@ -527,11 +527,15 @@ a.panel-heading:focus {
   display: none;
 }
 
-.cs-secondary-checkbox span.check {
-  color: #9E9E9E !important;
-  border-color: #9E9E9E !important;
-  &::before {
+.cs-secondary-checkbox {
+  margin-left: 10px;
+
+  span.check {
     color: #9E9E9E !important;
+    border-color: #9E9E9E !important;
+    &::before {
+      color: #9E9E9E !important;
+    }
   }
 }
 
