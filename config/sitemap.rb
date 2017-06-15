@@ -27,6 +27,7 @@ SitemapGenerator::Sitemap.create do
 
   add packages_path
   add users_path
+  add trending_path
   add categories_path
   add organizations_path
 
@@ -37,6 +38,7 @@ SitemapGenerator::Sitemap.create do
   end
 
   users = User
+    .active_batch_scope
     .joins(:supported_packages)
     .merge(Package.exclude_unregistered_packages)
     .includes(:contributions)
@@ -46,6 +48,31 @@ SitemapGenerator::Sitemap.create do
 
   users.each do |user|
     add user_path(user)
+  end
+
+  organizations = Organization
+    .active_batch_scope
+    .joins(owned_packages: :counter)
+    .merge(Package.exclude_unregistered_packages)
+    .references(:owned_packages)
+    .group("organizations.id")
+    .order("count(organizations.id) DESC")
+    .order("sum(counters.stargazer) desc")
+    .limit(model_count)
+
+  organizations.each do |organization|
+    add organization_path(organization)
+  end
+
+  categories = Category
+    .active_batch_scope
+    .joins(:packages)
+    .group("categories.id")
+    .order("count(categories.id) desc")
+    .limit(100)
+
+  categories.each do |category|
+    add category_path(category)
   end
 
 end
