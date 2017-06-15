@@ -21,6 +21,7 @@ Rails.application.routes.draw do
   resources :trending_weekly_news_items
   resources :trending_daily_news_items
   resources :trending_monthly_news_items
+  resources :stack_overflow_news_items
   resources :discourse_news_items
   resources :github_news_items
   resources :reddit_news_items

@@ -6,9 +6,7 @@ class SettingsController < ApplicationController
   def index
     settings_list = %w[
       include_unregistered_packages
-      has_discourse_news
-      has_reddit_news
-      has_github_news
+      news_type
       sidebar_select
       min_stars
       max_stars

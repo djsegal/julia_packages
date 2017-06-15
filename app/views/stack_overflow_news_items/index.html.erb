@@ -1,0 +1,25 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Stack Overflow News Items</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @stack_overflow_news_items.each do |stack_overflow_news_item| %>
+      <tr>
+        <td><%= link_to 'Show', stack_overflow_news_item %></td>
+        <td><%= link_to 'Edit', edit_stack_overflow_news_item_path(stack_overflow_news_item) %></td>
+        <td><%= link_to 'Destroy', stack_overflow_news_item, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Stack Overflow News Item', new_stack_overflow_news_item_path %>

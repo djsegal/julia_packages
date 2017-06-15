@@ -1,38 +1,49 @@
 <%
-  cookies.permanent[:has_discourse_news] ||= 'false'
-  cookies.permanent[:has_reddit_news] ||= 'false'
-  cookies.permanent[:has_github_news] ||= 'false'
 
-  has_discourse_news = ( cookies.permanent[:has_discourse_news] == 'true' )
-  has_reddit_news = ( cookies.permanent[:has_reddit_news] == 'true' )
-  has_github_news = ( cookies.permanent[:has_github_news] == 'true' )
+  cookies.permanent[:news_type] ||= 'stack_overflow'
+
+  has_discourse_news = ( cookies.permanent[:news_type] == 'discourse' )
+  has_reddit_news = ( cookies.permanent[:news_type] == 'reddit' )
+  has_github_news = ( cookies.permanent[:news_type] == 'github' )
+  has_stack_overflow_news = ( cookies.permanent[:news_type] == 'stack_overflow' )
+
 %>
 
 <div class="list-group-item cs-center row cs-no-padding cs-no-margin">
 
-  <%= link_to settings_path(has_discourse_news: !has_discourse_news), class: "col-xs-4 cs-no-margin btn cs-news-selector #{ 'btn-primary' if has_discourse_news }" do %>
+  <%= link_to settings_path(news_type: 'discourse'), class: "col-xs-3 cs-no-margin btn cs-news-selector #{ 'btn-primary' if has_discourse_news }" do %>
     <h4 class="cs-no-margin">
-      <%= fa_icon "comment lg" %>
+      <%= fa_icon "comment" %>
     </h4>
   <% end %>
 
-  <%= link_to settings_path(has_reddit_news: !has_reddit_news), class: "col-xs-4 cs-no-margin btn cs-news-selector #{ 'btn-primary' if has_reddit_news }" do %>
+  <%= link_to settings_path(news_type: 'stack_overflow'), class: "col-xs-3 cs-no-margin btn cs-news-selector #{ 'btn-primary' if has_stack_overflow_news }" do %>
     <h4 class="cs-no-margin">
-      <%= fa_icon "reddit lg" %>
+      <%= fa_icon "stack-overflow" %>
     </h4>
   <% end %>
 
-  <%= link_to settings_path(has_github_news: !has_github_news), class: "col-xs-4 cs-no-margin btn cs-news-selector #{ 'btn-primary' if has_github_news }" do %>
+  <%= link_to settings_path(news_type: 'reddit'), class: "col-xs-3 cs-no-margin btn cs-news-selector #{ 'btn-primary' if has_reddit_news }" do %>
     <h4 class="cs-no-margin">
-      <%= fa_icon "github lg" %>
+      <%= fa_icon "reddit" %>
     </h4>
   <% end %>
+
+  <%= link_to settings_path(news_type: 'github'), class: "col-xs-3 cs-no-margin btn cs-news-selector #{ 'btn-primary' if has_github_news }" do %>
+    <h4 class="cs-no-margin">
+      <%= fa_icon "github" %>
+    </h4>
+  <% end %>
+
 </div>
 
 <%
+  has_no_news_type = !has_discourse_news && !has_reddit_news
+  has_no_news_type &= !has_github_news && !has_stack_overflow_news
 
-  if !has_discourse_news and !has_reddit_news and !has_github_news
-    has_discourse_news, has_reddit_news, has_github_news = [true]*3
+  if has_no_news_type
+    has_discourse_news, has_reddit_news = true, true
+    has_github_news, has_stack_overflow_news = true, true
   end
 
   if has_discourse_news
@@ -59,6 +70,10 @@
     news_items_lists << discourse_odd_news_items
   end
 
+  if has_stack_overflow_news
+    news_items_lists << StackOverflowNewsItem.active_batch_scope.includes(:target).all
+  end
+
   first_news_items = news_items_lists.shift
 
   news_items = first_news_items.zip(
@@ -66,6 +81,7 @@
   ).flatten
 
   news_css_classes = 'btn btn-default cs-left-align cs-no-margin col-xs-10'
+
 %>
 
 <% news_items.first(60).each_with_index do |news_item, index| %>
@@ -137,9 +153,11 @@
 
       <a class="btn btn-default cs-no-margin col-xs-2 cs-link-icon" href="<%= news_item.link %>" style='padding-left: 0; padding-right: 0;' target="_blank">
 
-        <% icon_type = news_item.class.name[/.*(?=NewsItem)/].downcase %>
+        <% icon_type = news_item.class.name[/.*(?=NewsItem)/].underscore %>
 
         <% icon_type = 'comment' if icon_type == 'discourse' %>
+
+        <% icon_type.gsub! '_', '-' %>
 
         <%= fa_icon "#{ icon_type } 2x" %>
 

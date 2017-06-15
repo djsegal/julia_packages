@@ -1,0 +1,17 @@
+<%= form_for(stack_overflow_news_item) do |f| %>
+  <% if stack_overflow_news_item.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(stack_overflow_news_item.errors.count, "error") %> prohibited this stack_overflow_news_item from being saved:</h2>
+
+      <ul>
+      <% stack_overflow_news_item.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

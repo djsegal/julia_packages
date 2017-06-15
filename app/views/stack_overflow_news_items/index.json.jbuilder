@@ -1,0 +1,1 @@
+json.array! @stack_overflow_news_items, partial: 'stack_overflow_news_items/stack_overflow_news_item', as: :stack_overflow_news_item

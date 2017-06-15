@@ -1,6 +1,6 @@
 namespace :news do
 
-  @news_item_types = %w[ reddit github discourse ]
+  @news_item_types = %w[ reddit github discourse stack_overflow ]
 
   desc "make news items"
   task make: :environment do
@@ -190,6 +190,45 @@ namespace :news do
     end
 
     File.open("#{@news_directory}/discourse.yml", 'w') do |h|
+       h.write news_items.to_yaml
+    end
+
+    bar.finished
+  end
+
+  desc "get stack overflow questions"
+  task stack_overflow: :environment do
+    news_items = []
+
+    stack_overflow_page = "https://api.stackexchange.com/2.2/questions"
+    stack_overflow_page += "?order=desc&sort=creation&tagged=julia"
+    stack_overflow_page += "&site=stackoverflow&filter=!9YdnSIN18"
+
+    questions = HTTParty.get(stack_overflow_page)["items"]
+
+    bar = make_progress_bar questions.count
+
+    questions.each do |question|
+      bar.inc
+
+      news_items << {
+        name: question['title'],
+        link: question['link'],
+        target_type: 'Blurb',
+        target_attributes: {
+          cargo: question['body']
+        }
+      }
+    end
+
+    FileUtils.mkdir_p(@news_directory) \
+      unless File.directory? @news_directory
+
+    File.open("#{@news_directory}/raw_stack_overflow.yml", 'w') do |h|
+       h.write questions.to_yaml
+    end
+
+    File.open("#{@news_directory}/stack_overflow.yml", 'w') do |h|
        h.write news_items.to_yaml
     end
 
