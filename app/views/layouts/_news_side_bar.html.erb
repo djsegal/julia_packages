@@ -7,29 +7,31 @@
   has_github_news = ( cookies.permanent[:news_type] == 'github' )
   has_stack_overflow_news = ( cookies.permanent[:news_type] == 'stack_overflow' )
 
+  # has_all_news = ( cookies.permanent[:news_type] == 'all' )
+
 %>
 
 <div class="list-group-item cs-center row cs-no-padding cs-no-margin">
 
-  <%= link_to settings_path(news_type: 'discourse'), class: "col-xs-3 cs-no-margin btn cs-news-selector #{ 'btn-primary' if has_discourse_news }" do %>
+  <%= link_to settings_path(news_type: has_discourse_news ? 'all' : 'discourse'), class: "col-xs-3 cs-no-margin btn cs-news-selector #{ 'btn-primary' if has_discourse_news }" do %>
     <h4 class="cs-no-margin">
       <%= fa_icon "comment" %>
     </h4>
   <% end %>
 
-  <%= link_to settings_path(news_type: 'stack_overflow'), class: "col-xs-3 cs-no-margin btn cs-news-selector #{ 'btn-primary' if has_stack_overflow_news }" do %>
+  <%= link_to settings_path(news_type: has_stack_overflow_news ? 'all' : 'stack_overflow'), class: "col-xs-3 cs-no-margin btn cs-news-selector #{ 'btn-primary' if has_stack_overflow_news }" do %>
     <h4 class="cs-no-margin">
       <%= fa_icon "stack-overflow" %>
     </h4>
   <% end %>
 
-  <%= link_to settings_path(news_type: 'reddit'), class: "col-xs-3 cs-no-margin btn cs-news-selector #{ 'btn-primary' if has_reddit_news }" do %>
+  <%= link_to settings_path(news_type: has_reddit_news ? 'all' : 'reddit'), class: "col-xs-3 cs-no-margin btn cs-news-selector #{ 'btn-primary' if has_reddit_news }" do %>
     <h4 class="cs-no-margin">
       <%= fa_icon "reddit" %>
     </h4>
   <% end %>
 
-  <%= link_to settings_path(news_type: 'github'), class: "col-xs-3 cs-no-margin btn cs-news-selector #{ 'btn-primary' if has_github_news }" do %>
+  <%= link_to settings_path(news_type: has_github_news ? 'all' : 'github'), class: "col-xs-3 cs-no-margin btn cs-news-selector #{ 'btn-primary' if has_github_news }" do %>
     <h4 class="cs-no-margin">
       <%= fa_icon "github" %>
     </h4>
