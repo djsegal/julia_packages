@@ -526,3 +526,9 @@ a.panel-heading:focus {
 .cs-include-checkbox .checkbox-material:not(:first-of-type) {
   display: none;
 }
+
+@media (max-width: 767px) {
+  .navbar-form {
+    margin-top: 0 !important;
+  }
+}
