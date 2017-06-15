@@ -494,6 +494,18 @@ a.panel-heading:focus {
   }
 }
 
+@media (max-width: 449px) {
+  .cs-trending-word {
+    display: none;
+  }
+}
+
+@media (max-width: 360px) {
+  .cs-trending-hidden-small {
+    display: none;
+  }
+}
+
 .cs-share-dropdown {
   a {
     @extend .cs-link-opacity;

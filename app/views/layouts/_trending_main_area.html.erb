@@ -6,11 +6,10 @@
 
       <h4 class="cs-no-margin">
         Trending
-        <span class='cs-packages-word'> Packages </span>
-        <span class='cs-packages-short-word'> Pkgs </span>
+        <span class='cs-trending-word'> Packages </span>
       </h4>
 
-      <div class="btn-group cs-pull-right cs-packages-word">
+      <div class="btn-group cs-pull-right cs-trending-hidden-small">
 
         <%= link_to 'Day', settings_path(since: 'daily'),
           class: "js-tooltip btn btn-sm #{ ( @since == 'daily' ) ? ' btn-raised btn-primary' : '' }",
