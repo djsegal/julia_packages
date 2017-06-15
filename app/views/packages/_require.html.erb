@@ -9,9 +9,33 @@
 
   <% dependency_relations.each do |name, assocs| %>
 
+    <%
+      batch_total = 150
+      substract_batch = 50
+
+      assoc_list = assocs
+        .order("counters.stargazer desc")
+        .first(batch_total)
+
+      if name == "Requires"
+        assoc_tuples = assoc_list.map{ |a| [a.depended, a.is_shallow] }
+      else
+        assoc_tuples = assoc_list.map{ |a| [a.dependent, a.is_shallow] }
+      end
+
+      assoc_tuples.delete_if { |p, _| p.name == "Julia" }
+
+      assoc_tuples.delete_if { |p, _| p.name == @package.name }
+
+      assoc_tuples.delete_if { |p, _| not p.is_registered } \
+        unless cookies[:include_unregistered_packages] == 'true'
+
+      assoc_tuples = assoc_tuples.first(batch_total - substract_batch)
+    %>
+
     <div class="col-sm-6">
 
-      <div class="panel panel-default cs-no-margin">
+      <div class="panel panel-default cs-no-margin cs-hide-indirect-dependencies">
 
         <div class="panel-heading">
 
@@ -19,35 +43,40 @@
             <%= name %>:
           </h4>
 
+
+          <%
+
+            include_checkbox = ( not assoc_tuples.empty? )
+
+            if include_checkbox
+              shallow_count = assoc_tuples.map{ |_, is_shallow| is_shallow ? 1 : 0 }.sum
+              total_count = assoc_tuples.count
+
+              include_checkbox &= ( shallow_count != total_count )
+            end
+
+          %>
+
+          <% if include_checkbox %>
+
+            <%
+              tooltip_text = "#{ shallow_count } | "
+              tooltip_text += "<strong>#{ total_count }</strong>"
+            %>
+
+            <div class="checkbox cs-pull-right cs-include-checkbox cs-secondary-checkbox" data-toggle="tooltip" data-html="true" data-placement="left" title="" data-original-title="<%= tooltip_text %>">
+              <label>
+                <input type="checkbox">
+              </label>
+            </div>
+
+          <% end %>
+
         </div>
 
         <div class="panel-body cs-no-padding">
 
           <div class="list-group">
-
-            <%
-              batch_total = 150
-              substract_batch = 50
-
-              assoc_list = assocs
-                .order("counters.stargazer desc")
-                .first(batch_total)
-
-              if name == "Requires"
-                assoc_tuples = assoc_list.map{ |a| [a.depended, a.is_shallow] }
-              else
-                assoc_tuples = assoc_list.map{ |a| [a.dependent, a.is_shallow] }
-              end
-
-              assoc_tuples.delete_if { |p, _| p.name == "Julia" }
-
-              assoc_tuples.delete_if { |p, _| p.name == @package.name }
-
-              assoc_tuples.delete_if { |p, _| not p.is_registered } \
-                unless cookies[:include_unregistered_packages] == 'true'
-
-              assoc_tuples = assoc_tuples.first(batch_total - substract_batch)
-            %>
 
             <% if assoc_tuples.empty? %>
 
@@ -66,21 +95,25 @@
 
             <% assoc_tuples.each_with_index do |(package, is_shallow), index| %>
 
-              <% unless index.zero? %>
+              <div class="<%= "cs-is-indirect-dependency" unless is_shallow %>">
 
-                <div class="list-group-separator cs-full-width cs-no-margin"></div>
+                <% unless index.zero? %>
 
-              <% end %>
+                  <div class="list-group-separator cs-full-width cs-no-margin"></div>
 
-              <div class="list-group-item cs-no-padding <%= "cs-is-indirect-dependency" unless is_shallow %>">
+                <% end %>
 
-                <div class="row-content cs-full-width cs-category-row">
+                <div class="list-group-item cs-no-padding">
 
-                  <%=
-                    link_to package.name,
-                      package_path(package),
-                      class: "btn btn-default cs-full-width cs-left-align cs-no-margin #{ 'active' if current_page?(package_path(package)) }"
-                  %>
+                  <div class="row-content cs-full-width cs-category-row">
+
+                    <%=
+                      link_to package.name,
+                        package_path(package),
+                        class: "btn btn-default cs-full-width cs-left-align cs-no-margin #{ 'active' if current_page?(package_path(package)) }"
+                    %>
+
+                  </div>
 
                 </div>
 
@@ -99,3 +132,22 @@
   <% end %>
 
 </div>
+
+<script>
+
+  $(function () {
+    $(".cs-secondary-checkbox[data-toggle='tooltip']").tooltip();
+  });
+
+  $(".cs-require-panels .checkbox").click(function() {
+
+    var includeIndirectDependencies = this.getElementsByTagName("input")[0].checked;
+
+    if ( includeIndirectDependencies == true ) {
+      this.parentElement.parentElement.classList.remove("cs-hide-indirect-dependencies");
+    } else {
+      this.parentElement.parentElement.classList.add("cs-hide-indirect-dependencies");
+    }
+
+  });
+</script>

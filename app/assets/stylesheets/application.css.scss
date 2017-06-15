@@ -518,7 +518,7 @@ a.panel-heading:focus {
   }
 }
 
-.cs-is-indirect-dependency {
+.cs-is-indirect-dependency .list-group-item {
   opacity: 0.7;
   font-style: italic;
 }
@@ -527,8 +527,20 @@ a.panel-heading:focus {
   display: none;
 }
 
+.cs-secondary-checkbox span.check {
+  color: #9E9E9E !important;
+  border-color: #9E9E9E !important;
+  &::before {
+    color: #9E9E9E !important;
+  }
+}
+
 @media (max-width: 767px) {
   .navbar-form {
     margin-top: 0 !important;
   }
+}
+
+.cs-hide-indirect-dependencies .cs-is-indirect-dependency {
+  display: none;
 }
