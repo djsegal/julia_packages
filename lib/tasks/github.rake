@@ -98,6 +98,9 @@ namespace :github do
 
       if contributors_request.is_a? Array
         contributors = contributors_request
+      elsif contributors_request.is_a? Hash
+        nasty_packages << directory
+        contributors = []
       else
         contributors = JSON.parse contributors_request.body
       end
