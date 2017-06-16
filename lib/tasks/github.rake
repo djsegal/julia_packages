@@ -161,10 +161,10 @@ namespace :github do
     bar.finished
 
     puts "\n-------\n nasty \n-------"
-    puts nasty_packages
+    puts nasty_packages.uniq.sort
 
     puts "\n-------\n moved \n-------"
-    puts moved_packages
+    puts moved_packages.uniq.sort
 
   end
 
@@ -248,7 +248,7 @@ namespace :github do
     bar.finished
 
     puts "\n-------\n rotten \n-------"
-    puts rotten_packages
+    puts rotten_packages.uniq.sort
 
   end
 
@@ -332,10 +332,10 @@ namespace :github do
     end
 
     puts "\n-------\n absent \n-------"
-    puts absent_packages.map &:name
+    puts absent_packages.map(&:name).uniq.sort
 
     puts "\n-------\n invalid \n-------"
-    puts invalid_packages.map &:name
+    puts invalid_packages.map(&:name).uniq.sort
 
     bar.finished
   end
