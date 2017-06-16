@@ -5,13 +5,13 @@
     <% cookies.permanent[:sidebar_select] ||= 'news' %>
 
     <div class="panel-heading cs-center row cs-no-padding cs-no-margin">
-      <%= link_to settings_path(sidebar_select: 'categories'), class: "col-xs-6 cs-no-margin cs-sidebar-toggle btn #{ 'btn-default cs-inactive-toggle' unless cookies[:sidebar_select] == 'categories' }" do %>
+      <%= link_to settings_path(sidebar_select: 'categories'), class: "col-xs-6 cs-no-margin cs-sidebar-toggle btn cs-no-round #{ 'btn-default cs-inactive-toggle' unless cookies[:sidebar_select] == 'categories' }" do %>
         <h4 class="cs-no-margin">
           Categories
         </h4>
       <% end %>
 
-      <%= link_to settings_path(sidebar_select: 'news'), class: "col-xs-6 cs-no-margin cs-sidebar-toggle btn #{ 'btn-default cs-inactive-toggle' unless cookies[:sidebar_select] == 'news' }" do %>
+      <%= link_to settings_path(sidebar_select: 'news'), class: "col-xs-6 cs-no-margin cs-sidebar-toggle btn cs-no-round #{ 'btn-default cs-inactive-toggle' unless cookies[:sidebar_select] == 'news' }" do %>
         <h4 class="cs-no-margin">
           News
         </h4>
