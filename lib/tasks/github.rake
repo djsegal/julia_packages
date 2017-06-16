@@ -42,7 +42,7 @@ namespace :github do
         }.values.map{ |v| v.to_date }.max
 
         is_new_response = \
-          touched_date > 6.hours.ago
+          touched_date > 1.day.ago
 
       else
 
