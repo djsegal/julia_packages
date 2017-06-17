@@ -58,7 +58,7 @@
         $('.js-tooltip').tooltip();
 
         if (typeof ga === "function") {
-          if ( event.data ) {
+          if ( typeof event !== "undefined" && event.data ) {
             ga("set", "location", event.data.url);
             ga("send", "pageview");
           } else {
