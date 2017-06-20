@@ -23,7 +23,7 @@
 
   %>
 
-  <% dependency_relations.each do |name, assocs| %>
+  <% dependency_relations.each do |cur_name, assocs| %>
 
     <%
 
@@ -31,7 +31,7 @@
 
       assoc_list = assocs.first max_packages
 
-      if name == "Requires"
+      if cur_name == "Requires"
         assoc_tuples = assoc_list.map{ |a| [a.depended, a.is_shallow] }
       else
         assoc_tuples = assoc_list.map{ |a| [a.dependent, a.is_shallow] }
@@ -46,7 +46,7 @@
         <div class="panel-heading">
 
           <h4 class="cs-no-margin">
-            <%= name %>:
+            <%= cur_name %>:
           </h4>
 
           <%
