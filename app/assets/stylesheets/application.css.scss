@@ -528,7 +528,8 @@ a.panel-heading:focus {
 }
 
 .cs-secondary-checkbox {
-  margin-left: 10px;
+  padding: 10px 10px 10px 10px;
+  margin: 0 -10px 0 0;
 
   span.check {
     color: #9E9E9E !important;
