@@ -58,12 +58,19 @@ class PackageSorterJob < ApplicationJob
       organization = get_organization params
       user = get_user params
 
+      depended_package = get_depended_package params
+      dependent_package = get_dependent_package params
+
       if category.present?
         @core_query = category.packages
       elsif organization.present?
         @core_query = organization.owned_packages
       elsif user.present?
         @core_query = user.supported_packages
+      elsif depended_package.present?
+        @core_query = depended_package.dependents
+      elsif dependent_package.present?
+        @core_query = dependent_package.depending
       else
         @core_query = Package
       end
@@ -145,6 +152,16 @@ class PackageSorterJob < ApplicationJob
     def get_user params
       return unless params[:user_id].present?
       User.custom_find params[:user_id]
+    end
+
+    def get_depended_package params
+      return unless params[:dependent_id].present?
+      Package.custom_find params[:dependent_id]
+    end
+
+    def get_dependent_package params
+      return unless params[:depended_id].present?
+      Package.custom_find params[:depended_id]
     end
 
 end
