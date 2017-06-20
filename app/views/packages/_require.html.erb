@@ -132,29 +132,37 @@
 
             <% end %>
 
+            <% if is_full_list %>
+
+              <%
+                if cur_name == "Requires"
+                  cur_label = "Depending"
+                  cur_path = packages_path(depended_id: @package)
+                else
+                  cur_label = "Dependent"
+                  cur_path = packages_path(dependent_id: @package)
+                end
+              %>
+
+              <div class="list-group-separator cs-full-width cs-no-margin"></div>
+
+              <div class="list-group-item cs-no-padding">
+
+                <div class="row-content cs-full-width cs-category-row">
+
+                  <%= link_to cur_path, class: "btn btn-default active cs-full-width cs-no-margin" do %>
+                    View <%= cur_label %> Packages
+                  <% end %>
+
+                </div>
+
+              </div>
+
+            <% end %>
+
           </div>
 
         </div>
-
-        <% if is_full_list %>
-
-          <%
-            if cur_name == "Requires"
-              cur_label = "Depending"
-              cur_path = packages_path(depended_id: @package)
-            else
-              cur_label = "Dependent"
-              cur_path = packages_path(dependent_id: @package)
-            end
-          %>
-
-          <div class="panel-footer cs-no-padding">
-            <%= link_to cur_path, class: "btn btn-default cs-side-bar-footer-link cs-full-width cs-no-margin" do %>
-              View <%= cur_label %> Packages
-            <% end %>
-          </div>
-
-        <% end %>
 
       </div>
 
