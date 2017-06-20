@@ -1,21 +1,35 @@
 <div class="row cs-require-panels cs-no-margin hidden-xs">
 
   <%
+
+    max_packages = 90
+
     dependency_relations = {}
 
-    dependency_relations["Requires"] = @package.active_dependencies.order(is_shallow: :desc).includes(depended: :counter)
-    dependency_relations["Used By"] = @package.passive_dependencies.order(is_shallow: :desc).includes(dependent: :counter)
+    dependency_relations["Requires"] = @package.active_dependencies.order(is_shallow: :desc).joins(:depended).where.not(packages: {name: ["Julia", @package.name]})
+
+    dependency_relations["Used By"] = @package.passive_dependencies.order(is_shallow: :desc).joins(:dependent).where.not(packages: {name: ["Julia", @package.name]})
+
+    unless cookies[:include_unregistered_packages] == 'true'
+      dependency_relations.each do |k, v|
+        dependency_relations[k] = dependency_relations[k]
+          .where(packages: {is_registered: true})
+      end
+    end
+
+    dependency_relations["Requires"] = dependency_relations["Requires"].includes(depended: :counter).order("counters.stargazer desc")
+
+    dependency_relations["Used By"] = dependency_relations["Used By"].includes(dependent: :counter).order("counters.stargazer desc")
+
   %>
 
   <% dependency_relations.each do |name, assocs| %>
 
     <%
-      batch_total = 150
-      substract_batch = 50
 
-      assoc_list = assocs
-        .order("counters.stargazer desc")
-        .first(batch_total)
+      is_full_list = assocs.count > max_packages
+
+      assoc_list = assocs.first max_packages
 
       if name == "Requires"
         assoc_tuples = assoc_list.map{ |a| [a.depended, a.is_shallow] }
@@ -23,19 +37,11 @@
         assoc_tuples = assoc_list.map{ |a| [a.dependent, a.is_shallow] }
       end
 
-      assoc_tuples.delete_if { |p, _| p.name == "Julia" }
-
-      assoc_tuples.delete_if { |p, _| p.name == @package.name }
-
-      assoc_tuples.delete_if { |p, _| not p.is_registered } \
-        unless cookies[:include_unregistered_packages] == 'true'
-
-      assoc_tuples = assoc_tuples.first(batch_total - substract_batch)
     %>
 
     <div class="col-sm-6">
 
-      <div class="panel panel-default cs-no-margin cs-hide-indirect-dependencies">
+      <div class="panel panel-default cs-no-margin <%= "cs-hide-indirect-dependencies" unless is_full_list %>">
 
         <div class="panel-heading">
 
@@ -43,17 +49,18 @@
             <%= name %>:
           </h4>
 
-
           <%
 
             include_checkbox = ( not assoc_tuples.empty? )
 
             if include_checkbox
-              shallow_count = assoc_tuples.map{ |_, is_shallow| is_shallow ? 1 : 0 }.sum
-              total_count = assoc_tuples.count
+              shallow_count = assocs.where(is_shallow: true).count
+              total_count = assocs.count
 
               include_checkbox &= ( shallow_count != total_count )
             end
+
+            include_checkbox |= is_full_list
 
           %>
 
@@ -66,7 +73,11 @@
 
             <div class="checkbox cs-pull-right cs-include-checkbox cs-secondary-checkbox" data-toggle="tooltip" data-html="true" data-placement="auto left" title="" data-original-title="<%= tooltip_text %>">
               <label>
-                <input type="checkbox">
+                <% if is_full_list %>
+                  <input type="checkbox" checked="">
+                <% else %>
+                  <input type="checkbox">
+                <% end %>
               </label>
             </div>
 
