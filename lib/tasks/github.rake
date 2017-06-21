@@ -94,6 +94,18 @@ namespace :github do
 
       information['is_scoured_package'] = is_scoured_package
 
+      unless information["contributors_url"].present?
+        nasty_packages << directory
+
+        information['bad_egg'] = directory
+
+        CronLogMailer.log_email(
+          "Contributors URL", information.to_yaml
+        ).deliver_now
+
+        next
+      end
+
       contributors_request = hit_url information["contributors_url"], is_new_response
 
       if contributors_request.is_a? Array
