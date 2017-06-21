@@ -1,27 +1,33 @@
-<div class="row cs-require-panels cs-no-margin hidden-xs">
+<%
 
-  <%
+  max_packages = 10
 
-    max_packages = 90
+  dependency_relations = {}
 
-    dependency_relations = {}
+  dependency_relations["Requires"] = @package.active_dependencies.order(is_shallow: :desc).joins(:depended).where.not(packages: {name: ["Julia", @package.name]})
 
-    dependency_relations["Requires"] = @package.active_dependencies.order(is_shallow: :desc).joins(:depended).where.not(packages: {name: ["Julia", @package.name]})
+  dependency_relations["Used By"] = @package.passive_dependencies.order(is_shallow: :desc).joins(:dependent).where.not(packages: {name: ["Julia", @package.name]})
 
-    dependency_relations["Used By"] = @package.passive_dependencies.order(is_shallow: :desc).joins(:dependent).where.not(packages: {name: ["Julia", @package.name]})
-
-    unless cookies[:include_unregistered_packages] == 'true'
-      dependency_relations.each do |k, v|
-        dependency_relations[k] = dependency_relations[k]
-          .where(packages: {is_registered: true})
-      end
+  unless cookies[:include_unregistered_packages] == 'true'
+    dependency_relations.each do |k, v|
+      dependency_relations[k] = dependency_relations[k]
+        .where(packages: {is_registered: true})
     end
+  end
 
-    dependency_relations["Requires"] = dependency_relations["Requires"].includes(depended: :counter).order("counters.stargazer desc")
+  dependency_relations["Requires"] = dependency_relations["Requires"].includes(depended: :counter).order("counters.stargazer desc")
 
-    dependency_relations["Used By"] = dependency_relations["Used By"].includes(dependent: :counter).order("counters.stargazer desc")
+  dependency_relations["Used By"] = dependency_relations["Used By"].includes(dependent: :counter).order("counters.stargazer desc")
 
-  %>
+  cs_require_class = "row cs-require-panels cs-no-margin hidden-xs"
+
+  if dependency_relations.values.flatten.empty?
+    cs_require_class += " hidden"
+  end
+
+%>
+
+<div class="<%= cs_require_class %>">
 
   <% dependency_relations.each do |cur_name, assocs| %>
 
