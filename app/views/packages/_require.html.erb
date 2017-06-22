@@ -1,6 +1,6 @@
 <%
 
-  max_packages = 60
+  max_packages = 30
 
   dependency_relations = {}
 
@@ -19,7 +19,7 @@
 
   dependency_relations["Used By"] = dependency_relations["Used By"].includes(dependent: :counter).order("counters.stargazer desc")
 
-  cs_require_class = "row cs-require-panels cs-no-margin hidden-xs"
+  cs_require_class = "row cs-require-panels cs-no-margin"
 
   if dependency_relations.values.flatten.empty?
     cs_require_class += " hidden"

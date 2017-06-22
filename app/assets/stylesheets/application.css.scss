@@ -175,6 +175,10 @@ body {
 }
 
 @media (min-width: 768px) {
+  .cs-package-show {
+    padding-bottom: 20px;
+  }
+
   .cs-require-panels .col-sm-6:first-child {
     padding-left: 0;
   }
@@ -184,13 +188,17 @@ body {
   }
 
   .cs-require-panels {
-    padding-bottom: 20px;
+    padding-top: 20px;
   }
 }
 
 @media (max-width: 767px) {
   .cs-require-panels .col-sm-6 {
     padding: 10px 0;
+  }
+
+  .cs-require-panels a {
+    text-align: right;
   }
 
   .cs-require-panels .col-sm-6:first-child {
