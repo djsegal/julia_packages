@@ -1,6 +1,6 @@
 <%
 
-  max_packages = 10
+  max_packages = 60
 
   dependency_relations = {}
 
@@ -184,7 +184,7 @@
     $(".cs-secondary-checkbox[data-toggle='tooltip']").tooltip();
   });
 
-  $(".cs-require-panels .checkbox").click(function() {
+  $(".cs-require-panels .checkbox:not(.disabled)").click(function() {
 
     var includeIndirectDependencies = this.getElementsByTagName("input")[0].checked;
 
