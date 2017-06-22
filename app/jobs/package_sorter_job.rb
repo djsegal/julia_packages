@@ -2,7 +2,10 @@ class PackageSorterJob < ApplicationJob
   queue_as :default
 
   def perform(params={}, cookies={})
-    @sort = cookies[:sort] || 'top'
+    @sort = params[:sort]
+    @sort ||= cookies[:sort]
+    @sort ||= 'top'
+
     set_core_query params, cookies
 
     case @sort
@@ -16,9 +19,13 @@ class PackageSorterJob < ApplicationJob
       set_z_a_packages
     when 'hot'
       set_hot_packages
+    when 'search'
+      # uses pg_search sorting
     else
       raise "Invalid sorting method."
     end
+
+    set_search_query params
 
     [@sort, @packages]
   end
@@ -26,28 +33,29 @@ class PackageSorterJob < ApplicationJob
   private
 
     def set_top_packages
-      @packages = @core_query.order("counters.stargazer desc")
+      binding.pry
+      @packages = @packages.order("counters.stargazer desc")
     end
 
     def set_new_packages
-      @packages = @core_query.order("daters.created desc")
+      @packages = @packages.order("daters.created desc")
     end
 
     def set_a_z_packages
-      @core_query = @core_query.order("Case When name < 'A' Then -1 Else 1 End < 0")
-      @packages = @core_query.order("LOWER(name) asc")
+      @packages = @packages.order("Case When name < 'A' Then -1 Else 1 End < 0")
+      @packages = @packages.order("LOWER(name) asc")
     end
 
     def set_z_a_packages
-      @core_query = @core_query.order("Case When name < 'A' Then -1 Else 1 End > 0")
-      @packages = @core_query.order("LOWER(name) desc")
+      @packages = @packages.order("Case When name < 'A' Then -1 Else 1 End > 0")
+      @packages = @packages.order("LOWER(name) desc")
     end
 
     def set_hot_packages
       binary_created_ordering = "daters.created > "
       binary_created_ordering += ActiveRecord::Base.sanitize(1.months.ago)
 
-      @packages = @core_query
+      @packages = @packages
         .order(binary_created_ordering)
         .order("daters.touched desc")
         .order("activities.recent_commit_count desc")
@@ -62,37 +70,35 @@ class PackageSorterJob < ApplicationJob
       dependent_package = get_dependent_package params
 
       if category.present?
-        @core_query = category.packages
+        @packages = category.packages
       elsif organization.present?
-        @core_query = organization.owned_packages
+        @packages = organization.owned_packages
       elsif user.present?
-        @core_query = user.supported_packages
+        @packages = user.supported_packages
       elsif depended_package.present?
-        @core_query = depended_package.dependents
+        @packages = depended_package.dependents
       elsif dependent_package.present?
-        @core_query = dependent_package.depending
+        @packages = dependent_package.depending
       else
-        @core_query = Package
+        @packages = Package
       end
 
-      @core_query = @core_query.active_batch_scope
+      @packages = @packages.active_batch_scope
 
-      @core_query = @core_query.exclude_unregistered_packages \
+      @packages = @packages.exclude_unregistered_packages \
         unless ( cookies[:include_unregistered_packages] == 'true' )
 
-      @core_query = @core_query
+      @packages = @packages
         .includes(:dater)
         .includes(:counter)
+        .includes(:activity)
         .joins(:dater)
         .joins(:counter)
+        .joins(:activity)
 
       set_cutoff_values cookies
 
-      set_search_query params
-
-      @core_query = @core_query.includes(:activity)
-
-      @core_query = @core_query
+      @packages = @packages
         .paginate(
           page: params[:page],
           per_page: params[:per_page]
@@ -104,37 +110,41 @@ class PackageSorterJob < ApplicationJob
 
       search_param = params[:term].strip
 
-      @core_query = if params[:default_search]
+      @packages = if params[:default_search]
 
-        @core_query.where \
+        @packages.where \
           "name ILIKE ?", "%#{ search_param }%"
 
       elsif params[:autocomplete]
 
-        @core_query.shallow_search search_param
+        @packages.shallow_search search_param
+
+      elsif params[:sort] == "search"
+
+        @packages.deep_search search_param
 
       else
 
-        @core_query.deep_search search_param
+        @packages.sorted_search search_param
 
       end
 
     end
 
     def set_cutoff_values cookies
-      @core_query = @core_query.where(
+      @packages = @packages.where(
         'counters.stargazer >= ?', cookies[:min_stars]
       ) if cookies[:min_stars].present?
 
-      @core_query = @core_query.where(
+      @packages = @packages.where(
         'counters.stargazer <= ?', cookies[:max_stars]
       ) if cookies[:max_stars].present?
 
-      @core_query = @core_query.where(
+      @packages = @packages.where(
         'daters.touched >= ?', cookies[:start_date]
       ) if cookies[:start_date].present?
 
-      @core_query = @core_query.where(
+      @packages = @packages.where(
         'daters.touched <= ?', cookies[:end_date]
       ) if cookies[:end_date].present?
     end

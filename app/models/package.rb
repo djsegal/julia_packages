@@ -43,6 +43,16 @@ class Package < ApplicationRecord
       }
     }
 
+  pg_search_scope :sorted_search, \
+    against: [:name, :description, :readme], \
+    ranked_by: ":trigram * 0.0", \
+    using: {
+      tsearch: { dictionary: 'english' },
+      trigram: {
+        only: [:name, :description]
+      }
+    }
+
   include Batchable
 
   extend FriendlyId

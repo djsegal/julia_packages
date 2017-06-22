@@ -1,5 +1,3 @@
-<% disable_sort = defined? sort_title %>
-
 <% sort_title ||= @sort.split('_').map(&:titleize).join('-') %>
 
 <div class="col-sm-8 cs-main-area">
@@ -18,29 +16,40 @@
 
         <% cookies.permanent[:sort] ||= 'top' %>
 
-        <% unless disable_sort %>
+        <%
 
-          <%= link_to 'Top', settings_path(sort: 'top'),
-            class: "js-tooltip btn btn-sm #{ ( cookies[:sort] == 'top' ) ? ' btn-raised btn-primary hidden-xs' : '' }",
-            title: "", data: { toggle: "tooltip", placement: "bottom", original_title: "Sort by star count" } %>
-          <%= link_to 'New', settings_path(sort: 'new'),
-            class: "js-tooltip btn btn-sm #{ ( cookies[:sort] == 'new' ) ? ' btn-raised btn-primary hidden-xs' : '' }",
-            title: "", data: { toggle: "tooltip", placement: "bottom", original_title: "Sort by most recent" } %>
+          cur_query = {}
 
-          <% if %w[ a_z z_a ].include? cookies[:sort] %>
-            <%= link_to sort_title, settings_path(sort: cookies[:sort].reverse),
-              class: "js-tooltip btn btn-sm btn-raised btn-primary hidden-xs",
-            title: "", data: { toggle: "tooltip", placement: "bottom", original_title: "Sort alphabetically" } %>
-          <% else %>
-            <%= link_to 'A-Z', settings_path(sort: 'a_z'), class: "js-tooltip btn btn-sm",
-            title: "", data: { toggle: "tooltip", placement: "bottom", original_title: "Sort alphabetically" } %>
-          <% end %>
+          if sort_title == "Searched"
+            cur_query["term"] = params[:term]
+            cur_sort = params[:sort]
+            cur_path = method(:searches_path)
+          else
+            cur_sort = cookies[:sort]
+            cur_path = method(:settings_path)
+          end
 
-          <%= link_to 'Hot', settings_path(sort: 'hot'),
-            class: "js-tooltip btn btn-sm #{ ( cookies[:sort] == 'hot' ) ? ' btn-raised btn-primary hidden-xs' : '' }",
-            title: "", data: { toggle: "tooltip", placement: "bottom", original_title: "Sort by activity" } %>
+        %>
 
+        <%= link_to 'Top', cur_path.call(cur_query.merge(sort: 'top')),
+          class: "js-tooltip btn btn-sm #{ ( cur_sort == 'top' ) ? ' btn-raised btn-primary hidden-xs' : '' }",
+          title: "", data: { toggle: "tooltip", placement: "bottom", original_title: "Sort by star count" } %>
+        <%= link_to 'New', cur_path.call(cur_query.merge(sort: 'new')),
+          class: "js-tooltip btn btn-sm #{ ( cur_sort == 'new' ) ? ' btn-raised btn-primary hidden-xs' : '' }",
+          title: "", data: { toggle: "tooltip", placement: "bottom", original_title: "Sort by most recent" } %>
+
+        <% if %w[ a_z z_a ].include? cur_sort %>
+          <%= link_to cur_sort, cur_path.call(cur_query.merge(sort: cur_sort.reverse)),
+            class: "js-tooltip btn btn-sm btn-raised btn-primary hidden-xs",
+          title: "", data: { toggle: "tooltip", placement: "bottom", original_title: "Sort alphabetically" } %>
+        <% else %>
+          <%= link_to 'A-Z', cur_path.call(cur_query.merge(sort: 'a_z')), class: "js-tooltip btn btn-sm",
+          title: "", data: { toggle: "tooltip", placement: "bottom", original_title: "Sort alphabetically" } %>
         <% end %>
+
+        <%= link_to 'Hot', cur_path.call(cur_query.merge(sort: 'hot')),
+          class: "js-tooltip btn btn-sm #{ ( cur_sort == 'hot' ) ? ' btn-raised btn-primary hidden-xs' : '' }",
+          title: "", data: { toggle: "tooltip", placement: "bottom", original_title: "Sort by activity" } %>
 
       </div>
 

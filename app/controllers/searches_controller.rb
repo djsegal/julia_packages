@@ -36,6 +36,8 @@ class SearchesController < ApplicationController
 
     raw_params[:per_page] = @search_count
 
+    raw_params[:sort] ||= "search"
+
     _, @packages = \
       PackageSorterJob.perform_now raw_params, cookies
 
