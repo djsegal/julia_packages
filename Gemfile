@@ -40,8 +40,6 @@ gem 'sitemap_generator'
 
 gem 'chartkick'
 
-gem 'skylight'
-
 gem 'lograge'
 
 gem 'nokogiri'
