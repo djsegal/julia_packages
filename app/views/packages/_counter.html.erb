@@ -38,15 +38,22 @@
 
                 <% count_sub_route = Counter::COUNT_SUB_ROUTES[count_type.pluralize.to_sym] %>
 
+                <%
+                  cur_label = count_type.pluralize
+                  cur_label.gsub! "_", " "
+                  cur_label.gsub! "open", ""
+                  cur_label.strip!
+                %>
+
                 <% if count_sub_route.present? %>
 
                   <a href="<%= @package.url + '/' + count_sub_route %>" target="_blank">
-                    <%= count_type.pluralize %>
+                    <%= cur_label %>
                   </a>
 
                 <% else %>
 
-                  <%= count_type.pluralize %>
+                  <%= cur_label %>
 
                 <% end %>
 
