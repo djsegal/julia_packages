@@ -277,7 +277,13 @@ namespace :github do
       bar.inc
       next if user_name.starts_with? '.'
 
-      information = YAML.load_file("#{users_directory}/#{user_name}/data.yml")
+      user_file = "#{users_directory}/#{user_name}/data.yml"
+
+      if File.exist? user_file
+        information = YAML.load_file(user_file)
+      else
+        information = {}
+      end
 
       unless information['type'].present?
         CronLogMailer.log_email(
