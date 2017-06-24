@@ -33,7 +33,6 @@ class PackageSorterJob < ApplicationJob
   private
 
     def set_top_packages
-      binding.pry
       @packages = @packages.order("counters.stargazer desc")
     end
 
