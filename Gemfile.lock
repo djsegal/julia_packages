@@ -44,6 +44,17 @@ GEM
       activerecord (>= 3.0)
     addressable (2.5.0)
       public_suffix (~> 2.0, >= 2.0.2)
+    ahoy_matey (1.6.0)
+      addressable
+      browser (~> 2.0)
+      geocoder
+      rack-attack (< 6)
+      railties
+      referer-parser (>= 0.3.0)
+      request_store
+      safely_block (>= 0.1.1)
+      user_agent_parser
+      uuidtools
     annotate (2.6.5)
       activerecord (>= 2.3.0)
       rake (>= 0.8.7)
@@ -59,6 +70,7 @@ GEM
     bootstrap-sass (3.3.7)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
+    browser (2.4.0)
     builder (3.2.2)
     bullet (5.4.3)
       activesupport (>= 3.0.0)
@@ -94,6 +106,7 @@ GEM
     dotenv-rails (2.1.1)
       dotenv (= 2.1.1)
       railties (>= 4.0, < 5.1)
+    errbase (0.0.3)
     erubis (2.7.0)
     execjs (2.7.0)
     factory_girl (4.7.0)
@@ -112,8 +125,11 @@ GEM
       railties (>= 3.2, < 5.1)
     friendly_id (5.2.0)
       activerecord (>= 4.0.0)
+    geocoder (1.4.4)
     globalid (0.3.7)
       activesupport (>= 4.1.0)
+    groupdate (3.2.0)
+      activesupport (>= 3)
     hashie (3.4.6)
     htmlentities (4.3.4)
     httparty (0.14.0)
@@ -179,6 +195,8 @@ GEM
     public_suffix (2.0.5)
     puma (3.6.2)
     rack (2.0.1)
+    rack-attack (5.0.1)
+      rack
     rack-cors (0.4.0)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -228,6 +246,8 @@ GEM
       fastimage (~> 2.0)
       hashie (~> 3.4)
       multi_json (~> 1.12)
+    referer-parser (0.3.0)
+    request_store (1.3.2)
     rspec-core (3.5.4)
       rspec-support (~> 3.5.0)
     rspec-expectations (3.5.0)
@@ -247,6 +267,8 @@ GEM
     rspec-support (3.5.0)
     ruby-ole (1.2.12)
     rubyzip (1.2.1)
+    safely_block (0.2.0)
+      errbase
     sass (3.4.22)
     sass-rails (5.0.6)
       railties (>= 4.0.0, < 6)
@@ -288,6 +310,8 @@ GEM
       kgio (~> 2.6)
       raindrops (~> 0.7)
     uniform_notifier (1.10.0)
+    user_agent_parser (2.3.1)
+    uuidtools (2.1.5)
     web-console (3.4.0)
       actionview (>= 5.0)
       activemodel (>= 5.0)
@@ -306,6 +330,7 @@ PLATFORMS
 DEPENDENCIES
   RbST
   acts_as_list
+  ahoy_matey
   annotate
   better_errors
   binding_of_caller
@@ -321,6 +346,7 @@ DEPENDENCIES
   factory_girl_rails
   font-awesome-rails
   friendly_id
+  groupdate
   httparty
   jbuilder (~> 2.5)
   jquery-rails

@@ -72,6 +72,10 @@ gem 'pg_search'
 
 gem 'pg'
 
+gem 'ahoy_matey'
+
+gem 'groupdate'
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'factory_girl_rails'

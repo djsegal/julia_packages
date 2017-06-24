@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :visits
   resource :trending
   resources :dependencies
   resources :logs

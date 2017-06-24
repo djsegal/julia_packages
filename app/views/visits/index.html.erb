@@ -1,0 +1,33 @@
+<div class="col-sm-8 cs-main-area">
+
+  <div class="panel panel-default">
+
+    <div class="panel-heading">
+
+      <h4 class="cs-no-margin">
+        Analytics
+      </h4>
+
+    </div>
+
+    <div class="panel-body">
+
+      <%= line_chart Visit.group(:search_keyword).count, title: "Search Keyword", ytitle: "Count" %>
+
+      <%= line_chart Visit.group(:referring_domain).count, title: "Referring Domain", ytitle: "Count" %>
+
+      <%= line_chart Visit.group(:country).count, title: "Country", ytitle: "Count" %>
+
+      <%= line_chart Visit.group_by_day(:started_at).count, title: "Started At", ytitle: "Count" %>
+
+    </div>
+
+  </div>
+
+  <div class="visible-xs">
+    <%= render 'layouts/made_with_love_panel' %>
+  </div>
+
+</div>
+
+<%= render 'layouts/default_side_bar' %>

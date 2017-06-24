@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
+  after_action :track_action
 
   if Rails.env.production?
     caught_errors = [
@@ -15,4 +16,11 @@ class ApplicationController < ActionController::Base
   def error_render_method
     render 'layouts/error_page', status: 404
   end
+
+  protected
+
+    def track_action
+      ahoy.track "Viewed #{controller_name}##{action_name}"
+    end
+
 end

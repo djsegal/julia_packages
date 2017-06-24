@@ -54,6 +54,7 @@
       var domainHasWWW = !!document.domain.match('www');
 
       var customInit = function() {
+        ahoy.trackAll();
         $.material.init();
         $('.js-tooltip').tooltip();
 

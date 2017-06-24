@@ -34,8 +34,9 @@
           <% ApplicationRecord.descendants.each do |model_class| %>
 
             <%
+
               has_name = model_class.attribute_names.include? "name"
-              next unless has_name
+              next unless has_name || model_class.name == "Visit"
 
               model_name = model_class.name.pluralize.underscore
               sti_classes = %w[ news_items ]
@@ -59,6 +60,11 @@
             </tr>
 
           <% end %>
+
+          <tr>
+            <td><%= index + 1 %></td>
+            <td><%= link_to "Logs", logs_path %></td>
+          </tr>
 
         </tbody>
 
