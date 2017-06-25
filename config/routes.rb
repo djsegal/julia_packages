@@ -1,15 +1,12 @@
 Rails.application.routes.draw do
 
-  resources :visits
-  resource :trending
-  resources :dependencies
   resources :logs
 
   # root 'errors#pardon'
   # get '/*any_route', to: 'errors#pardon', as: 'pardon'
 
-  resources :searches, path: 's'
-
+  resources :visits
+  resources :dependencies
   resources :models
   resources :packages
   resources :releases
@@ -46,6 +43,10 @@ Rails.application.routes.draw do
   resources :searches do
     get 'autocomplete', on: :collection
   end
+
+  resource :trending
+
+  resources :searches, path: 's'
 
   resource :trending, path: 't'
 
