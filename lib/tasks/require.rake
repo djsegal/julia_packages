@@ -58,6 +58,8 @@ namespace :require do
 
     Dependency.import new_dependencies
 
+    Package.connection.reconnect!
+
     bar.finished
 
     puts ghost_packages.to_a.inspect
@@ -89,15 +91,12 @@ namespace :require do
               depended: deep_dependency
             )
           end
-          package.reload
         end
       end
 
       Dependency.import new_dependencies
 
-      Package.current_batch_scope.all.each do |package|
-        package.reload
-      end
+      Package.connection.reconnect!
 
       bar.finished
     end
