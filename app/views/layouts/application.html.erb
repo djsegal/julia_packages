@@ -54,7 +54,6 @@
       var domainHasWWW = !!document.domain.match('www');
 
       var customInit = function() {
-        ahoy.trackAll();
         $.material.init();
         $('.js-tooltip').tooltip();
 
@@ -85,6 +84,8 @@
           settingsLinks[i].href += domainHasWWW ? 'true' : 'false';
         }
       }
+
+      $(document).ready(ahoy.trackAll);
 
       $(document).ready(customInit);
       $(document).on('turbolinks:load', customInit);
