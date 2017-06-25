@@ -29,6 +29,8 @@ namespace :metadata do
     bar = make_progress_bar Dir["#{@metadata_directory}/*"].count
     non_versioned_packages = []
 
+    new_packages = []
+
     Dir.foreach(@metadata_directory) do |directory|
       bar.inc
 
@@ -36,13 +38,16 @@ namespace :metadata do
       next if File.file? \
         "#{@metadata_directory}/#{directory}"
 
-      package = Package.create! name: directory
+      package = Package.new name: directory
 
       make_metadata_repository package
       has_versions = make_versions package
 
+      new_packages << package
       non_versioned_packages << package unless has_versions
     end
+
+    Package.import new_packages, recursive: true
 
     puts non_versioned_packages.map &:url
     bar.finished
@@ -52,7 +57,7 @@ namespace :metadata do
     url_file = "#{@metadata_directory}/#{package.name}/url"
     url = File.open(url_file).read.strip
 
-    repository = Repository.create! url: url, package: package
+    repository = package.build_repository url: url
   end
 
   def make_versions package
@@ -79,7 +84,7 @@ namespace :metadata do
         raise "Invalid file name for: #{package.name} - #{file}"
       end
 
-      version = Version.create! number: directory, sha1: sha1, package: package
+      version = package.versions.build number: directory, sha1: sha1
     end
 
     true

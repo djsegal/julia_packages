@@ -282,6 +282,9 @@ namespace :github do
 
     bar = make_progress_bar Dir.foreach("#{users_directory}").count
 
+    new_users = []
+    new_organizations = []
+
     Dir.foreach("#{users_directory}") do |user_name|
       bar.inc
       next if user_name.starts_with? '.'
@@ -304,12 +307,11 @@ namespace :github do
 
       user_class = information['type'].constantize
 
-      user = user_class.create! \
+      user = user_class.new \
         name: user_name, \
         avatar: information['avatar_url']
 
-      Profile.create! \
-        owner: user,
+      user.build_profile \
         bio: information['bio'],
         blog: information['blog'],
         company: information['company'],
@@ -317,17 +319,34 @@ namespace :github do
         location: information['location'],
         created: information['created_at']
 
-      Info.create! \
-        owner: user,
+      user.build_info \
         repos: information['public_repos'],
         gists: information['public_gists'],
         followers: information['followers'],
         following: information['following']
+
+      if information['type'] == "User"
+        new_users << user
+      elsif information['type'] == "Organization"
+        new_organizations << user
+      else
+        CronLogMailer.log_email(
+          "Unpack III", information.to_yaml
+        ).deliver_now
+      end
     end
+
+    User.import new_users, recursive: true
+    Organization.import new_organizations, recursive: true
 
     bar.finished
 
     bar = make_progress_bar Package.current_batch_scope.count
+
+    new_activities = []
+    new_contributions = []
+    new_counters = []
+    new_daters = []
 
     Package.current_batch_scope.all.each do |package|
       bar.inc
@@ -346,17 +365,40 @@ namespace :github do
       owner = make_owner package, information
       has_good_data = owner.present?
 
-      make_category package, owner
-
       has_good_data &&= make_readme package, package_directory
-      has_good_data &&= make_activity package, package_directory
-      has_good_data &&= make_contributors package, package_directory
 
-      make_counter package, information
-      has_good_data &&= make_dater package, information
+      if has_good_data
+        cur_activity = make_activity package, package_directory
+        cur_contributions = make_contributors package, package_directory
 
-      invalid_packages << package unless has_good_data
+        has_good_data &&= cur_activity.present?
+        has_good_data &&= cur_contributions.present?
+      end
+
+      if has_good_data
+        cur_counter = make_counter package, information
+        cur_dater = make_dater package, information
+
+        has_good_data &&= cur_counter.present?
+        has_good_data &&= cur_dater.present?
+      end
+
+      if has_good_data
+        make_category package, owner
+
+        new_activities << cur_activity
+        new_contributions += cur_contributions
+        new_counters << cur_counter
+        new_daters << cur_dater
+      else
+        invalid_packages << package
+      end
     end
+
+    Activity.import new_activities
+    Contribution.import new_contributions
+    Counter.import new_counters
+    Dater.import new_daters
 
     puts "\n-------\n absent \n-------"
     puts absent_packages.map(&:name).uniq.sort
@@ -433,14 +475,14 @@ namespace :github do
 
   def make_activity package, package_directory
     file_name = "#{package_directory}/commits.yml"
-    return false unless File.exist? file_name
+    return nil unless File.exist? file_name
 
     commits = YAML.load_file file_name
 
-    return false unless commits.present?
+    return nil unless commits.present?
 
     begin
-      Activity.create! \
+      cur_activity = Activity.new \
         package: package,
         commits: commits['all']
     rescue
@@ -448,29 +490,32 @@ namespace :github do
         "Bad Activity", "#{package.name} => #{commits.inspect}".to_yaml
       ).deliver_later
 
-      return false
+      return nil
     end
 
-    true
+    cur_activity
   end
 
   def make_contributors package, package_directory
     file_name = "#{package_directory}/contributors.yml"
-    return false unless File.exist? file_name
+    return nil unless File.exist? file_name
 
     contributors = YAML.load_file file_name
+
+    cur_contributions = []
 
     contributors.each do |contributor|
       user = find_entity contributor
       next unless user.present?
 
-      Contribution.create! \
+      cur_contributions << Contribution.new(
         user: user, \
         package: package, \
         score: contributor['contributions']
+      )
     end
 
-    true
+    cur_contributions
   end
 
   def make_counter package, information
@@ -481,7 +526,7 @@ namespace :github do
       counter_hash[column.to_sym] = information["#{column.pluralize}_count"]
     end
 
-    Counter.create! counter_hash
+    Counter.new counter_hash
   end
 
   def make_dater package, information
@@ -489,14 +534,13 @@ namespace :github do
 
     Dater::DATE_TYPES.each do |date_type|
       date_str = information["#{date_type}_at"]
-      return false unless date_str.present?
+      return nil unless date_str.present?
 
       date_time = DateTime.parse date_str
       dater_hash[date_type.to_sym] = date_time
     end
 
-    Dater.create! dater_hash
-    true
+    Dater.new dater_hash
   end
 
   def find_entity entity

@@ -12,6 +12,8 @@ namespace :require do
 
     bar = make_progress_bar Package.current_batch_scope.count
 
+    new_dependencies = []
+
     Package.current_batch_scope.all.each do |package|
       bar.inc
 
@@ -46,12 +48,15 @@ namespace :require do
         depended_package = \
           Package.custom_find depended_name, batch_scope: "current_batch_scope"
 
-        Dependency.create! \
+        new_dependencies << Dependency.new(
           is_shallow: true,
           dependent: package,
           depended: depended_package
+        )
       end
     end
+
+    Dependency.import new_dependencies
 
     bar.finished
 
@@ -65,6 +70,8 @@ namespace :require do
     while added_something_this_round
       bar = make_progress_bar Package.current_batch_scope.count
 
+      new_dependencies = []
+
       added_something_this_round = false
 
       Package.current_batch_scope.all.each do |package|
@@ -76,13 +83,20 @@ namespace :require do
 
           added_something_this_round = true
           deep_dependencies.each do |deep_dependency|
-            Dependency.create! \
+            new_dependencies << Dependency.new(
               is_shallow: false,
               dependent: package,
               depended: deep_dependency
+            )
           end
           package.reload
         end
+      end
+
+      Dependency.import new_dependencies
+
+      Package.current_batch_scope.all.each do |package|
+        package.reload
       end
 
       bar.finished

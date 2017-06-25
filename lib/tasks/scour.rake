@@ -102,6 +102,8 @@ namespace :scour do
 
     bar = make_progress_bar Dir["#{@scour_directory}/*"].count
 
+    new_packages = []
+
     Dir.foreach(@scour_directory) do |directory|
       bar.inc
 
@@ -112,10 +114,14 @@ namespace :scour do
 
       next if package_exists
 
-      package = Package.create! name: directory
+      package = Package.new name: directory
 
       make_scoured_repository package, directory
+
+      new_packages << package
     end
+
+    Package.import new_packages, recursive: true
 
     bar.finished
   end
@@ -124,7 +130,7 @@ namespace :scour do
     package_data_file = "#{@scour_directory}/#{directory}/data.yml"
     url = YAML.load_file(package_data_file)['clone_url']
 
-    repository = Repository.create! url: url, package: package
+    repository = package.build_repository url: url
   end
 
   def make_query_bar base_url, cur_start_date, cur_end_date

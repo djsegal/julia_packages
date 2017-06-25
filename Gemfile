@@ -76,6 +76,8 @@ gem 'ahoy_matey'
 
 gem 'groupdate'
 
+gem 'activerecord-import'
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'factory_girl_rails'
