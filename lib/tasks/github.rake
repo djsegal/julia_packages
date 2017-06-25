@@ -291,7 +291,7 @@ namespace :github do
       if File.exist? user_file
         information = YAML.load_file(user_file)
       else
-        information = {}
+        information = { bad_user: user_file }
       end
 
       unless information['type'].present?

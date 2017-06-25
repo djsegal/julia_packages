@@ -37,9 +37,15 @@ def hit_url url, skip_cache=false, expires_in=nil
     cached_response = Rails.cache.read url
 
     if cached_response.present?
-      url_response = YAML.load cached_response
-      validate_response url, url_response
-      return url_response
+      begin
+        url_response = YAML.load cached_response
+        validate_response url, url_response
+        return url_response
+      rescue
+        CronLogMailer.log_email(
+          "Hit URL", { bad_response: cached_response }.to_yaml
+        ).deliver_now
+      end
     end
   end
 

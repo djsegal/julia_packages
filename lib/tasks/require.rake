@@ -63,9 +63,13 @@ namespace :require do
     added_something_this_round = true
 
     while added_something_this_round
+      bar = make_progress_bar Package.current_batch_scope.count
+
       added_something_this_round = false
 
       Package.current_batch_scope.all.each do |package|
+        bar.inc
+
         package.depending.each do |depended_package|
           deep_dependencies = depended_package.depending - package.depending
           next if deep_dependencies.empty?
@@ -80,6 +84,8 @@ namespace :require do
           package.reload
         end
       end
+
+      bar.finished
     end
 
     dependencies = Dependency.arel_table
