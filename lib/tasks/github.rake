@@ -211,7 +211,16 @@ namespace :github do
       FileUtils.mkdir_p(user_directory) \
         unless File.directory? user_directory
 
-      information = hit_url get_user_url(user_name), false, get_expiry
+      begin
+        information = hit_url get_user_url(user_name), false, get_expiry
+      rescue
+        information = {}
+
+        CronLogMailer.log_email(
+          "Expand", get_user_url(user_name).to_yaml
+        ).deliver_now
+      end
+
       File.open("#{users_directory}/#{user_name}/data.yml", 'w') do |h|
         h.write information.to_yaml
       end
