@@ -39,12 +39,17 @@ def hit_url url, skip_cache=false, expires_in=nil
     if cached_response.present?
       begin
         url_response = YAML.load cached_response
-        validate_response url, url_response
-        return url_response
       rescue
+        url_response = {}
+
         CronLogMailer.log_email(
           "Hit URL", { bad_response: cached_response }.to_yaml
         ).deliver_now
+      end
+
+      unless url_response.empty?
+        validate_response url, url_response
+        return url_response
       end
     end
   end
