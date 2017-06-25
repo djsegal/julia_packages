@@ -14,6 +14,15 @@ extensions = {
 require 'rbst'
 
 def render_markup markup, file_name, package_name
+  https_domains = %w[
+    codecov.io/
+    pkg.julialang.org/
+  ]
+
+  https_domains.each do |cur_domain|
+    markup.gsub! "http://#{cur_domain}", "https://#{cur_domain}"
+  end
+
   file_name.downcase!
 
   is_markdown_file = ( file_name.count('.') != 1 )
