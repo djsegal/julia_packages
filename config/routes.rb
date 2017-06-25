@@ -5,8 +5,8 @@ Rails.application.routes.draw do
   resources :dependencies
   resources :logs
 
-  root 'errors#pardon'
-  get '/*any_route', to: 'errors#pardon', as: 'pardon'
+  # root 'errors#pardon'
+  # get '/*any_route', to: 'errors#pardon', as: 'pardon'
 
   resources :searches, path: 's'
 
