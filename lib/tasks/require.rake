@@ -76,10 +76,10 @@ namespace :require do
 
       added_something_this_round = false
 
-      Package.current_batch_scope.all.each do |package|
+      Package.current_batch_scope.includes(:depending).each do |package|
         bar.inc
 
-        package.depending.each do |depended_package|
+        package.depending.includes(:depending).each do |depended_package|
           deep_dependencies = depended_package.depending - package.depending
           next if deep_dependencies.empty?
 
