@@ -31,7 +31,7 @@ SitemapGenerator::Sitemap.create do
   add categories_path
   add organizations_path
 
-  model_count = 1000
+  model_count = 2500
 
   PackageSorterJob.perform_now.second.first(model_count).each do |package|
     add package_path(package)
@@ -73,6 +73,10 @@ SitemapGenerator::Sitemap.create do
 
   categories.each do |category|
     add category_path(category)
+  end
+
+  PackageSorterJob.perform_now.second.offset(model_count).first(model_count).each do |package|
+    add package_path(package)
   end
 
 end
