@@ -36,6 +36,14 @@ namespace :crawl do
 
       package_list = parsed_page.css('ol.repo-list li')
 
+      unless parsed_page.css('ol.repo-list li').first.present?
+        CronLogMailer.log_email(
+          "Crawl", { bad_page: github_page }.to_yaml
+        ).deliver_now
+
+        next
+      end
+
       package_dict = {}
 
       package_list.each do |cur_item|
