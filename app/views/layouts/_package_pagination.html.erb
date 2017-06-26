@@ -7,6 +7,12 @@
     unless has_per_page
 %>
 
+<%
+  unless page == 1
+    ahoy.track "Paginated: #{controller_name}"
+  end
+%>
+
 <% if packages.count > per_page * page %>
   <%=
       will_paginate packages,

@@ -30,6 +30,8 @@ class SearchesController < ApplicationController
   # GET /searches
   # GET /searches.json
   def index
+    ahoy.track "Searched: #{params[:term]}"
+
     raw_params = params.with_indifferent_access
 
     @search_count = 100
