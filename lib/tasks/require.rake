@@ -82,9 +82,9 @@ namespace :require do
 
         new_dependencies = []
 
-        altered_packages = []
+        altered_packages = Set.new
 
-        bar = make_progress_bar Package.current_batch_scope.count
+        bar = make_progress_bar cur_package_list.count
 
         cur_package_list.each do |package|
           bar.inc
@@ -93,7 +93,7 @@ namespace :require do
             deep_dependencies = depended_package.depending - package.depending
             next if deep_dependencies.empty?
 
-            altered_packages << package
+            altered_packages.add package
 
             added_something_this_round = true
             added_something_this_sub_round = true
