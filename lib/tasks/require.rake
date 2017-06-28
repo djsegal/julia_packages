@@ -94,6 +94,8 @@ namespace :require do
         end
       end
 
+      new_dependencies.uniq! { |cur_package| cur_package.depended }
+
       Dependency.import new_dependencies
 
       Package.connection.reconnect!
