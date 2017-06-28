@@ -68,39 +68,58 @@ namespace :require do
   desc "setup deep dependencies"
   task deep: :environment do
     added_something_this_round = true
+    added_something_this_sub_round = true
 
     while added_something_this_round
-      bar = make_progress_bar Package.current_batch_scope.count
-
-      new_dependencies = []
 
       added_something_this_round = false
 
-      Package.current_batch_scope.includes(:depending).each do |package|
-        bar.inc
+      cur_package_list = Package.current_batch_scope.includes(:depending)
 
-        package.depending.includes(:depending).each do |depended_package|
-          deep_dependencies = depended_package.depending - package.depending
-          next if deep_dependencies.empty?
+      while added_something_this_sub_round
 
-          added_something_this_round = true
-          deep_dependencies.each do |deep_dependency|
-            new_dependencies << Dependency.new(
-              is_shallow: false,
-              dependent: package,
-              depended: deep_dependency
-            )
+        added_something_this_sub_round = false
+
+        new_dependencies = []
+
+        altered_packages = []
+
+        bar = make_progress_bar Package.current_batch_scope.count
+
+        cur_package_list.each do |package|
+          bar.inc
+
+          package.depending.includes(:depending).each do |depended_package|
+            deep_dependencies = depended_package.depending - package.depending
+            next if deep_dependencies.empty?
+
+            altered_packages << package
+
+            added_something_this_round = true
+            added_something_this_sub_round = true
+
+            deep_dependencies.each do |deep_dependency|
+              new_dependencies << Dependency.new(
+                is_shallow: false,
+                dependent: package,
+                depended: deep_dependency
+              )
+            end
           end
         end
+
+        new_dependencies.uniq! { |cur_package| cur_package.depended }
+
+        Dependency.import new_dependencies
+
+        Package.connection.reconnect!
+
+        cur_package_list = altered_packages
+
+        bar.finished
+
       end
 
-      new_dependencies.uniq! { |cur_package| cur_package.depended }
-
-      Dependency.import new_dependencies
-
-      Package.connection.reconnect!
-
-      bar.finished
     end
 
     dependencies = Dependency.arel_table
