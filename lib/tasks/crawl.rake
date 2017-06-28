@@ -36,20 +36,17 @@ namespace :crawl do
 
       package_list = parsed_page.css('ol.repo-list li')
 
-      unless parsed_page.css('ol.repo-list li').first.present?
-        CronLogMailer.log_email(
-          "Crawl", { bad_page: github_page }.to_yaml
-        ).deliver_now
-
-        next
-      end
-
       package_dict = {}
 
       package_list.each do |cur_item|
 
         cur_key = cur_item.css("h3 a").first.attributes['href'].value[1..-1]
-        cur_value = cur_item.css("p").first.children.to_s.strip
+
+        if cur_item.css("p").first.present?
+          cur_value = cur_item.css("p").first.children.to_s.strip
+        else
+          cur_value = ""
+        end
 
         package_dict[cur_key] = cur_value
 
