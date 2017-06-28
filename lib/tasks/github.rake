@@ -343,12 +343,13 @@ namespace :github do
 
     new_batches = []
 
-    ( new_users + new_organizations ).each do |cur_entity|
-      new_batches << Batch.new(item: cur_entity)
-    end
+    cur_marker = Batch.current_marker
 
-    new_batches.each do |cur_batch|
-      cur_batch.run_callbacks(:create) { false }
+    ( new_users + new_organizations ).each do |cur_entity|
+      new_batches << Batch.new(
+        item: cur_entity,
+        marker: cur_marker
+      )
     end
 
     Batch.import(new_batches)

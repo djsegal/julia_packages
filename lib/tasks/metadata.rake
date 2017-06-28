@@ -51,12 +51,13 @@ namespace :metadata do
 
     new_batches = []
 
-    new_packages.each do |cur_package|
-      new_batches << Batch.new(item: cur_package)
-    end
+    cur_marker = Batch.current_marker
 
-    new_batches.each do |cur_batch|
-      cur_batch.run_callbacks(:create) { false }
+    new_packages.each do |cur_package|
+      new_batches << Batch.new(
+        item: cur_package,
+        marker: cur_marker
+      )
     end
 
     Batch.import(new_batches)
