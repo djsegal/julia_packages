@@ -178,6 +178,8 @@ namespace :github do
     puts "\n-------\n moved \n-------"
     puts moved_packages.uniq.sort
 
+    puts "\n-------\n done. \n"
+
   end
 
   desc "expand github user information"
