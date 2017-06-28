@@ -108,11 +108,13 @@ namespace :require do
           end
         end
 
-        new_dependencies.uniq! { |cur_package| cur_package.depended }
+        new_dependencies.uniq! { |cur_package| [cur_package.dependent, cur_package.depended] }
 
         Dependency.import new_dependencies
 
         Package.connection.reconnect!
+
+        altered_packages.each { |cur_package| cur_package.reload }
 
         cur_package_list = altered_packages
 
