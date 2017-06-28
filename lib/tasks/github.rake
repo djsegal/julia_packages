@@ -341,6 +341,18 @@ namespace :github do
     User.import new_users, recursive: true
     Organization.import new_organizations, recursive: true
 
+    new_batches = []
+
+    ( new_users + new_organizations ).each do |cur_entity|
+      new_batches << Batch.new(item: cur_entity)
+    end
+
+    new_batches.each do |cur_batch|
+      cur_batch.run_callbacks(:create) { false }
+    end
+
+    Batch.import(new_batches)
+
     bar.finished
 
     bar = make_progress_bar Package.current_batch_scope.count

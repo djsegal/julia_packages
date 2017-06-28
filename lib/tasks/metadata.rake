@@ -49,6 +49,18 @@ namespace :metadata do
 
     Package.import new_packages, recursive: true
 
+    new_batches = []
+
+    new_packages.each do |cur_package|
+      new_batches << Batch.new(item: cur_package)
+    end
+
+    new_batches.each do |cur_batch|
+      cur_batch.run_callbacks(:create) { false }
+    end
+
+    Batch.import(new_batches)
+
     puts non_versioned_packages.map &:url
     bar.finished
   end
