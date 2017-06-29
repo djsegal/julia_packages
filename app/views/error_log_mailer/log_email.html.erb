@@ -46,6 +46,18 @@
 
         <hr>
 
+        <% if @bad_object[:exception].present? %>
+
+          <p style="font-size: 16px;">
+
+            <%= @bad_object[:exception] %>
+
+          </p>
+
+          <hr>
+
+        <% end %>
+
         <% @log_file.each_with_index do |line, index| %>
 
           <p style="font-size: 16px;">

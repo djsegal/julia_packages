@@ -1,11 +1,18 @@
 <%
-  ErrorLogMailer.log_email(
+  mail_param_list = [
     controller_name.singularize.titleize,
     params[:id],
     request.referrer,
     params.to_unsafe_h,
-    cookies.to_h
-  ).deliver_later
+    cookies.to_h,
+    @exception
+  ]
+
+  if Rails.env.production?
+    ErrorLogMailer.log_email(*mail_param_list).deliver_later
+  else
+    ErrorLogMailer.log_email(*mail_param_list).deliver_now
+  end
 %>
 
 <div class="cs-full-width cs-main-area">

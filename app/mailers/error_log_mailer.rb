@@ -1,11 +1,12 @@
 class ErrorLogMailer < ApplicationMailer
-  def log_email bad_class, bad_slug, bad_referrer, bad_params, bad_cookies
+  def log_email bad_class, bad_slug, bad_referrer, bad_params, bad_cookies, cur_exception
     @bad_object = {
       type: bad_class,
       slug: bad_slug,
       referrer: bad_referrer,
       params: bad_params,
-      cookies: bad_cookies
+      cookies: bad_cookies,
+      exception: cur_exception
     }
 
     @subject = "Bad "

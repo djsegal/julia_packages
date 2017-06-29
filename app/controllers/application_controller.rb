@@ -15,7 +15,8 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def error_render_method
+  def error_render_method(exception)
+    @exception = exception.backtrace
     render 'layouts/error_page', status: 404
   end
 
