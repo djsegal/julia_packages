@@ -58,8 +58,6 @@ namespace :require do
 
     Dependency.import new_dependencies
 
-    Package.connection.reconnect!
-
     bar.finished
 
     puts ghost_packages.to_a.inspect
@@ -108,11 +106,9 @@ namespace :require do
           end
         end
 
-        new_dependencies.uniq! { |cur_package| [cur_package.dependent, cur_package.depended] }
+        new_dependencies.uniq! { |cur_dependency| [ cur_dependency.dependent, cur_dependency.depended ] }
 
         Dependency.import new_dependencies
-
-        Package.connection.reconnect!
 
         altered_packages.each { |cur_package| cur_package.reload }
 
