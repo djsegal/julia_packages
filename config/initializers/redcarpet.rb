@@ -142,9 +142,15 @@ def default_inline_quotes_to_html markup, package_name
       markup.sub! cur_quote_fragment, "#{escaped_identifier}-0__tmp"
 
       unless has_sent_email || cur_quote_type.blank?
-        DebugLogMailer.log_email(
+        mail_param_list = [
           "Bad Readme", "#{package_name} => #{cur_quote_type}\n\n#{markup}".to_yaml
-        ).deliver_later
+        ]
+
+        if Rails.env.production?
+          DebugLogMailer.log_email(*mail_param_list).deliver_later
+        else
+          DebugLogMailer.log_email(*mail_param_list).deliver_now
+        end
 
         has_sent_email = true
       end

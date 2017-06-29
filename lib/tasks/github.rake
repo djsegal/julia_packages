@@ -501,9 +501,15 @@ namespace :github do
         package: package,
         commits: commits['all']
     rescue
-      DebugLogMailer.log_email(
+      mail_param_list = [
         "Bad Activity", "#{package.name} => #{commits.inspect}".to_yaml
-      ).deliver_later
+      ]
+
+      if Rails.env.production?
+        DebugLogMailer.log_email(*mail_param_list).deliver_later
+      else
+        DebugLogMailer.log_email(*mail_param_list).deliver_now
+      end
 
       return nil
     end
