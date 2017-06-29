@@ -47,6 +47,12 @@ namespace :metadata do
       non_versioned_packages << package unless has_versions
     end
 
+    new_packages.each do |cur_package|
+      cur_package.versions.each do |cur_version|
+        cur_version.run_callbacks(:save) { false }
+      end
+    end
+
     Package.import new_packages, recursive: true
 
     new_batches = []

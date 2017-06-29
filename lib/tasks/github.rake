@@ -410,6 +410,10 @@ namespace :github do
       end
     end
 
+    ( new_activities + new_daters ).each do |cur_thing|
+      cur_thing.run_callbacks(:save) { false }
+    end
+
     Activity.import new_activities
     Contribution.import new_contributions
     Counter.import new_counters
