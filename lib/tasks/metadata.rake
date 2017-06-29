@@ -47,19 +47,25 @@ namespace :metadata do
       non_versioned_packages << package unless has_versions
     end
 
-    new_packages.each do |cur_package|
-      cur_package.versions.each do |cur_version|
-        cur_version.run_callbacks(:save) { false }
-      end
-    end
-
     Package.import new_packages, recursive: true
+
+    bar.finished
+
+    bar = make_progress_bar new_packages.count
 
     new_batches = []
 
     cur_marker = Batch.current_marker
 
     new_packages.each do |cur_package|
+      bar.inc
+
+      cur_package.reload
+
+      cur_package.versions.each do |cur_version|
+        cur_version.run_callbacks(:save) { false }
+      end
+
       new_batches << Batch.new(
         item: cur_package,
         marker: cur_marker
@@ -68,8 +74,9 @@ namespace :metadata do
 
     Batch.import(new_batches)
 
-    puts non_versioned_packages.map &:url
     bar.finished
+
+    puts non_versioned_packages.map &:url
   end
 
   def make_metadata_repository package
