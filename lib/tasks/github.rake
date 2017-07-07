@@ -399,8 +399,6 @@ namespace :github do
       end
 
       if has_good_data
-        make_category package, owner
-
         new_activities << cur_activity
         new_contributions += cur_contributions
         new_counters << cur_counter
@@ -455,26 +453,6 @@ namespace :github do
       description: information['description']
 
     owner
-  end
-
-  def make_category package, owner
-    is_organization = \
-      owner.class.name.underscore == 'organization'
-
-    return unless is_organization
-    return unless owner.name.include? 'Julia'
-
-    category_name = owner.name.gsub 'Julia', ''
-
-    if Category.custom_exists? category_name, batch_scope: "current_batch_scope"
-      category = Category.custom_find category_name, batch_scope: "current_batch_scope"
-    else
-      category = Category.create! name: category_name
-    end
-
-    Label.create! \
-      category: category,
-      package: package
   end
 
   def make_readme package, package_directory

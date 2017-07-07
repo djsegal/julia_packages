@@ -2,9 +2,13 @@ class BootJob < JuliaJob
   queue_as :default
 
   def perform(*args)
-    return if system "#{@sys_run} metadata:pull"
-    return if system "#{@sys_run} metadata:clone"
-    system "#{@sys_run} metadata:reset"
+    boot_repos = %w[ metadata decibans ]
+
+    boot_repos.each do |boot_repo|
+      next if system "#{@sys_run} #{boot_repo}:pull"
+      next if system "#{@sys_run} #{boot_repo}:clone"
+      system "#{@sys_run} #{boot_repo}:reset"
+    end
   end
 
 end

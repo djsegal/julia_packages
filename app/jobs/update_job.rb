@@ -12,6 +12,7 @@ class UpdateJob < JuliaJob
     system "#{@sys_run} github:unpack"
     system "#{@sys_run} news:make"
     system "#{@sys_run} crawl:feed"
+    system "#{@sys_run} decibans:digest"
     system "#{@sys_run} require:all"
 
     marker_list = [Batch.current_marker, Batch.active_marker]
