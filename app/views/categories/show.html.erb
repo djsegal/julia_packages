@@ -7,3 +7,12 @@
 <%= render 'layouts/default_side_bar' %>
 
 <%= render 'layouts/pagination_js' %>
+
+<script>
+  var categoriesDiv = $("#js-sidebar-categories__<%= @category.name.gsub(' ', '-').underscore.dasherize %>");
+  if ( categoriesDiv ) {
+    $('.cs-side-bar').animate({
+      scrollTop: categoriesDiv.offset().top - 0.5 * $(document).height() + 50
+    }, 0);
+  }
+</script>
