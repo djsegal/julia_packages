@@ -3,6 +3,8 @@ class CleanJob < ApplicationJob
 
   def perform(*args)
 
+    Batch.connection
+
     start_batch = 1
     end_batch = Batch.active_marker-1
 
@@ -21,6 +23,7 @@ class CleanJob < ApplicationJob
       batch_range = start_batch..end_batch
       return if batch_range.count.zero?
 
+      Batch.where(marker: batch_range).reload
       Batch.where(marker: batch_range).destroy_all
     end
 
