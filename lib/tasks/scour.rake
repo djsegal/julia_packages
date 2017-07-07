@@ -56,9 +56,9 @@ namespace :scour do
     invalid_chars = %w[ _ - – — ]
 
     Dir.foreach(@scour_directory) do |directory|
-      @bar.inc
-
       next if directory.starts_with? '.'
+
+      @bar.inc
 
       is_registered_package = \
         File.directory? "#{@metadata_directory}/#{directory}"
@@ -105,9 +105,9 @@ namespace :scour do
     new_packages = []
 
     Dir.foreach(@scour_directory) do |directory|
-      bar.inc
-
       next if directory.starts_with? '.'
+
+      bar.inc
 
       package_exists = \
         Package.custom_exists? directory, batch_scope: "current_batch_scope"

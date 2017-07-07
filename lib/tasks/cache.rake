@@ -38,9 +38,9 @@ namespace :cache do
     bar = make_progress_bar Dir.foreach("#{repos_directory}").count
 
     Dir.foreach("#{repos_directory}") do |directory|
-      bar.inc
-
       next if directory.starts_with? '.'
+
+      bar.inc
 
       base_url = YAML.load_file("#{repos_directory}/#{directory}/data.yml")['url']
       commits_url = "#{base_url}/stats/participation"

@@ -32,9 +32,9 @@ namespace :metadata do
     new_packages = []
 
     Dir.foreach(@metadata_directory) do |directory|
+      next if directory.starts_with? '.'
       bar.inc
 
-      next if directory.starts_with? '.'
       next if File.file? \
         "#{@metadata_directory}/#{directory}"
 

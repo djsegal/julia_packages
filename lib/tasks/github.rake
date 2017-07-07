@@ -190,8 +190,8 @@ namespace :github do
 
     users_list = Set.new
     Dir.foreach("#{repos_directory}") do |directory|
-      bar.inc
       next if directory.starts_with? '.'
+      bar.inc
 
       owner_login = YAML.load_file("#{repos_directory}/#{directory}/data.yml")['owner']['login']
       users_list.add owner_login
@@ -235,9 +235,8 @@ namespace :github do
     rotten_packages = []
 
     Dir.foreach("#{repos_directory}") do |directory|
-      bar.inc
-
       next if directory.starts_with? '.'
+      bar.inc
 
       base_url = YAML.load_file("#{repos_directory}/#{directory}/data.yml")['url']
       commits_url = "#{base_url}/stats/participation"
@@ -288,8 +287,8 @@ namespace :github do
     new_organizations = []
 
     Dir.foreach("#{users_directory}") do |user_name|
-      bar.inc
       next if user_name.starts_with? '.'
+      bar.inc
 
       user_file = "#{users_directory}/#{user_name}/data.yml"
 
