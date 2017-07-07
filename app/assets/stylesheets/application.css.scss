@@ -68,8 +68,41 @@ body {
 }
 
 .cs-side-bar .panel-heading {
-  padding-top: 20px;
-  padding-bottom: 20px;
+  height: 50px;
+}
+
+@media (min-width: 1200px) {
+  .cs-side-bar .panel-heading {
+    height: 60px;
+  }
+}
+
+.cs-side-bar .panel-body {
+  overflow-y: scroll;
+}
+
+.cs-side-bar .panel-body {
+  height: calc( 100vh - 100px );
+}
+
+@media (min-width: 1200px) {
+  .cs-side-bar .panel-body {
+    height: calc( 100vh - 120px );
+  }
+}
+
+.cs-side-bar .panel-heading {
+
+  a {
+    height: 100%;
+  }
+
+  h4 {
+    top: 50%;
+    position: relative;
+    line-height: 0;
+  }
+
 }
 
 .cs-side-bar .panel:last-child {
