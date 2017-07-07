@@ -4,6 +4,9 @@ class OrganizationsController < ApplicationController
   # GET /organizations
   # GET /organizations.json
   def index
+    @page = ( params[:page] || 1 ).to_i
+    @per_page = 100
+
     @organizations = Organization
       .active_batch_scope
       .joins(owned_packages: :counter)
@@ -12,7 +15,7 @@ class OrganizationsController < ApplicationController
       .group("organizations.id")
       .order("count(organizations.id) DESC")
       .order("sum(counters.stargazer) desc")
-      .limit(100)
+      .paginate(page: params[:page], per_page: @per_page)
   end
 
   # GET /organizations/1
