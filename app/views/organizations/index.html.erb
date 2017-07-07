@@ -37,7 +37,7 @@
 
             <tr>
 
-              <td><%= index + 1 %></td>
+              <td><%= index + 1 + @per_page * ( @page - 1 ) %></td>
               <td><%= link_to organization.name, organization_path(organization) %></td>
 
               <%
