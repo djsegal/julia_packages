@@ -11,8 +11,8 @@
 <script>
   var categoriesDiv = $("#js-sidebar-categories__<%= @category.name.gsub(' ', '-').underscore.dasherize %>");
   if ( categoriesDiv ) {
-    $('.cs-side-bar').animate({
-      scrollTop: categoriesDiv.offset().top - 0.5 * $(document).height() + 50
+    $('.cs-side-bar .panel-body').animate({
+      scrollTop: categoriesDiv.offset().top - 0.5 * $(document).height() - 25
     }, 0);
   }
 </script>

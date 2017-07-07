@@ -29,8 +29,8 @@
 <script>
   var newsDiv = $("#js-sidebar-news__<%= @package.name.underscore.dasherize %>");
   if ( newsDiv ) {
-    $('.cs-side-bar').animate({
-      scrollTop: newsDiv.offset().top - 0.5 * $(document).height() + 50
+    $('.cs-side-bar .panel-body').animate({
+      scrollTop: newsDiv.offset().top - 0.5 * $(document).height() - 25
     }, 0);
 
     var newsDivLink = newsDiv[0].getElementsByTagName('a')[0];
