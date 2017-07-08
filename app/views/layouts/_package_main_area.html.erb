@@ -20,12 +20,13 @@
 
           cur_query = {}
 
+          cur_sort = params[:sort]
+
           if sort_title == "Searched"
             cur_query["term"] = params[:term]
-            cur_sort = params[:sort]
             cur_path = method(:searches_path)
           else
-            cur_sort = cookies[:sort]
+            cur_sort ||= cookies[:sort]
             cur_path = method(:settings_path)
           end
 
