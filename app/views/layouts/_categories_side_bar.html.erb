@@ -3,6 +3,7 @@
     .active_batch_scope
     .joins(:packages)
     .merge(Package.exclude_unregistered_packages(cookies))
+    .references(:packages)
     .group("categories.id")
     .order("count(categories.id) desc")
 %>
