@@ -67,31 +67,36 @@ body {
   width: 100% !important;
 }
 
-.cs-side-bar .panel-heading {
+.cs-side-bar:not(.cs-default-sidebar) .panel-heading {
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.cs-default-sidebar .panel-heading {
   height: 50px;
 }
 
 @media (min-width: 1200px) {
-  .cs-side-bar .panel-heading {
+  .cs-default-sidebar .panel-heading {
     height: 60px;
   }
 }
 
-.cs-side-bar .panel-body {
+.cs-default-sidebar .panel-body {
   overflow-y: scroll;
 }
 
-.cs-side-bar .panel-body {
+.cs-default-sidebar .panel-body {
   height: calc( 100vh - 100px );
 }
 
 @media (min-width: 1200px) {
-  .cs-side-bar .panel-body {
+  .cs-default-sidebar .panel-body {
     height: calc( 100vh - 120px );
   }
 }
 
-.cs-side-bar .panel-heading {
+.cs-default-sidebar .panel-heading {
 
   a {
     height: 100%;
@@ -113,7 +118,7 @@ body {
   margin-bottom: 0;
 }
 
-.cs-side-bar .panel-heading {
+.cs-default-sidebar .panel-heading {
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
