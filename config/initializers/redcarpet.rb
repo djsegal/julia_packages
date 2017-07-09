@@ -31,6 +31,10 @@ def render_markup markup, file_name, package_name
   return RbST.new(markup).to_html \
     unless is_markdown_file
 
+  markup.gsub! /<pre>\s*<code>/, "\n```\n"
+
+  markup.gsub! /<\/code>\s*<\/pre>/, "\n```\n"
+
   markup = default_inline_quotes_to_html markup, package_name
 
   escaped_identifier = "julia-observer-quote-cut-paste"
