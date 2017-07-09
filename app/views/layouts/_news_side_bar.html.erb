@@ -86,6 +86,19 @@
 
 %>
 
+<%
+
+  blurb_replace_tags = %w[
+    p
+    a
+    pre
+    code
+    strong
+    blockquote
+  ]
+
+%>
+
 <% news_items.first(60).each_with_index do |news_item, index| %>
 
   <div class="list-group-separator cs-full-width cs-no-margin"></div>
@@ -117,8 +130,42 @@
               <%= CGI.unescapeHTML( news_item.name ).html_safe %>
             </p>
 
+            <%
+
+              blurb_cargo = news_item.target.cargo
+
+              needs_cleaning = news_item.type == "StackOverflowNewsItem"
+              needs_cleaning &&= blurb_cargo.include? '<code>'
+
+              if needs_cleaning
+                split_cargo = blurb_cargo.split '<code>'
+
+                split_cargo.each_with_index do |cargo_piece, index|
+                  next if index.even?
+
+                  blurb_replace_tags.each do |cur_tag|
+                    cargo_piece.gsub! "<#{cur_tag}", "julia-observer-news-cut-paste_#{cur_tag}_open"
+                    cargo_piece.gsub! "</#{cur_tag}", "julia-observer-news-cut-paste_#{cur_tag}_close"
+                  end
+
+                  cargo_piece.gsub! "&lt;", "woof"
+                  cargo_piece.gsub! "<", "woof"
+
+                  blurb_replace_tags.each do |cur_tag|
+                    cargo_piece.gsub! "julia-observer-news-cut-paste_#{cur_tag}_open", "<#{cur_tag}"
+                    cargo_piece.gsub! "julia-observer-news-cut-paste_#{cur_tag}_close", "</#{cur_tag}"
+                  end
+
+                  split_cargo[index] = cargo_piece
+                end
+
+                blurb_cargo = split_cargo.join '<code>'
+              end
+
+            %>
+
             <div class="cs-blurb-text">
-              <%= CGI.unescapeHTML( news_item.target.cargo ).html_safe %>
+              <%= CGI.unescapeHTML( blurb_cargo ).html_safe %>
             </div>
 
           </div>
