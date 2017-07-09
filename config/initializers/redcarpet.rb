@@ -106,7 +106,7 @@ def render_markdown_with_html_code_blocks markup
   escaped_markup_blocks.map! { |m| CGI.escapeHTML m }
 
   escaped_filler = \
-    [*0..escaped_markup_blocks.length].map { |index|
+    [*0..escaped_markup_blocks.length-1].map { |index|
       "``` html\n#{escaped_identifier}-#{index}__work\n```"
     }
 
