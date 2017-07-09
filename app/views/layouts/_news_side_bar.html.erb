@@ -148,8 +148,8 @@
                     cargo_piece.gsub! "</#{cur_tag}", "julia-observer-news-cut-paste_#{cur_tag}_close"
                   end
 
-                  cargo_piece.gsub! "&lt;", "woof"
-                  cargo_piece.gsub! "<", "woof"
+                  cargo_piece.gsub! "&lt;", "julia-observer-news-cut-paste_less_than"
+                  cargo_piece.gsub! "<", "julia-observer-news-cut-paste_less_than"
 
                   blurb_replace_tags.each do |cur_tag|
                     cargo_piece.gsub! "julia-observer-news-cut-paste_#{cur_tag}_open", "<#{cur_tag}"
@@ -162,10 +162,16 @@
                 blurb_cargo = split_cargo.join '<code>'
               end
 
+              blurb_cargo = CGI.unescapeHTML( blurb_cargo )
+
+              if needs_cleaning
+                blurb_cargo.gsub! "julia-observer-news-cut-paste_less_than", "&lt;"
+              end
+
             %>
 
             <div class="cs-blurb-text">
-              <%= CGI.unescapeHTML( blurb_cargo ).html_safe %>
+              <%= blurb_cargo.html_safe %>
             </div>
 
           </div>
