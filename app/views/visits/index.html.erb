@@ -14,7 +14,7 @@
 
       <%= line_chart Visit.group(:search_keyword).count, title: "Search Keyword", ytitle: "Count" %>
 
-      <%= line_chart Visit.group(:referring_domain).count, title: "Referring Domain", ytitle: "Count" %>
+      <%= line_chart Visit.group(:referring_domain).count.delete_if { |k, v| k.nil? }, title: "Referring Domain", ytitle: "Count" %>
 
       <%= line_chart Visit.group(:country).count, title: "Country", ytitle: "Count" %>
 
