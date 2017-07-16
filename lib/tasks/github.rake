@@ -462,6 +462,8 @@ namespace :github do
 
     return false unless readme.present?
 
+    readme.each{ |_, str| str.gsub! "\u0000", "" }
+
     package.update \
       readme: readme['content'],
       readme_type: readme['name']
