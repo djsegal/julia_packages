@@ -23,7 +23,7 @@
 
                     <%
                       cookie_symbol = :include_unregistered_packages
-                      cookies.permanent[cookie_symbol] ||= 'false'
+                      cookies.permanent[cookie_symbol] ||= 'true'
                       is_checked = ( cookies[cookie_symbol] == 'true' )
                     %>
 
