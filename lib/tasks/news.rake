@@ -98,9 +98,9 @@ namespace :news do
     prs.each do |pr|
       bar.inc
 
-      name = pr['title'][/(?<=\W)?\w*(?=.jl)/]
+      cur_name = pr['title'][/(?<=\W)?\w*(?=.jl)/]
 
-      unless name.present?
+      unless cur_name.present?
         begin
           pr_diff = blind_hit_url pr['pull_request']['diff_url']
         rescue
@@ -110,13 +110,26 @@ namespace :news do
 
           next
         end
-        name = pr_diff[/(?<=\/)\w*(?=\/url)/]
+
+        if pr_diff.parsed_response == "Sorry, this diff is unavailable."
+          cur_name = pr['body'][/(?<=\W)?\w*(?=.jl.git)/]
+        else
+          cur_name = pr_diff[/(?<=\/)\w*(?=\/url)/]
+        end
       end
 
-      next if news_items.any? { |i| i[:name] == name }
+      unless cur_name.present?
+        CronLogMailer.log_email(
+          "News", pr.to_yaml
+        ).deliver_now
+
+        next
+      end
+
+      next if news_items.any? { |i| i[:name] == cur_name }
 
       news_items << {
-        name: name,
+        name: cur_name,
         link: pr['html_url'],
         target_type: 'Package'
       }
