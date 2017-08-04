@@ -473,17 +473,30 @@ namespace :github do
 
   def make_activity package, package_directory
     file_name = "#{package_directory}/commits.yml"
-    return nil unless File.exist? file_name
 
-    commits = YAML.load_file file_name
+    is_bad_activity = !File.exist?(file_name)
 
-    return nil unless commits.present?
+    commits = { bad_commits: ":(" }
 
-    begin
-      cur_activity = Activity.new \
-        package: package,
-        commits: commits['all']
-    rescue
+    unless is_bad_activity
+      commits = YAML.load_file file_name
+
+      is_bad_activity = !commits.present?
+    end
+
+    is_bad_activity ||= ( commits['message'] == "Not Found" )
+
+    unless is_bad_activity
+      begin
+        cur_activity = Activity.new \
+          package: package,
+          commits: commits['all']
+      rescue
+        is_bad_activity = true
+      end
+    end
+
+    if is_bad_activity
       mail_param_list = [
         "Bad Activity", "#{package.name} => #{commits.inspect}".to_yaml
       ]
