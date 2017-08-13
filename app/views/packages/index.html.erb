@@ -1,7 +1,15 @@
 <% page_title 'Packages' %>
 
-<%= render 'layouts/package_main_area' %>
+<% if @packages.length.zero? %>
+
+  <%= render 'layouts/package_error_area' %>
+
+<% else %>
+
+  <%= render 'layouts/package_main_area' %>
+
+  <%= render 'layouts/pagination_js' %>
+
+<% end %>
 
 <%= render 'layouts/default_side_bar' %>
-
-<%= render 'layouts/pagination_js' %>

@@ -1,0 +1,73 @@
+<% sort_title ||= @sort.split('_').map(&:titleize).join('-') %>
+
+<div class="col-sm-8 cs-main-area">
+
+  <div class="panel panel-default cs-error-panel">
+
+    <div class="panel-heading">
+
+      <h4 class="cs-no-margin">
+        <%= sort_title %>
+        <span class='cs-packages-word'> Packages </span>
+        <span class='cs-packages-short-word'> Pkgs </span>
+      </h4>
+
+    </div>
+
+    <div class="panel-body cs-center">
+
+      <div class="cs-flex-buffer">
+      </div>
+
+      <div class="list-group cs-no-margin row">
+
+        <div class="col-xs-4 col-sm-3 col-md-4" style="font-size: xx-large; text-align: center">
+          😢<br>😞<br>😭
+        </div>
+
+        <div class="col-xs-8 col-sm-9 col-md-8">
+
+          <h5>
+            Whoops...
+          </h5>
+
+          <p>
+            Something went wrong.
+          </p>
+
+          <p>
+            Let us know so we can try to fix it.
+          </p>
+
+          <p style="padding-top: 4px">
+
+            <a href="https://github.com/djsegal/julia_observer/issues" target="_blank" class="btn btn-default btn-raised cs-side-bar-footer-link cs-no-margin">
+
+              <%= fa_icon "github lg" %>
+
+              &nbsp; file an issue.
+
+            </a>
+
+          </p>
+
+        </div>
+
+      </div>
+
+      <div class="cs-flex-buffer">
+      </div>
+
+    </div>
+
+    <div class="panel-footer cs-center cs-no-padding">
+
+      <%= link_to logs_path, class: "btn btn-default cs-side-bar-footer-link cs-full-width cs-no-margin" do %>
+        You can click here to view server logs
+      <% end %>
+
+    </div>
+
+  </div>
+
+</div>
