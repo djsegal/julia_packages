@@ -484,7 +484,13 @@ namespace :github do
       is_bad_activity = !commits.present?
     end
 
-    is_bad_activity ||= ( commits['message'] == "Not Found" )
+    bad_commit_messages = [
+      "Not Found",
+      "Server Error"
+    ]
+
+    is_bad_activity ||= \
+      bad_commit_messages.include? commits['message']
 
     unless is_bad_activity
       begin
