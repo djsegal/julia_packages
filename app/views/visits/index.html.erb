@@ -10,13 +10,32 @@
 
     </div>
 
+    <%
+      visit_dict = ActiveSupport::OrderedHash.new
+
+      visit_dict[:country] = nil
+      visit_dict[:referring_domain] = "juliaobserver.com"
+      visit_dict[:search_keyword] = nil
+    %>
+
     <div class="panel-body">
 
-      <%= line_chart Visit.group(:search_keyword).count, title: "Search Keyword", ytitle: "Count" %>
+      <% visit_dict.each do |cur_key, cur_value| %>
 
-      <%= line_chart Visit.group(:referring_domain).count.delete_if { |k, v| k.nil? }, title: "Referring Domain", ytitle: "Count" %>
+        <%
+          cur_visit = Visit.group(cur_key).count
 
-      <%= line_chart Visit.group(:country).count, title: "Country", ytitle: "Count" %>
+          cur_visit.delete_if { |k, v| k.nil? }
+          cur_visit.delete_if { |k, v| k.ends_with?(cur_value) } if cur_value.present?
+
+          cur_visit = Hash[
+            cur_visit.sort_by{|k, v| v}.reverse
+          ]
+        %>
+
+        <%= line_chart cur_visit, title: cur_key.to_s.titleize, ytitle: "Count" %>
+
+      <% end %>
 
       <%= line_chart Visit.group_by_day(:started_at).count, title: "Started At", ytitle: "Count" %>
 
