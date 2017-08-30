@@ -29,7 +29,10 @@
           cur_visit.delete_if { |k, v| k.ends_with?(cur_value) } if cur_value.present?
 
           cur_visit = Hash[
-            cur_visit.sort_by{|k, v| v}.reverse
+            cur_visit
+              .sort_by{|k, v| v}
+              .reverse
+              .first(20)
           ]
         %>
 
