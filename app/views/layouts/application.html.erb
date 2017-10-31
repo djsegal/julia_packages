@@ -51,11 +51,18 @@
     <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/icon?family=Material+Icons">
 
     <script>
+      function isTouchDevice() {
+        return true == ("ontouchstart" in window || window.DocumentTouch && document instanceof DocumentTouch);
+      }
+
       var domainHasWWW = !!document.domain.match('www');
 
       var customInit = function() {
         $.material.init();
-        $('.js-tooltip').tooltip();
+
+        if( isTouchDevice() === false ) {
+          $('.js-tooltip').tooltip();
+        }
 
         if (typeof ga === "function") {
           if ( typeof event !== "undefined" && event.data ) {
