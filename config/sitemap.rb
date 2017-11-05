@@ -31,11 +31,11 @@ SitemapGenerator::Sitemap.create do
   add categories_path
   add organizations_path
 
-  model_count = 2500
-
-  PackageSorterJob.perform_now.second.first(model_count).each do |package|
+  PackageSorterJob.perform_now.second.each do |package|
     add package_path(package)
   end
+
+  model_count = 2500
 
   users = User
     .active_batch_scope
