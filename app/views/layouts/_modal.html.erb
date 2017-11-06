@@ -121,7 +121,15 @@
 
                   last updated:
 
-                  <%= time_ago_in_words Batch.active_marker_date %>
+                  <%
+                    if Batch.try(:active_marker_date).present?
+                      updated_date_string = time_ago_in_words Batch.active_marker_date
+                    else
+                      updated_date_string = "forever"
+                    end
+                  %>
+
+                  <%= updated_date_string %>
 
                   ago
 
