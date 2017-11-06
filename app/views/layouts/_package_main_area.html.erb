@@ -7,9 +7,16 @@
     <div class="panel-heading">
 
       <h4 class="cs-no-margin">
-        <%= sort_title %>
-        <span class='cs-packages-word'> Packages </span>
-        <span class='cs-packages-short-word'> Pkgs </span>
+        <% if sort_title == "Searched" %>
+          <span class='cs-packages-short-word hidden-sm hidden-md hidden-lg hidden-xl'> 🔎 </span>
+          <span class='cs-packages-word hidden-sm hidden-md hidden-lg hidden-xl'> 🔎&nbsp; Pkgs </span>
+          <span class='hidden-xs visible-sm'> 🔎&nbsp; Packages </span>
+          <span class='hidden-xs hidden-sm visible-md-*'> Searched Packages </span>
+        <% else %>
+          <%= sort_title %>
+          <span class='cs-packages-short-word'> Pkgs </span>
+          <span class='cs-packages-word'> Packages </span>
+        <% end %>
       </h4>
 
       <div class="btn-group cs-pull-right">
