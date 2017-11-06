@@ -11,7 +11,7 @@
         </h4>
       <% end %>
 
-      <%= link_to settings_path(sidebar_select: 'news'), class: "col-xs-6 cs-no-margin cs-sidebar-toggle btn cs-no-round #{ 'btn-default cs-inactive-toggle' unless cookies[:sidebar_select] == 'news' }" do %>
+      <%= link_to settings_path(sidebar_select: 'news'), class: "col-xs-6 cs-no-margin cs-no-padding cs-sidebar-toggle btn cs-no-round #{ 'btn-default cs-inactive-toggle' unless cookies[:sidebar_select] == 'news' }" do %>
         <h4 class="cs-no-margin">
           News
         </h4>
