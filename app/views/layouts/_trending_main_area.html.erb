@@ -1,6 +1,10 @@
 <div class="col-sm-8 cs-main-area">
 
-  <div class="panel panel-default">
+  <div class="visible-xs">
+    <%= render partial: 'layouts/mobile_toggle_panel', locals: { is_trending_packages: true } %>
+  </div>
+
+  <div class="panel panel-default cs-main-panel">
 
     <div class="panel-heading">
 

@@ -1,0 +1,19 @@
+<div class="panel panel-primary cs-no-margin cs-toggle-panel">
+
+  <div class="panel-heading cs-center row cs-no-padding cs-no-margin">
+
+    <%= link_to root_path, class: "col-xs-6 cs-no-margin cs-no-padding cs-sidebar-toggle btn cs-no-round #{ 'btn-default cs-inactive-toggle' unless is_trending_packages }" do %>
+      <h4 class="cs-no-margin">
+        Trending
+      </h4>
+    <% end %>
+
+    <%= link_to packages_path, class: "col-xs-6 cs-no-margin cs-no-padding cs-sidebar-toggle btn cs-no-round #{ 'btn-default cs-inactive-toggle' if is_trending_packages }" do %>
+      <h4 class="cs-no-margin">
+        <%= is_trending_packages ? "Packages" : controller_name.titleize %>
+      </h4>
+    <% end %>
+
+  </div>
+
+</div>

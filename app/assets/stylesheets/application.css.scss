@@ -603,3 +603,11 @@ a.panel-heading:focus {
 .cs-no-round {
   border-radius: 0;
 }
+
+.cs-main-area .cs-main-panel {
+  margin-top: 20px;
+}
+
+.cs-toggle-panel .panel-heading a {
+  color: inherit;
+}
