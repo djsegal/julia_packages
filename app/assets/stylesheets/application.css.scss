@@ -522,13 +522,13 @@ a.panel-heading:focus {
   opacity: 0.3;
 }
 
-@media (min-width: 376px) {
+@media (min-width: 401px) {
   .cs-packages-short-word {
     display: none;
   }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 400px) {
   .cs-packages-word {
     display: none;
   }
