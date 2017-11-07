@@ -64,3 +64,9 @@ $(document).on('click', 'a', function(event) {
     event.preventDefault();
   }
 });
+
+function inputFocus(){
+  $(".navbar-form .form-group input").focus();
+}
+
+window.onkeydown = inputFocus;
