@@ -6,7 +6,7 @@
 
   dependency_relations["Requires"] = @package.active_dependencies.order(is_shallow: :desc).joins(:depended).where.not(packages: {name: ["Julia", @package.name]})
 
-  dependency_relations["Used By"] = @package.passive_dependencies.order(is_shallow: :desc).joins(:dependent).where.not(packages: {name: ["Julia", @package.name]})
+  dependency_relations["Used By"] = @package.passive_dependencies.order(is_shallow: :desc).joins(:dependent).where.not(packages: {name: ["Julia", @package.name, "Cuddle"]})
 
   unless cookies[:include_unregistered_packages] == 'true'
     dependency_relations.each do |k, v|
