@@ -611,3 +611,10 @@ a.panel-heading:focus {
 .cs-toggle-panel .panel-heading a {
   color: inherit;
 }
+
+.cs-homepage-link {
+  max-width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
