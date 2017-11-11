@@ -6,6 +6,9 @@ class PackageSorterJob < ApplicationJob
     @sort ||= cookies[:sort]
     @sort ||= 'top'
 
+    @sort.downcase!
+    @sort.gsub! '-', "_"
+
     set_core_query params, cookies
 
     case @sort
