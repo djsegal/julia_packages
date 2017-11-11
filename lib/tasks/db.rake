@@ -1,53 +1,98 @@
 namespace :db do
-  desc 'Dump the database to db/<time>._<name>.pgsql_dump'
-  task dump: :environment do
-    cmd = nil
-    f_name = nil
-    with_config do |_app, host, db, user, pass|
-      f_name = "#{Rails.root}/db/#{Time.now.strftime('%Y%m%d%H%M%S')}_#{db}.psql_dump"
-      cmd = "PGPASSWORD='#{pass}' pg_dump -F c -v -h '#{host}' -U '#{user}' -f '#{f_name}' #{db}"
+
+    desc "Dumps the database to backups"
+    task :dump => :environment do
+
+        dump_fmt = 'c'      # or 'p', 't', 'd'
+        dump_sfx = suffix_for_format dump_fmt
+        backup_dir = backup_directory true
+        cmd = nil
+        with_config do |app, host, db, user|
+            file_name = Time.now.strftime("%Y%m%d%H%M%S") + "_" + db + '.' + dump_sfx
+            cmd = "pg_dump -F #{dump_fmt} -v -h #{host} -d #{db} -f #{backup_dir}/#{file_name}"
+        end
+        puts cmd
+        exec cmd
     end
-    puts "Backing up to #{f_name} ..."
-    puts cmd
-    exec cmd
-  end
 
-  desc 'Restore the database dump; NOTE: The current database will be dropped!'
-  task :restore, [:date] => :environment do |_task, args|
-    cmd = nil
-    f_name = nil
-    date = args.date
-    with_config do |_app, host, db, user, pass|
-      unless date.present?
-        STDERR.puts 'ERROR: Please choose a date from the available backup files:'
-        system("set -o pipefail && ls -1 #{Rails.root}/db/*_#{db}.psql_dump | sed -E 's/.+\\/([0-9]+)_.+/  \\1/'") ||
-          fail_with_msg("Failed to list files. Check in #{Rails.root}/db/ for your available dumps")
-        print 'Date: '
-        date = STDIN.gets.strip
-      end
-      f_name = "#{Rails.root}/db/#{date}_#{db}.psql_dump"
-      cmd = "PGPASSWORD='#{pass}' pg_restore -F c -v -h '#{host}' -U '#{user}' -d #{db} -c -C #{f_name}"
+    desc "Show the existing database backups"
+    task :list => :environment do
+        backup_dir = backup_directory
+        puts "#{backup_dir}"
+        exec "/bin/ls -lt #{backup_dir}"
     end
-    puts 'Dropping the current database first...'
-    Rake::Task['db:drop'].invoke
-    Rake::Task['db:create'].invoke
-    puts "Restoring database from #{f_name} ..."
-    puts cmd
-    exec cmd
-  end
 
-  private
+    desc "Restores the database from a backup using PATTERN"
+    task :restore, [:pat] => :environment do |task,args|
+        if args.pat.present?
+            cmd = nil
+            with_config do |app, host, db, user|
+                backup_dir = backup_directory
+                files = Dir.glob("#{backup_dir}/*#{args.pat}*")
+                case files.size
+                when 0
+                  puts "No backups found for the pattern '#{args.pat}'"
+                when 1
+                  file = files.first
+                  fmt = format_for_file file
+                  if fmt.nil?
+                    puts "No recognized dump file suffix: #{file}"
+                  else
+                    cmd = "pg_restore -F #{fmt} -v -c -C #{file}"
+                  end
+                else
+                  puts "Too many files match the pattern '#{args.pat}':"
+                  puts ' ' + files.join("\n ")
+                  puts "Try a more specific pattern"
+                end
+            end
+            unless cmd.nil?
+              Rake::Task["db:drop"].invoke
+              Rake::Task["db:create"].invoke
+              puts cmd
+              exec cmd
+            end
+        else
+            puts 'Please pass a pattern to the task'
+        end
+    end
 
-  def with_config
-    yield Rails.application.class.parent_name.underscore,
-      ActiveRecord::Base.connection_config[:host],
-      ActiveRecord::Base.connection_config[:database],
-      ActiveRecord::Base.connection_config[:username],
-      ActiveRecord::Base.connection_config[:password]
-  end
+    private
 
-  def fail_with_msg(msg, code = 1)
-    STDERR.puts('ERROR: ' + msg)
-    exit code
-  end
+    def suffix_for_format suffix
+        case suffix
+        when 'c' then 'dump'
+        when 'p' then 'sql'
+        when 't' then 'tar'
+        when 'd' then 'dir'
+        else nil
+        end
+    end
+
+    def format_for_file file
+        case file
+        when /\.dump$/ then 'c'
+        when /\.sql$/  then 'p'
+        when /\.dir$/  then 'd'
+        when /\.tar$/  then 't'
+        else nil
+        end
+    end
+
+    def backup_directory create=false
+        backup_dir = "#{Rails.root}/db/backups"
+        if create and not Dir.exists?(backup_dir)
+          puts "Creating #{backup_dir} .."
+          FileUtils.mkdir_p(backup_dir)
+        end
+        backup_dir
+    end
+
+    def with_config
+        yield Rails.application.class.parent_name.underscore,
+              ActiveRecord::Base.connection_config[:host],
+              ActiveRecord::Base.connection_config[:database],
+              ActiveRecord::Base.connection_config[:username]
+    end
+
 end
