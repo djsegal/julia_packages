@@ -19,7 +19,7 @@ class SettingsController < ApplicationController
     if params[:clear_cookies]
       clear_all_cookies settings_list
     else
-      update_all_cookies settings_list
+      updated_cookies = update_all_cookies settings_list
     end
 
     cookies.permanent['needs_refresh'] = true
@@ -31,6 +31,22 @@ class SettingsController < ApplicationController
     has_www = params['has_www']
     replace_subdomain = has_www ? 'www.' : ''
     prev_url.sub! 'cdn.', replace_subdomain
+
+    unless params[:clear_cookies]
+      cur_url, cur_query = prev_url.split "?"
+
+      split_query = cur_query.split "&"
+
+      new_query = []
+
+      split_query.each do |cur_part|
+        cur_key, cur_val = cur_part.split "="
+        next if updated_cookies.include? cur_key
+        new_query << cur_part
+      end
+
+      prev_url = "#{cur_url}?#{new_query.join("&")}"
+    end
 
     redirect_to prev_url
   end
@@ -150,5 +166,7 @@ class SettingsController < ApplicationController
       new_settings.each do |k, v|
         cookies.permanent[k] = v
       end
+
+      new_settings.keys
     end
 end
