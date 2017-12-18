@@ -65,7 +65,8 @@ $(document).on('click', 'a', function(event) {
   }
 });
 
-function inputFocus(){
+function inputFocus(e){
+  if ( e.metaKey || e.ctrlKey ) { return; }
   $(".navbar-form .form-group input").focus();
 }
 
