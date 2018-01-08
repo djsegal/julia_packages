@@ -6,11 +6,21 @@ namespace :news do
   task make: :environment do
     bar = make_progress_bar @news_item_types.count
 
+    bad_files = []
+
     @news_item_types.each do |news_item_type|
       bar.inc
 
       news_item_class = "#{news_item_type}_news_item".classify.constantize
-      news_items = YAML.load_file("#{@news_directory}/#{news_item_type}.yml")
+
+      cur_file = "#{@news_directory}/#{news_item_type}.yml"
+
+      begin
+        news_items = YAML.load_file(cur_file)
+      rescue
+        bad_files << cur_file
+        next
+      end
 
       news_feed = Feed.create! name: news_item_type
       news_items.each do |news_item|
@@ -19,6 +29,18 @@ namespace :news do
     end
 
     bar.finished
+
+    return if bad_files.empty?
+
+    mail_param_list = [
+      "Bad News", "files => #{bad_files.inspect}".to_yaml
+    ]
+
+    if Rails.env.production?
+      DebugLogMailer.log_email(*mail_param_list).deliver_later
+    else
+      DebugLogMailer.log_email(*mail_param_list).deliver_now
+    end
   end
 
   desc "get all news items"
