@@ -22,41 +22,41 @@
 set :output, "~rails/julia_observer/log/cron.log"
 
 every :day, at: %w[ 2am 2pm 8am 8pm ] do
+  command "echo 'boot job triggered.'"
   rake "job:boot"
-  command "echo 'boot job done.'"
 end
 
 every :day, at: %w[ 2:30am 2:30pm 8:30am 8:30pm ] do
+  command "echo 'download job triggered.'"
   rake "job:download"
-  command "echo 'download job done.'"
 end
 
 every :day, at: %w[ 4am 4pm 10am 10pm ] do
+  command "echo 'expand job triggered.'"
   rake "job:expand"
-  command "echo 'expand job done.'"
 end
 
 every :day, at: %w[ 5am 5pm 11am 11pm ] do
+  command "echo 'update job triggered.'"
   rake "job:update"
-  command "echo 'update job done.'"
 end
 
 every :day, at: '12:30am' do
+  command "echo 'log job triggered.'"
   rake "job:log"
-  command "echo 'log job done.'"
 end
 
 every :day, at: '12:30pm' do
+  command "echo 'refresh job triggered.'"
   rake "sitemap:refresh"
-  command "echo 'refresh job done.'"
 end
 
 every :day, at: '6:30am' do
+  command "echo 'scour job triggered.'"
   rake "job:scour"
-  command "echo 'scour job done.'"
 end
 
 every :day, at: '6:30pm' do
+  command "echo 'clean job triggered.'"
   rake "job:clean"
-  command "echo 'clean job done.'"
 end
