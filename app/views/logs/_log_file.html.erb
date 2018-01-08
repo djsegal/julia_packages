@@ -1,4 +1,4 @@
-<div class="col-sm-8 cs-main-area">
+<div tabindex="0" class="col-sm-8 cs-main-area">
 
   <div class="panel panel-default">
 
@@ -17,7 +17,7 @@
         <div class="row">
 
           <div class="col-xs-1">
-            <%= index + 1 %> 
+            <%= index + 1 %>
           </div>
 
           <div class="col-xs-11 cs-log-line">
@@ -37,7 +37,7 @@
 <script>
 
   var logFile;
-  
+
   if ( $(window).width() >= 768 ) {
     logFile = $('.cs-main-area');
   } else {
@@ -45,7 +45,7 @@
   }
 
   logFile.animate(
-    {scrollTop: logFile[0].scrollHeight}, 
+    {scrollTop: logFile[0].scrollHeight},
     'fast'
   );
 
