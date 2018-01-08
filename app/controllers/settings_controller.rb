@@ -32,7 +32,7 @@ class SettingsController < ApplicationController
     replace_subdomain = has_www ? 'www.' : ''
     prev_url.sub! 'cdn.', replace_subdomain
 
-    unless params[:clear_cookies]
+    if !params[:clear_cookies] && prev_url.include?("?")
       cur_url, cur_query = prev_url.split "?"
 
       split_query = cur_query.split "&"
