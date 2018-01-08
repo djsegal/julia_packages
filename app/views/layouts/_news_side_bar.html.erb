@@ -76,6 +76,8 @@
     news_items_lists << StackOverflowNewsItem.active_batch_scope.includes(:target).all
   end
 
+  news_items_lists.reject! &:empty?
+
   first_news_items = news_items_lists.shift
 
   news_items = first_news_items.zip(
@@ -100,6 +102,8 @@
 %>
 
 <% news_items.first(60).each_with_index do |news_item, index| %>
+
+  <% next unless news_item.present? %>
 
   <div class="list-group-separator cs-full-width cs-no-margin"></div>
 
