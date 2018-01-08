@@ -76,13 +76,18 @@
     news_items_lists << StackOverflowNewsItem.active_batch_scope.includes(:target).all
   end
 
+  news_items_lists.select! &:present?
   news_items_lists.reject! &:empty?
 
-  first_news_items = news_items_lists.shift
+  if news_items_lists.empty?
+    news_items = []
+  else
+    first_news_items = news_items_lists.shift
 
-  news_items = first_news_items.zip(
-    *news_items_lists
-  ).flatten
+    news_items = first_news_items.zip(
+      *news_items_lists
+    ).flatten
+  end
 
   news_css_classes = 'btn btn-default cs-left-align cs-no-margin col-xs-10'
 
