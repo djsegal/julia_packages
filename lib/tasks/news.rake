@@ -33,7 +33,7 @@ namespace :news do
     return if bad_files.empty?
 
     mail_param_list = [
-      "Bad News", "files => #{bad_files.inspect}".to_yaml
+      "Bad News [make]", "files => #{bad_files.inspect}".to_yaml
     ]
 
     if Rails.env.production?
@@ -45,8 +45,27 @@ namespace :news do
 
   desc "get all news items"
   task get_all: :environment do
+    bad_files = []
+
     @news_item_types.each do |news_item_type|
-      Rake::Task["news:#{news_item_type}"].invoke
+      begin
+        Rake::Task["news:#{news_item_type}"].invoke
+      rescue
+        bad_files << news_item_type
+        next
+      end
+    end
+
+    return if bad_files.empty?
+
+    mail_param_list = [
+      "Bad News [get_all]", "files => #{bad_files.inspect}".to_yaml
+    ]
+
+    if Rails.env.production?
+      DebugLogMailer.log_email(*mail_param_list).deliver_later
+    else
+      DebugLogMailer.log_email(*mail_param_list).deliver_now
     end
   end
 
