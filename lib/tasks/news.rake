@@ -208,7 +208,7 @@ namespace :news do
         category_slug: category['slug']
 
       api_requests += 1
-      sleep(1.minute) if (api_requests % 10).zero?
+      sleep(1.minute) if (api_requests % 50).zero?
     end
 
     posts.uniq!
@@ -241,7 +241,7 @@ namespace :news do
       }
 
       api_requests += 1
-      sleep(1.minute) if (api_requests % 10).zero?
+      sleep(1.minute) if (api_requests % 50).zero?
     end
 
     FileUtils.mkdir_p(@news_directory) \
