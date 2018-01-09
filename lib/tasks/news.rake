@@ -173,6 +173,8 @@ namespace :news do
 
   desc "get discourse prs"
   task discourse: :environment do
+    api_requests = 0
+
     news_items = []
 
     client = DiscourseApi::Client.new("http://discourse.julialang.org")
@@ -185,6 +187,9 @@ namespace :news do
       posts += \
         client.category_latest_topics \
         category_slug: category['slug']
+
+      api_requests += 1
+      sleep(1.minute) if (api_requests % 10).zero?
     end
 
     posts.uniq!
@@ -215,6 +220,9 @@ namespace :news do
           cargo: post_html
         }
       }
+
+      api_requests += 1
+      sleep(1.minute) if (api_requests % 10).zero?
     end
 
     FileUtils.mkdir_p(@news_directory) \
