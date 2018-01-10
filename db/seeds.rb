@@ -5,3 +5,12 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+cur_call = "psql -f ./db/backup.db -d "
+
+cur_call += Rails.configuration.database_configuration[Rails.env]["database"]
+
+system(cur_call)
+
+Batch.active_marker = Batch.last.marker
+set_batch_marker :active, Batch.active_marker
