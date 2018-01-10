@@ -23,3 +23,5 @@
 .env
 
 /public/sitemap*
+
+.DS_Store
