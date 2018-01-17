@@ -28,79 +28,90 @@ namespace :decibans do
   task digest: :environment do
     deciban_dict = {}
 
-    misaligned_decibans = []
     missing_decibans = []
     duplicated_decibans = []
 
-    bar = make_progress_bar Dir["#{@decibans_directory}/*"].count
+    cur_file = File.read("#{@decibans_directory}/db.csv")
 
-    Dir.foreach(@decibans_directory) do |deciban|
-      next if deciban.starts_with? '.'
-      bar.inc
+    cur_file.prepend(
+      "category,subcategory,name,url,description\n"
+    )
 
-      next unless File.file? \
-        "#{@decibans_directory}/#{deciban}"
+    cur_csv = CSV.parse(cur_file, headers: true)
 
-      next unless deciban.ends_with? '.md'
-      deciban.gsub! ".md", ""
+    cur_table = cur_csv.map &:to_hash
 
-      skipped_files = %w[ README LICENSE Publications ]
-      next if skipped_files.include? deciban
+    category_list = cur_table.map{ |cur_obj| cur_obj["category"] }.uniq
 
-      deciban_file = "#{@decibans_directory}/#{deciban}.md"
+    category_list.each do |cur_category|
+      subcategory_list = cur_table
+        .select{ |cur_obj| cur_obj["category"] == cur_category }
+        .map{ |cur_obj| cur_obj["subcategory"] }
+        .each_with_object(Hash.new(0)){ |key,hash| hash[key] += 1 }
 
-      deciban_list = []
+      subcategory_list.each do |cur_subcategory, cur_count|
+        cur_rows = cur_table.select { |cur_obj|
+          cur_obj["subcategory"] == cur_subcategory &&
+          cur_obj["name"].ends_with?(".jl") &&
+          !cur_obj["name"].include?(" ")
+        }
 
-      has_complete_list = false
+        cur_packages = cur_rows.map {
+          |cur_obj| cur_obj["name"].gsub(".jl", "")
+        }
 
-      current_deciban = nil
-
-      File.open(deciban_file).each_line do |deciban_line|
-        unless has_complete_list
-          has_complete_list ||= deciban_line.starts_with? "----"
-          next unless deciban_line =~ /^[\*\+\-]\s(?=\[)/
-          deciban_list << deciban_line.match(/(?<=\[).*(?=\])/)[0]
+        if cur_subcategory.present? && cur_count > 15
+          deciban_dict[cur_subcategory] = cur_packages
           next
         end
 
-        is_header = deciban_line =~ /#\s.*/
-        is_header &&= deciban_list.include? deciban_line.match(/(?<=#\s).*(?=\n)/)[0]
+        deciban_dict[cur_category] = [] \
+          unless deciban_dict.has_key? cur_category
 
-        if is_header
-          current_deciban = deciban_line.match(/(?<=#\s).*(?=\n)/)[0]
-
-          deciban_dict[current_deciban] = [] \
-            unless deciban_dict.key? current_deciban
-
-          next
-        end
-
-        matched_package = deciban_line.match /(?<=\[)[^\.]+(?=\.jl\])/
-        next unless matched_package.present?
-
-        begin
-          deciban_dict[current_deciban] << matched_package[0]
-        rescue
-          misaligned_decibans << matched_package[0]
-        end
+        deciban_dict[cur_category] += cur_packages
       end
-
     end
-
-    bar.finished
-
-    empty_decibans = deciban_dict.keys
-    deciban_dict.delete_if { |k, v| v.empty? }
-    empty_decibans -= deciban_dict.keys
 
     bar = make_progress_bar deciban_dict.length
 
     new_labels = []
 
+    mapped_names = {
+      "MACHINELEARNING" => "Machine Learning",
+      "NEURALNETWORKS" => "Neural Networks",
+      "INFOGRAPHICS" => "Infographics",
+      "UNITTEST" => "Unit Tests",
+      "JUPYTERNOTEBOOKS" => "Jupyter Notebooks",
+    }
+
     deciban_dict.each do |cur_key, cur_value|
       bar.inc
 
-      category = Category.create! name: cur_key.titleize
+      cur_name = cur_key
+
+      cur_name = cur_name[/(?<=\[).*(?=\])/] \
+        if cur_name.include? "["
+
+      cur_name = cur_name[/.*(?=\()/] \
+        if cur_name.include? "("
+
+      if cur_name.upcase == cur_name
+        downcased_name = cur_name.downcase
+        File.open("vendor/words.txt", "r").each_line do |line|
+          next unless line.strip == downcased_name
+
+          cur_name = cur_name.underscore.humanize.titleize
+          break
+        end
+      else
+        cur_name = cur_name.underscore.humanize.titleize \
+          unless cur_name =~ /\d/
+      end
+
+      cur_name = mapped_names[cur_name] \
+        if mapped_names.keys.include? cur_name
+
+      category = Category.create! name: cur_name
 
       cur_value.each do |package_name|
         unless Package.custom_exists? package_name, batch_scope: "current_batch_scope"
@@ -130,17 +141,11 @@ namespace :decibans do
 
     bar.finished
 
-    puts "\n-------\n misaligned \n-------"
-    puts misaligned_decibans
-
     puts "\n-------\n duplicated \n-------"
     puts duplicated_decibans
 
     puts "\n-------\n missing \n-------"
     puts missing_decibans
-
-    puts "\n-------\n empty \n-------"
-    puts empty_decibans
 
   end
 
