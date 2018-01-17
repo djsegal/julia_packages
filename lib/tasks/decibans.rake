@@ -60,7 +60,7 @@ namespace :decibans do
           |cur_obj| cur_obj["name"].gsub(".jl", "")
         }
 
-        if cur_subcategory.present? && cur_count > 15
+        if cur_subcategory.present? && cur_count >= 10
           deciban_dict[cur_subcategory] = cur_packages
           next
         end
