@@ -30,7 +30,7 @@ namespace :news do
 
     bar.finished
 
-    return if bad_files.empty?
+    next if bad_files.empty?
 
     mail_param_list = [
       "Bad News [make]", "files => #{bad_files.inspect}".to_yaml
@@ -56,7 +56,7 @@ namespace :news do
       end
     end
 
-    return if bad_files.empty?
+    next if bad_files.empty?
 
     mail_param_list = [
       "Bad News [get_all]", "files => #{bad_files.inspect}".to_yaml
