@@ -61,6 +61,7 @@
         $.material.init();
 
         if( isTouchDevice() === false ) {
+          $('.cs-main-area').attr('tabindex', 0);
           $('.js-tooltip').tooltip();
         }
 
