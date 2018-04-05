@@ -78,6 +78,8 @@ gem 'groupdate'
 
 gem 'activerecord-import'
 
+gem 'clipboard-rails'
+
 group :development, :test do
   gem 'rspec-rails', '~> 3.5'
   gem 'factory_girl_rails'

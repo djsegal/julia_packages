@@ -626,3 +626,15 @@ a.panel-heading:focus {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+
+#js-copy-text {
+  cursor: default;
+  width: 62%;
+  text-align: center;
+  margin-left: 19% !important;
+  overflow-x: scroll;
+  line-height: 1.2;
+}
+
+#js-copy-text::selection { background: transparent; }
+#js-copy-text::-moz-selection { background: transparent; }

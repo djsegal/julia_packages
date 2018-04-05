@@ -80,6 +80,7 @@ GEM
     byebug (9.0.6)
     chartkick (2.2.1)
     chronic (0.10.2)
+    clipboard-rails (1.7.1)
     coderay (1.1.1)
     coffee-rails (4.2.1)
       coffee-script (>= 2.2.0)
@@ -340,6 +341,7 @@ DEPENDENCIES
   bootstrap-sass (~> 3.3.6)
   bullet
   chartkick
+  clipboard-rails
   coffee-rails (~> 4.2)
   daemons
   dalli
@@ -389,4 +391,4 @@ DEPENDENCIES
   will_paginate (~> 3.1.0)
 
 BUNDLED WITH
-   1.13.7
+   1.16.1

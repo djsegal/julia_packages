@@ -74,16 +74,20 @@
 
   <div class="panel panel-primary">
 
-    <div class="panel-heading cs-center">
+    <div class="panel-heading cs-center js-copy-button" data-clipboard-action="copy" data-clipboard-target="#js-copy-text">
       <%
         package_command = \
           @package.is_registered ? 'add' : 'clone'
-        
+
         package_reference = \
           @package.is_registered ? @package.name : @package.url
       %>
 
-      <h4 class="cs-no-margin">Pkg.<%= package_command %>("<%= package_reference %>")</h4>
+      <span style="float: right;">
+          <%= fa_icon "clone lg" %>
+      </span>
+
+      <h4 class="cs-no-margin" id="js-copy-text">Pkg.<%= package_command %>("<%= package_reference %>")</h4>
     </div>
 
     <div class="panel-body cs-no-padding">
@@ -209,3 +213,9 @@
   <%= render 'layouts/made_with_love_panel' %>
 
 </div>
+
+<script>
+  $(document).ready(function(){
+    var clipboard = new Clipboard('.js-copy-button');
+  });
+</script>
