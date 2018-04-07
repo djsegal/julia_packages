@@ -65,7 +65,12 @@ namespace :github do
           check_and_hit_url get_repo_url(user_name, repo_name)
 
         if ( information["message"] == "Not Found" )
-          Rails.logger.info error.message if nasty_count > 10
+          if nasty_count > 10
+            CronLogMailer.log_email(
+              "Too Many Fails", information.to_yaml
+            ).deliver_now
+            break
+          end
 
           fixed_repo_name = repo_name[/.*(?=\.jl)/]
           information, is_new_response = \
