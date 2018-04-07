@@ -88,6 +88,9 @@
       </span>
 
       <h4 class="cs-no-margin" id="js-copy-text">Pkg.<%= package_command %>("<%= package_reference %>")</h4>
+
+      <div class="cs-ripple js-ripple">
+      </div>
     </div>
 
     <div class="panel-body cs-no-padding">
@@ -217,5 +220,50 @@
 <script>
   $(document).ready(function(){
     var clipboard = new Clipboard('.js-copy-button');
+
+    var curRipple = $(".js-ripple"),
+        newHeight = curRipple.parent().outerHeight();
+
+    curRipple.height(newHeight);
+
+    // copy pasta [beg]
+
+    (function (window, $) {
+
+      $(function() {
+
+        $('.js-ripple').on('click', function (event) {
+          event.preventDefault();
+
+          var curDiv = $('<div/>'),
+              btnOffset = $(this).offset(),
+              xPos = event.pageX - btnOffset.left,
+              yPos = event.pageY - btnOffset.top;
+
+
+          curDiv.addClass('ripple-effect');
+          var ripple = $(".ripple-effect");
+
+          ripple.css("height", $(this).height());
+          ripple.css("width", $(this).height());
+          curDiv
+            .css({
+              top: yPos - (ripple.height()/2),
+              left: xPos - (ripple.width()/2),
+              background: $(this).data("ripple-color")
+            })
+            .appendTo($(this));
+
+          window.setTimeout(function(){
+            curDiv.remove();
+          }, 2000);
+        });
+
+      });
+
+    })(window, jQuery);
+
+    // copy pasta [end]
+
   });
 </script>
