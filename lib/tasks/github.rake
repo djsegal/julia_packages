@@ -10,7 +10,6 @@ namespace :github do
 
     bar = make_progress_bar all_packages.count
 
-    nasty_count = 0
     nasty_packages = []
     moved_packages = []
 
@@ -65,20 +64,12 @@ namespace :github do
           check_and_hit_url get_repo_url(user_name, repo_name)
 
         if ( information["message"] == "Not Found" )
-          if nasty_count > 10
-            CronLogMailer.log_email(
-              "Too Many Fails", information.to_yaml
-            ).deliver_now
-            break
-          end
-
           fixed_repo_name = repo_name[/.*(?=\.jl)/]
           information, is_new_response = \
             check_and_hit_url get_repo_url(user_name, fixed_repo_name)
 
           if information["message"] == "Not Found"
             nasty_packages << directory
-            nasty_count += 1
             next
           end
 
