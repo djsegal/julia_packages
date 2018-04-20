@@ -1,0 +1,107 @@
+<% page_title 'Bots' %>
+
+<div class="cs-main-area cs-full-width">
+
+  <div class="panel panel-default">
+
+    <div class="panel-heading">
+
+      <h3 class="cs-no-margin cs-full-width cs-center">
+        Bots
+      </h3>
+
+    </div>
+
+    <div class="panel-body">
+
+      <table class="table table-striped table-hover cs-no-margin">
+
+        <thead>
+
+          <tr>
+
+            <th>#</th>
+            <th>Bot</th>
+            <th class='hidden-xs'>Top Packages</th>
+            <th class='hidden-xs hidden-sm'></th>
+            <th class='hidden-xs hidden-sm hidden-md'></th>
+            <th>Pkg<span class="hidden visible-xs" style="display: inline-block !important;">s</span><span class="hidden-xs"> Count</span></th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          <% @bots.each_with_index do |bot, index| %>
+
+            <tr>
+
+              <td><%= index + 1 + @per_page * ( @page - 1 ) %></td>
+              <td><%= link_to bot.name, bot_path(bot) %></td>
+
+              <%
+                  limit_count = 3
+
+                  current_packages = bot.owned_packages
+                    .merge(Package.exclude_unregistered_packages(cookies))
+
+                  package_query = current_packages.includes(:counter)
+                  package_query = package_query.order("counters.stargazer desc")
+                  package_query = package_query.first(limit_count)
+
+                  padding_vars = [ {} ] * ( limit_count - package_query.count )
+
+                  bot_packages = package_query + padding_vars
+              %>
+
+              <% bot_packages.each_with_index do |package, sub_index| %>
+
+                <%
+                    data_class = 'hidden-xs'
+                    data_class += ' hidden-sm' if sub_index > 0
+                    data_class += ' hidden-md' if sub_index > 1
+                %>
+
+                <td class='<%= data_class %>'>
+
+                  <% package_name = package.try(:name) %>
+
+                  <% if package_name.present? %>
+                    <%= link_to truncate( package_name, length: 20), package_path(package) %>
+                  <% else %>
+                    -
+                  <% end %>
+
+                </td>
+
+              <% end %>
+
+              <td>
+                <%= current_packages.count %>
+              </td>
+
+            </tr>
+
+          <% end %>
+
+        </tbody>
+
+      </table>
+
+      <%=
+        will_paginate @bots,
+          class: "cs-user-pagination",
+          inner_window: 1,
+          outer_window: 0,
+          previous_label: "←",
+          next_label: "→"
+      %>
+
+    </div>
+
+    <%= render 'layouts/fork_footer' %>
+
+  </div>
+
+</div>

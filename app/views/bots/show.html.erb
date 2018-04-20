@@ -1,0 +1,106 @@
+<% page_title @bot.name %>
+
+<%= render 'layouts/package_main_area' %>
+
+<%= render 'layouts/pagination_js' %>
+
+<div class="cs-side-bar col-sm-4 hidden-xs cs-no-padding">
+
+  <div class="panel panel-primary">
+
+    <div class="panel-heading cs-center">
+      <h4 class="cs-no-margin">Circles.add("<%= @bot.name %>")</h4>
+    </div>
+
+    <div class="panel-body cs-no-padding">
+
+      <div class="list-group">
+
+        <div class="list-group-item cs-no-padding">
+
+          <div class="row-content cs-full-width cs-category-row">
+
+            <%
+              bot_website = format_website_link \
+                @bot.profile.blog
+
+              bot_website ||= @bot.url
+            %>
+
+            <a href="<%= bot_website %>" target="_blank" class="btn btn-default cs-full-width cs-left-align cs-no-margin">
+
+              <h4>
+                blog
+              </h4>
+
+              <br>
+
+              <%
+                blog_link_text = @bot.profile.blog.present? ? \
+                  @bot.profile.blog : "no blog"
+              %>
+
+              <span class="cs-pull-right">
+                <%= blog_link_text %>
+              </span>
+
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-footer cs-center cs-no-padding">
+
+    </div>
+
+  </div>
+
+  <div class="panel panel-primary">
+
+    <div class="panel-heading cs-center">
+      <h4 class="cs-no-margin"><%= @bot.profile.nickname || @bot.name %></h4>
+    </div>
+
+    <div class="panel-body cs-no-padding">
+
+      <div class="list-group">
+
+        <div class="list-group-item cs-no-padding">
+
+          <div class="row-content cs-full-width cs-category-row">
+
+            <a href="<%= @bot.url %>?language=julia" target="_blank" class="btn btn-default cs-full-width cs-left-align cs-no-margin cs-profile-picture__bot" style="background-image: url('<%= @bot.avatar %>');">
+            </a>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-footer cs-center cs-no-padding">
+
+      <% if @bot.profile.bio.present? %>
+
+        <a href="<%= @bot.url %>?language=julia" target="_blank" class="btn btn-default cs-side-bar-footer-link cs-full-width cs-no-margin">
+
+          <h5><%= @bot.profile.bio %></h5>
+
+        </a>
+
+      <% end %>
+
+    </div>
+
+  </div>
+
+  <%= render 'layouts/made_with_love_panel' %>
+
+</div>

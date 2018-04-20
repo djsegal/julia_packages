@@ -67,6 +67,7 @@ class PackageSorterJob < ApplicationJob
       category = get_category params
       organization = get_organization params
       user = get_user params
+      bot = get_bot params
 
       depended_package = get_depended_package params
       dependent_package = get_dependent_package params
@@ -77,6 +78,8 @@ class PackageSorterJob < ApplicationJob
         @packages = organization.owned_packages
       elsif user.present?
         @packages = user.supported_packages
+      elsif bot.present?
+        @packages = bot.owned_packages
       elsif depended_package.present?
         @packages = depended_package.dependents
       elsif dependent_package.present?
@@ -159,6 +162,11 @@ class PackageSorterJob < ApplicationJob
     def get_organization params
       return unless params[:organization_id].present?
       Organization.custom_find params[:organization_id]
+    end
+
+    def get_bot params
+      return unless params[:bot_id].present?
+      Bot.custom_find params[:bot_id]
     end
 
     def get_user params

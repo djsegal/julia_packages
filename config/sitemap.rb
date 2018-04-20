@@ -26,6 +26,8 @@ SitemapGenerator::Sitemap.create do
   #   end
 
   add packages_path
+
+  add bots_path
   add users_path
   add trending_path
   add categories_path

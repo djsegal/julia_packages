@@ -1,0 +1,27 @@
+<%= form_for(bot) do |f| %>
+  <% if bot.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(bot.errors.count, "error") %> prohibited this bot from being saved:</h2>
+
+      <ul>
+      <% bot.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %>
+    <%= f.text_field :name %>
+  </div>
+
+  <div class="field">
+    <%= f.label :avatar %>
+    <%= f.text_field :avatar %>
+  </div>
+
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

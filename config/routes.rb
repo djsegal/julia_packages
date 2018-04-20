@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   resources :organizations
   resources :contributions
   resources :users
+  resources :bots
   resources :dummies
   resources :categories
   resources :daters

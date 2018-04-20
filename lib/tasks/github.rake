@@ -282,6 +282,7 @@ namespace :github do
 
     bar = make_progress_bar Dir.foreach("#{users_directory}").count
 
+    new_bots = []
     new_users = []
     new_organizations = []
 
@@ -329,6 +330,8 @@ namespace :github do
         new_users << user
       elsif information['type'] == "Organization"
         new_organizations << user
+      elsif information['type'] == "Bot"
+        new_bots << user
       else
         CronLogMailer.log_email(
           "Unpack III", information.to_yaml
@@ -336,6 +339,7 @@ namespace :github do
       end
     end
 
+    Bot.import new_bots, recursive: true
     User.import new_users, recursive: true
     Organization.import new_organizations, recursive: true
 
