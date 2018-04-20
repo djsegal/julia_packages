@@ -347,7 +347,11 @@ namespace :github do
 
     cur_marker = Batch.current_marker
 
-    ( new_users + new_organizations ).each do |cur_entity|
+    cur_entities = new_users
+    cur_entities += new_organizations
+    cur_entities += new_bots
+
+    cur_entities.each do |cur_entity|
       new_batches << Batch.new(
         item: cur_entity,
         marker: cur_marker

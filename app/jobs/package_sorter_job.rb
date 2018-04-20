@@ -65,6 +65,7 @@ class PackageSorterJob < ApplicationJob
 
     def set_core_query params, cookies
       category = get_category params
+
       organization = get_organization params
       user = get_user params
       bot = get_bot params
