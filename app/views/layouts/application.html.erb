@@ -4,19 +4,17 @@
 
   <head>
 
-    <title>
+    <%
+      cur_page_title = ""
+      cur_page_title += "#{content_for(:page_title)} | " \
+        if content_for?(:page_title)
+      cur_page_title += "Julia Observer"
+    %>
 
-      <% if content_for?(:page_title) %>
-
-        <%= content_for(:page_title) %>
-
-        |
-
-      <% end %>
-
-      Julia Observer
-
-    </title>
+    <title> <%= cur_page_title %> </title>
+    <meta property="og:title" content="<%= cur_page_title %>" />
+    <meta itemprop="name" content="<%= cur_page_title %>">
+    <meta name="twitter:title" content="<%= cur_page_title %>">
 
     <meta name="google-site-verification" content="bv52cjhcijV21-uXOIIjeEasTB30O4TqbHwMu7W3fBc" />
 
@@ -27,15 +25,31 @@
     <meta name="keywords" content="julia observer package browser discovery popular trending">
     <meta name="author" content="ahab io">
 
-    <% if content_for?(:page_description) %>
+    <%
+      if content_for?(:page_description)
+        cur_page_description = content_for(:page_description)
+      else
+        cur_page_description = "Julia Observer is a package browsing tool for the Julia programming language. It provides a visual interface for exploring Julia's open-source ecosystem."
+      end
+    %>
 
-      <meta name="description" content="<%= content_for(:page_description) %>">
+    <meta name="description" content="<%= cur_page_description %>">
+    <meta itemprop="description" content="<%= cur_page_description %>">
+    <meta name="twitter:description" content="<%= cur_page_description.truncate(180) %>">
+    <meta property="og:description" content="<%= cur_page_description %>" />
 
-    <% else %>
+    <%
+      cur_page_image = image_url "logo.png"
+    %>
 
-      <meta name="description" content="Julia Observer is a package browsing tool for the Julia programming language. It provides a visual interface for exploring Julia's open-source ecosystem.">
+    <meta itemprop="image" content="<%= cur_page_image %>">
+    <meta name="twitter:image:src" content="<%= cur_page_image %>">
+    <meta property="og:image" content="<%= cur_page_image %>" />
 
-    <% end %>
+    <meta name="twitter:card" content="summary_large_image">
+    <meta property="og:url" content="http://www.juliaobserver.com/" />
+    <meta name="twitter:site" content="Julia Observer">
+    <meta property="og:site_name" content="Julia Observer" />
 
     <%= csrf_meta_tags %>
 
