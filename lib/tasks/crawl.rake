@@ -24,7 +24,9 @@ namespace :crawl do
   desc "crawl github for trending"
   task github: :environment do
 
-    @durations_list.each do |cur_duration|
+    @durations_list.each_with_index do |cur_duration, cur_index|
+
+      sleep(15.seconds) unless cur_index.zero?
 
       trending_items = []
 
