@@ -26,7 +26,7 @@ namespace :crawl do
 
     @durations_list.each_with_index do |cur_duration, cur_index|
 
-      sleep(15.seconds) unless cur_index.zero?
+      sleep(30.seconds) unless cur_index.zero?
 
       trending_items = []
 
@@ -37,6 +37,11 @@ namespace :crawl do
       parsed_page = Nokogiri::HTML(hit_page)
 
       package_list = parsed_page.css('ol.repo-list li')
+
+      if package_list.empty?
+        puts "\n-------\n missing trending: #{cur_duration} \n-------"
+        next
+      end
 
       package_dict = {}
 
