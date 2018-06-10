@@ -27,16 +27,22 @@ SitemapGenerator::Sitemap.create do
 
   add packages_path
 
-  add bots_path
   add about_path
 
   add users_path
   add trending_path
   add categories_path
   add organizations_path
+  add feeds_path
 
   PackageSorterJob.perform_now.second.each do |package|
     add package_path(package)
+  end
+
+  feeds = Feed.active_batch_scope
+
+  feeds.each do |feed|
+    add feed_path(feed)
   end
 
   model_count = 2500
