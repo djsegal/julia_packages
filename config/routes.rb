@@ -55,11 +55,7 @@ Rails.application.routes.draw do
   resources :packages, path: 'p'
   resources :organizations, path: 'o'
 
-  resources :statics, only: [], path: '' do
-    collection do
-      get 'about'
-    end
-  end
+  get 'about', to: 'statics#about'
 
   root 'trendings#index'
 

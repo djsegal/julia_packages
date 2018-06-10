@@ -56,7 +56,7 @@
         <% if is_root_path %>
 
           <li>
-            <%= link_to 'About', about_statics_path %>
+            <%= link_to 'About', about_path %>
           </li>
 
           <li>
@@ -85,7 +85,7 @@
 
           <% if is_static_path %>
             <li class="active">
-              <%= link_to action_name.titleize, send("#{action_name}_statics_path"), @model %>
+              <%= link_to action_name.titleize, send("#{action_name}_path"), @model %>
             </li>
           <% end %>
 
@@ -129,7 +129,7 @@
             <% unless is_root_path %>
               <% if not is_static_path && action_name != 'About' %>
                 <li>
-                  <%= link_to 'About', about_statics_path %>
+                  <%= link_to 'About', about_path %>
                 </li>
               <% end %>
             <% end %>
