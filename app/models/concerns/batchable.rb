@@ -19,13 +19,31 @@ module Batchable
 
   class_methods do
     def active_batch_scope
-      joins(:batch)
-        .where(batches: { marker: Batch.active_marker })
+      cur_scope = joins(:batch).where(batches: { marker: Batch.active_marker })
+      return cur_scope unless self.name == "Package"
+
+      cur_bad_owner = Organization.custom_find(
+          "UnofficialJuliaMirror",
+          batch_scope: "active_batch_scope"
+      )
+      return cur_scope unless cur_bad_owner.present?
+
+      cur_scope = cur_scope.where.not(owner: cur_bad_owner)
+      cur_scope
     end
 
     def current_batch_scope
-      joins(:batch)
-        .where(batches: { marker: Batch.current_marker })
+      cur_scope = joins(:batch).where(batches: { marker: Batch.current_marker })
+      return cur_scope unless self.name == "Package"
+
+      cur_bad_owner = Organization.custom_find(
+          "UnofficialJuliaMirror",
+          batch_scope: "current_batch_scope"
+      )
+      return cur_scope unless cur_bad_owner.present?
+
+      cur_scope = cur_scope.where.not(owner: cur_bad_owner)
+      cur_scope
     end
 
     def custom_find *args, batch_scope: "active_batch_scope"
