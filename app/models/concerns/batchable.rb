@@ -33,17 +33,8 @@ module Batchable
     end
 
     def current_batch_scope
-      cur_scope = joins(:batch).where(batches: { marker: Batch.current_marker })
-      return cur_scope unless self.name == "Package"
-
-      cur_bad_owner = Organization.custom_find(
-          "UnofficialJuliaMirror",
-          batch_scope: "current_batch_scope"
-      )
-      return cur_scope unless cur_bad_owner.present?
-
-      cur_scope = cur_scope.where.not('owner_id = ? and owner_type = ?', cur_bad_owner.id, cur_bad_owner.class.name)
-      cur_scope
+      joins(:batch)
+        .where(batches: { marker: Batch.current_marker })
     end
 
     def custom_find *args, batch_scope: "active_batch_scope"
