@@ -28,7 +28,7 @@ module Batchable
       )
       return cur_scope unless cur_bad_owner.present?
 
-      cur_scope = cur_scope.where.not(owner: cur_bad_owner)
+      cur_scope = cur_scope.where.not('owner_id = ? and owner_type = ?', cur_bad_owner.id, cur_bad_owner.class.name)
       cur_scope
     end
 
@@ -42,7 +42,7 @@ module Batchable
       )
       return cur_scope unless cur_bad_owner.present?
 
-      cur_scope = cur_scope.where.not(owner: cur_bad_owner)
+      cur_scope = cur_scope.where.not('owner_id = ? and owner_type = ?', cur_bad_owner.id, cur_bad_owner.class.name)
       cur_scope
     end
 
