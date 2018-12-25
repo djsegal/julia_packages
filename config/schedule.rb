@@ -36,10 +36,10 @@ every :day, at: %w[ 4am 4pm 10am 10pm ] do
   rake "job:expand"
 end
 
-every :day, at: %w[ 5am 5pm 11am 11pm ] do
-  command "echo 'update job triggered.'"
-  rake "job:update"
-end
+# every :day, at: %w[ 5am 5pm 11am 11pm ] do
+#   command "echo 'update job triggered.'"
+#   rake "job:update"
+# end
 
 every :day, at: '12:30am' do
   command "echo 'log job triggered.'"
@@ -56,7 +56,7 @@ every :day, at: '6:30am' do
   rake "job:scour"
 end
 
-every :day, at: '6:30pm' do
-  command "echo 'clean job triggered.'"
-  rake "job:clean"
-end
+# every :day, at: '6:30pm' do
+#   command "echo 'clean job triggered.'"
+#   rake "job:clean"
+# end
