@@ -47,7 +47,7 @@ def hit_url url, skip_cache=false, expires_in=nil
         ).deliver_now
       end
 
-      unless url_response.empty?
+      if url_response.present?
         validate_response url, url_response
         return url_response
       end
