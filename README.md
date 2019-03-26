@@ -1,4 +1,4 @@
-# [Julia Observer](https://juliaobserver.com)
+# [Julia Observer](https://juliaobserver.com) 
 
 A package browsing tool for:
 
@@ -14,3 +14,7 @@ currently pulls data from:
 + [discourse](https://discourse.julialang.org/)
 + [stack overflow](https://stackoverflow.com/questions/tagged/julia-lang)
 + [reddit](https://www.reddit.com/r/julia)
+
+-----
+
+[![paypal](https://img.shields.io/badge/Donate-PayPal-green.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=HRPPP48WM8TB8&currency_code=USD)
