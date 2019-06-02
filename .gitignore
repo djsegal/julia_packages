@@ -25,3 +25,5 @@
 /public/sitemap*
 
 .DS_Store
+
+db/backup.db
