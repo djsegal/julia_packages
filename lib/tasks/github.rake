@@ -309,7 +309,7 @@ namespace :github do
       begin
         user_class = information['type'].constantize
       rescue
-        puts information['type']
+        puts ["bad type",information['type'],information]
         next
       end
 
