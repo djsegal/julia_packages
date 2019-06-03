@@ -32,6 +32,9 @@ namespace :scour do
         date_query += cur_end_date.strftime('%Y-%m-%d')
 
         cur_page = safe_hit_url ( make_scour_url + date_query )
+
+        puts(cur_page) unless cur_page['total_count'].present?
+
         break unless cur_page['total_count'] > 1000
 
         cur_end_date -= \
