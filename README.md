@@ -9,7 +9,7 @@ A package browsing tool for:
 currently pulls data from:
 + [github api](https://developer.github.com/v3/)
 + [github trending](https://github.com/trending/julia)
-+ [JuliaLang/METADATA.jl](https://github.com/JuliaLang/METADATA.jl)
++ [JuliaRegistries/General](https://github.com/JuliaRegistries/General)
 + [svaksha/Julia.jl](https://github.com/svaksha/Julia.jl)
 + [discourse](https://discourse.julialang.org/)
 + [stack overflow](https://stackoverflow.com/questions/tagged/julia-lang)
