@@ -28,68 +28,76 @@ namespace :crawl do
 
       sleep(30.seconds) unless cur_index.zero?
 
+      link_dict = {
+        "trending" => [".h3", "p"],
+        "trending/developers" => [".h4", ".f6:not(.text-uppercase)"]
+      }
+
       trending_items = []
 
-      github_page = "https://github.com/trending/julia?since=#{cur_duration}"
+      link_dict.each do |link_key, link_value|
 
-      hit_page = HTTParty.get(github_page)
+        github_page = "https://github.com/#{link_key}/julia?since=#{cur_duration}"
 
-      parsed_page = Nokogiri::HTML(hit_page)
+        hit_page = HTTParty.get(github_page)
 
-      package_list = parsed_page.css('ol.repo-list li')
+        parsed_page = Nokogiri::HTML(hit_page)
 
-      if package_list.empty?
-        puts "\n-------\n missing trending: #{cur_duration} \n-------"
-        next
-      end
+        package_list = parsed_page.css('div.explore-pjax-container article.Box-row')
 
-      package_dict = {}
-
-      package_list.each do |cur_item|
-
-        cur_key = cur_item.css("h3 a").first.attributes['href'].value[1..-1]
-
-        if cur_item.css("p").first.present?
-          cur_value = cur_item.css("p").first.children.to_s.strip
-        else
-          cur_value = ""
+        if package_list.empty?
+          puts "\n-------\n missing trending: #{cur_duration} \n-------"
+          next
         end
 
-        package_dict[cur_key] = cur_value
+        package_dict = {}
 
-      end
+        package_list.each do |cur_item|
 
-      bar = make_progress_bar package_dict.keys.count
+          cur_key = cur_item.css("#{link_value.first} a").first.attributes['href'].value[1..-1]
 
-      package_dict.each do |cur_key, cur_value|
-        bar.inc
+          if cur_item.css(link_value.last).first.present?
+            cur_value = cur_item.css(link_value.last).first.children.to_s.strip
+          else
+            cur_value = ""
+          end
 
-        _, package_name = cur_key.split '/'
+          package_dict[cur_key] = cur_value
 
-        package_name.gsub! '.jl', ''
+        end
 
-        next if package_name.downcase == 'julia'
+        bar = make_progress_bar package_dict.keys.count
 
-        trending_items << {
-          name: package_name,
-          link: "https://github.com/#{cur_key}",
-          target_type: 'Blurb',
-          target_attributes: {
-            cargo: cur_value
+        package_dict.each do |cur_key, cur_value|
+          bar.inc
+
+          _, package_name = cur_key.split '/'
+
+          next unless package_name.ends_with? ".jl"
+          next unless ('A'..'Z').include? package_name.first
+
+          package_name.gsub! '.jl', ''
+
+          next if package_name.downcase == 'julia'
+
+          trending_items << {
+            name: package_name,
+            link: "https://github.com/#{cur_key}",
+            target_type: 'Blurb',
+            target_attributes: {
+              cargo: cur_value
+            }
           }
-        }
+
+        end
 
       end
 
       FileUtils.mkdir_p(@trending_directory) \
         unless File.directory? @trending_directory
 
-      File.open("#{@trending_directory}/raw_#{cur_duration}.yml", 'w') do |h|
-         h.write package_list.to_yaml
-      end
-
       File.open("#{@trending_directory}/#{cur_duration}.yml", 'w') do |h|
-         h.write trending_items.to_yaml
+         h.write trending_items.shuffle.to_yaml
       end
 
     end
