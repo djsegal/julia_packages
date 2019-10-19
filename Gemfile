@@ -42,7 +42,7 @@ gem 'chartkick'
 
 gem 'lograge'
 
-gem 'nokogiri'
+gem 'nokogiri', '1.6.8.1'
 
 gem 'premailer-rails'
 
