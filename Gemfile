@@ -70,7 +70,7 @@ gem 'time_difference'
 
 gem 'pg_search'
 
-gem 'pg'
+gem 'pg', '~> 0.21'
 
 gem 'ahoy_matey'
 
