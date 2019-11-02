@@ -9,7 +9,7 @@ default: &default
   pool: 5
   timeout: 5000
   encoding: unicode
-  host: localhost
+  host: <%= ENV['APP_DATABASE_HOST'] || 'localhost' %>
   username: rails
 
 development:
