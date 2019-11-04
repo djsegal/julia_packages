@@ -56,6 +56,12 @@ def hit_url url, skip_cache=false, expires_in=nil
 
   url_response = blind_hit_url url
 
+  begin
+    YAML.load url_response.to_yaml
+  rescue
+    url_response = url_response.parsed_response
+  end
+
   Rails.cache.write url, url_response.to_yaml, \
     expires_in: expires_in
 
