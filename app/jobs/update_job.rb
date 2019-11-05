@@ -15,13 +15,8 @@ class UpdateJob < JuliaJob
     system "#{@sys_run} decibans:digest"
     system "#{@sys_run} require:all"
 
-    marker_list = [Batch.current_marker, Batch.active_marker]
-    batch_counts = \
-      Batch.where(marker: marker_list).group(:marker).count
-
-    return if batch_counts.empty?
-    return unless batch_counts[Batch.current_marker].present?
-    return unless batch_counts[Batch.current_marker] > 2500
+    batch_count = Batch.where(marker: Batch.current_marker).count
+    return unless batch_count > 2500
 
     Batch.active_marker = Batch.current_marker
     set_batch_marker :active, Batch.active_marker
