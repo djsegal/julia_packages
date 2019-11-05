@@ -230,13 +230,13 @@ GEM
       sprockets-rails (>= 2.0.0)
     rails-assets-bootstrap (3.3.7)
       rails-assets-jquery (>= 1.9.1, < 4)
-    rails-assets-bootstrap-material-design (0.5.2)
-      rails-assets-bootstrap (~> 3.3.5)
-      rails-assets-bootstrap-sass (~> 3.3.5)
-      rails-assets-jquery (~> 2.1.1)
+    rails-assets-bootstrap-material-design (0.5.10)
+      rails-assets-bootstrap (~> 3.3.6)
+      rails-assets-bootstrap-sass (~> 3.3.6)
+      rails-assets-jquery (>= 2.2, < 3)
     rails-assets-bootstrap-sass (3.3.7)
       rails-assets-jquery (>= 1.9.1, < 4)
-    rails-assets-jquery (2.1.4)
+    rails-assets-jquery (2.2.4)
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
@@ -384,7 +384,7 @@ DEPENDENCIES
   puma (~> 3.0)
   rack-cors
   rails (= 5.0.1.rc2)
-  rails-assets-bootstrap-material-design (= 0.5.2)!
+  rails-assets-bootstrap-material-design (= 0.5.10)!
   rails-jquery-autocomplete
   rake-progressbar
   redcarpet
