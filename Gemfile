@@ -46,7 +46,7 @@ gem 'nokogiri', '1.6.8.1'
 
 gem 'premailer-rails'
 
-gem 'bootstrap-sass', '~> 3.3.6'
+gem 'bootstrap-sass', '~> 3.4.1'
 
 gem 'delayed_job_active_record'
 
