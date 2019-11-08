@@ -13,7 +13,7 @@ class LogJob < ApplicationJob
         if File.exist? initial_location
 
       FileUtils.touch initial_location
-      FileUtils.chmod 755, initial_location
+      FileUtils.chmod 777, initial_location
     end
   end
 
