@@ -79,7 +79,7 @@ GEM
       activesupport (>= 3.0.0)
       uniform_notifier (~> 1.11)
     byebug (11.0.1)
-    chartkick (3.2.1)
+    chartkick (3.3.0)
     chronic (0.10.2)
     clipboard-rails (1.7.1)
     coderay (1.1.2)
