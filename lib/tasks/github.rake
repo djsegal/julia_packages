@@ -366,9 +366,9 @@ namespace :github do
       end
     end
 
-    Bot.import new_bots, recursive: true
-    User.import new_users, recursive: true
-    Organization.import new_organizations, recursive: true
+    Bot.import new_bots, recursive: true, batch_size: 1000
+    User.import new_users, recursive: true, batch_size: 1000
+    Organization.import new_organizations, recursive: true, batch_size: 1000
 
     new_batches = []
 
@@ -385,7 +385,7 @@ namespace :github do
       )
     end
 
-    Batch.import(new_batches)
+    Batch.import new_batches, batch_size: 1000
 
     bar.finished
 
@@ -445,10 +445,10 @@ namespace :github do
       cur_thing.run_callbacks(:save) { false }
     end
 
-    Activity.import new_activities
-    Contribution.import new_contributions
-    Counter.import new_counters
-    Dater.import new_daters
+    Activity.import new_activities, batch_size: 1000
+    Contribution.import new_contributions, batch_size: 1000
+    Counter.import new_counters, batch_size: 1000
+    Dater.import new_daters, batch_size: 1000
 
     puts "\n-------\n absent \n-------"
     puts absent_packages.map(&:name).uniq.sort

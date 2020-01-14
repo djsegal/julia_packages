@@ -47,7 +47,7 @@ namespace :metadata do
       non_versioned_packages << package unless has_versions
     end
 
-    Package.import new_packages, recursive: true
+    Package.import new_packages, recursive: true, batch_size: 1000
 
     bar.finished
 
@@ -72,7 +72,7 @@ namespace :metadata do
       )
     end
 
-    Batch.import(new_batches)
+    Batch.import new_batches, batch_size: 1000
 
     bar.finished
 

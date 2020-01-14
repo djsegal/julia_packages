@@ -56,7 +56,7 @@ namespace :require do
       end
     end
 
-    Dependency.import new_dependencies
+    Dependency.import new_dependencies, batch_size: 1000
 
     bar.finished
 
@@ -108,7 +108,7 @@ namespace :require do
 
         new_dependencies.uniq! { |cur_dependency| [ cur_dependency.dependent, cur_dependency.depended ] }
 
-        Dependency.import new_dependencies
+        Dependency.import new_dependencies, batch_size: 1000
 
         altered_packages.each { |cur_package| cur_package.reload }
 

@@ -137,7 +137,7 @@ namespace :decibans do
       end
     end
 
-    Label.import new_labels
+    Label.import new_labels, batch_size: 1000
 
     bar.finished
 

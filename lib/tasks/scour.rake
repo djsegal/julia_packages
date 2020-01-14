@@ -124,7 +124,7 @@ namespace :scour do
       new_packages << package
     end
 
-    Package.import new_packages, recursive: true
+    Package.import new_packages, recursive: true, batch_size: 1000
 
     new_batches = []
 
@@ -137,7 +137,7 @@ namespace :scour do
       )
     end
 
-    Batch.import(new_batches)
+    Batch.import new_batches, batch_size: 1000
 
     bar.finished
   end
