@@ -168,7 +168,22 @@ namespace :scour do
       @bar = StubbedBar.new
     end
 
-    cur_page = blind_hit_url cur_url
+    cur_page = nil
+    cur_attempt = 0
+
+    while cur_page.nil? && cur_attempt < 3
+      begin
+        cur_page = blind_hit_url cur_url
+      rescue
+        cur_attempt += 1
+        sleep(1.minute)
+
+        @api_requests = ( @api_requests / 10 ) * 10
+      end
+    end
+
+    cur_page = blind_hit_url(cur_url) \
+      unless cur_page.present?
 
     @api_requests += 1
     sleep(1.minute) \
