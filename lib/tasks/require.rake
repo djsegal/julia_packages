@@ -60,13 +60,16 @@ namespace :require do
 
     bar.finished
 
-    puts ghost_packages.to_a.inspect
+    puts "\n----------\n ghosted \n----------"
+    puts ghost_packages.to_a.sort
   end
 
   desc "setup deep dependencies"
   task deep: :environment do
     added_something_this_round = true
     added_something_this_sub_round = true
+
+    too_deep_packages = []
 
     while added_something_this_round
 
@@ -88,7 +91,14 @@ namespace :require do
           bar.inc
 
           package.depending.includes(:depending).each do |depended_package|
-            deep_dependencies = depended_package.depending - package.depending
+            deep_dependencies = {}
+
+            begin
+              deep_dependencies = depended_package.depending - package.depending
+            rescue
+              too_deep_packages << [package.name, depended_package.name]
+            end
+
             next if deep_dependencies.empty?
 
             altered_packages.add package
@@ -127,7 +137,11 @@ namespace :require do
       .eq(dependencies[:depended_id]))
       .map(&:dependent).map(&:name).uniq
 
-    puts circular_dependencies.to_a.inspect
+    puts "\n----------\n circular \n----------"
+    puts circular_dependencies.to_a.sort
+
+    puts "\n----------\n too deep \n----------"
+    puts too_deep_packages.inspect
   end
 
 end
