@@ -28,6 +28,12 @@ def is_new_response? url
   validate_response url, url_response
   return false if url_response.code == 304
 
+  begin
+    YAML.load url_response.to_yaml
+  rescue
+    url_response = url_response.parsed_response
+  end
+
   Rails.cache.write url, url_response.to_yaml
   true
 end
