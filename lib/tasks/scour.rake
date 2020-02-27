@@ -176,14 +176,21 @@ namespace :scour do
         cur_page = blind_hit_url cur_url
       rescue
         cur_attempt += 1
-        sleep(1.minute)
+
+        sleep_time = blind_hit_url(
+          "https://api.github.com/rate_limit"
+        )["resources"]["search"]["reset"]
+
+        sleep_time -= Time.now.to_i
+        sleep_time += 1
+
+        sleep(sleep_time.seconds)
 
         @api_requests = ( @api_requests / 10 ) * 10
       end
     end
 
-    cur_page = blind_hit_url(cur_url) \
-      unless cur_page.present?
+    cur_page = blind_hit_url(cur_url) if cur_page.nil?
 
     @api_requests += 1
     sleep(1.minute) \
