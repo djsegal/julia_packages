@@ -73,10 +73,13 @@ namespace :news do
   task reddit: :environment do
     news_items = []
 
-    r = Redd.it(:script, ENV['REDDIT_CLIENT_ID'], ENV['REDDIT_SECRET'], "https://juliaobserver.com/")
-    r.authorize!
+    reddit_session = Redd.it(
+      user_agent: 'Redd:RandomBot:v1.0.0 (by /u/Mustermind)',
+      client_id:  ENV['REDDIT_CLIENT_ID'],
+      secret:     ENV['REDDIT_SECRET']
+    )
 
-    hot = r.get_hot("julia")
+    hot = reddit_session.subreddit("julia").hot(limit: 60)
 
     bar = make_progress_bar hot.count
 
@@ -112,10 +115,6 @@ namespace :news do
 
     FileUtils.mkdir_p(@news_directory) \
       unless File.directory? @news_directory
-
-    File.open("#{@news_directory}/raw_reddit.yml", 'w') do |h|
-       h.write hot.to_yaml
-    end
 
     File.open("#{@news_directory}/reddit.yml", 'w') do |h|
        h.write news_items.to_yaml
