@@ -329,7 +329,7 @@ GEM
       kgio (~> 2.6)
       raindrops (~> 0.7)
     uniform_notifier (1.13.0)
-    user_agent_parser (2.5.1)
+    user_agent_parser (2.6.0)
     uuidtools (2.1.5)
     web-console (3.7.0)
       actionview (>= 5.0)
