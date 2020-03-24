@@ -70,7 +70,9 @@
       <div class="hidden md:flex md:flex-shrink-0">
         <div class="flex flex-col w-64 border-r border-gray-200 pt-5 pb-4 bg-white">
           <div class="flex items-center flex-shrink-0 px-4">
-            <img class="h-8 w-auto" src="/julia.svg" alt="Julia Packages" />
+            <%= link_to root_path do %>
+              <img class="h-8 w-auto" src="/julia.svg" alt="Julia Packages" />
+            <% end %>
           </div>
           <div class="mt-5 h-0 flex-1 flex flex-col overflow-y-auto">
             <!-- Sidebar component, swap this element with another sidebar if you like -->
