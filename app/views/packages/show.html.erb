@@ -1,24 +1,168 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @package.name %>
-</p>
+<div class="min-h-screen bg-gray-100">
+<nav x-data="{ open: false }" class="bg-white shadow">
+  <div class="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+    <div class="flex justify-between h-16">
+      <div class="flex px-2 lg:px-0">
+        <div class="flex-shrink-0 flex items-center">
+          <%= link_to root_path do %>
+            <img class="block lg:hidden h-8 w-auto" src="/julia.svg" alt="Julia Packages" />
+            <img class="hidden lg:block h-8 w-auto" src="/julia.svg" alt="Julia Packages" />
+          <% end %>
+        </div>
+      </div>
+      <div class="flex-1 flex items-center justify-center px-2 lg:ml-6 lg:justify-end">
+        <div class="max-w-lg w-full lg:max-w-xs">
+          <label for="search" class="sr-only">Search</label>
+          <div class="relative">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <input id="search" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:border-blue-300 focus:shadow-outline-blue sm:text-sm transition duration-150 ease-in-out" placeholder="Search" />
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center lg:hidden">
+        <button @click="open = !open" class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out">
+          <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+            <path :class="{'hidden': open, 'inline-flex': !open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+            <path :class="{'hidden': !open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+      </div>
+      <div class="hidden lg:ml-4 lg:flex lg:items-center">
+        <button class="flex-shrink-0 p-1 border-2 border-transparent text-gray-400 rounded-full hover:text-gray-500 focus:outline-none focus:text-gray-500 focus:bg-gray-100 transition duration-150 ease-in-out">
+          <%= fa_icon "info-circle lg" %>
+          <!-- <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+          </svg> -->
+        </button>
+        <div @click.away="open = false" class="ml-4 relative flex-shrink-0" x-data="{ open: false }">
+          <div>
+            <button @click="open = !open" class="flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-gray-300 transition duration-150 ease-in-out">
+              <!-- <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" /> -->
+              <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-gray-400">
+                <span class="text-sm font-medium leading-none text-white"><%= fa_icon "cog lg" %></span>
+              </span>
+            </button>
+          </div>
+          <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg">
+            <div class="py-1 rounded-md bg-white shadow-xs">
+              <a href="#" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">Your Profile</a>
+              <a href="#" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">Settings</a>
+              <a href="#" class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out">Sign out</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div :class="{'block': open, 'hidden': !open}" class="hidden lg:hidden">
+    <div class="pt-4 pb-3 border-t border-gray-200">
+      <div class="flex items-center px-4">
+        <div class="flex-shrink-0">
+          <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+        </div>
+        <div class="ml-3">
+          <div class="text-base font-medium leading-6 text-gray-800">Tom Cook</div>
+          <div class="text-sm font-medium leading-5 text-gray-500">tom@example.com</div>
+        </div>
+      </div>
+      <div class="mt-3">
+        <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 focus:outline-none focus:text-gray-800 focus:bg-gray-100 transition duration-150 ease-in-out">Your Profile</a>
+        <a href="#" class="mt-1 block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 focus:outline-none focus:text-gray-800 focus:bg-gray-100 transition duration-150 ease-in-out">Settings</a>
+        <a href="#" class="mt-1 block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 focus:outline-none focus:text-gray-800 focus:bg-gray-100 transition duration-150 ease-in-out">Sign out</a>
+      </div>
+    </div>
+  </div>
+</nav>
 
-<p>
-  <strong>Description:</strong>
-  <%= @package.description %>
-</p>
+  <div class="py-10">
+    <header>
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <!-- <h1 class="text-3xl font-bold leading-tight text-gray-900">
+          Dashboard
+        </h1> -->
 
-<p>
-  <strong>Readme:</strong>
-  <%= @package.readme %>
-</p>
+<div class="lg:flex lg:items-center lg:justify-between">
+  <div class="flex-1 min-w-0">
+    <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:leading-9 sm:truncate">
+      <%= @package.name %>.jl
+    </h2>
+    <div class="mt-1 flex flex-col sm:mt-0 sm:flex-row sm:flex-wrap">
+      <div class="mt-2 flex items-center text-sm leading-5 text-gray-500 sm:mr-6">
+        <%= fa_icon "star lg", class: "flex-shrink-0 mr-2 h-4 w-4 text-gray-400" %>
+        <%= @package.stars %>
+      </div>
+      <!-- <div class="mt-2 flex items-center text-sm leading-5 text-gray-500">
+        <svg class="flex-shrink-0 mr-1.5 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+        </svg>
+        Closing on January 9, 2020
+      </div> -->
+    </div>
+  </div>
+  <div class="mt-5 flex lg:mt-0 lg:ml-4">
 
-<p>
-  <strong>Stars:</strong>
-  <%= @package.stars %>
-</p>
+    <div class="mt-4 flex-shrink-0 flex lg:mt-0 lg:ml-4">
+      <span class="shadow-sm rounded-md">
+        <button type="button" class="inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:text-gray-800 active:bg-gray-50 transition duration-150 ease-in-out">
+          Website
+        </button>
+      </span>
+      <span class="ml-3 shadow-sm rounded-md">
+        <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700 transition duration-150 ease-in-out">
+          Github
+        </button>
+      </span>
+    </div>
 
-<%= link_to 'Edit', edit_package_path(@package) %> |
-<%= link_to 'Back', packages_path %>
+  </div>
+</div>
+
+      </div>
+    </header>
+    <main>
+      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+        <!-- Replace with your content -->
+        <div class="px-4 py-8 sm:px-0">
+
+<div class="bg-white overflow-hidden shadow rounded-lg">
+  <div class="border-b border-gray-200 px-4 py-5 sm:px-6">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">
+      Package Readme
+    </h3>
+  </div>
+  <div class="px-3 py-2 markdown-body">
+
+<div id="readme" class="md" data-path="README.md"><article class="markdown-body entry-content p-5" itemprop="text"><h1><a id="user-content-plots" class="anchor" aria-hidden="true" href="#plots"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Plots</h1>
+<p><a href="https://travis-ci.org/JuliaPlots/Plots.jl" rel="nofollow"><img src="https://camo.githubusercontent.com/c9fddaa5a49c84c93c10deced245f82527ad09c6/68747470733a2f2f696d672e736869656c64732e696f2f7472617669732f4a756c6961506c6f74732f506c6f74732e6a6c3f6c6f676f3d747261766973" alt="" data-canonical-src="https://img.shields.io/travis/JuliaPlots/Plots.jl?logo=travis" style="max-width:100%;"></a>
+<a href="https://ci.appveyor.com/project/mkborregaard/plots-jl" rel="nofollow"><img src="https://camo.githubusercontent.com/d6ba43817ff1d6d012d2a61bc409ab331bef4560/68747470733a2f2f63692e6170707665796f722e636f6d2f6170692f70726f6a656374732f7374617475732f6769746875622f6a756c6961706c6f74732f706c6f74732e6a6c3f6272616e63683d6d6173746572267376673d74727565" alt="" data-canonical-src="https://ci.appveyor.com/api/projects/status/github/juliaplots/plots.jl?branch=master&amp;svg=true" style="max-width:100%;"></a>
+<a href="https://juliaci.github.io/NanosoldierReports/pkgeval_badges/report.html" rel="nofollow"><img src="https://camo.githubusercontent.com/d66c818fe7dd71cc8a9c86c07423fcb9a2d472be/68747470733a2f2f6a756c696163692e6769746875622e696f2f4e616e6f736f6c646965725265706f7274732f706b676576616c5f6261646765732f502f506c6f74732e737667" alt="" data-canonical-src="https://juliaci.github.io/NanosoldierReports/pkgeval_badges/P/Plots.svg" style="max-width:100%;"></a>
+<a href="https://gitter.im/tbreloff/Plots.jl?utm_source=badge&amp;utm_medium=badge&amp;utm_campaign=pr-badge&amp;utm_content=badge" rel="nofollow"><img src="https://camo.githubusercontent.com/3b56450eb6cbe4d9c6dafdcf4e51d39e5e4932eb/68747470733a2f2f6261646765732e6769747465722e696d2f746272656c6f66662f506c6f74732e6a6c2e737667" alt="" data-canonical-src="https://badges.gitter.im/tbreloff/Plots.jl.svg" style="max-width:100%;"></a>
+<a href="http://docs.juliaplots.org/latest/" rel="nofollow"><img src="https://camo.githubusercontent.com/f7b92a177c912c1cc007fc9b40f17ff3ee3bb414/68747470733a2f2f696d672e736869656c64732e696f2f62616467652f646f63732d737461626c652d626c75652e737667" alt="" data-canonical-src="https://img.shields.io/badge/docs-stable-blue.svg" style="max-width:100%;"></a></p>
+<h4><a id="user-content-created-by-tom-breloff-tbreloff" class="anchor" aria-hidden="true" href="#created-by-tom-breloff-tbreloff"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Created by Tom Breloff (@tbreloff)</h4>
+<h4><a id="user-content-maintained-by-the-juliaplots-members" class="anchor" aria-hidden="true" href="#maintained-by-the-juliaplots-members"><svg class="octicon octicon-link" viewBox="0 0 16 16" version="1.1" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path></svg></a>Maintained by the <a href="https://github.com/orgs/JuliaPlots/people">JuliaPlots members</a></h4>
+<p>Plots is a plotting API and toolset.  My goals with the package are:</p>
+<ul>
+<li><strong>Powerful</strong>.  Do more with less.  Complex visualizations become easy.</li>
+<li><strong>Intuitive</strong>.  Stop reading so much documentation.  Commands should "just work".</li>
+<li><strong>Concise</strong>.  Less code means fewer mistakes and more efficient development/analysis.</li>
+<li><strong>Flexible</strong>.  Produce your favorite plots from your favorite package, but quicker and simpler.</li>
+<li><strong>Consistent</strong>.  Don't commit to one graphics package, use the same code everywhere.</li>
+<li><strong>Lightweight</strong>.  Very few dependencies.</li>
+<li><strong>Smart</strong>. Attempts to figure out what you <strong>want</strong> it to do... not just what you <strong>tell</strong> it.</li>
+</ul>
+</article></div>
+
+  </div>
+</div>
+
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
