@@ -13,5 +13,5 @@
 #  updated_at  :datetime         not null
 #
 class Package < ApplicationRecord
-  has_one :readme
+  has_one :readme, dependent: :destroy
 end
