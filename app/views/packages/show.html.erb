@@ -146,6 +146,7 @@
               updated_string = ( time_ago_in_words @package.updated ).titleize
               updated_string.gsub! "Over ", ""
               updated_string.gsub! "About ", ""
+              updated_string.gsub! "Almost ", ""
             %>
 
             <%= updated_string %> Ago
