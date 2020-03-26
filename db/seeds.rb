@@ -20,9 +20,11 @@ packages_db.each(:row) do |cur_row|
   package_list << Package.new(
     name: cur_row["package"],
     website: cur_row["homepage"],
+    owner: cur_row["owner"],
     stars: cur_row["stars"],
     created: cur_row["created"],
     updated: cur_row["updated"],
+    github_url: cur_row["github_url"],
     description: cur_row["description"]
   )
 end

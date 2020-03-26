@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_26_012259) do
+ActiveRecord::Schema.define(version: 2020_03_26_065842) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -24,6 +24,8 @@ ActiveRecord::Schema.define(version: 2020_03_26_012259) do
     t.datetime "updated"
     t.datetime "created"
     t.string "website"
+    t.string "owner"
+    t.string "github_url"
   end
 
   create_table "readmes", force: :cascade do |t|

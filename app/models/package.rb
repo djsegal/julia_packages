@@ -5,7 +5,9 @@
 #  id          :bigint           not null, primary key
 #  created     :datetime
 #  description :string
+#  github_url  :string
 #  name        :string
+#  owner       :string
 #  stars       :integer
 #  updated     :datetime
 #  website     :string
