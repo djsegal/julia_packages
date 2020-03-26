@@ -175,7 +175,12 @@
 
               <div class="bg-white overflow-hidden shadow rounded-lg">
                 <div class="py-8 px-10">
-              <%= raw @package.readme.html %>
+                  <%
+                    readme_html = @package.readme.html
+                    readme_html.gsub! 'href="#', 'href="#user-content-'
+                  %>
+
+                    <%= raw readme_html %>
                 </div>
               </div>
             </div>
