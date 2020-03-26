@@ -130,7 +130,7 @@
             Popularity
           </dt>
           <dd class="mt-1 text-2xl leading-9 font-semibold text-gray-900">
-            <%= @package.stars %> Stars
+            <%= @package.stars %> <%= @package.stars == 1 ? "Star" : "Stars" %>
           </dd>
         </dl>
       </div>
