@@ -60,3 +60,4 @@ end
 gem 'font-awesome-rails'
 gem 'daru'
 gem 'activerecord-import'
+gem 'pagy', '~> 3.5'

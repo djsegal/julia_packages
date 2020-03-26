@@ -4,7 +4,7 @@ class PackagesController < ApplicationController
   # GET /packages
   # GET /packages.json
   def index
-    @packages = Package.all
+    @pagy, @packages = pagy_countless(Package.all, link_extra: 'data-remote="true"')
   end
 
   # GET /packages/1
