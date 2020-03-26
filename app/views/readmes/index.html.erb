@@ -1,0 +1,31 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Readmes</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Html</th>
+      <th>Search</th>
+      <th>Package</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @readmes.each do |readme| %>
+      <tr>
+        <td><%= readme.html %></td>
+        <td><%= readme.search %></td>
+        <td><%= readme.package_id %></td>
+        <td><%= link_to 'Show', readme %></td>
+        <td><%= link_to 'Edit', edit_readme_path(readme) %></td>
+        <td><%= link_to 'Destroy', readme, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Readme', new_readme_path %>

@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  # resources :readmes
   resources :packages
 
   root to: 'packages#index'

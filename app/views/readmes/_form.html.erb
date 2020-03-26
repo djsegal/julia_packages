@@ -1,0 +1,32 @@
+<%= form_with(model: readme, local: true) do |form| %>
+  <% if readme.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(readme.errors.count, "error") %> prohibited this readme from being saved:</h2>
+
+      <ul>
+        <% readme.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :html %>
+    <%= form.text_field :html %>
+  </div>
+
+  <div class="field">
+    <%= form.label :search %>
+    <%= form.text_field :search %>
+  </div>
+
+  <div class="field">
+    <%= form.label :package_id %>
+    <%= form.text_field :package_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
