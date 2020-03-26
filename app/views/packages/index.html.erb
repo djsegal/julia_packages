@@ -202,18 +202,33 @@
   </div>
   <div class="hidden sm:block">
     <nav class="flex">
-      <a href="#" class="px-3 py-2 font-medium text-sm leading-5 rounded-md text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 focus:bg-gray-200">
-        Stargazers
-      </a>
-      <a href="#" class="ml-4 px-3 py-2 font-medium text-sm leading-5 rounded-md text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 focus:bg-gray-200">
-        Alphabetical
-      </a>
-      <a href="#" class="ml-4 px-3 py-2 font-medium text-sm leading-5 rounded-md text-gray-800 bg-gray-200 focus:outline-none focus:bg-gray-300">
-        Updated
-      </a>
-      <a href="#" class="ml-4 px-3 py-2 font-medium text-sm leading-5 rounded-md text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800 focus:bg-gray-200">
-        Created
-      </a>
+      <% if !params[:sort].present? %>
+        <%= link_to "Stargazers", packages_path(sort: "stars", order: "asc"), class: "cs-tab cs-active" %>
+      <% elsif params[:sort] != "stars" %>
+        <%= link_to "Stargazers", packages_path(sort: "stars"), class: "cs-tab" %>
+      <% elsif params[:order].present? %>
+        <%= link_to "Stargazers", packages_path(sort: "stars"), class: "cs-tab cs-active" %>
+      <% else %>
+        <%= link_to "Stargazers", packages_path(sort: "stars", order: "asc"), class: "cs-tab cs-active" %>
+      <% end %>
+
+      <% if params[:sort] != "name" %>
+        <%= link_to "Alphabetical", packages_path(sort: "name"), class: "cs-tab ml-4" %>
+      <% elsif params[:order].present? %>
+        <%= link_to "Alphabetical", packages_path(sort: "name"), class: "cs-tab ml-4 cs-active" %>
+      <% else %>
+        <%= link_to "Alphabetical", packages_path(sort: "name", order: "desc"), class: "cs-tab ml-4 cs-active" %>
+      <% end %>
+
+      <% %w[ updated created ].each do |tab_name| %>
+        <% if params[:sort] != tab_name %>
+          <%= link_to tab_name.titleize, packages_path(sort: tab_name), class: "cs-tab ml-4" %>
+        <% elsif params[:order].present? %>
+          <%= link_to tab_name.titleize, packages_path(sort: tab_name), class: "cs-tab ml-4 cs-active" %>
+        <% else %>
+          <%= link_to tab_name.titleize, packages_path(sort: tab_name, order: "asc"), class: "cs-tab ml-4 cs-active" %>
+        <% end %>
+      <% end %>
     </nav>
   </div>
 </div>

@@ -5,3 +5,20 @@
 @import '~font-awesome/scss/_variables.scss';
 $fa-font-path: "~font-awesome/fonts";
 @import '~font-awesome/scss/font-awesome.scss';
+
+a.cs-tab:not(.cs-active) {
+  @apply px-3 py-2 font-medium text-sm leading-5 rounded-md text-gray-600;
+  &:hover {
+    @apply text-gray-800;
+  }
+  &:focus {
+    @apply outline-none text-gray-800 bg-gray-200;
+  }
+}
+
+a.cs-tab.cs-active {
+  @apply px-3 py-2 font-medium text-sm leading-5 rounded-md text-gray-800 bg-gray-200;
+  &:focus {
+    @apply outline-none bg-gray-300;
+  }
+}

@@ -4,7 +4,21 @@ class PackagesController < ApplicationController
   # GET /packages
   # GET /packages.json
   def index
-    @pagy, @packages = pagy_countless(Package.all, link_extra: 'data-remote="true"')
+    if params[:sort].present? && params[:order].present?
+      package_scope = Package.order(params[:sort] => params[:order])
+    else
+      if params[:sort] == "name"
+        package_scope = Package.order(params[:sort] => :asc)
+      elsif params[:sort].present?
+        package_scope = Package.order(params[:sort] => :desc)
+      else
+        package_scope = Package.order(stars: :desc)
+      end
+    end
+
+    @pagy, @packages = pagy_countless(
+      package_scope, link_extra: 'data-remote="true"'
+    )
   end
 
   # GET /packages/1
