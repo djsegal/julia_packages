@@ -1,7 +1,7 @@
 <% @packages.each do |package| %>
 
     <li class="border-t border-gray-200">
-      <%= link_to package, class: "block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out" do %>
+      <%= link_to pkg_path(package), class: "block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out" do %>
         <div class="px-4 py-4 sm:px-6">
           <div class="flex items-center justify-between">
             <div class="text-md leading-5 text-heavy text-indigo-600 truncate">

@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  # resources :readmes
   resources :packages
+  resources :packages, path: "p", as: "pkgs"
 
   root to: 'packages#index'
 
