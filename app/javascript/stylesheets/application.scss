@@ -22,3 +22,14 @@ a.cs-tab.cs-active {
     @apply outline-none bg-gray-300;
   }
 }
+
+.markdown-body li {
+  list-style: initial;
+}
+
+.markdown-body img {
+  max-width: 90% !important;
+  padding-left: 5%;
+  padding-right: 5%;
+  @apply py-1.5;
+}
