@@ -20,14 +20,14 @@ packages_db.each(:row) do |cur_row|
   next if cur_row["package"] == "julia"
 
   package_list << Package.new(
-    name: cur_row["package"],
+    name: cur_row["package"].upcase_first(),
     website: cur_row["homepage"],
     owner: cur_row["owner"],
     stars: cur_row["stars"],
     created: cur_row["created"],
     updated: cur_row["updated"],
     github_url: cur_row["github_url"],
-    description: cur_row["description"]
+    description: ( cur_row["description"] || "" ).upcase_first()
   )
 end
 
