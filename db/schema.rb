@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_26_065842) do
+ActiveRecord::Schema.define(version: 2020_03_27_000756) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,15 +26,15 @@ ActiveRecord::Schema.define(version: 2020_03_26_065842) do
     t.string "website"
     t.string "owner"
     t.string "github_url"
+    t.text "search"
   end
 
   create_table "readmes", force: :cascade do |t|
-    t.string "html"
-    t.string "search"
     t.bigint "package_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.boolean "is_empty"
+    t.text "html"
     t.index ["package_id"], name: "index_readmes_on_package_id"
   end
 

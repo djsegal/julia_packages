@@ -149,17 +149,20 @@
           </button>
           <div class="flex-1 px-4 flex justify-between">
             <div class="flex-1 flex">
-              <div class="w-full flex md:ml-0">
-                <label for="search_field" class="sr-only">Search</label>
+
+            <%= form_tag packages_path, class: "w-full flex md:ml-0", method: "get" do %>
+              <!-- <div class="w-full flex md:ml-0"> -->
+                <label for="search" class="sr-only">Search</label>
                 <div class="relative w-full text-gray-400 focus-within:text-gray-600">
                   <div class="absolute inset-y-0 left-0 flex items-center pointer-events-none">
                     <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
                       <path fill-rule="evenodd" clip-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" />
                     </svg>
                   </div>
-                  <input id="search_field" class="block w-full h-full pl-8 pr-3 py-2 rounded-md text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 sm:text-sm" placeholder="Search" />
+                  <%= text_field_tag :search, params[:search], autocomplete: :off, placeholder: "Search", class: "block w-full h-full pl-8 pr-3 py-2 rounded-md text-gray-900 placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 sm:text-sm" %>
                 </div>
-              </div>
+              <!-- </div> -->
+            <% end %>
             </div>
             <div class="ml-4 flex items-center md:ml-6">
               <button class="p-1 text-gray-400 rounded-full hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:shadow-outline focus:text-gray-500">
@@ -197,37 +200,39 @@
           <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
 <div>
   <div class="sm:hidden">
-    <%= form_with(url: packages_path, method: "get") do %>
-      <%= select_tag(:sort, options_for_select([["Stargazers", "stars"],["Alphabetical", "name"], ["Updated", "updated"], ["Created", "created"]], params[:sort]), class:"form-select block w-full", onchange: "this.form.submit()") %>
+    <%= form_tag packages_path, id:"search-form", method: "get" do %>
+      <%= hidden_field_tag 'search' %>
+      <%= hidden_field_tag 's' %>
+      <%= select_tag(:sort, options_for_select([["Stargazers", "stars"],["Alphabetical", "name"], ["Updated", "updated"], ["Created", "created"]], params[:sort]), class:"form-select block w-full", onchange: 'this.form.submit()') %>
     <% end %>
   </div>
   <div class="hidden sm:block">
     <nav class="flex">
       <% if !params[:sort].present? %>
-        <%= link_to "Stargazers", packages_path(sort: "stars", order: "asc"), class: "cs-tab cs-active" %>
+        <%= link_to "Stargazers", packages_path(search: params[:search], s: params[:s], sort: "stars", order: "asc"), class: "cs-tab cs-active" %>
       <% elsif params[:sort] != "stars" %>
-        <%= link_to "Stargazers", packages_path(sort: "stars"), class: "cs-tab" %>
+        <%= link_to "Stargazers", packages_path(search: params[:search], s: params[:s], sort: "stars"), class: "cs-tab" %>
       <% elsif params[:order].present? %>
-        <%= link_to "Stargazers", packages_path(sort: "stars"), class: "cs-tab cs-active" %>
+        <%= link_to "Stargazers", packages_path(search: params[:search], s: params[:s], sort: "stars"), class: "cs-tab cs-active" %>
       <% else %>
-        <%= link_to "Stargazers", packages_path(sort: "stars", order: "asc"), class: "cs-tab cs-active" %>
+        <%= link_to "Stargazers", packages_path(search: params[:search], s: params[:s], sort: "stars", order: "asc"), class: "cs-tab cs-active" %>
       <% end %>
 
       <% if params[:sort] != "name" %>
-        <%= link_to "Alphabetical", packages_path(sort: "name"), class: "cs-tab ml-4" %>
+        <%= link_to "Alphabetical", packages_path(search: params[:search], s: params[:s], sort: "name"), class: "cs-tab ml-4" %>
       <% elsif params[:order].present? %>
-        <%= link_to "Alphabetical", packages_path(sort: "name"), class: "cs-tab ml-4 cs-active" %>
+        <%= link_to "Alphabetical", packages_path(search: params[:search], s: params[:s], sort: "name"), class: "cs-tab ml-4 cs-active" %>
       <% else %>
-        <%= link_to "Alphabetical", packages_path(sort: "name", order: "desc"), class: "cs-tab ml-4 cs-active" %>
+        <%= link_to "Alphabetical", packages_path(search: params[:search], s: params[:s], sort: "name", order: "desc"), class: "cs-tab ml-4 cs-active" %>
       <% end %>
 
       <% %w[ updated created ].each do |tab_name| %>
         <% if params[:sort] != tab_name %>
-          <%= link_to tab_name.titleize, packages_path(sort: tab_name), class: "cs-tab ml-4" %>
+          <%= link_to tab_name.titleize, packages_path(search: params[:search], s: params[:s], sort: tab_name), class: "cs-tab ml-4" %>
         <% elsif params[:order].present? %>
-          <%= link_to tab_name.titleize, packages_path(sort: tab_name), class: "cs-tab ml-4 cs-active" %>
+          <%= link_to tab_name.titleize, packages_path(search: params[:search], s: params[:s], sort: tab_name), class: "cs-tab ml-4 cs-active" %>
         <% else %>
-          <%= link_to tab_name.titleize, packages_path(sort: tab_name, order: "asc"), class: "cs-tab ml-4 cs-active" %>
+          <%= link_to tab_name.titleize, packages_path(search: params[:search], s: params[:s], sort: tab_name, order: "asc"), class: "cs-tab ml-4 cs-active" %>
         <% end %>
       <% end %>
     </nav>
@@ -238,17 +243,43 @@
           <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
             <div class="py-4">
 
+<%
+  is_search = params[:search].present? || params[:s].present?
+%>
+
 <div class="bg-white shadow overflow-hidden sm:rounded-md">
   <div class="bg-white px-4 py-5 sm:px-6">
     <h3 class="text-xl leading-6 font-medium text-gray-900">
-      All Packages
+      <%= is_search ? "Search" : "All" %> Packages
     </h3>
   </div>
-  <ul id="packages_table">
 
-    <%= render partial: 'page_items' %>
+  <% if @packages.empty? %>
 
-  </ul>
+    <div class="px-6 pt-1 pb-5">
+      <div class="pb-0.5 text-gray-500">
+        <p>
+          No packages found.
+        </p>
+      </div>
+    </div>
+
+  <% else %>
+    <ul id="packages_table">
+      <%= render partial: 'page_items' %>
+    </ul>
+  <% end %>
+
+  <% if is_search %>
+    <%= link_to packages_path, class: "bg-gray-50 border-t border-gray-200 block hover:bg-white focus:outline-none focus:bg-white transition duration-150 ease-in-out" do %>
+        <div class="py-4">
+          <div class="text-center py-0.5 items-center justify-between">
+            View all packages
+          </div>
+        </div>
+    <% end %>
+  <% end %>
+
 </div>
             </div>
           </div>
@@ -258,5 +289,6 @@
   </div>
 
         </main>
+
       </div>
     </div>

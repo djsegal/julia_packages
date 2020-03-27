@@ -3,8 +3,7 @@
 # Table name: readmes
 #
 #  id         :bigint           not null, primary key
-#  html       :string
-#  search     :string
+#  html       :text
 #  is_empty   :boolean
 #  created_at :datetime         not null
 #  updated_at :datetime         not null

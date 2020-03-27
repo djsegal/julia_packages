@@ -8,6 +8,7 @@
 #  github_url  :string
 #  name        :string
 #  owner       :string
+#  search      :text
 #  stars       :integer
 #  updated     :datetime
 #  website     :string
@@ -15,5 +16,10 @@
 #  updated_at  :datetime         not null
 #
 class Package < ApplicationRecord
+
+  include PgSearch::Model
+  pg_search_scope :search, against: :search, order_within_rank: "packages.updated DESC"
+
   has_one :readme, dependent: :destroy
+
 end
