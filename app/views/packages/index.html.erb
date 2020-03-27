@@ -2,7 +2,11 @@
 
 <script>
   var loadNextPage = function(){
+    if ($('#packages_table').length == 0){ return }
+    if ($('#next_link').length == 0){ return }
+
     if ($('#next_link').data("loading")){ return }
+
     var wBottom  = $(window).scrollTop() + $(window).height();
     var elBottom = $('#packages_table').offset().top + $('#packages_table').height();
 
