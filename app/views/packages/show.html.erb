@@ -178,6 +178,10 @@
                   <%
                     readme_html = @package.readme.html
                     readme_html.gsub! 'href="#', 'href="#user-content-'
+
+                    readme_html.gsub! /(?<=src\=\")(?!(http|https):)/, @package.github_url + "/raw/master/"
+
+                    readme_html.gsub! "/raw/master//", "/raw/master/"
                   %>
 
                     <%= raw readme_html %>
