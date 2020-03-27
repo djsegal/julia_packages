@@ -5,6 +5,7 @@
 #  id         :bigint           not null, primary key
 #  html       :string
 #  search     :string
+#  is_empty   :boolean
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  package_id :bigint           not null

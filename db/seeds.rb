@@ -39,10 +39,14 @@ readme_list = []
 Package.all.each do |cur_package|
   package_name = cur_package.name.downcase
 
+  cur_search_text = File.read("../JuliaPackages/data/readme_search/" + package_name + ".txt")
+  is_empty = cur_search_text.blank?
+
   readme_list << Readme.new(
     package: cur_package,
     html: File.read("../JuliaPackages/data/readme_html/" + package_name + ".txt"),
     search: File.read("../JuliaPackages/data/readme_search/" + package_name + ".txt")
+    is_empty: is_empty
   )
 end
 

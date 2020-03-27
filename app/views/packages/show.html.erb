@@ -172,7 +172,7 @@
 </div>
 
 </div>
-          <% if @package.readme.search.present? %>
+          <% unless @package.readme.is_empty %>
             <div class="px-4 pt-4 pb-2 sm:px-0">
 
               <div class="bg-white overflow-hidden shadow rounded-lg">
