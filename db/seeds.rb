@@ -17,6 +17,8 @@ packages_db = Daru::DataFrame.from_csv "../JuliaPackages/data/packages.csv"
 package_list = []
 
 packages_db.each(:row) do |cur_row|
+  next if cur_row["package"] == "julia"
+
   package_list << Package.new(
     name: cur_row["package"],
     website: cur_row["homepage"],
