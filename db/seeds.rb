@@ -42,6 +42,8 @@ Package.all.each do |cur_package|
   cur_search_text = File.read("../JuliaPackages/data/readme_search/" + package_name + ".txt")
   is_empty = cur_search_text.blank?
 
+  cur_search_text = cur_search_text.prepend cur_package.name.downcase, " "
+  cur_search_text = cur_search_text.prepend cur_package.description.downcase, " "
 
   cur_package.update! search: cur_search_text
 
