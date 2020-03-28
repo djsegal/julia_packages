@@ -11,6 +11,7 @@
     "alpinejs": "^2.2.1",
     "font-awesome": "^4.7.0",
     "jquery": "^3.4.1",
+    "js-autocomplete": "^1.0.4",
     "rails-erb-loader": "^5.5.2",
     "tailwindcss": "^1.2.0",
     "turbolinks": "^5.2.0"
