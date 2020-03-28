@@ -1,0 +1,29 @@
+<% @packages.each do |package| %>
+
+  <li class="border-t border-gray-200">
+    <%= link_to pkg_path(package), class: "block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out" do %>
+      <div class="px-4 py-4 sm:px-6">
+        <div class="flex items-center justify-between">
+          <div class="text-md leading-5 text-heavy text-indigo-600 truncate">
+            <%= package.name %>.jl
+          </div>
+          <div class="ml-2 flex-shrink-0 flex">
+            <%= fa_icon "star", class: "flex-shrink-0 mr-1.5 h-4 w-4 text-gray-400" %>
+
+            <span class="inline-flex text-sm font-light leading-5">
+              <%= package.stars %>
+            </span>
+          </div>
+        </div>
+        <div class="mt-2 sm:flex sm:justify-between">
+          <div class="sm:flex">
+            <div class="mr-6 flex items-center text-sm leading-5 text-gray-500">
+              <%= package.description.blank? ? "-" : package.description %>
+            </div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </li>
+
+<% end %>

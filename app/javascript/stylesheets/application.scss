@@ -33,3 +33,10 @@ a.cs-tab.cs-active {
   padding-right: 5%;
   @apply py-1.5;
 }
+
+.cs-index-main {
+  @apply flex-1 relative z-0 overflow-y-auto py-6;
+  &:focus {
+    @apply outline-none;
+  }
+}

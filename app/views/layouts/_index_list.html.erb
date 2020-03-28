@@ -1,0 +1,42 @@
+<%
+  is_unscoped = false unless defined? :is_unscoped
+%>
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+  <div class="py-4">
+
+    <div class="bg-white shadow overflow-hidden sm:rounded-md">
+
+      <div class="bg-white px-4 py-5 sm:px-6">
+        <h3 class="text-xl leading-6 font-medium text-gray-900">
+          <%= package_header %> Packages
+        </h3>
+      </div>
+
+      <% if @packages.empty? %>
+        <div class="px-6 pt-1 pb-5">
+          <div class="pb-0.5 text-gray-500">
+            <p>
+              No packages found.
+            </p>
+          </div>
+        </div>
+      <% else %>
+        <ul id="packages_table">
+          <%= render partial: 'layouts/page_items' %>
+        </ul>
+      <% end %>
+
+      <% unless is_unscoped %>
+        <%= link_to packages_path, class: "bg-gray-50 border-t border-gray-200 block hover:bg-white focus:outline-none focus:bg-white transition duration-150 ease-in-out" do %>
+            <div class="py-4">
+              <div class="text-center py-0.5 items-center justify-between">
+                View all packages
+              </div>
+            </div>
+        <% end %>
+      <% end %>
+
+    </div>
+  </div>
+</div>

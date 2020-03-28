@@ -1,0 +1,41 @@
+<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+  <div class="sm:hidden">
+    <%= form_tag packages_path, method: "get" do %>
+      <%= hidden_field_tag 'search' %>
+      <%= hidden_field_tag 's' %>
+      <%= select_tag(:sort, options_for_select([["Stargazers", "stars"],["Alphabetical", "name"], ["Updated", "updated"], ["Created", "created"]], params[:sort]), class:"form-select block w-full", onchange: 'this.form.submit()') %>
+    <% end %>
+  </div>
+
+  <div class="hidden sm:block">
+    <nav class="flex">
+      <% if !params[:sort].present? %>
+        <%= link_to "Stargazers", public_send(cur_path, { id: cur_id, search: params[:search], s: params[:s], sort: "stars", order: "asc"}), class: "cs-tab cs-active" %>
+      <% elsif params[:sort] != "stars" %>
+        <%= link_to "Stargazers", public_send(cur_path, { id: cur_id, search: params[:search], s: params[:s], sort: "stars"}), class: "cs-tab" %>
+      <% elsif params[:order].present? %>
+        <%= link_to "Stargazers", public_send(cur_path, { id: cur_id, search: params[:search], s: params[:s], sort: "stars"}), class: "cs-tab cs-active" %>
+      <% else %>
+        <%= link_to "Stargazers", public_send(cur_path, { id: cur_id, search: params[:search], s: params[:s], sort: "stars", order: "asc"}), class: "cs-tab cs-active" %>
+      <% end %>
+
+      <% if params[:sort] != "name" %>
+        <%= link_to "Alphabetical", public_send(cur_path, { id: cur_id, search: params[:search], s: params[:s], sort: "name"}), class: "cs-tab ml-4" %>
+      <% elsif params[:order].present? %>
+        <%= link_to "Alphabetical", public_send(cur_path, { id: cur_id, search: params[:search], s: params[:s], sort: "name"}), class: "cs-tab ml-4 cs-active" %>
+      <% else %>
+        <%= link_to "Alphabetical", public_send(cur_path, { id: cur_id, search: params[:search], s: params[:s], sort: "name", order: "desc"}), class: "cs-tab ml-4 cs-active" %>
+      <% end %>
+
+      <% %w[ updated created ].each do |tab_name| %>
+        <% if params[:sort] != tab_name %>
+          <%= link_to tab_name.titleize, public_send(cur_path, { id: cur_id, search: params[:search], s: params[:s], sort: tab_name}), class: "cs-tab ml-4" %>
+        <% elsif params[:order].present? %>
+          <%= link_to tab_name.titleize, public_send(cur_path, { id: cur_id, search: params[:search], s: params[:s], sort: tab_name}), class: "cs-tab ml-4 cs-active" %>
+        <% else %>
+          <%= link_to tab_name.titleize, public_send(cur_path, { id: cur_id, search: params[:search], s: params[:s], sort: tab_name, order: "asc"}), class: "cs-tab ml-4 cs-active" %>
+        <% end %>
+      <% end %>
+    </nav>
+  </div>
+</div>
