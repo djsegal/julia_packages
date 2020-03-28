@@ -1,0 +1,17 @@
+<%= form_with(model: trending, local: true) do |form| %>
+  <% if trending.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(trending.errors.count, "error") %> prohibited this trending from being saved:</h2>
+
+      <ul>
+        <% trending.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

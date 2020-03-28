@@ -13,6 +13,7 @@ general_db["deep"].map! { |cur_value| cur_value.include?("[]") ? [] : JSON.parse
 
 decibans_db = Daru::DataFrame.from_csv "../JuliaPackages/data/decibans.csv"
 packages_db = Daru::DataFrame.from_csv "../JuliaPackages/data/packages.csv"
+trending_db = Daru::DataFrame.from_csv "../JuliaPackages/data/trending.csv"
 
 package_list = []
 
@@ -56,3 +57,6 @@ end
 
 Readme.destroy_all
 Readme.import readme_list, batch_size: 512
+
+trending_packages = Package.where(name: trending_db["package"].to_a)
+Category.create! name: "Trending", packages: trending_packages

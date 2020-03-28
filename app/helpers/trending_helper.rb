@@ -1,0 +1,2 @@
+module TrendingHelper
+end
