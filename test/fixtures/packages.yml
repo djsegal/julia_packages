@@ -9,11 +9,16 @@
 #  name        :string
 #  owner       :string
 #  search      :text
+#  slug        :string
 #  stars       :integer
 #  updated     :datetime
 #  website     :string
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#
+# Indexes
+#
+#  index_packages_on_slug  (slug) UNIQUE
 #
 
 one:
