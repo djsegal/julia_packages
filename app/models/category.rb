@@ -2,15 +2,17 @@
 #
 # Table name: categories
 #
-#  id         :bigint           not null, primary key
-#  name       :string
-#  slug       :string
-#  created_at :datetime         not null
-#  updated_at :datetime         not null
+#  id           :bigint           not null, primary key
+#  labels_count :integer
+#  name         :string
+#  slug         :string
+#  created_at   :datetime         not null
+#  updated_at   :datetime         not null
 #
 # Indexes
 #
-#  index_categories_on_slug  (slug) UNIQUE
+#  index_categories_on_labels_count  (labels_count)
+#  index_categories_on_slug          (slug) UNIQUE
 #
 class Category < ApplicationRecord
 

@@ -20,5 +20,5 @@
 #
 class Label < ApplicationRecord
   belongs_to :package
-  belongs_to :category
+  belongs_to :category, counter_cache: true
 end
