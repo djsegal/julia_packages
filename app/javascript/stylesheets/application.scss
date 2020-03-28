@@ -29,8 +29,9 @@ a.cs-tab.cs-active {
 
 .markdown-body img {
   max-width: 90% !important;
-  padding-left: 5%;
-  padding-right: 5%;
+  display: initial;
+  padding-left: 2%;
+  padding-right: 2%;
   @apply py-1.5;
 }
 

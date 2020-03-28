@@ -184,6 +184,10 @@
                     readme_html.gsub! /(?<=src\=\")(?!(http|https):)/, @package.github_url + "/raw/master/"
 
                     readme_html.gsub! "/raw/master//", "/raw/master/"
+
+                    readme_html.gsub! /(?<=href\=\")(?!(http|https):)/, @package.github_url + "/blob/master/"
+
+                    readme_html.gsub! "/blob/master//", "/blob/master/"
                   %>
 
                     <%= raw readme_html %>
