@@ -45,7 +45,7 @@ const autocompleteSearch = function() {
         e.preventDefault();
         item.firstElementChild.click();
       },
-      menuClass: "mt-2 rounded-md bg-white shadow"
+      menuClass: "mt-2 rounded-md bg-white shadow border border-gray-300"
     });
   }
 };
