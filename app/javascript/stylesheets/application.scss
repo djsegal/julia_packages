@@ -45,3 +45,30 @@ a.cs-tab.cs-active {
 .autocomplete-suggestions {
   position: fixed;
 }
+
+.cs-sidebar-tab {
+  @apply mt-1 flex items-center px-2 py-2 text-sm leading-5 font-medium rounded-md transition ease-in-out duration-150;
+  &:focus {
+    @apply outline-none;
+  }
+}
+
+.cs-sidebar-tab.active {
+  @apply text-gray-900 bg-gray-100;
+  &:hover {
+    @apply text-gray-900 bg-gray-100;
+  }
+  &:focus {
+    @apply bg-gray-200;
+  }
+}
+
+.cs-sidebar-tab:not(.active) {
+  @apply text-gray-600;
+  &:hover {
+    @apply text-gray-900 bg-gray-50;
+  }
+  &:focus {
+    @apply bg-gray-100;
+  }
+}
