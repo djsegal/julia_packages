@@ -30,7 +30,7 @@ class Package < ApplicationRecord
 
   has_one :readme, dependent: :destroy
 
-  has_many :labels
+  has_many :labels, dependent: :destroy
   has_many :categories, through: :labels
 
 end

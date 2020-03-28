@@ -17,7 +17,7 @@ class Category < ApplicationRecord
   extend FriendlyId
   friendly_id :name, use: :slugged
 
-  has_many :labels
+  has_many :labels, dependent: :destroy
   has_many :packages, through: :labels
 
 end
