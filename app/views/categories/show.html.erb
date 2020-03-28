@@ -1,0 +1,27 @@
+<p id="notice"><%= notice %></p>
+
+<%= render partial: 'layouts/index_javascript' %>
+
+<div class="h-screen flex overflow-hidden bg-gray-100" x-data="{ sidebarOpen: false }" @keydown.window.escape="sidebarOpen = false">
+
+  <%= render partial: 'layouts/index_sidebar' %>
+
+  <div class="flex flex-col w-0 flex-1 overflow-hidden">
+
+    <%= render partial: 'layouts/index_navbar' %>
+
+    <main class="cs-index-main" x-data onscroll="loadNextPage()">
+
+      <%= render partial: 'layouts/index_tabs', locals: { cur_path: :cat_path, cur_id: @category.id } %>
+
+      <%= render partial: 'layouts/index_list', locals: { package_header: @category.name } %>
+
+      <div id="div_next_link">
+        <%= render partial: 'layouts/next_link' %>
+      </div>
+
+    </main>
+
+  </div>
+
+</div>

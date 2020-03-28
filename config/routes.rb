@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+
+  resources :categories
+  resources :categories, path: "c", as: "cats"
+
   resources :packages
   resources :packages, path: "p", as: "pkgs"
 
