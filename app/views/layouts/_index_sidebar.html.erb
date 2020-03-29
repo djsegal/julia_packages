@@ -83,7 +83,7 @@
           </p>
         </div>
 
-        <% Category.where(name: $category_tree.keys).order(labels_count: :desc).first(12).each do |sidebar_category| %>
+        <% Category.where(name: $category_tree.keys).order(labels_count: :desc).first(9).each do |sidebar_category| %>
 
           <%= link_to sidebar_category, class: "cs-sidebar-tab group" + current_class?(category_path(sidebar_category)) do %>
             <svg class="mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150" stroke="currentColor" fill="none" viewBox="0 0 24 24">
