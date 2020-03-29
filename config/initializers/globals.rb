@@ -21,3 +21,7 @@ sub_category_package_names_list = sub_category_tables.map(&:package).map(&:to_a)
 $category_tree = Hash[
   category_names.zip category_tables.map(&:sub_category).map(&:to_a).map(&:uniq).map{ |cur_list| cur_list.select(&:present?) }.map(&:sort)
 ]
+
+$category_tree.each do |cur_key, cur_values|
+  cur_values.reject! { |cur_value| cur_value == cur_key }
+end
