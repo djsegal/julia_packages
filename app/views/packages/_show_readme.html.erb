@@ -1,0 +1,22 @@
+<div class="px-4 pt-4 pb-2 sm:px-0">
+  <div class="bg-white overflow-hidden shadow rounded-lg">
+    <div class="py-8 px-10">
+
+      <%
+        readme_html = @package.readme.html
+        readme_html.gsub! 'href="#', 'href="#user-content-'
+
+        readme_html.gsub! /(?<=src\=\")(?!(http|https):)/, @package.github_url + "/raw/master/"
+
+        readme_html.gsub! "/raw/master//", "/raw/master/"
+
+        readme_html.gsub! /(?<=href\=\")(?!(http|https):)/, @package.github_url + "/blob/master/"
+
+        readme_html.gsub! "/blob/master//", "/blob/master/"
+      %>
+
+      <%= raw readme_html %>
+
+    </div>
+  </div>
+</div>
