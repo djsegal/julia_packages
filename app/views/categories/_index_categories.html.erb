@@ -15,7 +15,15 @@
         </thead>
         <tbody>
 
-          <% @category_dict.each_with_index do |(category, sub_categories), cur_index| %>
+          <%
+            cloned_dict = Hash[
+              $category_dict.keys.map{
+                |cur_key| @categories.select{ |tmp_category| tmp_category.slug == cur_key }.first
+              }.zip($category_dict.values)
+            ]
+          %>
+
+          <% cloned_dict.each_with_index do |(category, sub_categories), cur_index| %>
             <%
               sub_category_list = Array.new(2) { |i| sub_categories[i] }
             %>

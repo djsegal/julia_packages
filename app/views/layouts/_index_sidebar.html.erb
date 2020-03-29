@@ -78,13 +78,67 @@
             Categories
           </h3>
 
-          <% Category.where(name: $category_tree.keys).order(labels_count: :desc).first(8).each do |sidebar_category| %>
+          <%
+            shown_categories = 8
 
-            <%= link_to cat_path(sidebar_category), class: "cs-sidebar-tab group" + current_class?(cat_path(sidebar_category)) do %>
-              <%= inline_svg_tag ( current_class?(cat_path(sidebar_category)) == " active" ? "folder-open" : "folder" ) + ".svg", class: 'mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150', style: "fill: currentcolor;" %>
+            sidebar_categories = Category.where(name: $category_map.keys).order(labels_count: :desc).first(shown_categories)
+
+            is_category_select = @category.present? && @category.name != "Trending"
+            is_sub_category_select = is_category_select && $sub_category_dict.keys.include?(@category.slug)
+
+            if is_category_select
+              active_sidebar_category = is_sub_category_select ? $sub_category_dict[@category.slug] : @category
+
+              if sidebar_categories.map(&:slug).include?(active_sidebar_category.slug)
+                category_index = sidebar_categories.map(&:slug).index active_sidebar_category.slug
+
+                top_categories = sidebar_categories.first(category_index)
+                bot_categories = sidebar_categories.last(sidebar_categories.length - (category_index+1))
+              else
+                sidebar_categories.pop
+
+                top_categories = sidebar_categories.first 2
+                bot_categories = sidebar_categories.last ( shown_categories - 3 )
+              end
+            else
+              top_categories = sidebar_categories
+              bot_categories = []
+            end
+          %>
+
+          <% top_categories.each do |sidebar_category| %>
+            <%= link_to cat_path(sidebar_category), class: "cs-sidebar-tab group" do %>
+              <%= inline_svg_tag "folder.svg", class: 'mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150', style: "fill: currentcolor;" %>
               <%= sidebar_category.name %>
             <% end %>
+          <% end %>
 
+          <% if is_category_select %>
+            <%= link_to cat_path(active_sidebar_category), class: "cs-sidebar-tab group active" do %>
+              <%= inline_svg_tag "folder-open.svg", class: 'mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150', style: "fill: currentcolor;" %>
+              <%= active_sidebar_category.name %>
+            <% end %>
+
+            <% sidebar_sub_categories = $category_dict[active_sidebar_category.slug].first(8) %>
+
+            <% sidebar_sub_categories.each do |sidebar_sub_category| %>
+              <%= link_to cat_path(sidebar_sub_category), class: "cs-sidebar-tab group" do %>
+                <% if @category.slug == sidebar_sub_category.slug %>
+                  <%= inline_svg_tag "radio-checked.svg", class: 'mr-3 h-2.5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150', style: "fill: currentcolor;" %>
+                  <span class="font-medium"><%= sidebar_sub_category.name %></span>
+                <% else %>
+                  <%= inline_svg_tag "radio-unchecked.svg", class: 'mr-3 h-2.5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150', style: "fill: currentcolor;" %>
+                  <span class="font-normal"><%= sidebar_sub_category.name %></span>
+                <% end %>
+              <% end %>
+            <% end %>
+          <% end %>
+
+          <% bot_categories.each do |sidebar_category| %>
+            <%= link_to cat_path(sidebar_category), class: "cs-sidebar-tab group" do %>
+              <%= inline_svg_tag "folder.svg", class: 'mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150', style: "fill: currentcolor;" %>
+              <%= sidebar_category.name %>
+            <% end %>
           <% end %>
 
           <%= link_to categories_path, class: "group flex items-center px-2 py-2.5 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150" do %>

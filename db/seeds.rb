@@ -63,8 +63,8 @@ Category.destroy_all
 trending_packages = Package.where(name: trending_db["package"].to_a)
 Category.create! name: "Trending", packages: trending_packages
 
-category_names = $category_tree.keys
-sub_category_names = $category_tree.values.flatten
+category_names = $category_map.keys
+sub_category_names = $category_map.values.flatten
 
 category_package_names_list = category_names.map {
   |cur_name| decibans_db.filter(:row) do |cur_row|

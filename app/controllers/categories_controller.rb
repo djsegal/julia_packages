@@ -6,16 +6,14 @@ class CategoriesController < ApplicationController
   def index
     all_categories = Category.where.not(name: "Trending").order(labels_count: :desc).to_a
 
-    category_names = $category_tree.keys
-    category_list = all_categories.select { |cur_category| category_names.include? cur_category.name }
+    category_names = $category_map.keys
+    @categories = all_categories.select { |cur_category| category_names.include? cur_category.name }
 
-    sub_category_names = $category_tree.values.flatten
+    sub_category_names = $category_map.values.flatten
     @sub_categories = all_categories.select { |cur_category| sub_category_names.include? cur_category.name }
 
-    @category_dict = {}
-
-    category_list.each do |cur_category|
-      cur_value = $category_tree[cur_category.name]
+    @categories.each do |cur_category|
+      cur_value = $category_map[cur_category.name]
 
       cur_sub_categories = @sub_categories.select do |tmp_category|
         cur_value.include? tmp_category.name
@@ -24,16 +22,6 @@ class CategoriesController < ApplicationController
       if ( cur_sub_categories.length < 2 )
         @sub_categories.reject! { |sub_category| cur_sub_categories.include? sub_category }
         cur_sub_categories = []
-      end
-
-      @category_dict[cur_category] = cur_sub_categories
-    end
-
-    @sub_category_dict = {}
-
-    @category_dict.each do |cur_key, cur_values|
-      cur_values.each do |cur_value|
-        @sub_category_dict[cur_value] = cur_key
       end
     end
   end
