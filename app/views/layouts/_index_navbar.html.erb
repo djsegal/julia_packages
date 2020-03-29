@@ -21,18 +21,12 @@
 
     </div>
     <div class="ml-4 flex items-center md:ml-6">
-      <button class="p-1 text-gray-400 rounded-full hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:shadow-outline focus:text-gray-500">
-        <%= fa_icon "info-circle lg" %>
-      </button>
       <div @click.away="open = false" class="ml-3 relative" x-data="{ open: false }">
         <div>
           <button @click="open = !open" class="max-w-xs flex items-center text-sm rounded-full focus:outline-none focus:shadow-outline">
-            <!-- <img class="h-8 w-8 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" /> -->
-
             <span class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-gray-400">
               <span class="text-sm font-medium leading-none text-white"><%= fa_icon "cog lg" %></span>
             </span>
-
           </button>
         </div>
         <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg">
