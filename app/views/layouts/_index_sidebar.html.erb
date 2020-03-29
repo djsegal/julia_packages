@@ -119,7 +119,22 @@
               <%= active_sidebar_category.name %>
             <% end %>
 
-            <% sidebar_sub_categories = $category_dict[active_sidebar_category.slug].first(8) %>
+            <%
+              shown_sub_categories = 8
+
+              sidebar_sub_categories = $category_dict[active_sidebar_category.slug].first(shown_sub_categories)
+
+              if is_sub_category_select && !sidebar_sub_categories.map(&:slug).include?(@category.slug)
+                sidebar_sub_categories.pop
+
+                top_sub_categories = sidebar_sub_categories.first 2
+                bot_sub_categories = sidebar_sub_categories.last ( shown_sub_categories - 3 )
+
+                sidebar_sub_categories = top_sub_categories
+                sidebar_sub_categories << @category
+                sidebar_sub_categories += bot_sub_categories
+              end
+            %>
 
             <% sidebar_sub_categories.each do |sidebar_sub_category| %>
               <%= link_to cat_path(sidebar_sub_category), class: "cs-sidebar-tab group" do %>
