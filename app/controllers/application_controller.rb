@@ -10,7 +10,11 @@ class ApplicationController < ActionController::Base
       elsif params[:sort].present?
         package_scope = package_scope.order(params[:sort] => :desc)
       else
-        package_scope = package_scope.order(stars: :desc)
+        if @category.present? && @category.name == "Trending"
+          package_scope = package_scope.order(updated: :desc)
+        else
+          package_scope = package_scope.order(stars: :desc)
+        end
       end
     end
 
