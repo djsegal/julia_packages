@@ -87,6 +87,8 @@ category_names.zip(category_package_names_list) do |category_name, category_pack
 end
 
 sub_category_names.zip(sub_category_package_names_list) do |sub_category_name, sub_category_packages_names|
+  next if $sub_category_map[sub_category_name] == sub_category_name
+
   sub_category_packages = Package.where(name: sub_category_packages_names)
 
   Category.create! \
