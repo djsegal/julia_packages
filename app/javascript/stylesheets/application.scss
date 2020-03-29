@@ -73,8 +73,12 @@ a.cs-tab.cs-active {
   }
 }
 
-#cs-settings-dropdown svg path, .cs-sidebar svg path {
+#cs-settings-dropdown svg path, .cs-sidebar svg path, .cs-modal svg path  {
   fill: inherit;
+}
+
+.cs-modal {
+  z-index: 10;
 }
 
 .cs-category-tab {
