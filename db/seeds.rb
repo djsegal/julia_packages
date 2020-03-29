@@ -80,7 +80,6 @@ sub_category_package_names_list = sub_category_names.map {
 
 category_names.zip(category_package_names_list) do |category_name, category_package_names|
   category_packages = Package.where(name: category_package_names)
-  next unless category_packages.length > 4
 
   Category.create! \
     name: category_name, \
@@ -89,7 +88,6 @@ end
 
 sub_category_names.zip(sub_category_package_names_list) do |sub_category_name, sub_category_packages_names|
   sub_category_packages = Package.where(name: sub_category_packages_names)
-  next unless sub_category_packages.length > 4
 
   Category.create! \
     name: sub_category_name, \
