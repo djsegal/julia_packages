@@ -1,12 +1,12 @@
 Rails.application.routes.draw do
 
-  resources :categories
-  resources :categories, path: "c", as: "cats"
+  resources :categories, only: [:index, :show]
+  resources :categories, path: "c", as: "cats", only: [:index, :show]
 
-  resources :packages
-  resources :packages, path: "p", as: "pkgs"
+  resources :packages, only: [:index, :show]
+  resources :packages, path: "p", as: "pkgs", only: [:index, :show]
 
-  resource :trending, controller: "trending"
+  resource :trending, controller: "trending", only: [:show]
   root to: 'trending#show'
 
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
