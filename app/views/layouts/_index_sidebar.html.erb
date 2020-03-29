@@ -58,41 +58,42 @@
         <img class="h-8 w-auto" src="/julia.svg" alt="Julia Packages" />
       <% end %>
     </div>
-    <div class="mt-5 h-0 flex-1 flex flex-col overflow-y-auto">
+    <div class="cs-sidebar mt-5 h-0 flex-1 flex flex-col overflow-y-auto">
       <!-- Sidebar component, swap this element with another sidebar if you like -->
       <nav class="flex-1 px-2 bg-white">
-        <%= link_to packages_path, class: "cs-sidebar-tab group" + current_class?(packages_path) do %>
-          <!-- <svg class="mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
-          </svg> -->
-          <svg class="mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/>
-          </svg>
-          All Packages
-        <% end %>
-        <%= link_to trending_path, class: "cs-sidebar-tab group" + current_class?(trending_path) + current_class?(root_path) do %>
-           <svg class="mr-3 h-6 w-6 text-gray-500 group-hover:text-gray-500 group-focus:text-gray-600 transition ease-in-out duration-150" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"/>
-          </svg>
-          Trending
-        <% end %>
-        <div class="border-t border-gray-200 mt-3.5 mb-5"></div>
-        <div class="px-2 pt-0.5 pb-1.5">
-          <p class="text-sm font-medium text-gray-600">
-            Categories
-          </p>
+
+        <div>
+          <%= link_to packages_path, class: "cs-sidebar-tab group" + current_class?(packages_path) do %>
+            <%= inline_svg_tag "database.svg", class: 'mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150', style: "fill: currentcolor;" %>
+            All Packages
+          <% end %>
+          <%= link_to trending_path, class: "cs-sidebar-tab group" + current_class?(trending_path) + current_class?(root_path) do %>
+            <%= inline_svg_tag "stats-dots.svg", class: 'mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150', style: "fill: currentcolor;" %>
+            Trending
+          <% end %>
+          <div class="border-t border-gray-200 mt-7 pt-0.5"></div>
         </div>
+        <div class="mt-8">
+          <h3 class="px-1.5 pb-0.5 text-xs leading-4 font-semibold text-gray-500 uppercase tracking-wider">
+            Categories
+          </h3>
 
-        <% Category.where(name: $category_tree.keys).order(labels_count: :desc).first(9).each do |sidebar_category| %>
+          <% Category.where(name: $category_tree.keys).order(labels_count: :desc).first(8).each do |sidebar_category| %>
 
-          <%= link_to sidebar_category, class: "cs-sidebar-tab group" + current_class?(category_path(sidebar_category)) do %>
-            <svg class="mr-3 h-6 w-6 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"/>
-            </svg>
-            <%= sidebar_category.name %>
+            <%= link_to cat_path(sidebar_category), class: "cs-sidebar-tab group" + current_class?(cat_path(sidebar_category)) do %>
+              <%= inline_svg_tag ( current_class?(cat_path(sidebar_category)) == " active" ? "folder-open" : "folder" ) + ".svg", class: 'mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150', style: "fill: currentcolor;" %>
+              <%= sidebar_category.name %>
+            <% end %>
+
           <% end %>
 
-        <% end %>
+          <%= link_to categories_path, class: "group flex items-center px-2 py-2.5 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150" do %>
+            <span class="truncate">
+              View more categories
+            </span>
+          <% end %>
+
+        </div>
 
       </nav>
     </div>
