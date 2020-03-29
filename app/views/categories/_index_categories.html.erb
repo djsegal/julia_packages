@@ -1,0 +1,47 @@
+<div class="flex flex-col">
+  <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+    <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
+      <table class="min-w-full">
+        <thead>
+          <tr>
+            <th class="px-3.5 py-3 border-b border-gray-200 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">#</th>
+            <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+              Category
+            </th>
+            <th colspan="2" class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+              Top 2 Sub Categories
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+
+          <% @category_dict.each_with_index do |(category, sub_categories), cur_index| %>
+            <%
+              sub_category_list = Array.new(2) { |i| sub_categories[i] }
+            %>
+
+            <tr class="<%= cur_index.even? ? 'bg-white' : 'bg-gray-50' %>">
+              <td class="px-3.5 whitespace-no-wrap text-sm text-center leading-5 text-gray-500">
+                <%= cur_index + 1 %>
+              </td>
+              <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+                <%= link_to category.name, cat_path(category) %>
+              </td>
+              <% sub_category_list.each do |sub_category| %>
+                <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                  <% if sub_category.present? %>
+                    <%= link_to sub_category.name, cat_path(sub_category) %>
+                  <% else %>
+                    -
+                  <% end %>
+                </td>
+              <% end %>
+            </tr>
+
+          <% end %>
+
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

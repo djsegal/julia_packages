@@ -73,6 +73,27 @@ a.cs-tab.cs-active {
   }
 }
 
-#cs-settings-dropdown svg path {
+#cs-settings-dropdown svg path, .cs-sidebar svg path {
   fill: inherit;
+}
+
+.cs-category-tab {
+  @apply font-medium text-sm leading-5 w-1/2 pt-1.5 pb-4 px-1 text-center border-b-2;
+}
+
+.cs-category-tab.active {
+  @apply border-indigo-500 text-indigo-600;
+  &:focus {
+    @apply outline-none text-indigo-800 border-indigo-700;
+  }
+}
+
+.cs-category-tab:not(.active) {
+  @apply border-transparent text-gray-500;
+  &:hover {
+    @apply text-gray-700 border-gray-300;
+  }
+  &:focus {
+    @apply outline-none text-gray-700 border-gray-300;
+  }
 }

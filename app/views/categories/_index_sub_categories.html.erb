@@ -1,0 +1,32 @@
+<div class="bg-white shadow overflow-hidden sm:rounded-md">
+  <div class="bg-white px-4 py-5 sm:px-6">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">
+      Sub Categories
+    </h3>
+  </div>
+  <ul>
+    <% @sub_categories.each do |sub_category| %>
+      <li class="border-t border-gray-200">
+        <a href="#" class="block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out">
+          <div class="px-4 py-4 flex items-center sm:px-6">
+            <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
+              <div>
+                <div class="text-sm leading-5 truncate">
+                    <span class="font-medium text-indigo-600"><%= sub_category.name %></span>
+                    <span class="text-gray-400">(<%= sub_category.labels_count %>)</span>
+                </div>
+                <div class="mt-2 flex">
+                  <div class="flex items-center text-sm leading-5 text-gray-500">
+                    <span>
+                      from <%= @sub_category_dict[sub_category].name %> Category
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </a>
+      </li>
+    <% end %>
+  </ul>
+</div>

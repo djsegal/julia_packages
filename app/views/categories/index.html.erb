@@ -1,19 +1,31 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Categories</h1>
+<div class="h-screen flex overflow-hidden bg-gray-100" x-data="{ sidebarOpen: false }" @keydown.window.escape="sidebarOpen = false">
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-    </tr>
-  </thead>
+  <%= render partial: 'layouts/index_sidebar' %>
 
-  <tbody>
-    <% @categories.each do |category| %>
-      <tr>
-        <td><%= link_to category.name, category %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+  <div class="flex flex-col w-0 flex-1 overflow-hidden">
+
+    <%= render partial: 'layouts/index_navbar' %>
+
+    <main class="cs-index-main">
+
+      <%= render partial: "index_tabs" %>
+
+      <div class="max-w-2xl mx-auto px-8 js-sub-category hidden">
+        <div class="pt-5 mt-0.5 pb-4">
+          <%= render partial: "index_sub_categories" %>
+        </div>
+      </div>
+
+      <div class="max-w-7xl mx-auto px-8 js-category">
+        <div class="pt-5 mt-0.5 pb-4">
+          <%= render partial: "index_categories" %>
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+</div>

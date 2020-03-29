@@ -1,0 +1,55 @@
+<div>
+
+  <div class="max-w-7xl mx-auto px-8">
+    <div class="sm:hidden">
+      <select class="form-select block w-full js-category-select">
+        <option selected>Categories</option>
+        <option>Sub Categories</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="hidden sm:block mb-4">
+    <div class="border-b border-gray-200">
+      <nav class="-mb-px flex">
+        <button class="cs-category-tab js-tab__cateogries active">
+          Categories
+        </button>
+        <button class="cs-category-tab js-tab__sub-cateogries">
+          Sub Categories
+        </button>
+      </nav>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  function toggleCategoryTab(tabName) {
+    $(".cs-category-tab").removeClass("active");
+
+    if ( tabName == "Sub Categories") {
+      $(".js-category").addClass("hidden");
+      $(".js-sub-category").removeClass("hidden");
+      $(".js-tab__sub-cateogries").addClass("active");
+    } else if ( tabName == "Categories") {
+      $(".js-category").removeClass("hidden");
+      $(".js-sub-category").addClass("hidden");
+      $(".js-tab__cateogries").addClass("active");
+    } else {
+      alert("Bad Tab Name: " + tabName)
+    }
+  }
+
+  $(".cs-category-tab").on("click", function(curEvent) {
+    var valueSelected = curEvent.target.textContent.trim();
+    toggleCategoryTab(valueSelected)
+
+    $(".js-category-select").val(valueSelected);
+  })
+
+  $(".js-category-select").on("change", function(curEvent) {
+    var valueSelected = this.value;
+    toggleCategoryTab(valueSelected)
+  })
+</script>
