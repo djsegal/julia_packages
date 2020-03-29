@@ -72,3 +72,7 @@ a.cs-tab.cs-active {
     @apply bg-gray-100;
   }
 }
+
+#cs-settings-dropdown svg path {
+  fill: inherit;
+}
