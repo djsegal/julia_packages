@@ -33,4 +33,10 @@ class Package < ApplicationRecord
   has_many :labels, dependent: :destroy
   has_many :categories, through: :labels
 
+  has_many :depender_dependencies, class_name: "Dependency", foreign_key: "depender_id", dependent: :destroy
+  has_many :dependee_dependencies, class_name: "Dependency", foreign_key: "dependee_id", dependent: :destroy
+
+  has_many :depending, through: :depender_dependencies, source: :dependee
+  has_many :dependents, through: :dependee_dependencies, source: :depender
+
 end

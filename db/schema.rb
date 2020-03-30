@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_03_28_111153) do
+ActiveRecord::Schema.define(version: 2020_03_29_215359) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,16 @@ ActiveRecord::Schema.define(version: 2020_03_28_111153) do
     t.integer "labels_count"
     t.index ["labels_count"], name: "index_categories_on_labels_count"
     t.index ["slug"], name: "index_categories_on_slug", unique: true
+  end
+
+  create_table "dependencies", force: :cascade do |t|
+    t.bigint "depender_id", null: false
+    t.bigint "dependee_id", null: false
+    t.boolean "shallow"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["dependee_id"], name: "index_dependencies_on_dependee_id"
+    t.index ["depender_id"], name: "index_dependencies_on_depender_id"
   end
 
   create_table "friendly_id_slugs", force: :cascade do |t|
@@ -70,6 +80,8 @@ ActiveRecord::Schema.define(version: 2020_03_28_111153) do
     t.index ["package_id"], name: "index_readmes_on_package_id"
   end
 
+  add_foreign_key "dependencies", "packages", column: "dependee_id"
+  add_foreign_key "dependencies", "packages", column: "depender_id"
   add_foreign_key "labels", "categories"
   add_foreign_key "labels", "packages"
   add_foreign_key "readmes", "packages"
