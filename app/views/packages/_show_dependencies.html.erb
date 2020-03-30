@@ -4,16 +4,28 @@
     <div class="bg-white overflow-hidden shadow rounded-lg">
 
       <%
-        cur_dependencies = @package.depender_dependencies.map(&:dependee).zip(
-          @package.depender_dependencies.map(&:shallow)
+        max_count = 40
+
+        shallow_dependencies = @package.depender_dependencies.where(shallow: true).includes(:depender).order("packages.name").limit(max_count+1)
+
+        deep_dependencies = @package.depender_dependencies.where(shallow: false).includes(:depender).order("packages.name").limit(max_count+1)
+
+        has_more = shallow_dependencies.count > max_count || deep_dependencies.count > max_count
+
+        work_dependencies = shallow_dependencies + deep_dependencies
+
+        cur_dependencies = work_dependencies.map(&:dependee).zip(
+          work_dependencies.map(&:shallow)
         )
+
+        cur_dependencies.sort_by! { |cur_dependency| cur_dependency.first.slug }
 
         skip_toggle = cur_dependencies.map(&:last).reject{ |cur_shallow| cur_shallow }.count.zero?
       %>
 
       <%= render partial: 'show_dependencies_header', locals: { cur_label: "Required", cur_class: "js-toggle__depending", skip_toggle: skip_toggle } %>
 
-      <%= render partial: 'show_dependencies_list', locals: { cur_dependencies: cur_dependencies } %>
+      <%= render partial: 'show_dependencies_list', locals: { cur_dependencies: cur_dependencies, has_more: has_more, more_param: "depender" } %>
 
     </div>
   </div>
@@ -22,16 +34,28 @@
     <div class="bg-white overflow-hidden shadow rounded-lg">
 
       <%
-        cur_dependencies = @package.dependee_dependencies.map(&:depender).zip(
-          @package.dependee_dependencies.map(&:shallow)
+        max_count = 40
+
+        shallow_dependencies = @package.dependee_dependencies.where(shallow: true).includes(:depender).order("packages.name").limit(max_count+1)
+
+        deep_dependencies = @package.dependee_dependencies.where(shallow: false).includes(:depender).order("packages.name").limit(max_count+1)
+
+        has_more = shallow_dependencies.count > max_count || deep_dependencies.count > max_count
+
+        work_dependencies = shallow_dependencies + deep_dependencies
+
+        cur_dependencies = work_dependencies.map(&:depender).zip(
+          work_dependencies.map(&:shallow)
         )
+
+        cur_dependencies.sort_by! { |cur_dependency| cur_dependency.first.slug }
 
         skip_toggle = cur_dependencies.map(&:last).reject{ |cur_shallow| cur_shallow }.count.zero?
       %>
 
       <%= render partial: 'show_dependencies_header', locals: { cur_label: "Used By", cur_class: "js-toggle__dependents", skip_toggle: skip_toggle } %>
 
-      <%= render partial: 'show_dependencies_list', locals: { cur_dependencies: cur_dependencies } %>
+      <%= render partial: 'show_dependencies_list', locals: { cur_dependencies: cur_dependencies, has_more: has_more, more_param: "dependee" } %>
 
     </div>
   </div>

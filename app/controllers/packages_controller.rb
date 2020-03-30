@@ -4,7 +4,15 @@ class PackagesController < ApplicationController
   # GET /packages
   # GET /packages.json
   def index
-    set_packages Package
+    if params[:depender].present?
+      package_scope = Package.friendly.find(params[:depender]).depending
+    elsif params[:dependee].present?
+      package_scope = Package.friendly.find(params[:dependee]).dependents
+    else
+      package_scope = Package
+    end
+
+    set_packages package_scope
   end
 
   # GET /packages/1

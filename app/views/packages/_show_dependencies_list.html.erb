@@ -47,4 +47,16 @@
 
   </ul>
 
+  <% if has_more %>
+
+    <%= link_to packages_path(more_param => @package.slug), class: "bg-gray-50 border-t border-gray-200 block hover:bg-white focus:outline-none focus:bg-white transition duration-150 ease-in-out" do %>
+      <div class="py-4">
+        <div class="text-sm text-center items-center justify-between">
+          View all packages
+        </div>
+      </div>
+    <% end %>
+
+  <% end %>
+
 <% end %>
