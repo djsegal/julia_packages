@@ -37,41 +37,52 @@ end
 
 # seeds.rb dependent
 
-all_categories = Category.where.not(name: "Trending").order(labels_count: :desc).to_a
-
-category_names = $category_map.keys
-category_list = all_categories.select { |cur_category| category_names.include? cur_category.name }
-
-sub_category_names = $category_map.values.flatten
-@sub_categories = all_categories.select { |cur_category| sub_category_names.include? cur_category.name }
-
-work_category_dict = {}
-
-category_list.each do |cur_category|
-  cur_value = $category_map[cur_category.name]
-
-  cur_sub_categories = @sub_categories.select do |tmp_category|
-    cur_value.include? tmp_category.name
-  end
-
-  if ( cur_sub_categories.length < 2 )
-    @sub_categories.reject! { |sub_category| cur_sub_categories.include? sub_category }
-    cur_sub_categories = []
-  end
-
-  work_category_dict[cur_category] = cur_sub_categories
+is_migrated = true
+begin
+  Category.count
+rescue
+  is_migrated = false
 end
 
-$sub_category_dict = {}
+if is_migrated
 
-work_category_dict.each do |cur_key, cur_values|
-  cur_values.each do |cur_value|
-    $sub_category_dict[cur_value.slug] = cur_key
+  all_categories = Category.where.not(name: "Trending").order(labels_count: :desc).to_a
+
+  category_names = $category_map.keys
+  category_list = all_categories.select { |cur_category| category_names.include? cur_category.name }
+
+  sub_category_names = $category_map.values.flatten
+  @sub_categories = all_categories.select { |cur_category| sub_category_names.include? cur_category.name }
+
+  work_category_dict = {}
+
+  category_list.each do |cur_category|
+    cur_value = $category_map[cur_category.name]
+
+    cur_sub_categories = @sub_categories.select do |tmp_category|
+      cur_value.include? tmp_category.name
+    end
+
+    if ( cur_sub_categories.length < 2 )
+      @sub_categories.reject! { |sub_category| cur_sub_categories.include? sub_category }
+      cur_sub_categories = []
+    end
+
+    work_category_dict[cur_category] = cur_sub_categories
   end
-end
 
-$category_dict = {}
+  $sub_category_dict = {}
 
-work_category_dict.each do |cur_key, cur_values|
-  $category_dict[cur_key.slug] = cur_values
+  work_category_dict.each do |cur_key, cur_values|
+    cur_values.each do |cur_value|
+      $sub_category_dict[cur_value.slug] = cur_key
+    end
+  end
+
+  $category_dict = {}
+
+  work_category_dict.each do |cur_key, cur_values|
+    $category_dict[cur_key.slug] = cur_values
+  end
+
 end
