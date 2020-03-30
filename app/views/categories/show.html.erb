@@ -1,5 +1,7 @@
 <p id="notice"><%= notice %></p>
 
+<% content_for :page_title, @category.name %>
+
 <%= render partial: 'layouts/index_javascript' %>
 
 <div class="h-screen flex overflow-hidden bg-gray-100" x-data="{ sidebarOpen: false }" @keydown.window.escape="sidebarOpen = false">
