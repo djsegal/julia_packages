@@ -1,0 +1,50 @@
+<% if cur_dependencies.empty? %>
+
+  <div class="px-6 py-3.5">
+    <div class="text-gray-500">
+      <p>
+        No packages found.
+      </p>
+    </div>
+  </div>
+
+<% else %>
+
+  <ul style="max-height: 45vh; overflow-y: scroll;">
+
+    <% has_shallow = false %>
+
+    <% cur_dependencies.each do |cur_dependency, cur_shallow| %>
+
+      <%
+        tmp_class =""
+        if cur_shallow and !has_shallow
+          has_shallow = true
+          tmp_class = "cs-no-border"
+        end
+      %>
+
+      <li class="<%= tmp_class %> <%= 'cs-deep' unless cur_shallow %>">
+        <%= link_to pkg_path(cur_dependency), class: "block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out" do %>
+          <div class="px-4 py-4 flex items-center sm:px-6">
+            <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
+              <div>
+                <div class="text-sm leading-5 font-medium text-indigo-600 truncate">
+                  <%= cur_dependency.name %>
+                </div>
+              </div>
+            </div>
+            <div class="ml-5 flex-shrink-0">
+              <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+              </svg>
+            </div>
+          </div>
+        <% end %>
+      </li>
+
+    <% end %>
+
+  </ul>
+
+<% end %>

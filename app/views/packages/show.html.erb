@@ -4,11 +4,12 @@
 
   <%= render partial: 'show_navbar' %>
 
-  <div class="py-10">
+  <div class="pt-10 pb-5">
 
     <%= render partial: 'show_header' %>
 
     <main>
+
       <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
         <%= render partial: 'show_stats' %>
@@ -17,7 +18,12 @@
           <%= render partial: 'show_readme' %>
         <% end %>
 
+        <% unless @package.depending.empty? && @package.dependents.empty? %>
+          <%= render partial: 'show_dependencies' %>
+        <% end %>
+
       </div>
+
     </main>
 
   </div>

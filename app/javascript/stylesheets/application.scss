@@ -101,3 +101,15 @@ a.cs-tab.cs-active {
     @apply outline-none text-gray-700 border-gray-300;
   }
 }
+
+.cs-hide-deep .cs-deep {
+  @apply hidden;
+}
+
+.js-dependencies:not(.cs-hide-deep) ul li:not(:first-child) {
+  @apply border-t border-gray-200;
+}
+
+.js-dependencies.cs-hide-deep ul li:not(.cs-no-border) {
+  @apply border-t border-gray-200;
+}

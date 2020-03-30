@@ -1,0 +1,53 @@
+<div class="grid grid-cols-1 gap-5 sm:grid-cols-2 pb-5 ">
+
+  <div class="px-4 pt-4 sm:px-0 js-dependencies js-depending cs-hide-deep">
+    <div class="bg-white overflow-hidden shadow rounded-lg">
+
+      <%
+        cur_dependencies = @package.depender_dependencies.map(&:dependee).zip(
+          @package.depender_dependencies.map(&:shallow)
+        )
+
+        skip_toggle = cur_dependencies.map(&:last).reject{ |cur_shallow| cur_shallow }.count.zero?
+      %>
+
+      <%= render partial: 'show_dependencies_header', locals: { cur_label: "Required", cur_class: "js-toggle__depending", skip_toggle: skip_toggle } %>
+
+      <%= render partial: 'show_dependencies_list', locals: { cur_dependencies: cur_dependencies } %>
+
+    </div>
+  </div>
+
+  <div class="px-4 pt-4 sm:px-0 js-dependencies js-depending cs-hide-deep">
+    <div class="bg-white overflow-hidden shadow rounded-lg">
+
+      <%
+        cur_dependencies = @package.dependee_dependencies.map(&:depender).zip(
+          @package.dependee_dependencies.map(&:shallow)
+        )
+
+        skip_toggle = cur_dependencies.map(&:last).reject{ |cur_shallow| cur_shallow }.count.zero?
+      %>
+
+      <%= render partial: 'show_dependencies_header', locals: { cur_label: "Used By", cur_class: "js-toggle__dependents", skip_toggle: skip_toggle } %>
+
+      <%= render partial: 'show_dependencies_list', locals: { cur_dependencies: cur_dependencies } %>
+
+    </div>
+  </div>
+
+  <script>
+
+    $(".js-toggle").on('toggleDependency', function(curEvent, curState) {
+      console.log(curEvent)
+      curDiv = $($(curEvent.target).parents(".js-dependencies")[0]);
+      if ( curState ) {
+        curDiv.removeClass("cs-hide-deep");
+      } else {
+        curDiv.addClass("cs-hide-deep");
+      }
+    })
+
+  </script>
+
+</div>
