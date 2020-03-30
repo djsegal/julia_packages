@@ -1,14 +1,39 @@
 <!DOCTYPE html>
 <html class="bg-gray-100" lang="en">
   <head>
-    <title>Julia Packages</title>
-
     <meta charset="UTF-8">
-
-    <meta name="description" content="One stop shop for the Julia package ecosystem.">
-    <meta name="keywords" content="Julia Packages">
-    <meta name="author" content="Dan Segal (dan@seg.al)">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <%
+      site_name = "Julia Packages"
+
+      @page_title = yield(:page_title)
+      @page_description = yield(:page_description)
+
+      if @page_description.blank?
+          @page_description = "One stop shop for the Julia package ecosystem."
+      end
+
+      if @page_title.blank?
+        used_title = site_name
+      else
+        used_title = @page_title + " · " + site_name
+      end
+    %>
+
+    <title><%= used_title %></title>
+    <meta property="og:title" content="<%= @page_title.blank? ? site_name : ( @page_title + '.jl' ) %>">
+    <meta property="og:site_name" content="<%= site_name %>">
+
+    <meta name="description" content="<%= @page_description %>">
+    <meta property="og:description" content="<%= @page_description %>">
+
+    <meta name="author" content="Dan Segal (dan@seg.al)">
+    <meta name="keywords" content="julia language package discover popular trending">
+    <meta property="og:image" content="https://www.juliapackages.com/julia_share.png">
+
+    <meta name="twitter:card" content="summary" />
+    <meta property="og:type" content="website">
 
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>

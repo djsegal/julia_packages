@@ -1,5 +1,8 @@
 <p id="notice"><%= notice %></p>
 
+<% content_for :page_title, @package.name %>
+<% content_for :page_description, @package.description %>
+
 <div class="min-h-screen bg-gray-100">
 
   <%= render partial: 'show_navbar' %>
