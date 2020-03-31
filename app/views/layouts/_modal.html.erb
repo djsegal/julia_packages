@@ -1,3 +1,10 @@
+<script>
+  $(document).on("click", ".js-learn-more", function(curEvent) {
+    $(".js-show-modal").click();
+    curEvent.preventDefault();
+  })
+</script>
+
 <div x-data="{ open: false }" @keydown.window.escape="open = false" @click.away="open = false" x-show="open" class="fixed bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center cs-modal">
 
   <button @click="open = true;" class="js-show-modal" type="button" style="display: none;">
