@@ -57,11 +57,11 @@
   </div>
 
   <div :class="{'block': open, 'hidden': !open}" class="hidden lg:hidden">
-    <div class="pt-3 pb-2.5 border-t border-gray-200">
+    <div class="pt-2 pb-1.5 border-t border-gray-200">
       <div class="">
-        <a href="#" class="block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 focus:outline-none focus:text-gray-800 focus:bg-gray-100 transition duration-150 ease-in-out">Your Profile</a>
-        <a href="#" class="mt-1 block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 focus:outline-none focus:text-gray-800 focus:bg-gray-100 transition duration-150 ease-in-out">Settings</a>
-        <a href="#" class="mt-1 block px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 focus:outline-none focus:text-gray-800 focus:bg-gray-100 transition duration-150 ease-in-out">Sign out</a>
+
+        <%= render partial: "layouts/settings_dropdown_list", locals: { cur_class: "flex items-center px-4 py-2 text-base font-medium text-gray-500 hover:text-gray-800 hover:bg-gray-100 focus:outline-none focus:text-gray-800 focus:bg-gray-100 transition duration-150 ease-in-out" } %>
+
       </div>
     </div>
   </div>
