@@ -1,26 +1,39 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8">
+
+  <%
+    is_trending_path = @category.present? && @category.name == "Trending"
+
+    init_params = {
+      id: cur_id,
+      search: params[:search], s: params[:s],
+      depender: params[:depender], dependee: params[:dependee]
+    }
+
+    init_params.delete_if { |k, v| !v.present? }
+  %>
+
   <div class="sm:hidden">
-    <%= form_tag packages_path, method: "get" do %>
-      <%= hidden_field_tag 'search' %>
-      <%= hidden_field_tag 's' %>
-      <%= select_tag(:sort, options_for_select([["Stargazers", "stars"],["Alphabetical", "name"], ["Updated", "updated"], ["Created", "created"]], params[:sort]), class:"form-select block w-full", onchange: 'this.form.submit()') %>
+
+    <%= form_tag public_send(cur_path, init_params[:id]), method: "get" do %>
+      <% init_params.each do |cur_key, cur_value| %>
+        <% next cur_key == :id %>
+        <%= hidden_field_tag cur_key.to_s, cur_value %>
+      <% end %>
+
+      <%
+        cur_sort = params[:sort]
+        if is_trending_path && !cur_sort.present?
+          cur_sort = "updated"
+        end
+      %>
+
+      <%= select_tag(:sort, options_for_select([["Stargazers", "stars"],["Alphabetical", "name"], ["Updated", "updated"], ["Created", "created"]], cur_sort), class:"form-select block w-full", onchange: 'this.form.submit()') %>
     <% end %>
+
   </div>
 
   <div class="hidden sm:block">
     <nav class="flex">
-
-      <%
-        is_trending_path = @category.present? && @category.name == "Trending"
-      %>
-
-      <%
-        init_params = {
-          id: cur_id,
-          search: params[:search], s: params[:s],
-          depender: params[:depender], dependee: params[:dependee]
-        }
-      %>
 
       <% if !params[:sort].present? && !is_trending_path %>
         <%= link_to "Stargazers", public_send(cur_path, init_params.merge({ sort: "stars", order: "asc"})), class: "cs-tab cs-active" %>
