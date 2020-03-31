@@ -46,8 +46,17 @@ a.cs-tab.cs-active {
   position: fixed;
 }
 
+.cs-sidebar-nav__desktop .cs-sidebar-tab {
+  @apply text-sm leading-5;
+}
+
+
+.cs-sidebar-nav__mobile .cs-sidebar-tab {
+  @apply text-base leading-6;
+}
+
 .cs-sidebar-tab {
-  @apply mt-1 flex items-center px-2 py-2 text-sm leading-5 font-medium rounded-md transition ease-in-out duration-150;
+  @apply mt-1 flex items-center px-2 py-2 font-medium rounded-md transition ease-in-out duration-150;
   &:focus {
     @apply outline-none;
   }
@@ -69,7 +78,7 @@ a.cs-tab.cs-active {
     @apply text-gray-900 bg-gray-50;
   }
   &:focus {
-    @apply bg-gray-100;
+    @apply text-gray-900 bg-gray-100;
   }
 }
 
