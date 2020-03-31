@@ -62,6 +62,8 @@
 
   <script>
 
+    tippy('[data-tippy-content]', {placement: 'left'});
+
     $(".js-toggle").on('toggleDependency', function(curEvent, curState) {
       console.log(curEvent)
       curDiv = $($(curEvent.target).parents(".js-dependencies")[0]);
