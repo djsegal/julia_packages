@@ -1,6 +1,7 @@
 # seeds.rb independent
 
-@julia_pkg_dir = "../JuliaPackages.jl"
+@julia_pkg_dir = File.join(Rails.root, 'tmp', 'JuliaPackages.jl')
+
 unless Dir.exist? @julia_pkg_dir
   system "git clone https://github.com/djsegal/JuliaPackages.jl.git #{@julia_pkg_dir}"
 end
