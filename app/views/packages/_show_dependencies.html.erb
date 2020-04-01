@@ -65,13 +65,17 @@
     tippy('[data-tippy-content]', {placement: 'left'});
 
     $(".js-toggle").on('toggleDependency', function(curEvent, curState) {
-      console.log(curEvent)
       curDiv = $($(curEvent.target).parents(".js-dependencies")[0]);
+
       if ( curState ) {
         curDiv.removeClass("cs-hide-deep");
+        hoverText = "Hide Deep Dependencies";
       } else {
         curDiv.addClass("cs-hide-deep");
+        hoverText = "View Deep Dependencies";
       }
+
+      curDiv.find(".js-hover-text")[0]._tippy.setContent(hoverText);
     })
 
   </script>
