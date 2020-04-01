@@ -1,6 +1,11 @@
 # seeds.rb independent
 
-decibans_db = Daru::DataFrame.from_csv "../JuliaPackages/data/decibans.csv"
+@julia_pkg_dir = "../JuliaPackages.jl"
+unless Dir.exist? @julia_pkg_dir
+  system "git clone https://github.com/djsegal/JuliaPackages.jl.git #{@julia_pkg_dir}"
+end
+
+decibans_db = Daru::DataFrame.from_csv "#{@julia_pkg_dir}/data/decibans.csv"
 
 category_names = decibans_db.category.to_a.uniq.sort
 sub_category_names = decibans_db.sub_category.to_a.select(&:present?).uniq.sort
