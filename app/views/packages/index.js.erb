@@ -1,2 +1,6 @@
 $('#packages_table').append("<%= j(render 'layouts/page_items')%>");
 $('#div_next_link').html("<%= j(render 'layouts/next_link') %>");
+
+<% if @pagy.page == @pagy.pages %>
+  $(".js-view-all").text("View all packages")
+<% end %>
