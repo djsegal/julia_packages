@@ -16,10 +16,15 @@
 
       <%
         is_search = params[:search].present? || params[:s].present?
+        is_dependency = params[:depender].present? || params[:dependee].present?
+
+        cur_header = "All"
+        ( cur_header = "Searched" ) if is_search
+        ( cur_header = "Dependency" ) if is_dependency
 
         local_dict = {
-          is_unscoped: !is_search,
-          package_header: is_search ? "Searched" : "All",
+          is_unscoped: !is_search && !is_dependency,
+          package_header: cur_header,
         }
       %>
 
