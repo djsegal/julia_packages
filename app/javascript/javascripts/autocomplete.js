@@ -39,7 +39,6 @@ const autocompleteSearch = function() {
         });
       },
       renderItem: renderItem,
-      delay: 0,
       cache: false,
       onSelect: function(e, term, item){
         e.preventDefault();
