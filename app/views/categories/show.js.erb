@@ -5,4 +5,19 @@ $('#div_next_link').html("<%= j(render 'layouts/next_link') %>");
   $(".js-view-all").text("View all packages")
 <% end %>
 
-ga('send', 'pageview');
+curPathName = location.pathname + location.search;
+
+if ( curPathName.endsWith("/") ) {
+  curPathName = curPathName.slice(0, -1);
+}
+
+if ( curPathName.includes("?") ) {
+  curPathName += "&";
+} else {
+  curPathName += "?";
+}
+
+curPathName += "page=<%= @pagy.page %>";
+console.log(curPathName)
+
+ga('send', 'pageview', curPathName);
