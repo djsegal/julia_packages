@@ -21,6 +21,8 @@ import '../stylesheets/application.scss'
 
 import '../javascripts/pagy.js.erb'
 
+require("packs/monthpicker")
+
 import { autocompleteSearch } from '../javascripts/autocomplete';
 $(document).on("turbolinks:load", autocompleteSearch);
 

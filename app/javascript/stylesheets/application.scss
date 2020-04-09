@@ -122,3 +122,32 @@ a.cs-tab.cs-active {
 .js-dependencies.cs-hide-deep ul li:not(.cs-no-border) {
   @apply border-t border-gray-200;
 }
+
+.month-picker-next .ui-icon, .month-picker-previous .ui-icon {
+  @apply my-1 ml-1.5 mr-1;
+}
+
+.month-picker-next .ui-button, .month-picker-previous .ui-button {
+  @apply transition duration-150 ease-in-out;
+}
+
+.month-picker-next .ui-button:not(.ui-state-disabled):hover, .month-picker-previous .ui-button:not(.ui-state-disabled):hover {
+  @apply bg-gray-50;
+}
+
+.month-picker-next .ui-button:not(.ui-state-disabled):focus, .month-picker-previous .ui-button:not(.ui-state-disabled):focus {
+  @apply outline-none bg-gray-50;
+}
+
+.month-picker .ui-button.ui-state-disabled {
+  pointer-events: none;
+}
+
+.tippy-box {
+  @apply bg-gray-600;
+}
+
+.tippy-box[data-placement^='left'] > .tippy-arrow::before {
+  // @apply border-l-gray-600;
+  border-left-color: #4b5563;
+}
