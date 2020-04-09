@@ -62,7 +62,7 @@
 
   <script>
 
-    tippy('[data-tippy-content]', {placement: 'left'});
+    tippy('.js-hover-text__dependencies', {placement: 'left'});
 
     $(".js-toggle").on('toggleDependency', function(curEvent, curState) {
       curDiv = $($(curEvent.target).parents(".js-dependencies")[0]);
@@ -75,7 +75,7 @@
         hoverText = "View Deep Dependencies";
       }
 
-      curDiv.find(".js-hover-text")[0]._tippy.setContent(hoverText);
+      curDiv.find(".js-hover-text__dependencies")[0]._tippy.setContent(hoverText);
     })
 
   </script>

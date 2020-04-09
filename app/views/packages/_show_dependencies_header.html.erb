@@ -6,7 +6,7 @@
       </h3>
     </div>
     <div class="ml-4 mt-2 flex-shrink-0" style="<%= 'visibility: hidden;' if skip_toggle %>">
-      <span class="inline-flex rounded-md shadow-sm js-hover-text" data-tippy-content="View Deep Dependencies">
+      <span class="inline-flex rounded-md shadow-sm js-hover-text__dependencies" data-tippy-content="View Deep Dependencies">
         <span x-data="{ value: false, toggle() { this.value = !this.value ; $('.<%= cur_class %>').trigger('toggleDependency', this.value) } }" :class="{ 'bg-gray-200': !value, 'bg-indigo-600': value }" class="relative inline-block flex-shrink-0 h-6 w-11 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus:shadow-outline js-toggle <%= cur_class %>" role="checkbox" tabindex="0" @click="toggle()" @keydown.space.prevent="toggle()" :aria-checked="value.toString()">
         <span aria-hidden="true" :class="{ 'translate-x-5': value, 'translate-x-0': !value }" class="inline-block h-5 w-5 rounded-full bg-white shadow transform transition ease-in-out duration-200"></span>
         </span>
