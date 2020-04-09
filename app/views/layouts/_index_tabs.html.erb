@@ -6,7 +6,8 @@
     init_params = {
       id: cur_id,
       search: params[:search], s: params[:s],
-      depender: params[:depender], dependee: params[:dependee]
+      depender: params[:depender], dependee: params[:dependee],
+      min_stars: params[:min_stars], since: params[:since]
     }
 
     init_params.delete_if { |k, v| !v.present? }

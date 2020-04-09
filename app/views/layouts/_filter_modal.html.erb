@@ -1,0 +1,118 @@
+<script>
+  $(document).on("click", ".js-filter-packages", function(curEvent) {
+    $(".js-show-filter-modal").click();
+    curEvent.preventDefault();
+  })
+</script>
+
+<div x-data="{ open: false }" @keydown.window.escape="open = false" x-show="open" class="fixed bottom-0 inset-x-0 px-4 pb-4 sm:inset-0 sm:flex sm:items-center sm:justify-center cs-modal" style="display: none;">
+
+  <button @click="open = true;" class="js-show-filter-modal" type="button" style="display: none;">
+  </button>
+
+  <div @click="open = false;" x-show="open" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="fixed inset-0 transition-opacity">
+    <div class="absolute inset-0 bg-gray-500 opacity-75"></div>
+  </div>
+
+  <div x-show="open" x-transition:enter="ease-out duration-300" x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100" x-transition:leave="ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100" x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95" class="bg-white rounded-lg overflow-hidden shadow-xl transform transition-all sm:max-w-lg sm:w-full">
+
+    <div class="bg-white px-4 pt-6 pb-4 border-b border-gray-200 sm:px-6">
+      <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-no-wrap">
+        <div class="ml-4 mt-4">
+          <h3 class="text-xl leading-6 font-medium text-gray-900">
+            Filter Packages
+          </h3>
+        </div>
+        <div class="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
+          <button @click="open = false;" type="button" class="text-gray-400 hover:text-gray-500 focus:outline-none focus:text-gray-500 transition ease-in-out duration-150">
+            <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <%
+      init_params = {
+        id: cur_id,
+        search: params[:search], s: params[:s],
+        depender: params[:depender], dependee: params[:dependee],
+        order: params[:order], sort: params[:sort]
+      }
+
+      init_params.delete_if { |k, v| !v.present? }
+    %>
+
+    <%= form_tag public_send(cur_path, init_params[:id]), method: "get", class: "js-filter-form" do %>
+
+      <% init_params.each do |cur_key, cur_value| %>
+        <% next if cur_key == :id %>
+        <%= hidden_field_tag cur_key.to_s, cur_value %>
+      <% end %>
+
+      <div class="border-b border-gray-200">
+        <div class="mx-6 py-4">
+
+          <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start pb-4">
+            <label for="min_stars" class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px sm:pt-2">
+              Minimum Stars
+            </label>
+            <div class="mt-1 sm:mt-0 sm:col-span-2">
+              <div class="max-w rounded-md shadow-sm">
+                <%= number_field_tag "min_stars", params[:min_stars], class: "form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5", min:"0", autocomplete: "off", placeholder: 0 %>
+              </div>
+            </div>
+          </div>
+
+          <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start">
+            <label for="since" class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px sm:pt-2">
+              Last Updated
+            </label>
+            <div class="mt-1 sm:mt-0 sm:col-span-2">
+              <div class="max-w rounded-md shadow-sm">
+                <%= text_field_tag "since", params[:since], class: "form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 js-month-picker", autocomplete: "off", placeholder:"01/2012" %>
+              </div>
+            </div>
+          </div>
+
+          <script>
+            $(".js-month-picker#since").MonthPicker({
+              Button: false,
+              MinMonth: new Date(2012, 1, 1),
+              MaxMonth: 0,
+              StartYear: (new Date()).getFullYear() - 1,
+              MonthFormat: 'mm-yy'
+            });
+          </script>
+
+        </div>
+      </div>
+
+      <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+
+        <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+          <button @click="open = false;" type="submit" class="inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-indigo-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+            Update
+          </button>
+        </span>
+        <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
+          <button @click="open = false;" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+            Cancel
+          </button>
+        </span>
+      </div>
+
+    <% end %>
+
+    <script>
+      function removeBadQueryParams() {
+        $(".js-filter-form").find(":input").filter(function(){ return !this.value; }).attr("disabled", "disabled");
+      }
+
+      $('input[type="submit"]').click(removeBadQueryParams);
+      $(".js-filter-form").submit(removeBadQueryParams);
+    </script>
+
+  </div>
+</div>

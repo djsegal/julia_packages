@@ -6,11 +6,29 @@
   <div class="py-4">
 
     <div class="bg-white shadow overflow-hidden rounded-md">
-
       <div class="bg-white px-4 py-5 sm:px-6">
-        <h3 class="text-xl leading-6 font-medium text-gray-900">
-          <%= package_header %> Packages
-        </h3>
+        <div class="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-no-wrap">
+          <div class="ml-4 mt-2">
+            <h3 class="text-xl leading-6 font-medium text-gray-900">
+              <%= package_header %> Packages
+            </h3>
+          </div>
+          <div class="ml-4 mt-2 flex-shrink-0">
+            <span class="inline-flex rounded-md" style="vertical-align: middle;">
+
+              <button @click="open = !open" class="js-filter-packages relative inline-flex items-center text-gray-400 hover:text-gray-600 focus:outline-none focus:text-gray-600" data-tippy-content="Filter Packages">
+                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z" />
+                </svg>
+              </button>
+
+              <script>
+                tippy('.js-filter-packages', {placement: 'left'});
+              </script>
+
+            </span>
+          </div>
+        </div>
       </div>
 
       <% if @packages.empty? %>

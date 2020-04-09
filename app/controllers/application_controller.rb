@@ -24,6 +24,15 @@ class ApplicationController < ActionController::Base
       package_scope = package_scope.search(cur_search)
     end
 
+    if params[:since].present?
+      since_date = Date.strptime(params[:since], "%m-%Y") - 1.day
+      package_scope = package_scope.where('updated > ?', since_date)
+    end
+
+    if params[:min_stars].present?
+      package_scope = package_scope.where('stars > ?', params[:min_stars])
+    end
+
     @pagy, @packages = pagy_countless(
       package_scope, link_extra: 'data-remote="true"'
     )

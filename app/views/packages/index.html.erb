@@ -12,7 +12,7 @@
 
     <main class="cs-index-main" x-data onscroll="loadNextPage()">
 
-      <%= render partial: 'layouts/index_tabs' , locals: { cur_path: :packages_path, cur_id: nil } %>
+      <%= render partial: 'layouts/index_tabs', locals: { cur_path: :packages_path, cur_id: nil } %>
 
       <%
         is_search = params[:search].present? || params[:s].present?
@@ -39,3 +39,5 @@
   </div>
 
 </div>
+
+<%= render partial: 'layouts/filter_modal', locals: { cur_path: :packages_path, cur_id: nil } %>
