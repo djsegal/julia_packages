@@ -11,9 +11,9 @@
         <div x-data="{ open: false }" @keydown.window.escape="open = false" @click.away="open = false" class="relative inline-block text-left">
           <div>
             <span class="rounded-md shadow-sm">
-              <button @click="open = !open" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition ease-in-out duration-150">
+              <button @click="open = !open" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition ease-in-out duration-150 js-dropdown-button__subcategory">
                 <div class="js-dropdown-button-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 15vw;">
-                  <% if params[:sub_category].present? && params[:sub_category] != "all" %>
+                  <% if params[:sub_category].present? && params[:sub_category] != 'all' %>
                     <%= Category.friendly.find(params[:sub_category]).name %>
                   <% else %>
                     All
@@ -28,7 +28,7 @@
           <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg">
             <div class="rounded-md bg-white shadow-xs">
               <div class="py-1">
-                <%= link_to categories_path(sub_category: 'all'), '@click' => "open = !open", class: "js-category-button block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900 #{ 'hidden' unless params[:sub_category].present? }" do %>
+                <%= link_to categories_path(sub_category: 'all'), '@click' => "open = !open", class: "js-category-button block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900 #{ 'hidden' unless params[:sub_category].present? && params[:sub_category] != 'all' }" do %>
                   All
                 <% end %>
                 <% @categories.each do |category| %>
@@ -108,7 +108,7 @@
     setTimeout(function(){
       $(".js-category-button").removeClass("hidden");
       $(curEvent.target).addClass("hidden");
-    }, 250);
+    }, 333);
 
     history.replaceState({}, "", curEvent.target.href);
     ga('send', 'pageview', curEvent.target.href);
@@ -116,4 +116,19 @@
     curEvent.preventDefault();
     return false;
   })
+
+  $(".js-tab__sub-cateogries").on("click", function () {
+    categoryName = $(".js-dropdown-button-text").text("All");
+    refreshSubCategoryList();
+
+    if ( $(".js-category-button:visible").length > 0 ) {
+      $(".js-dropdown-button__subcategory").click();
+    }
+
+    setTimeout(function(){
+      $(".js-category-button:not(:first-of-type)").removeClass("hidden");
+      $(".js-category-button:first-of-type").addClass("hidden");
+    }, 333);
+  })
+
 </script>
