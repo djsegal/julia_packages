@@ -12,13 +12,13 @@
 
       <%= render partial: "index_tabs" %>
 
-      <div class="max-w-2xl mx-auto px-8 js-sub-category hidden">
+      <div class="max-w-2xl mx-auto px-8 js-sub-category <%= 'hidden' unless params[:sub_category].present? %>">
         <div class="pt-5 mt-0.5 pb-4">
           <%= render partial: "index_sub_categories" %>
         </div>
       </div>
 
-      <div class="max-w-7xl mx-auto px-8 js-category">
+      <div class="max-w-7xl mx-auto px-8 js-category <%= 'hidden' if params[:sub_category].present? %>">
         <div class="pt-5 mt-0.5 pb-4">
           <%= render partial: "index_categories" %>
         </div>

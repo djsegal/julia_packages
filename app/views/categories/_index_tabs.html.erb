@@ -3,8 +3,8 @@
   <div class="max-w-7xl mx-auto px-8">
     <div class="sm:hidden">
       <select class="form-select block w-full js-category-select">
-        <option selected>Categories</option>
-        <option>Sub Categories</option>
+        <option <%= 'selected' unless params[:sub_category].present? %>>Categories</option>
+        <option <%= 'selected' if params[:sub_category].present? %>>Sub Categories</option>
       </select>
     </div>
   </div>
@@ -12,12 +12,13 @@
   <div class="hidden sm:block mb-4">
     <div class="border-b border-gray-200">
       <nav class="-mb-px flex">
-        <button class="cs-category-tab js-tab__cateogries active">
+        <%= link_to categories_path, class: "cs-category-tab js-tab__cateogries #{ 'active' unless params[:sub_category].present? }" do %>
           Categories
-        </button>
-        <button class="cs-category-tab js-tab__sub-cateogries">
+        <% end %>
+
+        <%= link_to categories_path(sub_category: 'all'), class: "cs-category-tab js-tab__sub-cateogries #{ 'active' if params[:sub_category].present? }" do %>
           Sub Categories
-        </button>
+        <% end %>
       </nav>
     </div>
   </div>
@@ -46,6 +47,12 @@
     toggleCategoryTab(valueSelected)
 
     $(".js-category-select").val(valueSelected);
+
+    history.replaceState({}, "", curEvent.target.href);
+    ga('send', 'pageview', curEvent.target.href);
+
+    curEvent.preventDefault();
+    return false;
   })
 
   $(".js-category-select").on("change", function(curEvent) {

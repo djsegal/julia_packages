@@ -1,10 +1,54 @@
-<div class="bg-white shadow overflow-hidden rounded-md">
-  <div class="bg-white px-4 py-5 sm:px-6">
-    <h3 class="text-lg leading-6 font-medium text-gray-900">
-      Sub Categories
-    </h3>
+<div class="bg-white shadow rounded-md">
+  <div class="bg-white px-4 py-5 sm:px-6 rounded-md">
+    <div class="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-no-wrap">
+      <div class="ml-4 mt-2">
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          Sub Categories
+        </h3>
+      </div>
+      <div class="ml-4 mt-2 flex-shrink-0">
+
+        <div x-data="{ open: false }" @keydown.window.escape="open = false" @click.away="open = false" class="relative inline-block text-left">
+          <div>
+            <span class="rounded-md shadow-sm">
+              <button @click="open = !open" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800 transition ease-in-out duration-150">
+                <div class="js-dropdown-button-text" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 15vw;">
+                  <% if params[:sub_category].present? && params[:sub_category] != "all" %>
+                    <%= Category.friendly.find(params[:sub_category]).name %>
+                  <% else %>
+                    All
+                  <% end %>
+                </div>
+                <svg class="-mr-1 ml-2 h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"/>
+                </svg>
+              </button>
+            </span>
+          </div>
+          <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg">
+            <div class="rounded-md bg-white shadow-xs">
+              <div class="py-1">
+                <%= link_to categories_path(sub_category: 'all'), '@click' => "open = !open", class: "js-category-button block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900 #{ 'hidden' unless params[:sub_category].present? }" do %>
+                  All
+                <% end %>
+                <% @categories.each do |category| %>
+                  <% next unless $category_dict.has_key? category.slug %>
+                  <% next if $category_dict[category.slug].count.zero? %>
+
+                  <%= link_to categories_path(sub_category: category.slug), '@click' => "open = !open", class: "js-category-button block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900 #{ 'hidden' if category.slug == params[:sub_category]}" do %>
+                    <%= category.name %>
+                  <% end %>
+
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
   </div>
-  <ul>
+  <ul class="js-sub-categories-list">
     <% @sub_categories.each do |sub_category| %>
       <li class="border-t border-gray-200">
         <%= link_to cat_path(sub_category), class: "block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out" do %>
@@ -17,7 +61,7 @@
                 </div>
                 <div class="mt-2 flex">
                   <div class="flex items-center text-sm leading-5 text-gray-500">
-                    <span>
+                    <span class="js-from-span">
                       from <%= $sub_category_dict[sub_category.slug].name %> Category
                     </span>
                   </div>
@@ -30,3 +74,46 @@
     <% end %>
   </ul>
 </div>
+
+<script>
+  function refreshSubCategoryList() {
+    categoryName = $(".js-dropdown-button-text").text().trim();
+
+    if ( categoryName == "All" ) {
+      $("ul.js-sub-categories-list li").removeClass("hidden");
+      return
+    }
+
+    selectedInnerText = "from " + categoryName + " Category";
+
+    $("ul.js-sub-categories-list li").each(function (curIndex, curElement) {
+      tmpInnerText = curElement.getElementsByClassName("js-from-span")[0].innerText.trim();
+
+      if ( tmpInnerText == selectedInnerText ) {
+        $(curElement).removeClass("hidden");
+      } else {
+        $(curElement).addClass("hidden");
+      }
+    });
+  }
+
+  refreshSubCategoryList();
+
+  $(".js-category-button").on("click", function(curEvent) {
+    categoryName = curEvent.target.text.trim();
+    $(".js-dropdown-button-text").text(categoryName);
+
+    refreshSubCategoryList();
+
+    setTimeout(function(){
+      $(".js-category-button").removeClass("hidden");
+      $(curEvent.target).addClass("hidden");
+    }, 250);
+
+    history.replaceState({}, "", curEvent.target.href);
+    ga('send', 'pageview', curEvent.target.href);
+
+    curEvent.preventDefault();
+    return false;
+  })
+</script>
