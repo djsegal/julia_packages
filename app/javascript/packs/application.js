@@ -23,6 +23,8 @@ import '../javascripts/pagy.js.erb'
 
 require("packs/monthpicker")
 
+import ahoy from "ahoy.js";
+
 import { autocompleteSearch } from '../javascripts/autocomplete';
 $(document).on("turbolinks:load", autocompleteSearch);
 

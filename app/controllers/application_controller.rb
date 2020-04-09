@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   include Pagy::Backend
+  after_action :track_action
 
   def set_packages package_scope
     if params[:sort].present? && params[:order].present?
@@ -37,4 +38,11 @@ class ApplicationController < ActionController::Base
       package_scope, link_extra: 'data-remote="true"'
     )
   end
+
+  protected
+
+    def track_action
+      ahoy.track "view", request.path_parameters
+    end
+
 end
