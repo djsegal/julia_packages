@@ -16,7 +16,7 @@
 
     <%= form_tag public_send(cur_path, init_params[:id]), method: "get" do %>
       <% init_params.each do |cur_key, cur_value| %>
-        <% next cur_key == :id %>
+        <% next if cur_key == :id %>
         <%= hidden_field_tag cur_key.to_s, cur_value %>
       <% end %>
 
