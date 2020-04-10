@@ -1,0 +1,37 @@
+<p id="notice"><%= notice %></p>
+
+<div class="min-h-screen bg-gray-100">
+
+  <%= render partial: 'layouts/show_navbar' %>
+
+  <div class="pt-7">
+
+    <main>
+
+      <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+
+        <div class="bg-white overflow-hidden shadow sm:rounded-lg mb-7">
+          <div class="border-b border-gray-200 px-4 py-5 sm:px-6">
+            <h3>Users Map</h3>
+          </div>
+          <div class="px-4 py-5 sm:p-6">
+            <%= geo_chart Ahoy::Visit.group(:country).count %>
+          </div>
+        </div>
+
+        <div class="bg-white overflow-hidden shadow sm:rounded-lg mb-7">
+          <div class="border-b border-gray-200 px-4 py-5 sm:px-6">
+            <h3>Page Views</h3>
+          </div>
+          <div class="px-4 py-5 sm:p-6">
+            <%= area_chart Ahoy::Event.group_by_day(:time).count %>
+          </div>
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+
+</div>

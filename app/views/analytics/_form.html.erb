@@ -1,0 +1,17 @@
+<%= form_with(model: analytic, local: true) do |form| %>
+  <% if analytic.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(analytic.errors.count, "error") %> prohibited this analytic from being saved:</h2>
+
+      <ul>
+        <% analytic.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>
