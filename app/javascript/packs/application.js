@@ -25,6 +25,8 @@ require("packs/monthpicker")
 
 import ahoy from "ahoy.js";
 
+require("chartkick")
+
 import { autocompleteSearch } from '../javascripts/autocomplete';
 $(document).on("turbolinks:load", autocompleteSearch);
 
