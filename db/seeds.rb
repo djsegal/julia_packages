@@ -10,6 +10,8 @@ system "git -C #{@julia_pkg_dir} pull"
 system "git -C #{@julia_pkg_dir} fetch --all"
 system "git -C #{@julia_pkg_dir} reset origin --hard"
 
+refresh_category_maps()
+
 Label.delete_all
 Dependency.delete_all
 
