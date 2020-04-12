@@ -1,9 +1,18 @@
+<%
+  init_params = {
+    order: params[:order], sort: params[:sort],
+    min_stars: params[:min_stars], since: params[:since]
+  }
+
+  init_params.delete_if { |k, v| !v.present? }
+%>
+
 <div>
-  <%= link_to packages_path, class: "cs-sidebar-tab group" + current_class?(packages_path) do %>
+  <%= link_to packages_path(init_params), class: "cs-sidebar-tab group" + current_class?(packages_path) do %>
     <%= inline_svg_tag "database.svg", class: 'mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150', style: "fill: currentcolor;" %>
     All Packages
   <% end %>
-  <%= link_to trending_path, class: "cs-sidebar-tab group" + current_class?(trending_path) + current_class?(root_path) do %>
+  <%= link_to trending_path(init_params), class: "cs-sidebar-tab group" + current_class?(trending_path) + current_class?(root_path) do %>
     <%= inline_svg_tag "stats-dots.svg", class: 'mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150', style: "fill: currentcolor;" %>
     Trending
   <% end %>
@@ -43,14 +52,14 @@
   %>
 
   <% top_categories.each do |sidebar_category| %>
-    <%= link_to cat_path(sidebar_category), class: "cs-sidebar-tab group" do %>
+    <%= link_to cat_path(sidebar_category, init_params), class: "cs-sidebar-tab group" do %>
       <%= inline_svg_tag "folder.svg", class: 'mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150', style: "fill: currentcolor;" %>
       <%= sidebar_category.name %>
     <% end %>
   <% end %>
 
   <% if is_category_select %>
-    <%= link_to cat_path(active_sidebar_category), class: "cs-sidebar-tab group active" do %>
+    <%= link_to cat_path(active_sidebar_category, init_params), class: "cs-sidebar-tab group active" do %>
       <%= inline_svg_tag "folder-open.svg", class: 'mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150', style: "fill: currentcolor;" %>
       <%= active_sidebar_category.name %>
     <% end %>
@@ -75,7 +84,7 @@
     %>
 
     <% sidebar_sub_categories.each do |sidebar_sub_category| %>
-      <%= link_to cat_path(sidebar_sub_category), class: "cs-sidebar-tab group" do %>
+      <%= link_to cat_path(sidebar_sub_category, init_params), class: "cs-sidebar-tab group" do %>
         <% if @category.slug == sidebar_sub_category.slug %>
           <%= inline_svg_tag "radio-checked.svg", class: 'mr-3 h-2.5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150', style: "fill: currentcolor;" %>
           <span class="font-medium"><%= sidebar_sub_category.name %></span>
@@ -87,7 +96,7 @@
     <% end %>
 
     <% if has_more_sub_categories %>
-      <%= link_to categories_path(sub_category: active_sidebar_category), class: "group flex items-center pl-10 pr-2 py-3 text-sm leading-5 font-normal text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150" do %>
+      <%= link_to categories_path(init_params.merge({ sub_category: active_sidebar_category})), class: "group flex items-center pl-10 pr-2 py-3 text-sm leading-5 font-normal text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150" do %>
         <span class="truncate">
           View more subcategories
         </span>
@@ -96,13 +105,13 @@
   <% end %>
 
   <% bot_categories.each do |sidebar_category| %>
-    <%= link_to cat_path(sidebar_category), class: "cs-sidebar-tab group" do %>
+    <%= link_to cat_path(sidebar_category, init_params), class: "cs-sidebar-tab group" do %>
       <%= inline_svg_tag "folder.svg", class: 'mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150', style: "fill: currentcolor;" %>
       <%= sidebar_category.name %>
     <% end %>
   <% end %>
 
-  <%= link_to categories_path, class: "group flex items-center px-2 py-3 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150" do %>
+  <%= link_to categories_path(init_params), class: "group flex items-center px-2 py-3 text-sm leading-5 font-medium text-gray-600 rounded-md hover:text-gray-900 hover:bg-gray-50 focus:outline-none focus:bg-gray-100 transition ease-in-out duration-150" do %>
     <span class="truncate">
       View more categories
     </span>
