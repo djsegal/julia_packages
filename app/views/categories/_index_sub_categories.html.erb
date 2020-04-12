@@ -25,7 +25,7 @@
               </button>
             </span>
           </div>
-          <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg">
+          <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg" style="display: none;">
             <div class="rounded-md bg-white shadow-xs">
               <div class="py-1">
                 <%= link_to categories_path(sub_category: 'all'), '@click' => "open = !open", class: "js-category-button block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900 #{ 'hidden' unless params[:sub_category].present? && params[:sub_category] != 'all' }" do %>
@@ -49,8 +49,10 @@
     </div>
   </div>
   <ul class="js-sub-categories-list">
+    <% sub_category_package_threshold = 9 %>
+
     <% @sub_categories.each do |sub_category| %>
-      <li class="border-t border-gray-200">
+      <li class="border-t border-gray-200 <%= 'js-few-packages' if sub_category.labels_count < sub_category_package_threshold %>">
         <%= link_to cat_path(sub_category), class: "block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out" do %>
           <div class="px-4 py-4 flex items-center sm:px-6">
             <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
@@ -73,6 +75,15 @@
       </li>
     <% end %>
   </ul>
+
+  <a href="javascript:void(0)" class="bg-gray-50 border-t border-gray-200 block hover:bg-white focus:outline-none focus:bg-white transition duration-150 ease-in-out js-more-categories">
+    <div class="py-4">
+      <div class="text-center items-center justify-between js-view-all">
+        View more categories
+      </div>
+    </div>
+  </a>
+
 </div>
 
 <script>
@@ -80,9 +91,15 @@
     categoryName = $(".js-dropdown-button-text").text().trim();
 
     if ( categoryName == "All" ) {
-      $("ul.js-sub-categories-list li").removeClass("hidden");
+      $('.js-more-categories').removeClass("hidden");
+
+      $("ul.js-sub-categories-list li:not(.js-few-packages)").removeClass("hidden");
+      $("ul.js-sub-categories-list li.js-few-packages").addClass("hidden");
+
       return
     }
+
+    $('.js-more-categories').addClass("hidden");
 
     selectedInnerText = "from " + categoryName + " Category";
 
@@ -131,4 +148,10 @@
     }, 333);
   })
 
+  $('.js-more-categories').on("click", function (curEvent) {
+    $("ul.js-sub-categories-list li.js-few-packages").removeClass("hidden");
+    $('.js-more-categories').addClass("hidden");
+
+    curEvent.preventDefault();
+  })
 </script>
