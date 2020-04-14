@@ -3,6 +3,8 @@
   <%
     is_trending_path = @category.present? && @category.name == "Trending"
 
+    is_search_path = ( params[:search] || params[:s] ).present?
+
     init_params = {
       id: cur_id,
       search: params[:search], s: params[:s],
@@ -36,7 +38,7 @@
   <div class="hidden sm:block">
     <nav class="flex">
 
-      <% if !params[:sort].present? && !is_trending_path %>
+      <% if !params[:sort].present? && !is_trending_path && !is_search_path %>
         <%= link_to "↓ Stargazers", public_send(cur_path, init_params.merge({ sort: "stars", order: "asc"})), class: "cs-tab cs-active" %>
       <% elsif params[:sort] != "stars" %>
         <%= link_to "Stargazers", public_send(cur_path, init_params.merge({ sort: "stars"})), class: "cs-tab" %>

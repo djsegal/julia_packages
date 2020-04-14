@@ -3,6 +3,8 @@ class ApplicationController < ActionController::Base
   after_action :track_action
 
   def set_packages package_scope
+    cur_search = params[:s] || params[:search]
+
     if params[:sort].present? && params[:order].present?
       package_scope = package_scope.order(params[:sort] => params[:order])
     else
@@ -10,7 +12,7 @@ class ApplicationController < ActionController::Base
         package_scope = package_scope.order(params[:sort] => :asc)
       elsif params[:sort].present?
         package_scope = package_scope.order(params[:sort] => :desc)
-      else
+      elsif !cur_search.present?
         if @category.present? && @category.name == "Trending"
           package_scope = package_scope.order(updated: :desc)
         else
@@ -18,8 +20,6 @@ class ApplicationController < ActionController::Base
         end
       end
     end
-
-    cur_search = params[:s] || params[:search]
 
     if cur_search.present?
       package_scope = package_scope.search(cur_search)
