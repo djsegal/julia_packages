@@ -14,11 +14,11 @@ class PackagesController < ApplicationController
 
     set_packages package_scope
 
-    is_search = ( params[:search] || params[:s] ).present?
+    is_single_search = !request.format.json?
+    is_single_search &&= @packages.length == 1
+    is_single_search &&= ( params[:search] || params[:s] ).present?
 
-    if is_search && @packages.length == 1
-      redirect_to @packages.first
-    end
+    redirect_to @packages.first if is_single_search
   end
 
   # GET /packages/1
