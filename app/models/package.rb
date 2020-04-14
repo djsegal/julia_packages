@@ -33,15 +33,8 @@ class Package < ApplicationRecord
 
   pg_search_scope :shallow_search,
     order_within_rank: "packages.updated DESC",
-    against: {
-      name: 'A',
-      description: 'B'
-    },
-    using: {
-      tsearch: { prefix: true },
-      trigram: { word_similarity: true },
-      dmetaphone: {}
-    }
+    against: { name: 'A', description: 'B' },
+    using: { tsearch: { prefix: true } }
 
   has_one :readme, dependent: :destroy
 
