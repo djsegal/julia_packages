@@ -8,6 +8,7 @@
 #  github_url  :string
 #  name        :string
 #  owner       :string
+#  registered  :boolean
 #  search      :text
 #  slug        :string
 #  stars       :integer

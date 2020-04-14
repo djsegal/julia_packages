@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_14_030345) do
+ActiveRecord::Schema.define(version: 2020_04_14_071744) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -110,6 +110,7 @@ ActiveRecord::Schema.define(version: 2020_04_14_030345) do
     t.string "github_url"
     t.text "search"
     t.string "slug"
+    t.boolean "registered"
     t.index ["slug"], name: "index_packages_on_slug", unique: true
   end
 

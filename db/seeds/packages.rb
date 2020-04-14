@@ -16,6 +16,7 @@ bar = ProgressBar.new(@packages_db.size)
     created: cur_row["created"],
     updated: cur_row["updated"],
     github_url: cur_row["github_url"],
+    registered: cur_row["registered"],
     description: ( cur_row["description"] || "" ).upcase_first()
   )
 end
