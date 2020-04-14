@@ -13,6 +13,12 @@ class PackagesController < ApplicationController
     end
 
     set_packages package_scope
+
+    is_search = ( params[:search] || params[:s] ).present?
+
+    if is_search && @packages.length == 1
+      redirect_to @packages.first
+    end
   end
 
   # GET /packages/1
