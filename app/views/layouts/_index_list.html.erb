@@ -24,6 +24,10 @@
 
               <script>
                 tippy('.js-filter-packages', {placement: 'left'});
+
+                $('.js-filter-packages').on("click", function() {
+                  $('.js-filter-packages')[0]._tippy.hide();
+                })
               </script>
 
             </span>
