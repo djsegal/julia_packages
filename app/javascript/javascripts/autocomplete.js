@@ -21,8 +21,17 @@ const autocompleteSearch = function() {
       selector: searchInput,
       minChars: 3,
       source: function(term, suggest){
+        var curForm = searchInput.closest("form");
+        var initParams = {};
+
+        $(curForm).children("input:not(#" + searchInput.id + ")").each(function (curIndex, curInput) {
+          if ( curInput.type == "hidden" ) {
+            initParams[curInput.name] = curInput.value;
+          }
+        })
+
         $.getJSON('/packages.json',
-          { search: term },
+          Object.assign({ search: term }, initParams),
           function(data) {
             return data;
         }).then((data) => {

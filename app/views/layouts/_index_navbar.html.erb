@@ -7,7 +7,20 @@
   <div class="flex-1 px-4 flex justify-between">
     <div class="flex-1 flex">
 
+      <%
+        init_params = {
+          order: params[:order], sort: params[:sort],
+          min_stars: params[:min_stars], since: params[:since]
+        }
+
+        init_params.delete_if { |k, v| !v.present? }
+      %>
+
       <%= form_tag packages_path, class: "w-full flex md:ml-0", method: "get" do %>
+          <% init_params.each do |cur_key, cur_value| %>
+            <%= hidden_field_tag cur_key.to_s, cur_value %>
+          <% end %>
+
           <label for="search" class="sr-only">Search</label>
           <div class="relative w-full text-gray-400 focus-within:text-gray-600">
             <div class="absolute inset-y-0 left-0 flex items-center pointer-events-none">
