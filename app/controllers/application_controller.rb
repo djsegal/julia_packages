@@ -38,6 +38,10 @@ class ApplicationController < ActionController::Base
       package_scope = package_scope.where('stars > ?', params[:min_stars])
     end
 
+    if params[:registered] == "true"
+      package_scope = package_scope.where(registered: true)
+    end
+
     @pagy, @packages = pagy_countless(
       package_scope, link_extra: 'data-remote="true"'
     )

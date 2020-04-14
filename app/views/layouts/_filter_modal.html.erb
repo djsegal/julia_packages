@@ -56,6 +56,18 @@
 
           <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start pb-4">
             <label for="since" class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px sm:pt-2">
+              Package Scope
+            </label>
+            <div class="mt-1 sm:mt-0 sm:col-span-2">
+              <div class="max-w rounded-md shadow-sm">
+                <% cur_options = %w[ All Registered ] %>
+                <%= select_tag "registered", options_for_select(cur_options.zip([false, true]), params[:registered]), class: "block form-select w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5" %>
+              </div>
+            </div>
+          </div>
+
+          <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start pb-4">
+            <label for="since" class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px sm:pt-2">
               Search Depth
             </label>
             <div class="mt-1 sm:mt-0 sm:col-span-2">
@@ -83,7 +95,7 @@
             </label>
             <div class="mt-1 sm:mt-0 sm:col-span-2">
               <div class="max-w rounded-md shadow-sm">
-                <%= text_field_tag "since", params[:since], class: "form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 js-month-picker", autocomplete: "off", placeholder:"01/2012" %>
+                <%= text_field_tag "since", params[:since], class: "form-input block w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5 js-month-picker", autocomplete: "off", placeholder:"01-2012" %>
               </div>
             </div>
           </div>
@@ -123,6 +135,10 @@
 
         if ( $("select#depth option:selected").val() == "deep" ) {
           $("select#depth").attr("disabled", "disabled");
+        }
+
+        if ( $("select#registered option:selected").val() == "false" ) {
+          $("select#registered").attr("disabled", "disabled");
         }
       }
 
