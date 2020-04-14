@@ -28,14 +28,14 @@
           <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg" style="display: none;">
             <div class="rounded-md bg-white shadow-xs">
               <div class="py-1">
-                <%= link_to categories_path(sub_category: 'all'), '@click' => "open = !open", class: "js-category-button block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900 #{ 'hidden' unless params[:sub_category].present? && params[:sub_category] != 'all' }" do %>
+                <%= link_to categories_path(init_params.merge({ sub_category: 'all' })), '@click' => "open = !open", class: "js-category-button block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900 #{ 'hidden' unless params[:sub_category].present? && params[:sub_category] != 'all' }" do %>
                   All
                 <% end %>
                 <% @categories.each do |category| %>
                   <% next unless $category_dict.has_key? category.slug %>
                   <% next if $category_dict[category.slug].count.zero? %>
 
-                  <%= link_to categories_path(sub_category: category.slug), '@click' => "open = !open", class: "js-category-button block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900 #{ 'hidden' if category.slug == params[:sub_category]}" do %>
+                  <%= link_to categories_path(init_params.merge({ sub_category: category.slug })), '@click' => "open = !open", class: "js-category-button block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 hover:text-gray-900 focus:outline-none focus:bg-gray-100 focus:text-gray-900 #{ 'hidden' if category.slug == params[:sub_category]}" do %>
                     <%= category.name %>
                   <% end %>
 
@@ -53,7 +53,7 @@
 
     <% @sub_categories.each do |sub_category| %>
       <li class="border-t border-gray-200 <%= 'js-few-packages' if sub_category.labels_count < sub_category_package_threshold %>">
-        <%= link_to cat_path(sub_category), class: "block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out" do %>
+        <%= link_to cat_path(sub_category, init_params), class: "block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out" do %>
           <div class="px-4 py-4 flex items-center sm:px-6">
             <div class="min-w-0 flex-1 sm:flex sm:items-center sm:justify-between">
               <div>

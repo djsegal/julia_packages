@@ -10,17 +10,27 @@
 
     <main class="cs-index-main">
 
-      <%= render partial: "index_tabs" %>
+      <%
+        init_params = {
+          order: params[:order], sort: params[:sort],
+          min_stars: params[:min_stars], since: params[:since],
+          depth: params[:depth], registered: params[:registered]
+        }
+
+        init_params.delete_if { |k, v| !v.present? }
+      %>
+
+      <%= render partial: "index_tabs", locals: { init_params: init_params } %>
 
       <div class="max-w-2xl mx-auto px-8 js-sub-category <%= 'hidden' unless params[:sub_category].present? %>">
         <div class="pt-5 mt-0.5 pb-4 mb-2">
-          <%= render partial: "index_sub_categories" %>
+          <%= render partial: "index_sub_categories", locals: { init_params: init_params } %>
         </div>
       </div>
 
       <div class="max-w-7xl mx-auto px-8 js-category <%= 'hidden' if params[:sub_category].present? %>">
         <div class="pt-5 mt-0.5 pb-4 mb-2">
-          <%= render partial: "index_categories" %>
+          <%= render partial: "index_categories", locals: { init_params: init_params } %>
         </div>
       </div>
 

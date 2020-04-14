@@ -12,11 +12,11 @@
   <div class="hidden sm:block mb-4">
     <div class="border-b border-gray-200">
       <nav class="-mb-px flex">
-        <%= link_to categories_path, class: "cs-category-tab js-tab__cateogries #{ 'active' unless params[:sub_category].present? }" do %>
+        <%= link_to categories_path(init_params), class: "cs-category-tab js-tab__cateogries #{ 'active' unless params[:sub_category].present? }" do %>
           Categories
         <% end %>
 
-        <%= link_to categories_path(sub_category: 'all'), class: "cs-category-tab js-tab__sub-cateogries #{ 'active' if params[:sub_category].present? }" do %>
+        <%= link_to categories_path(init_params.merge({ sub_category: 'all' })), class: "cs-category-tab js-tab__sub-cateogries #{ 'active' if params[:sub_category].present? }" do %>
           Sub Categories
         <% end %>
       </nav>
