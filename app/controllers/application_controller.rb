@@ -22,7 +22,11 @@ class ApplicationController < ActionController::Base
     end
 
     if cur_search.present?
-      package_scope = package_scope.search(cur_search)
+      if params[:depth] == "shallow"
+        package_scope = package_scope.shallow_search(cur_search)
+      else
+        package_scope = package_scope.deep_search(cur_search)
+      end
     end
 
     if params[:since].present?

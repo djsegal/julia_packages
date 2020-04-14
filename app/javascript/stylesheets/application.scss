@@ -123,6 +123,10 @@ a.cs-tab.cs-active {
   @apply border-t border-gray-200;
 }
 
+.month-picker {
+  @apply mt-0.5;
+}
+
 .month-picker-next .ui-icon, .month-picker-previous .ui-icon {
   @apply my-1 ml-1.5 mr-1;
 }

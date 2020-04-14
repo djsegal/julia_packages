@@ -26,7 +26,22 @@ class Package < ApplicationRecord
   friendly_id :name, use: :slugged
 
   include PgSearch::Model
-  pg_search_scope :search, against: :search, order_within_rank: "packages.updated DESC"
+
+  pg_search_scope :deep_search,
+    order_within_rank: "packages.updated DESC",
+    against: :search
+
+  pg_search_scope :shallow_search,
+    order_within_rank: "packages.updated DESC",
+    against: {
+      name: 'A',
+      description: 'B'
+    },
+    using: {
+      tsearch: { prefix: true },
+      trigram: { word_similarity: true },
+      dmetaphone: {}
+    }
 
   has_one :readme, dependent: :destroy
 

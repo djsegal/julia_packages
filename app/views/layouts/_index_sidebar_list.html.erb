@@ -1,7 +1,8 @@
 <%
   init_params = {
     order: params[:order], sort: params[:sort],
-    min_stars: params[:min_stars], since: params[:since]
+    min_stars: params[:min_stars], since: params[:since],
+    depth: params[:depth]
   }
 
   init_params.delete_if { |k, v| !v.present? }
