@@ -13,7 +13,10 @@
         <div class="bg-white overflow-hidden shadow sm:rounded-lg mb-7">
           <div class="border-b border-gray-200 px-4 py-5 sm:px-6">
             <span class="float-right text-sm text-gray-500">
-              <%= custom_int_to_text Ahoy::Visit.count %> total
+              <%
+                visits_with_country = Ahoy::Visit.where.not(country: [nil, ""])
+              %>
+              <%= custom_int_to_text visits_with_country.count %> total
             </span>
             <h3>Users Map</h3>
           </div>
