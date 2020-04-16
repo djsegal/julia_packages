@@ -8,6 +8,8 @@ class PackagesController < ApplicationController
       package_scope = Package.friendly.find(params[:depender]).depending
     elsif params[:dependee].present?
       package_scope = Package.friendly.find(params[:dependee]).dependents
+    elsif params[:user].present?
+      package_scope = Package.where(owner: params[:user])
     else
       package_scope = Package
     end

@@ -6,7 +6,7 @@
     is_search_path = ( params[:search] || params[:s] ).present?
 
     init_params = {
-      id: cur_id,
+      id: cur_id, user: params[:user],
       search: params[:search], s: params[:s],
       depender: params[:depender], dependee: params[:dependee],
       min_stars: params[:min_stars], since: params[:since],
