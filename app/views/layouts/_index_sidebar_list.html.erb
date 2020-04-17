@@ -17,6 +17,10 @@
     <%= inline_svg_tag "stats-dots.svg", class: 'mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150', style: "fill: currentcolor;" %>
     Trending
   <% end %>
+  <%= link_to users_path(init_params), class: "cs-sidebar-tab group" + current_class?(users_path) do %>
+    <%= inline_svg_tag "user.svg", class: 'mr-3 h-5 w-5 text-gray-400 group-hover:text-gray-500 group-focus:text-gray-500 transition ease-in-out duration-150', style: "fill: currentcolor;" %>
+    Developers
+  <% end %>
   <div class="border-t border-gray-200 mt-7 pt-0.5"></div>
 </div>
 <div class="mt-8">

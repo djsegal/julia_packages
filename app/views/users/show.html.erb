@@ -1,0 +1,55 @@
+<p id="notice"><%= notice %></p>
+
+<% content_for :page_title, @user.name %>
+
+<%= render partial: 'layouts/index_javascript' %>
+
+<div class="h-screen flex overflow-hidden bg-gray-100" x-data="{ sidebarOpen: false }" @keydown.window.escape="sidebarOpen = false">
+
+  <%= render partial: 'layouts/index_sidebar' %>
+
+  <div class="flex flex-col w-0 flex-1 overflow-hidden">
+
+    <%= render partial: 'layouts/index_navbar' %>
+
+    <main class="cs-index-main" x-data onscroll="loadNextPage()">
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 pb-12">
+  <div class="bg-white shadow overflow-hidden  sm:rounded-lg">
+    <div class="px-4 py-5 sm:px-6">
+      <dl class="grid grid-cols-1 col-gap-4 row-gap-8 grid-cols-6 sm:grid-cols-9 lg:grid-cols-6 items-center">
+        <div class="col-span-2 sm:col-span-2 lg:col-span-1">
+          <a href="https://github.com/<%= @user.name %>">
+            <div class="border rounded-md p-2.5 bg-gray-100 focus:bg-gray-50 hover:bg-gray-50 focus:opacity-75 hover:opacity-75">
+              <img class="rounded-md bg-white border m-auto" src="https://github.com/<%= @user.name %>.png" onerror="javascript:this.src='/user.png'">
+            </div>
+          </a>
+        </div>
+        <div class="col-span-4 sm:col-span-7 lg:col-span-5 ml-1.5">
+          <div class="text-xl leading-7 font-medium text-gray-500">
+            <a href="https://github.com/<%= @user.name %>" class="focus:text-teal-500 hover:text-teal-500">@<span class="underline"><%= @user.name %></span></a>
+          </div>
+          <div class="mt-2 text-md text-gray-900">
+            <%= @user.packages_count %> Packages since <%= @user.packages.order(created: :asc).first.created.year %>
+          </div>
+        </div>
+      </dl>
+    </div>
+  </div>
+</div>
+
+      <%= render partial: 'layouts/index_tabs', locals: { cur_path: :usr_path, cur_id: @user.slug } %>
+
+      <%= render partial: 'layouts/index_list', locals: { package_header: "User" } %>
+
+      <div id="div_next_link">
+        <%= render partial: 'layouts/next_link' %>
+      </div>
+
+    </main>
+
+  </div>
+
+</div>
+
+<%= render partial: 'layouts/filter_modal', locals: { cur_path: :cat_path, cur_id: @user.slug } %>

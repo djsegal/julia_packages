@@ -19,6 +19,7 @@ Readme.delete_all
 Category.delete_all
 
 Package.delete_all
+User.delete_all
 
 @general_db = Daru::DataFrame.from_csv "#{@julia_pkg_dir}/data/general.csv"
 

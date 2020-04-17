@@ -1,0 +1,22 @@
+$('#packages_table').append("<%= j(render 'layouts/page_items')%>");
+$('#div_next_link').html("<%= j(render 'layouts/next_link') %>");
+
+<% if @pagy.page == @pagy.pages %>
+  $(".js-view-all").text("View all packages")
+<% end %>
+
+curPathName = location.pathname + location.search;
+
+if ( curPathName.endsWith("/") ) {
+  curPathName = curPathName.slice(0, -1);
+}
+
+if ( curPathName.includes("?") ) {
+  curPathName += "&";
+} else {
+  curPathName += "?";
+}
+
+curPathName += "page=<%= @pagy.page %>";
+
+ga('send', 'pageview', curPathName);

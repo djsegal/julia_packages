@@ -155,3 +155,19 @@ a.cs-tab.cs-active {
   // @apply border-l-gray-600;
   border-left-color: #4b5563;
 }
+
+.cs-pagination-button {
+  @apply -ml-px relative items-center px-4 py-2 border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-700 transition ease-in-out duration-150;
+}
+
+.cs-pagination-button:hover {
+  @apply text-gray-500;
+}
+
+.cs-pagination-button:focus {
+  @apply z-10 outline-none border-blue-300 shadow-outline-blue;
+}
+
+.cs-pagination-button:active, .cs-pagination-button.active {
+  @apply bg-gray-100 text-gray-700;
+}

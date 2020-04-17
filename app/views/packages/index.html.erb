@@ -21,10 +21,9 @@
         cur_header = "All"
         ( cur_header = "Searched" ) if is_search
         ( cur_header = "Dependency" ) if is_dependency
-        ( cur_header = "User" ) if params[:user].present?
 
         local_dict = {
-          is_unscoped: !is_search && !is_dependency && !params[:user].present?,
+          is_unscoped: !is_search && !is_dependency,
           package_header: cur_header,
         }
       %>

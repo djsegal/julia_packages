@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
 
   resources :analytics, only: [:index]
+
+  resources :users, only: [:index, :show]
+  resources :users, path: "u", as: "usrs", only: [:index, :show]
+
   resources :categories, only: [:index, :show]
   resources :categories, path: "c", as: "cats", only: [:index, :show]
 

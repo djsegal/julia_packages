@@ -18,10 +18,10 @@
 
         <div class="pt-1">
 
-          <%= link_to packages_path("user" => @package.owner) do %>
+          <%= link_to usr_path(@package.user) do %>
             <div class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium leading-4 bg-indigo-100 mr-0.5 mt-1.5">
               <span class="text-indigo-800 border-r border-indigo-400 pr-1.5">Author</span>
-              <span class="text-indigo-900 pl-1.5" style="opacity: 0.75;"><%= @package.owner %></span>
+              <span class="text-indigo-900 pl-1.5" style="opacity: 0.75;"><%= @package.user.name %></span>
             </div>
           <% end %>
 

@@ -1,0 +1,42 @@
+<ul>
+
+  <% @users.each do |user| %>
+
+    <li class="border-t border-gray-200">
+      <%= link_to usr_path(user, init_params), class: "block hover:bg-gray-50 focus:outline-none focus:bg-gray-50 transition duration-150 ease-in-out" do %>
+        <div class="flex items-center px-4 py-4 sm:px-6">
+          <div class="min-w-0 flex-1 flex items-center">
+            <div class="flex-shrink-0">
+              <img class="h-12 w-12 rounded-md" src="https://github.com/<%= user.name %>.png" onerror="javascript:this.src='/user.png'"/>
+            </div>
+            <div class="min-w-0 flex-1 px-5 md:grid md:grid-cols-1 md:gap-4">
+              <div class="px-0.5">
+                <div class="text-sm leading-5 font-medium text-indigo-600 truncate"><%= user.name %> <span class="text-gray-400">(<%= user.packages_count %>)</span></div>
+                <div class="mt-2 flex items-center text-sm leading-5 text-gray-500">
+                  <span class="truncate">
+                    <% user_packages = user.packages.order(stars: :desc).first(5) %>
+
+                    <% user_packages.each_with_index do |user_package, cur_index| %>
+                      <% if cur_index == user_packages.length - 1 %>
+                        <%= user_package.name %>
+                      <% else %>
+                        <%= user_package.name %>,
+                      <% end %>
+                    <% end %>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
+            </svg>
+          </div>
+        </div>
+      <% end %>
+    </li>
+
+  <% end %>
+
+</ul>

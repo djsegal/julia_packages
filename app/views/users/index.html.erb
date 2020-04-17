@@ -1,0 +1,46 @@
+<p id="notice"><%= notice %></p>
+
+<div class="h-screen flex overflow-hidden bg-gray-100" x-data="{ sidebarOpen: false }" @keydown.window.escape="sidebarOpen = false">
+
+  <%= render partial: 'layouts/index_sidebar' %>
+
+  <div class="flex flex-col w-0 flex-1 overflow-hidden">
+
+    <%= render partial: 'layouts/index_navbar' %>
+
+    <main class="cs-index-main">
+
+      <div class="max-w-4xl mx-auto px-8">
+        <div class="pt-5 mt-0.5 pb-4 mb-2">
+
+          <div class="bg-white shadow overflow-hidden rounded-md">
+
+            <div class="bg-white px-4 py-6 sm:px-6">
+              <h1 class="text-xl leading-6 text-gray-700">
+                Package Developers
+              </h1>
+            </div>
+
+            <%
+              init_params = {
+                order: params[:order], sort: params[:sort],
+                min_stars: params[:min_stars], since: params[:since],
+                depth: params[:depth], registered: params[:registered]
+              }
+
+              init_params.delete_if { |k, v| !v.present? }
+            %>
+
+            <%= render partial: 'users_list', locals: { init_params: init_params } %>
+            <%= render partial: 'users_pagination', locals: { init_params: init_params } %>
+
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+</div>
