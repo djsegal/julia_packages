@@ -19,4 +19,10 @@ SitemapGenerator::Sitemap.create do
     add pkg_path(package)
   end
 
+  add users_path
+
+  User.find_each do |user|
+    add usr_path(user)
+  end
+
 end
