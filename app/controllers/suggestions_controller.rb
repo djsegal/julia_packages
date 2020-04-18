@@ -52,11 +52,11 @@ class SuggestionsController < ApplicationController
 
     respond_to do |format|
       if @suggestion.save
-        format.html { redirect_to @package, notice: '[success] Suggestion was successfully created.' }
+        format.html { redirect_to @package, notice: '[success] Your suggestion has been <a class="underline text-teal-500" href="/suggestions">filed</a>.' }
         format.json { render :show, status: :created, location: @suggestion }
       else
         if suggestion_dict[:category].present?
-          format.html { redirect_to @package, notice: '[info] Suggestion has already been made.' }
+          format.html { redirect_to @package, notice: '[info] Suggestion has already been <a class="underline text-teal-500" href="/suggestions">made</a>.' }
         else
           format.html { redirect_to @package, notice: '[warning] You need to select a category.' }
         end
@@ -99,5 +99,9 @@ class SuggestionsController < ApplicationController
     # Only allow a list of trusted parameters through.
     def suggestion_params
       params.require(:suggestion).permit(:category_id, :sub_category_id, :package_id)
+    end
+
+    def spam_redirect
+      redirect_back fallback_location: root_path, notice: '[warning] You were flagged for suspicious activity.'
     end
 end
