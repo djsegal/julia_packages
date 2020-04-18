@@ -108,6 +108,8 @@ GEM
     inline_svg (1.7.1)
       activesupport (>= 3.0)
       nokogiri (>= 1.6)
+    invisible_captcha (1.0.1)
+      rails (>= 4.2)
     jbuilder (2.10.0)
       activesupport (>= 5.0.0)
     listen (3.1.5)
@@ -254,6 +256,7 @@ DEPENDENCIES
   friendly_id (~> 5.2.4)
   groupdate
   inline_svg
+  invisible_captcha
   jbuilder (~> 2.7)
   listen (>= 3.0.5, < 3.2)
   pagy (~> 3.5)

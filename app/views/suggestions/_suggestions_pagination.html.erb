@@ -1,9 +1,9 @@
 <div class="bg-white px-4 py-3 flex items-center justify-between border-t border-gray-200 sm:px-6">
 
   <div class="flex-1 flex justify-between sm:hidden">
-    <%= link_to "Previous", users_path(init_params.merge({ page: @pagy.prev || 1 })), class: "relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 #{ 'invisible' if @pagy.page == 1 }" %>
+    <%= link_to "Previous", suggestions_path(page: @pagy.prev || 1), class: "relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 #{ 'invisible' if @pagy.page == 1 }" %>
 
-    <%= link_to "Next", users_path(init_params.merge({ page: @pagy.next || @pagy.pages })), class: "ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 #{ 'invisible' if @pagy.page == @pagy.pages }" %>
+    <%= link_to "Next", suggestions_path(page: @pagy.next || @pagy.pages), class: "ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:bg-gray-100 active:text-gray-700 transition ease-in-out duration-150 #{ 'invisible' if @pagy.page == @pagy.pages }" %>
   </div>
 
   <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
@@ -24,13 +24,13 @@
 
       <span class="relative z-0 inline-flex shadow-sm">
 
-        <%= link_to users_path(init_params.merge({ page: @pagy.prev || 1 })), class: "relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150" do %>
+        <%= link_to suggestions_path(page: @pagy.prev || 1), class: "relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150" do %>
           <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd"/>
           </svg>
         <% end %>
 
-        <%= link_to users_path(init_params.merge({ page: 1 })), class: "inline-flex cs-pagination-button #{ 'active' if @pagy.page == 1 }" do %>
+        <%= link_to suggestions_path(page: 1), class: "inline-flex cs-pagination-button #{ 'active' if @pagy.page == 1 }" do %>
           1
         <% end %>
 
@@ -48,16 +48,16 @@
 
           <% if @pagy.page == @pagy.pages %>
             <% unless @pagy.pages == 3 %>
-              <%= link_to users_path(init_params.merge({ page: @pagy.page-2 })), class: "hidden md:inline-flex cs-pagination-button" do %>
+              <%= link_to suggestions_path(page: @pagy.page-2), class: "hidden md:inline-flex cs-pagination-button" do %>
                 <%= @pagy.page-2 %>
               <% end %>
             <% end %>
 
-            <%= link_to users_path(init_params.merge({ page: @pagy.page-1 })), class: "inline-flex cs-pagination-button" do %>
+            <%= link_to suggestions_path(page: @pagy.page-1), class: "inline-flex cs-pagination-button" do %>
               <%= @pagy.page-1 %>
             <% end %>
           <% else %>
-            <%= link_to users_path(init_params.merge({ page: @pagy.page-1 })), class: "hidden md:inline-flex cs-pagination-button" do %>
+            <%= link_to suggestions_path(page: @pagy.page-1), class: "hidden md:inline-flex cs-pagination-button" do %>
               <%= @pagy.page-1 %>
             <% end %>
           <% end %>
@@ -65,7 +65,7 @@
         <% end %>
 
         <% if @pagy.page != 1 && @pagy.page != @pagy.pages %>
-          <%= link_to users_path(init_params.merge({ page: @pagy.page })), class: "inline-flex cs-pagination-button active" do %>
+          <%= link_to suggestions_path(page: @pagy.page), class: "inline-flex cs-pagination-button active" do %>
             <%= @pagy.page %>
           <% end %>
         <% end %>
@@ -73,17 +73,17 @@
         <% if @pagy.page < @pagy.pages - 1 %>
 
           <% if @pagy.page == 1 %>
-            <%= link_to users_path(init_params.merge({ page: @pagy.page+1 })), class: "inline-flex cs-pagination-button" do %>
+            <%= link_to suggestions_path(page: @pagy.page+1), class: "inline-flex cs-pagination-button" do %>
               <%= @pagy.page+1 %>
             <% end %>
 
             <% unless @pagy.pages == 3 %>
-              <%= link_to users_path(init_params.merge({ page: 3 })), class: "hidden md:inline-flex cs-pagination-button" do %>
+              <%= link_to suggestions_path(page: 3), class: "hidden md:inline-flex cs-pagination-button" do %>
                 3
               <% end %>
             <% end %>
           <% else %>
-            <%= link_to users_path(init_params.merge({ page: @pagy.page+1 })), class: "hidden md:inline-flex cs-pagination-button" do %>
+            <%= link_to suggestions_path(page: @pagy.page+1), class: "hidden md:inline-flex cs-pagination-button" do %>
               <%= @pagy.page+1 %>
             <% end %>
           <% end %>
@@ -101,12 +101,12 @@
         <% end %>
 
         <% unless @pagy.pages == 1 %>
-          <%= link_to users_path(init_params.merge({ page: @pagy.pages })), class: "inline-flex cs-pagination-button #{ 'active' if @pagy.page == @pagy.pages }" do %>
+          <%= link_to suggestions_path(page: @pagy.pages), class: "inline-flex cs-pagination-button #{ 'active' if @pagy.page == @pagy.pages }" do %>
             <%= @pagy.pages %>
           <% end %>
         <% end %>
 
-        <%= link_to users_path(init_params.merge({ page: @pagy.next || @pagy.pages })), class: "-ml-px relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150" do %>
+        <%= link_to suggestions_path(page: @pagy.next || @pagy.pages), class: "-ml-px relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm leading-5 font-medium text-gray-500 hover:text-gray-400 focus:z-10 focus:outline-none focus:border-blue-300 focus:shadow-outline-blue active:bg-gray-100 active:text-gray-500 transition ease-in-out duration-150" do %>
           <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
             <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"/>
           </svg>

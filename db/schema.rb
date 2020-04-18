@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_04_16_214305) do
+ActiveRecord::Schema.define(version: 2020_04_18_041716) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -124,6 +124,18 @@ ActiveRecord::Schema.define(version: 2020_04_16_214305) do
     t.index ["package_id"], name: "index_readmes_on_package_id"
   end
 
+  create_table "suggestions", force: :cascade do |t|
+    t.bigint "category_id", null: false
+    t.bigint "package_id", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.bigint "sub_category_id"
+    t.index ["category_id"], name: "index_suggestions_on_category_id"
+    t.index ["package_id", "category_id", "sub_category_id"], name: "unique_combination_index", unique: true
+    t.index ["package_id"], name: "index_suggestions_on_package_id"
+    t.index ["sub_category_id"], name: "index_suggestions_on_sub_category_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
@@ -140,4 +152,7 @@ ActiveRecord::Schema.define(version: 2020_04_16_214305) do
   add_foreign_key "labels", "packages"
   add_foreign_key "packages", "users"
   add_foreign_key "readmes", "packages"
+  add_foreign_key "suggestions", "categories"
+  add_foreign_key "suggestions", "categories", column: "sub_category_id"
+  add_foreign_key "suggestions", "packages"
 end

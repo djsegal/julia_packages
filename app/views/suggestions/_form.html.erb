@@ -1,0 +1,142 @@
+<%= form_with(model: suggestion, local: true) do |form| %>
+
+  <%= form.hidden_field :package_id, value: @package.slug %>
+
+  <div class="border-b border-gray-200">
+    <div class="js-form-body mx-6 py-5">
+
+      <div class="relative">
+
+        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+          <svg class="h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+          </svg>
+        </div>
+
+        <input type="text" id="js-category-search" autocomplete="off" placeholder="Search for Category" class="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:border-blue-300 focus:shadow-outline-blue sm:text-sm transition duration-150 ease-in-out">
+
+      </div>
+
+      <div class="grid grid-cols-5 gap-2 items-center py-8">
+        <hr class="col-span-2 ml-6">
+        <span class="col-span-1 text-center text-sm font-medium text-gray-500"> OR </span>
+        <hr class="col-span-2 mr-6">
+      </div>
+
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start pb-4">
+        <label for="since" class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px sm:pt-2">
+          Category
+        </label>
+        <div class="mt-1 sm:mt-0 sm:col-span-2">
+          <div class="max-w rounded-md shadow-sm">
+            <%= form.select :category_id, Category.where(name: $category_map.keys).collect { |category| [ category.name, category.slug ] }, { include_blank: "-" }, { class: "block form-select w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5" } %>
+          </div>
+        </div>
+      </div>
+
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start">
+        <label for="since" class="block text-sm font-medium leading-5 text-gray-700 sm:mt-px sm:pt-2">
+          Sub Category
+        </label>
+        <div class="mt-1 sm:mt-0 sm:col-span-2">
+          <div class="max-w rounded-md shadow-sm">
+            <%= form.select :sub_category_id, Category.where(name: $sub_category_map.keys).collect { |category| [ category.name, category.slug ] }, { include_blank: "-" }, { class: "block form-select w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5" } %>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+    <span class="flex w-full rounded-md shadow-sm sm:ml-3 sm:w-auto">
+      <%= form.submit class: "inline-flex justify-center w-full rounded-md border border-transparent px-4 py-2 bg-indigo-600 text-base leading-6 font-medium text-white shadow-sm hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo transition ease-in-out duration-150 sm:text-sm sm:leading-5", "@click".to_sym => "open = false;" %>
+    </span>
+    <span class="mt-3 flex w-full rounded-md shadow-sm sm:mt-0 sm:w-auto">
+      <button @click="open = false;" type="button" class="inline-flex justify-center w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-base leading-6 font-medium text-gray-700 shadow-sm hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:shadow-outline transition ease-in-out duration-150 sm:text-sm sm:leading-5">
+        Cancel
+      </button>
+    </span>
+  </div>
+
+<% end %>
+
+<script>
+  var suggestionCategoryMap = <%= raw $category_map.to_json %>;
+  var suggestionSubCategoryMap = <%= raw $sub_category_map.to_json %>;
+
+  $("#suggestion_category_id").on("change", function(curEvent) {
+    if ( this.value === "" ) {
+      $("#suggestion_sub_category_id option").show();
+      return;
+    }
+
+    curCategoryName = $("#suggestion_category_id option:selected").text();
+    var curOptions = suggestionCategoryMap[curCategoryName];
+
+    $("#suggestion_sub_category_id option").each(function (curIndex, curOption) {
+      if ( curOption.text == "-" ) { return; }
+
+      if ( $.inArray(curOption.text, curOptions) !== -1 ) {
+        $(curOption).show();
+      } else {
+        $(curOption).hide();
+
+        if ( $(curOption).is(':selected') ) {
+          $("#suggestion_sub_category_id").val('');
+        }
+      }
+    })
+
+
+  });
+
+  $("#suggestion_sub_category_id").on("change", function(curEvent) {
+    if ( this.value === "" ) { return; }
+    if ( $("#suggestion_category_id").val() !== "" ) { return; }
+
+    var curCategoryName = suggestionSubCategoryMap[$(this).children("option:selected").text()];
+
+    curCategoryOption = $("#suggestion_category_id option").filter(function() {
+      return $(this).text() == curCategoryName;
+    }).prop('selected', true);
+
+    $("#suggestion_category_id").trigger("change");
+  });
+
+  function setMaxAutocompleteSize() {
+    var callCount = 1;
+    var repeater = setInterval(function () {
+      var formBodyHeight = $(".js-form-body").height();
+
+      if ( formBodyHeight > 0 ) {
+        $(".js-category-autocomplete").css("max-height", formBodyHeight + "px");
+        clearInterval(repeater);
+        return;
+      }
+
+      if ( callCount > 10 ) {
+        clearInterval(repeater);
+      } else {
+        callCount += 1;
+      }
+    }, 100);
+  }
+
+  $(".js-suggest-category").on("click", setMaxAutocompleteSize);
+
+  $(document).on("categorySearchClick", function(curEvent, curCategoryName) {
+    $("#suggestion_sub_category_id").val('');
+    $("#suggestion_category_id").val('');
+
+    allOptions = $("#suggestion_category_id option, #suggestion_sub_category_id option");
+
+    curCategoryOption = allOptions.filter(function() {
+      return $(this).text() == curCategoryName;
+    }).prop('selected', true);
+
+    $("#suggestion_category_id").trigger("change");
+    $("#suggestion_sub_category_id").trigger("change");
+  });
+
+</script>

@@ -171,3 +171,11 @@ a.cs-tab.cs-active {
 .cs-pagination-button:active, .cs-pagination-button.active {
   @apply bg-gray-100 text-gray-700;
 }
+
+.autocomplete-suggestions {
+  z-index: 100;
+}
+
+.cs-category-autocomplete {
+  overflow-y: scroll;
+}

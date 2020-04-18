@@ -1,6 +1,6 @@
 import autocomplete from 'js-autocomplete';
 
-const renderItem = function (item) {
+const renderPackageItem = function (item) {
   if ( item.url.includes("/packages?search=") ) {
     return `<div class="border-t border-gray-100"></div>
     <div class="py-1">
@@ -13,7 +13,7 @@ const renderItem = function (item) {
   }
 };
 
-const autocompleteSearch = function() {
+const autocompletePackageSearch = function() {
   const searchInput = document.getElementById('search');
 
   if (searchInput) {
@@ -47,7 +47,7 @@ const autocompleteSearch = function() {
           suggest(matches)
         });
       },
-      renderItem: renderItem,
+      renderItem: renderPackageItem,
       cache: false,
       onSelect: function(e, term, item){
         e.preventDefault();
@@ -58,4 +58,4 @@ const autocompleteSearch = function() {
   }
 };
 
-export { autocompleteSearch };
+export { autocompletePackageSearch };

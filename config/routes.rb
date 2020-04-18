@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
 
+  resources :suggestions, only: [:index, :create]
   resources :analytics, only: [:index]
 
   resources :users, only: [:index, :show]

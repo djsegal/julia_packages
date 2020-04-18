@@ -1,0 +1,49 @@
+<p id="notice"><%= notice %></p>
+
+<div class="h-screen flex overflow-hidden bg-gray-100" x-data="{ sidebarOpen: false }" @keydown.window.escape="sidebarOpen = false">
+
+  <%= render partial: 'layouts/index_sidebar' %>
+
+  <div class="flex flex-col w-0 flex-1 overflow-hidden">
+
+    <%= render partial: 'layouts/index_navbar' %>
+
+    <main class="cs-index-main">
+
+      <div class="max-w-6xl mx-auto px-8">
+        <div class="pt-5 mt-0.5 pb-4 mb-2">
+
+          <div class="md:flex md:items-center md:justify-between mb-6">
+            <div class="flex-1 min-w-0">
+              <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:leading-9 sm:truncate">
+                User Suggestions
+              </h2>
+            </div>
+            <div class="mt-4 flex md:mt-0 md:ml-4">
+              <span class="shadow-sm rounded-md">
+                <a href="https://github.com/djsegal/julia_observer/issues/new?title=New%20Category%20Suggestion&body=Category%20Name%3A%0A%3E%20%7B%7B%20category_name%20%7D%7D%0A%0APackages%20Include%3A%0A%2B%20%60%7B%7B%20Package%201%20%7D%7D%60%0A%2B%20%60%7B%7B%20Package%202%20%7D%7D%60%0A%2B%20%60%7B%7B%20Package%203%20%7D%7D%60" class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700 transition duration-150 ease-in-out">
+                  Suggest Category
+                </a>
+              </span>
+            </div>
+          </div>
+
+          <div class="flex flex-col">
+            <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+              <div class="align-middle inline-block min-w-full shadow overflow-hidden sm:rounded-lg border-b border-gray-200">
+
+                <%= render partial: 'suggestions_list' %>
+                <%= render partial: 'suggestions_pagination' %>
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </main>
+
+  </div>
+
+</div>

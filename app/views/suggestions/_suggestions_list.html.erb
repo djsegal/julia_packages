@@ -1,0 +1,65 @@
+<table class="min-w-full">
+  <thead>
+    <tr>
+      <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+        <% if params[:sort].present? %>
+          <% if params[:sort] == "package" %>
+            <% if params[:order] == "desc" %>
+              <%= link_to "Package ↓", suggestions_path(sort: "package", page: @pagy.page) %>
+            <% else %>
+              <%= link_to "Package ↑", suggestions_path(sort: "package", page: @pagy.page, order: "desc") %>
+            <% end %>
+          <% else %>
+            <%= link_to "Package", suggestions_path(sort: "package", page: @pagy.page) %>
+          <% end %>
+        <% else %>
+          <%= link_to "Package ↑", suggestions_path(sort: "package", page: @pagy.page, order: "desc") %>
+        <% end %>
+      </th>
+      <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+        <% if params[:sort] == "category" %>
+          <% if params[:order] == "desc" %>
+            <%= link_to "Category ↓", suggestions_path(sort: "category", page: @pagy.page) %>
+          <% else %>
+            <%= link_to "Category ↑", suggestions_path(sort: "category", page: @pagy.page, order: "desc") %>
+          <% end %>
+        <% else %>
+          <%= link_to "Category", suggestions_path(sort: "category", page: @pagy.page) %>
+        <% end %>
+      </th>
+      <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+        <% if params[:sort] == "sub_category" %>
+          <% if params[:order] == "desc" %>
+            <%= link_to "Sub Category ↓", suggestions_path(sort: "sub_category", page: @pagy.page) %>
+          <% else %>
+            <%= link_to "Sub Category ↑", suggestions_path(sort: "sub_category", page: @pagy.page, order: "desc") %>
+          <% end %>
+        <% else %>
+          <%= link_to "Sub Category", suggestions_path(sort: "sub_category", page: @pagy.page) %>
+        <% end %>
+      </th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <% @suggestions.each_with_index do |suggestion, cur_index| %>
+      <tr class="<%= cur_index.even? ? 'bg-white' : 'bg-gray-50' %>">
+        <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+          <%= link_to suggestion.package.name, pkg_path(suggestion.package) %>
+        </td>
+        <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+          <%= link_to suggestion.category.name, cat_path(suggestion.category) %>
+        </td>
+        <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+          <% if suggestion.sub_category.present? %>
+            <%= link_to suggestion.sub_category.name, cat_path(suggestion.sub_category) %>
+          <% else %>
+            -
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+
+</table>

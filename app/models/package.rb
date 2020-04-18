@@ -55,4 +55,6 @@ class Package < ApplicationRecord
   has_many :depending, through: :depender_dependencies, source: :dependee
   has_many :dependents, through: :dependee_dependencies, source: :depender
 
+  has_many :suggestions
+
 end

@@ -25,7 +25,27 @@
             </div>
           <% end %>
 
-          <% unless @package.categories.empty? %>
+          <%
+            has_no_categories = false
+
+            if @package.categories.empty?
+              has_no_categories = true
+            elsif @package.categories.length == 1
+              has_no_categories = (
+                @package.categories.first.name == "Trending"
+              )
+            end
+          %>
+
+          <% if has_no_categories %>
+
+            <button class="focus:outline-none inline-flex items-center px-2 py-0.5 rounded text-xs font-medium leading-4 mt-1.5 border-dashed border border-gray-400 js-suggest-category">
+              <span class="text-gray-900" style="opacity: 0.75;">Suggest Category</span>
+            </button>
+
+            <%= render partial: 'layouts/suggest_modal' %>
+
+          <% else %>
             <%
               category_scope = @package.categories.order("categories.labels_count desc")
 

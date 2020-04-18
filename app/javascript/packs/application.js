@@ -27,8 +27,14 @@ import ahoy from "ahoy.js";
 
 require("chartkick")
 
-import { autocompleteSearch } from '../javascripts/autocomplete';
-$(document).on("turbolinks:load", autocompleteSearch);
+import { autocompletePackageSearch } from '../javascripts/autocomplete_packages.js';
+import { autocompleteCategorySearch } from '../javascripts/autocomplete_categories.js';
+
+$(document).on("turbolinks:load", function () {
+  autocompletePackageSearch();
+  autocompleteCategorySearch();
+});
+
 
 $(window).on("resize", function() {
   $(".autocomplete-suggestions").css("display", "none");

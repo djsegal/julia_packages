@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Category:</strong>
+  <%= @suggestion.category_id %>
+</p>
+
+<p>
+  <strong>Package:</strong>
+  <%= @suggestion.package_id %>
+</p>
+
+<%= link_to 'Edit', edit_suggestion_path(@suggestion) %> |
+<%= link_to 'Back', suggestions_path %>
