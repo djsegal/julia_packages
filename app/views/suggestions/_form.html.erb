@@ -1,6 +1,7 @@
 <%= form_with(model: suggestion, local: true) do |form| %>
 
   <%= form.hidden_field :package_id, value: @package.slug %>
+  <%= form.invisible_captcha :sub_package_id %>
 
   <div class="border-b border-gray-200">
     <div class="js-form-body mx-6 py-5">

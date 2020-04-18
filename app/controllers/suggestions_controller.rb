@@ -1,5 +1,6 @@
 class SuggestionsController < ApplicationController
   before_action :set_suggestion, only: [:show, :edit, :update, :destroy]
+  invisible_captcha only: [:create], honeypot: :sub_package_id, on_spam: :spam_redirect
 
   # GET /suggestions
   # GET /suggestions.json
