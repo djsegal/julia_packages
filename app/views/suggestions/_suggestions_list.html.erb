@@ -3,17 +3,28 @@
     <tr>
       <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
         <% if params[:sort].present? %>
-          <% if params[:sort] == "package" %>
-            <% if params[:order] == "desc" %>
-              <%= link_to "Package ↓", suggestions_path(sort: "package", page: @pagy.page) %>
+          <% if params[:sort] == "date" %>
+            <% if params[:order] == "asc" %>
+              <%= link_to "Date ↑", suggestions_path(sort: "date", page: @pagy.page) %>
             <% else %>
-              <%= link_to "Package ↑", suggestions_path(sort: "package", page: @pagy.page, order: "desc") %>
+              <%= link_to "Date ↓", suggestions_path(sort: "date", page: @pagy.page, order: "asc") %>
             <% end %>
           <% else %>
-            <%= link_to "Package", suggestions_path(sort: "package", page: @pagy.page) %>
+            <%= link_to "Date", suggestions_path(sort: "date", page: @pagy.page) %>
           <% end %>
         <% else %>
-          <%= link_to "Package ↑", suggestions_path(sort: "package", page: @pagy.page, order: "desc") %>
+          <%= link_to "Date ↓", suggestions_path(sort: "date", page: @pagy.page, order: "asc") %>
+        <% end %>
+      </th>
+      <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+        <% if params[:sort] == "package" %>
+          <% if params[:order] == "desc" %>
+            <%= link_to "Package ↓", suggestions_path(sort: "package", page: @pagy.page) %>
+          <% else %>
+            <%= link_to "Package ↑", suggestions_path(sort: "package", page: @pagy.page, order: "desc") %>
+          <% end %>
+        <% else %>
+          <%= link_to "Package", suggestions_path(sort: "package", page: @pagy.page) %>
         <% end %>
       </th>
       <th class="px-6 py-3 border-b border-gray-200 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
@@ -45,6 +56,9 @@
 
     <% @suggestions.each_with_index do |suggestion, cur_index| %>
       <tr class="<%= cur_index.even? ? 'bg-white' : 'bg-gray-50' %>">
+        <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+          <%= suggestion.created_at.strftime "%m/%d/%y" %>
+        </td>
         <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
           <%= link_to suggestion.package.name, pkg_path(suggestion.package) %>
         </td>

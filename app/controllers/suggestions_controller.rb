@@ -5,13 +5,19 @@ class SuggestionsController < ApplicationController
   # GET /suggestions
   # GET /suggestions.json
   def index
-    cur_association = params[:sort] || "package"
-    cur_order_param = params[:order] || "asc"
+    if params[:sort].present? && params[:sort] != "date"
+      cur_association = params[:sort]
+      cur_order_param = params[:order] || "asc"
 
-    cur_includes = cur_association.to_sym
-    cur_order = "#{cur_association.gsub("sub_", "").pluralize}.name #{cur_order_param}"
+      cur_includes = cur_association.to_sym
+      cur_order = "#{cur_association.gsub("sub_", "").pluralize}.name #{cur_order_param}"
 
-    suggestion_scope = Suggestion.includes(cur_includes).order(cur_order)
+      suggestion_scope = Suggestion.includes(cur_includes).order(cur_order)
+    else
+      cur_order_param = params[:order] || "desc"
+      suggestion_scope = Suggestion.order(created_at: cur_order_param)
+    end
+
     @pagy, @suggestions = pagy(suggestion_scope)
   end
 
