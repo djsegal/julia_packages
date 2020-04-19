@@ -57,7 +57,7 @@
     <% @suggestions.each_with_index do |suggestion, cur_index| %>
       <tr class="<%= cur_index.even? ? 'bg-white' : 'bg-gray-50' %>">
         <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
-          <%= suggestion.created_at.strftime "%m/%d/%y" %>
+          <%= suggestion.created_at.in_time_zone("Central Time (US & Canada)").strftime "%m/%d/%y" %>
         </td>
         <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
           <%= link_to suggestion.package.name, pkg_path(suggestion.package) %>
@@ -74,6 +74,7 @@
         </td>
       </tr>
     <% end %>
+
   </tbody>
 
 </table>
