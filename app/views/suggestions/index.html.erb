@@ -16,11 +16,14 @@
           <div class="md:flex md:items-center md:justify-between mb-6">
             <div class="flex-1 min-w-0">
               <h2 class="text-2xl font-bold leading-7 text-gray-900 sm:text-3xl sm:leading-9 sm:truncate">
-                User Suggestions
+                User Suggestions (<%= custom_int_to_text Suggestion.count %>)
               </h2>
             </div>
             <div class="mt-4 flex md:mt-0 md:ml-4">
               <span class="shadow-sm rounded-md">
+                <%= link_to "Download CSV", suggestions_path(format: "csv", sort: params[:sort], order: params[:order]), class: "inline-flex items-center px-4 py-2 border border-gray-300 text-sm leading-5 font-medium rounded-md text-gray-700 bg-white hover:text-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300 active:text-gray-800 active:bg-gray-50 transition duration-150 ease-in-out" %>
+              </span>
+              <span class="ml-3 shadow-sm rounded-md">
                 <a href="https://github.com/djsegal/julia_packages/issues/new?title=New%20Category%20Suggestion&body=Category%20Name%3A%0A%3E%20%7B%7B%20category_name%20%7D%7D%0A%0APackages%20Include%3A%0A%2B%20%60%7B%7B%20Package%201%20%7D%7D%60%0A%2B%20%60%7B%7B%20Package%202%20%7D%7D%60%0A%2B%20%60%7B%7B%20Package%203%20%7D%7D%60" class="inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700 transition duration-150 ease-in-out">
                   Suggest Category
                 </a>

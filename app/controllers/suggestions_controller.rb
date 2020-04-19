@@ -18,7 +18,19 @@ class SuggestionsController < ApplicationController
       suggestion_scope = Suggestion.order(created_at: cur_order_param)
     end
 
-    @pagy, @suggestions = pagy(suggestion_scope)
+    if request.format.csv?
+      @suggestions = suggestion_scope
+    else
+      @pagy, @suggestions = pagy(suggestion_scope)
+    end
+
+    respond_to do |format|
+      format.html
+      format.csv {
+        send_data @suggestions.to_csv,
+        filename: "suggestions-#{Date.today}.csv"
+      }
+    end
   end
 
   # GET /suggestions/1

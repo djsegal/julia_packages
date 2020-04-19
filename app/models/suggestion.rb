@@ -31,4 +31,15 @@ class Suggestion < ApplicationRecord
 
   validates_uniqueness_of :package_id, scope: [:category_id, :sub_category_id]
 
+  def self.to_csv
+    attributes = %w[ package category sub_category ]
+
+    CSV.generate(headers: true) do |csv|
+      csv << attributes
+      all.find_each do |suggestion|
+        csv << attributes.map{ |attr| suggestion.send(attr).try(:name) || "" }
+      end
+    end
+  end
+
 end
