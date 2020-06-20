@@ -11,6 +11,11 @@
 #
 class Suggestion < ApplicationRecord
 
+  belongs_to :category
+  belongs_to :package
+
+  belongs_to :sub_category, required: false, class_name: "Category", foreign_key: "sub_category_id"
+
   validates :package_slug, presence: true
   validates :category_slug, presence: true
 
