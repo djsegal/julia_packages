@@ -8,6 +8,10 @@ class MakeSuggestionsUseSlugs < ActiveRecord::Migration[6.0]
       suggestion.update!(
         package_slug: suggestion.package.slug,
         category_slug: suggestion.category.slug,
+      )
+
+      next unless suggestion.sub_category.present?
+      suggestion.update!(
         sub_category_slug: suggestion.sub_category.slug
       )
     end
@@ -25,7 +29,11 @@ class MakeSuggestionsUseSlugs < ActiveRecord::Migration[6.0]
     Suggestion.all.each do |suggestion|
       suggestion.update!(
         package: Package.friendly.find(suggestion.package_slug),
-        category: Category.friendly.find(suggestion.category_slug),
+        category: Category.friendly.find(suggestion.category_slug)
+      )
+
+      next unless suggestion.sub_category_slug.present?
+      suggestion.update!(
         sub_category: Category.friendly.find(suggestion.sub_category_slug)
       )
     end
