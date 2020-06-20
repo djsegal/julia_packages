@@ -20,7 +20,7 @@ bar = ProgressBar.new(@packages_db.size)
     user_dict[user_key] = package_owner
   end
 
-  package_list << Package.new(
+  new_package = Package.new(
     user: package_owner,
     name: cur_row["package"].upcase_first(),
     website: cur_row["homepage"],
@@ -31,6 +31,21 @@ bar = ProgressBar.new(@packages_db.size)
     registered: cur_row["registered"],
     description: ( cur_row["description"] || "" ).upcase_first()
   )
+
+  old_package = package_list.find{ |pkg| pkg.name == new_package.name }
+
+  unless old_package.present?
+    package_list << new_package
+    next
+  end
+
+  Package.columns.map(&:name).each do |column|
+    old_field = old_package.public_send(column)
+    new_field = new_package.public_send(column)
+
+    next if old_field == new_field
+    raise 'hell' if column != "updated"
+  end
 end
 
 Package.import package_list, batch_size: 512
