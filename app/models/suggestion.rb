@@ -2,42 +2,37 @@
 #
 # Table name: suggestions
 #
-#  id              :bigint           not null, primary key
-#  created_at      :datetime         not null
-#  updated_at      :datetime         not null
-#  category_id     :bigint           not null
-#  package_id      :bigint           not null
-#  sub_category_id :bigint
-#
-# Indexes
-#
-#  index_suggestions_on_category_id      (category_id)
-#  index_suggestions_on_package_id       (package_id)
-#  index_suggestions_on_sub_category_id  (sub_category_id)
-#  unique_combination_index              (package_id,category_id,sub_category_id) UNIQUE
-#
-# Foreign Keys
-#
-#  fk_rails_...  (category_id => categories.id)
-#  fk_rails_...  (package_id => packages.id)
-#  fk_rails_...  (sub_category_id => categories.id)
+#  id                :bigint           not null, primary key
+#  category_slug     :string
+#  package_slug      :string
+#  sub_category_slug :string
+#  created_at        :datetime         not null
+#  updated_at        :datetime         not null
 #
 class Suggestion < ApplicationRecord
 
-  belongs_to :category
-  belongs_to :package
+  validates :package_slug, presence: true
+  validates :category_slug, presence: true
 
-  belongs_to :sub_category, required: false, class_name: "Category", foreign_key: "sub_category_id"
-
-  validates_uniqueness_of :package_id, scope: [:category_id, :sub_category_id]
+  validates_uniqueness_of :package_slug, scope: [:category_slug, :sub_category_slug]
 
   def self.to_csv
-    attributes = %w[ package category sub_category ]
-
     CSV.generate(headers: true) do |csv|
-      csv << attributes
+      csv << %w[ package category sub_category ]
+
       all.find_each do |suggestion|
-        csv << attributes.map{ |attr| suggestion.send(attr).try(:name) || "" }
+        csv_row = []
+
+        csv_row << Package.friendly.find(suggestion.package_slug).name
+        csv_row << Category.friendly.find(suggestion.category_slug).name
+
+        if suggestion.sub_category_slug.blank?
+          csv_row << ""
+        else
+          csv_row << Category.friendly.find(suggestion.sub_category_slug).name
+        end
+
+        csv << csv_row
       end
     end
   end

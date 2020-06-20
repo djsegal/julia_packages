@@ -1,6 +1,6 @@
 class SuggestionsController < ApplicationController
   before_action :set_suggestion, only: [:show, :edit, :update, :destroy]
-  invisible_captcha only: [:create], honeypot: :sub_package_id, on_spam: :spam_redirect
+  invisible_captcha only: [:create], honeypot: :sub_package_slug, on_spam: :spam_redirect
 
   # GET /suggestions
   # GET /suggestions.json
@@ -53,19 +53,19 @@ class SuggestionsController < ApplicationController
     cur_params = suggestion_params
     cur_params.delete_if { |k, v| !v.present? }
 
-    @package = Package.friendly.find(cur_params[:package_id])
-    cur_params[:package_id] = @package
+    @package = Package.friendly.find(cur_params[:package_slug])
+    cur_params[:package_slug] = @package.slug
 
     suggestion_dict = {
-      package: @package,
-      category: nil, sub_category: nil
+      package_slug: @package.slug,
+      category_slug: nil, sub_category_slug: nil
     }
 
-    suggestion_dict[:category] = Category.friendly.find(cur_params[:category_id]) \
-      if cur_params.has_key?(:category_id)
+    suggestion_dict[:category_slug] = Category.friendly.find(cur_params[:category_slug]).slug \
+      if cur_params.has_key?(:category_slug)
 
-    suggestion_dict[:sub_category] = Category.friendly.find(cur_params[:sub_category_id]) \
-      if cur_params.has_key?(:sub_category_id)
+    suggestion_dict[:sub_category_slug] = Category.friendly.find(cur_params[:sub_category_slug]).slug \
+      if cur_params.has_key?(:sub_category_slug)
 
     @suggestion = Suggestion.new(suggestion_dict)
 
@@ -74,7 +74,7 @@ class SuggestionsController < ApplicationController
         format.html { redirect_to @package, notice: '[success] Your suggestion has been <a class="underline text-teal-500" href="/suggestions">filed</a>.' }
         format.json { render :show, status: :created, location: @suggestion }
       else
-        if suggestion_dict[:category].present?
+        if suggestion_dict[:category_slug].present?
           format.html { redirect_to @package, notice: '[info] Suggestion has already been <a class="underline text-teal-500" href="/suggestions">made</a>.' }
         else
           format.html { redirect_to @package, notice: '[warning] You need to select a category.' }
@@ -117,7 +117,7 @@ class SuggestionsController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def suggestion_params
-      params.require(:suggestion).permit(:category_id, :sub_category_id, :package_id)
+      params.require(:suggestion).permit(:category_slug, :sub_category_slug, :package_slug)
     end
 
     def spam_redirect

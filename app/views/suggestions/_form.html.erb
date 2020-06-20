@@ -1,7 +1,7 @@
 <%= form_with(model: suggestion, local: true) do |form| %>
 
-  <%= form.hidden_field :package_id, value: @package.slug %>
-  <%= form.invisible_captcha :sub_package_id %>
+  <%= form.hidden_field :package_slug, value: @package.slug %>
+  <%= form.invisible_captcha :sub_package_slug %>
 
   <div class="border-b border-gray-200">
     <div class="js-form-body mx-6 py-5">
@@ -30,7 +30,7 @@
         </label>
         <div class="mt-1 sm:mt-0 sm:col-span-2">
           <div class="max-w rounded-md shadow-sm">
-            <%= form.select :category_id, Category.where(name: $category_map.keys).collect { |category| [ category.name, category.slug ] }, { include_blank: "-" }, { class: "block form-select w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5" } %>
+            <%= form.select :category_slug, Category.where(name: $category_map.keys).collect { |category| [ category.name, category.slug ] }, { include_blank: "-" }, { class: "block form-select w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5" } %>
           </div>
         </div>
       </div>
@@ -41,7 +41,7 @@
         </label>
         <div class="mt-1 sm:mt-0 sm:col-span-2">
           <div class="max-w rounded-md shadow-sm">
-            <%= form.select :sub_category_id, Category.where(name: $sub_category_map.keys).collect { |category| [ category.name, category.slug ] }, { include_blank: "-" }, { class: "block form-select w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5" } %>
+            <%= form.select :sub_category_slug, Category.where(name: $sub_category_map.keys).collect { |category| [ category.name, category.slug ] }, { include_blank: "-" }, { class: "block form-select w-full transition duration-150 ease-in-out sm:text-sm sm:leading-5" } %>
           </div>
         </div>
       </div>
@@ -66,16 +66,16 @@
   var suggestionCategoryMap = <%= raw $category_map.to_json %>;
   var suggestionSubCategoryMap = <%= raw $sub_category_map.to_json %>;
 
-  $("#suggestion_category_id").on("change", function(curEvent) {
+  $("#suggestion_category_slug").on("change", function(curEvent) {
     if ( this.value === "" ) {
-      $("#suggestion_sub_category_id option").show();
+      $("#suggestion_sub_category_slug option").show();
       return;
     }
 
-    curCategoryName = $("#suggestion_category_id option:selected").text();
+    curCategoryName = $("#suggestion_category_slug option:selected").text();
     var curOptions = suggestionCategoryMap[curCategoryName];
 
-    $("#suggestion_sub_category_id option").each(function (curIndex, curOption) {
+    $("#suggestion_sub_category_slug option").each(function (curIndex, curOption) {
       if ( curOption.text == "-" ) { return; }
 
       if ( $.inArray(curOption.text, curOptions) !== -1 ) {
@@ -84,7 +84,7 @@
         $(curOption).hide();
 
         if ( $(curOption).is(':selected') ) {
-          $("#suggestion_sub_category_id").val('');
+          $("#suggestion_sub_category_slug").val('');
         }
       }
     })
@@ -92,17 +92,17 @@
 
   });
 
-  $("#suggestion_sub_category_id").on("change", function(curEvent) {
+  $("#suggestion_sub_category_slug").on("change", function(curEvent) {
     if ( this.value === "" ) { return; }
-    if ( $("#suggestion_category_id").val() !== "" ) { return; }
+    if ( $("#suggestion_category_slug").val() !== "" ) { return; }
 
     var curCategoryName = suggestionSubCategoryMap[$(this).children("option:selected").text()];
 
-    curCategoryOption = $("#suggestion_category_id option").filter(function() {
+    curCategoryOption = $("#suggestion_category_slug option").filter(function() {
       return $(this).text() == curCategoryName;
     }).prop('selected', true);
 
-    $("#suggestion_category_id").trigger("change");
+    $("#suggestion_category_slug").trigger("change");
   });
 
   function setMaxAutocompleteSize() {
@@ -127,17 +127,17 @@
   $(".js-suggest-category").on("click", setMaxAutocompleteSize);
 
   $(document).on("categorySearchClick", function(curEvent, curCategoryName) {
-    $("#suggestion_sub_category_id").val('');
-    $("#suggestion_category_id").val('');
+    $("#suggestion_sub_category_slug").val('');
+    $("#suggestion_category_slug").val('');
 
-    allOptions = $("#suggestion_category_id option, #suggestion_sub_category_id option");
+    allOptions = $("#suggestion_category_slug option, #suggestion_sub_category_slug option");
 
     curCategoryOption = allOptions.filter(function() {
       return $(this).text() == curCategoryName;
     }).prop('selected', true);
 
-    $("#suggestion_category_id").trigger("change");
-    $("#suggestion_sub_category_id").trigger("change");
+    $("#suggestion_category_slug").trigger("change");
+    $("#suggestion_sub_category_slug").trigger("change");
   });
 
 </script>

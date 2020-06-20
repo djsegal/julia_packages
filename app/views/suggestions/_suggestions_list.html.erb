@@ -60,14 +60,14 @@
           <%= suggestion.created_at.in_time_zone("Central Time (US & Canada)").strftime "%m/%d/%y" %>
         </td>
         <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
-          <%= link_to suggestion.package.name, pkg_path(suggestion.package) %>
+          <%= link_to Package.friendly.find(suggestion.package_slug).name, pkg_path(suggestion.package_slug) %>
         </td>
         <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-          <%= link_to suggestion.category.name, cat_path(suggestion.category) %>
+          <%= link_to Category.friendly.find(suggestion.category_slug).name, cat_path(suggestion.category_slug) %>
         </td>
         <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
-          <% if suggestion.sub_category.present? %>
-            <%= link_to suggestion.sub_category.name, cat_path(suggestion.sub_category) %>
+          <% if suggestion.sub_category_slug.present? %>
+            <%= link_to Category.friendly.find(suggestion.sub_category_slug).name, cat_path(suggestion.sub_category_slug) %>
           <% else %>
             -
           <% end %>

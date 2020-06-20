@@ -33,7 +33,7 @@
       </div>
     </div>
 
-    <%= render 'suggestions/form', suggestion: Suggestion.new(package: @package) %>
+    <%= render 'suggestions/form', suggestion: Suggestion.new(package_slug: @package.slug) %>
 
   </div>
 </div>
