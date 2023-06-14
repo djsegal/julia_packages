@@ -30,6 +30,8 @@ User.delete_all
 @general_db["deep_dependents"].map! { |cur_value| cur_value.include?("[]") ? [] : JSON.parse(cur_value.gsub("'", '"').gsub(/(Any|String)\[/, "[")) }
 
 @decibans_db = Daru::DataFrame.from_csv "#{@julia_pkg_dir}/data/decibans.csv"
+@chatgpt_db = Daru::DataFrame.from_csv "#{@julia_pkg_dir}/data/chatgpt.csv"
+
 @packages_db = Daru::DataFrame.from_csv "#{@julia_pkg_dir}/data/packages.csv"
 @trending_db = Daru::DataFrame.from_csv "#{@julia_pkg_dir}/data/trending.csv"
 

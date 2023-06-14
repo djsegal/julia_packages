@@ -3,14 +3,16 @@ puts "\nCategories"
 category_names = $category_map.keys
 sub_category_names = $category_map.values.flatten
 
+category_db = @decibans_db.concat @chatgpt_db
+
 category_package_names_list = category_names.map {
-  |cur_name| @decibans_db.filter(:row) do |cur_row|
+  |cur_name| category_db.filter(:row) do |cur_row|
     cur_row["category"] == cur_name
   end
 }.map(&:package).map(&:to_a)
 
 sub_category_package_names_list = sub_category_names.map {
-  |cur_name| @decibans_db.filter(:row) do |cur_row|
+  |cur_name| category_db.filter(:row) do |cur_row|
     cur_row["sub_category"] == cur_name
   end
 }.map(&:package).map(&:to_a)
