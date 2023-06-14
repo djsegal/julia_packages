@@ -14,7 +14,6 @@
     "font-awesome": "^4.7.0",
     "jquery-ui-dist": "^1.12.1",
     "js-autocomplete": "^1.0.4",
-    "node-sass": "^6.0.0",
     "rails-erb-loader": "^5.5.2",
     "tailwindcss": "^1.2.0",
     "turbolinks": "^5.2.0"
