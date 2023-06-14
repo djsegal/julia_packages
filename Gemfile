@@ -58,6 +58,7 @@ group :development do
   gem 'annotate'
 end
 
+gem 'matrix'
 gem 'font-awesome-rails'
 gem 'daru'
 gem 'activerecord-import'
