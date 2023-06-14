@@ -63,7 +63,9 @@
                 </div>
               <% end %>
 
-            <% elsif package_category.present? %>
+            <% end %>
+
+            <% if package_category.present? %>
 
               <%= link_to cat_path(package_category) do %>
                 <div class="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium leading-4 bg-red-100 mt-1.5 border border-transparent">
