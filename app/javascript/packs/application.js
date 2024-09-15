@@ -19,8 +19,6 @@ window.$ = $;
 require("alpinejs")
 import '../stylesheets/application.scss'
 
-import '../javascripts/pagy.js.erb'
-
 require("packs/monthpicker")
 
 import ahoy from "ahoy.js";
