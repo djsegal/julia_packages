@@ -20,6 +20,6 @@ readme_list = []
   )
 end
 
-Readme.import readme_list, batch_size: 512
+Readme.import readme_list, batch_size: 200
 
 puts ""
