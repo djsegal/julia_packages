@@ -10,11 +10,11 @@ class Array
   include ProgressBar::WithProgress
 end
 
-# system "git -C #{@julia_pkg_dir} pull"
-# system "git -C #{@julia_pkg_dir} fetch --all"
-# system "git -C #{@julia_pkg_dir} reset origin --hard"
+system "git -C #{@julia_pkg_dir} pull"
+system "git -C #{@julia_pkg_dir} fetch --all"
+system "git -C #{@julia_pkg_dir} reset origin --hard"
 
-# refresh_category_maps()
+refresh_category_maps()
 
 seed_target = ENV["SEED_TARGET"] || "all"  # Default to "all" if no target is provided
 
