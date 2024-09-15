@@ -16,6 +16,8 @@ system "git -C #{@julia_pkg_dir} reset origin --hard"
 
 refresh_category_maps()
 
+package_seed_file = File.join(Rails.root, 'db', 'seeds', 'packages.rb')
+
 seed_target = ENV["SEED_TARGET"] || "all"  # Default to "all" if no target is provided
 
 if seed_target == "readmes"
@@ -44,8 +46,7 @@ else
 
   @packages_db = Daru::DataFrame.from_csv "#{@julia_pkg_dir}/data/packages.csv"
   @trending_db = Daru::DataFrame.from_csv "#{@julia_pkg_dir}/data/trending.csv"
-
-  package_seed_file = File.join(Rails.root, 'db', 'seeds', 'packages.rb')
+  
   load package_seed_file
 end
 
