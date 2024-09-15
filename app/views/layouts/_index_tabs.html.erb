@@ -30,14 +30,30 @@
           cur_sort = "updated"
         end
       %>
+      <span class="isolate inline-flex rounded-md shadow-sm w-full">
+        <% 
+          new_order = nil
 
-      <%= select_tag(:sort, options_for_select([["Stargazers", "stars"],["Alphabetical", "name"], ["Updated", "updated"], ["Created", "created"]], cur_sort), class:"form-select block w-full", onchange: 'this.form.submit()') %>
+          if params[:order].present? 
+            new_order = ( params[:order] == "asc" ) ? "desc" : "asc"
+          else
+            new_order = ( params[:sort] == "name" ) ? "desc" : "asc"
+          end
+        %>
+
+        <%= link_to "Sort:", public_send(cur_path, init_params.merge({ sort: cur_sort, order: new_order })), class: "m-auto border-l border-t border-b block text-center relative items-center rounded-l bg-white px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 w-1/5" %>  
+
+        <%= select_tag(:sort, options_for_select([["Stargazers", "stars"],["Alphabetical", "name"], ["Updated", "updated"], ["Created", "created"]], cur_sort), class:"form-select block w-4/5 relative -ml-px inline-flex items-center rounded-r bg-white pl-4 pr-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-10", onchange: 'this.form.submit()', style: "border-bottom-left-radius: 0; border-top-left-radius: 0;") %>
+      </span>      
+
     <% end %>
 
   </div>
 
   <div class="hidden sm:block">
     <nav class="flex">
+
+      <a class="cs-tab">Sort by: &nbsp;</a>
 
       <% if !params[:sort].present? && !is_trending_path && !is_search_path %>
         <%= link_to "↓ Stargazers", public_send(cur_path, init_params.merge({ sort: "stars", order: "asc"})), class: "cs-tab cs-active" %>
